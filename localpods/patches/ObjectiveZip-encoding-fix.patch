@@ -1,0 +1,35 @@
+--- ZipFile.m	2014-10-28 09:41:39.000000000 +0100
++++ ZipFile-encoding-fix.m	2014-10-28 09:52:10.000000000 +0100
+@@ -302,6 +302,10 @@
+ 	}
+ 	
+ 	NSString *name= [NSString stringWithCString:filename_inzip encoding:NSUTF8StringEncoding];
++	if (name == nil) {
++		NSStringEncoding cp437Encoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingDOSLatinUS);
++		name= [NSString stringWithCString:filename_inzip encoding:cp437Encoding];
++	}
+ 	
+ 	ZipCompressionLevel level= ZipCompressionLevelNone;
+ 	if (file_info.compression_method != 0) {
+@@ -352,6 +356,10 @@
+ 	}
+ 	
+ 	NSString *fileNameInZip= [NSString stringWithCString:filename_inzip encoding:NSUTF8StringEncoding];
++	if (fileNameInZip == nil) {
++		NSStringEncoding cp437Encoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingDOSLatinUS);
++		fileNameInZip= [NSString stringWithCString:filename_inzip encoding:cp437Encoding];
++	}
+ 	
+ 	err= unzOpenCurrentFilePassword(_unzFile, NULL);
+ 	if (err != UNZ_OK) {
+@@ -378,6 +386,10 @@
+ 	}
+ 	
+ 	NSString *fileNameInZip= [NSString stringWithCString:filename_inzip encoding:NSUTF8StringEncoding];
++	if (fileNameInZip == nil) {
++		NSStringEncoding cp437Encoding = CFStringConvertEncodingToNSStringEncoding(kCFStringEncodingDOSLatinUS);
++		fileNameInZip= [NSString stringWithCString:filename_inzip encoding:cp437Encoding];
++	}
+ 
+ 	err= unzOpenCurrentFilePassword(_unzFile, [password cStringUsingEncoding:NSUTF8StringEncoding]);
+ 	if (err != UNZ_OK) {

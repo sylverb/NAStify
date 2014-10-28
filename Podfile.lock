@@ -1,0 +1,109 @@
+PODS:
+  - AFNetworking (2.4.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+    - AFNetworking/UIKit
+  - AFNetworking/NSURLConnection (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.4.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.4.1)
+  - AFNetworking/Security (2.4.1)
+  - AFNetworking/Serialization (2.4.1)
+  - AFNetworking/UIKit (2.4.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - box-ios-sdk-v2 (1.2.2):
+    - box-ios-sdk-v2/no-arc
+  - box-ios-sdk-v2/no-arc (1.2.2)
+  - CocoaAsyncSocket (7.3.5)
+  - CocoaHTTPServer (2.3):
+    - CocoaAsyncSocket
+    - CocoaLumberjack
+  - CocoaLumberjack (2.0.0-beta3):
+    - CocoaLumberjack/Default
+    - CocoaLumberjack/Extensions
+  - CocoaLumberjack/Core (2.0.0-beta3)
+  - CocoaLumberjack/Default (2.0.0-beta3):
+    - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.0.0-beta3):
+    - CocoaLumberjack/Default
+  - DACircularProgress (2.2.0)
+  - Dropbox-iOS-SDK (1.3.13)
+  - ELCImagePickerController (0.2.0)
+  - ISO8601DateFormatter (0.7)
+  - LTHPasscodeViewController (3.3.2)
+  - MBProgressHUD (0.9)
+  - objective-zip (0.8.3)
+  - OBSlider (1.1.0)
+  - PSTCollectionView (1.2.3)
+  - SSKeychain (1.2.2)
+  - upnpx (1.3.0)
+  - XMLDictionary (1.4)
+
+DEPENDENCIES:
+  - AFNetworking (from `https://github.com/AFNetworking/AFNetworking.git`, commit `05e542f`)
+  - box-ios-sdk-v2 (from `https://github.com/box/box-ios-sdk-v2.git`, commit `76272c9`)
+  - CocoaHTTPServer (= 2.3)
+  - DACircularProgress (from `https://github.com/danielamitay/DACircularProgress.git`, commit `ccc7a2e`)
+  - Dropbox-iOS-SDK (from `localpods/Dropbox-iOS-SDK.podspec`)
+  - ELCImagePickerController (from `https://github.com/B-Sides/ELCImagePickerController.git`, commit `b57e2f3`)
+  - ISO8601DateFormatter (= 0.7)
+  - LTHPasscodeViewController (= 3.3.2)
+  - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD.git`, commit `fc1903f`)
+  - objective-zip (= 0.8.3)
+  - OBSlider (= 1.1.0)
+  - PSTCollectionView (= 1.2.3)
+  - SSKeychain (= 1.2.2)
+  - upnpx (from `https://github.com/fkuehne/upnpx.git`, commit `a4a17d0`)
+  - XMLDictionary (= 1.4)
+
+EXTERNAL SOURCES:
+  AFNetworking:
+    :commit: 05e542f
+    :git: https://github.com/AFNetworking/AFNetworking.git
+  box-ios-sdk-v2:
+    :commit: 76272c9
+    :git: https://github.com/box/box-ios-sdk-v2.git
+  DACircularProgress:
+    :commit: ccc7a2e
+    :git: https://github.com/danielamitay/DACircularProgress.git
+  Dropbox-iOS-SDK:
+    :path: localpods/Dropbox-iOS-SDK.podspec
+  ELCImagePickerController:
+    :commit: b57e2f3
+    :git: https://github.com/B-Sides/ELCImagePickerController.git
+  MBProgressHUD:
+    :commit: fc1903f
+    :git: https://github.com/jdg/MBProgressHUD.git
+  upnpx:
+    :commit: a4a17d0
+    :git: https://github.com/fkuehne/upnpx.git
+
+SPEC CHECKSUMS:
+  AFNetworking: 72af5ca61de0fac5773557f14decb1d635700a87
+  box-ios-sdk-v2: c06d3009266dc2c5c27bbb3882f1e5cf1f3c72cb
+  CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
+  CocoaHTTPServer: 217df4cba4e48803db2480f97b805aaad2230dd1
+  CocoaLumberjack: 55c22a2b8bde7a29c568ab4015b5874216524d70
+  DACircularProgress: 659d6fd11b5fc099c13ba9350239d9dca324916a
+  Dropbox-iOS-SDK: 22dd66fd3a1fcf9bc1444592c40d6c2ad949afa4
+  ELCImagePickerController: 1baf64fadfe088550c16f82225469e4dfad917e2
+  ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
+  LTHPasscodeViewController: 1139ed7e6b5d96ef51f508b9a29e35a2d0a82ac4
+  MBProgressHUD: 85f9608e8473269aba4f6603958bb8bafcb60388
+  objective-zip: 5d3c6d7c5f9f7638c840c011e9e33485b5caa43c
+  OBSlider: 3536461f3dd47dfcbd0972c5aafb88aa7081fb79
+  PSTCollectionView: d9f466e4554cc83260ca9bde7beb27f308e8fd76
+  SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
+  upnpx: e9c5b4ca6fa09224fdf78b1a5e168a2637784506
+  XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc
+
+COCOAPODS: 0.34.4

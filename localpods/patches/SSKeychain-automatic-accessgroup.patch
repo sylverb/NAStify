@@ -1,0 +1,68 @@
+diff -Nur SSKeychain-ori.m SSKeychain.m
+--- SSKeychain-ori.m	2014-10-28 11:30:50.000000000 +0100
++++ SSKeychain.m		2014-10-28 11:33:28.000000000 +0100
+@@ -21,8 +21,31 @@
+ 	static CFTypeRef SSKeychainAccessibilityType = NULL;
+ #endif
+ 
++@interface SSKeychain ()
+++ (NSString *)keychainAccessGroup;
++@end
++
+ @implementation SSKeychain
+ 
+++ (NSString *)keychainAccessGroup {
++ 	NSDictionary *query = [NSDictionary dictionaryWithObjectsAndKeys:
++ 	 	 	 	 	 	   (__bridge id)(kSecClassGenericPassword), kSecClass,
++ 	 	 	 	 	 	   @"bundleSeedID", kSecAttrAccount,
++ 	 	 	 	 	 	   @"", kSecAttrService,
++ 	 	 	 	 	 	   (id)kCFBooleanTrue, kSecReturnAttributes,
++ 	 	 	 	 	 	   nil];
++ 	CFDictionaryRef result = nil;
++ 	OSStatus status = SecItemCopyMatching((__bridge CFDictionaryRef)query, (CFTypeRef *)&result);
++ 	if (status == errSecItemNotFound)
++ 	 	status = SecItemAdd((__bridge CFDictionaryRef)query, (CFTypeRef *)&result);
++ 	if (status != errSecSuccess)
++ 	 	return nil;
++ 	NSString *accessGroup = [(__bridge NSDictionary *)result objectForKey:(__bridge id)(kSecAttrAccessGroup)];
++ 	CFRelease(result);
++ 	return accessGroup;
++}
++
++
+ + (NSString *)passwordForService:(NSString *)serviceName account:(NSString *)account {
+ 	return [self passwordForService:serviceName account:account error:nil];
+ }
+@@ -32,6 +55,7 @@
+ 	SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
+ 	query.service = serviceName;
+ 	query.account = account;
++ 	query.accessGroup = [self keychainAccessGroup];
+ 	[query fetch:error];
+ 	return query.password;
+ }
+@@ -46,6 +70,7 @@
+ 	SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
+ 	query.service = serviceName;
+ 	query.account = account;
++ 	query.accessGroup = [self keychainAccessGroup];
+ 	return [query deleteItem:error];
+ }
+ 
+@@ -60,6 +85,7 @@
+ 	query.service = serviceName;
+ 	query.account = account;
+ 	query.password = password;
++ 	query.accessGroup = [self keychainAccessGroup];
+ 	return [query save:error];
+ }
+ 
+@@ -72,6 +98,7 @@
+ + (NSArray *)accountsForService:(NSString *)serviceName {
+ 	SSKeychainQuery *query = [[SSKeychainQuery alloc] init];
+ 	query.service = serviceName;
++ 	query.accessGroup = [self keychainAccessGroup];
+ 	return [query fetchAll:nil];
+ }
+ 
+Binary files Pods/SSKeychain/SSKeychain/en.lproj/SSKeychain.strings and NAStify/External/SSKeychain/en.lproj/SSKeychain.strings differ

@@ -1,0 +1,121 @@
+diff -Nur a/Pods/MBProgressHUD/MBProgressHUD.h b/Pods/MBProgressHUD/MBProgressHUD.h
+--- a/Pods/MBProgressHUD/MBProgressHUD.h	2014-10-28 11:14:35.000000000 +0100
++++ b/Pods/MBProgressHUD/MBProgressHUD.h	2014-10-28 11:14:17.000000000 +0100
+@@ -276,7 +276,14 @@
+ 
+ #endif
+ 
+-/** 
++/**
++ * Cancel button view
++ *
++ * @see MBProgressHUDMode
++ */
++@property (atomic, MB_STRONG) UIButton *cancelButton;
++
++/**
+  * MBProgressHUD operation mode. The default is MBProgressHUDModeIndeterminate.
+  *
+  * @see MBProgressHUDMode
+@@ -439,6 +446,11 @@
+  */
+ @property (assign, getter = isSquare) BOOL square;
+ 
++/**
++ * Shows a cancel button that allows a task to be stopped before completion
++ */
++@property (assign) BOOL allowsCancelation;
++
+ @end
+ 
+ 
+@@ -451,6 +463,11 @@
+  */
+ - (void)hudWasHidden:(MBProgressHUD *)hud;
+ 
++/**
++ * A callback function that is called after the HUD get's cancelled.
++ */
++- (void)hudDidCancel:(MBProgressHUD *)hud;
++
+ @end
+ 
+ 
+diff -Nur a/Pods/MBProgressHUD/MBProgressHUD.m b/Pods/MBProgressHUD/MBProgressHUD.m
+--- a/Pods/MBProgressHUD/MBProgressHUD.m	2014-10-28 11:14:35.000000000 +0100
++++ b/Pods/MBProgressHUD/MBProgressHUD.m	2014-10-28 11:14:17.000000000 +0100
+@@ -91,6 +91,7 @@
+ @synthesize yOffset;
+ @synthesize minSize;
+ @synthesize square;
++@synthesize allowsCancelation;
+ @synthesize margin;
+ @synthesize dimBackground;
+ @synthesize graceTime;
+@@ -101,6 +102,7 @@
+ @synthesize removeFromSuperViewOnHide;
+ @synthesize customView;
+ @synthesize showStarted;
++@synthesize cancelButton;
+ @synthesize mode;
+ @synthesize labelText;
+ @synthesize detailsLabelText;
+@@ -476,6 +478,25 @@
+ 	[self addSubview:detailsLabel];
+ }
+ 
++- (void)cancel {
++
++	if(delegate != nil && [delegate conformsToProtocol:@protocol(MBProgressHUDDelegate)])
++	{
++		if([delegate respondsToSelector:@selector(hudDidCancel:)])
++		{
++			[delegate performSelector:@selector(hudDidCancel:) withObject:self];
++		}
++		else
++		{
++			[self hideUsingAnimation:useAnimation];
++		}
++	}
++	else
++	{
++		[self hideUsingAnimation:useAnimation];
++	}
++}
++
+ - (void)updateIndicators {
+ 	
+ 	BOOL isActivityIndicator = [indicator isKindOfClass:[UIActivityIndicatorView class]];
+@@ -608,6 +629,32 @@
+ 	}
+ 	
+ 	size = totalSize;
++	if(allowsCancelation)
++	{
++		if(!cancelButton)
++		{
++			cancelButton = [UIButton buttonWithType:UIButtonTypeCustom];
++			[cancelButton setImage:[UIImage imageNamed:@"CloseButton.png"] forState:UIControlStateNormal];
++			[cancelButton addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
++		}
++		
++		cancelButton.frame = CGRectMake(self.center.x - (self.size.width / 2) + xOffset - 8,
++										self.center.y - (self.size.height / 2) + yOffset - 8,
++										29, 29);
++		
++		if(![cancelButton superview])
++		{
++			[self addSubview:cancelButton];
++		}
++	}
++	else
++	{
++		if(cancelButton)
++		{
++			[cancelButton removeFromSuperview];
++			cancelButton = nil;
++		}
++	}
+ }
+ 
+ #pragma mark BG Drawing

@@ -1,0 +1,12 @@
+diff -Nur a/Pods/MWPhotoBrowser/MWPhotoBrowser/Classes/MWPhoto.m b/Pods/MWPhotoBrowser/MWPhotoBrowser/Classes/MWPhoto.m
+--- a/Pods/MWPhotoBrowser/MWPhotoBrowser/Classes/MWPhoto.m	2014-10-28 15:59:04.000000000 +0100
++++ b/Pods/MWPhotoBrowser/MWPhotoBrowser/Classes/MWPhoto.m	2014-10-28 16:01:27.000000000 +0100
+@@ -156,7 +156,7 @@
+             @try {
+                 SDWebImageManager *manager = [SDWebImageManager sharedManager];
+                 _webImageOperation = [manager downloadImageWithURL:_photoURL
+-                                                           options:0
++                                                           options:SDWebImageDownloaderHandleCookies | SDWebImageDownloaderAllowInvalidSSLCertificates
+                                                           progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                                               if (expectedSize > 0) {
+                                                                   float progress = receivedSize / (float)expectedSize;
