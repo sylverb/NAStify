@@ -36,7 +36,6 @@ PODS:
   - CocoaLumberjack/Extensions (2.0.0-beta3):
     - CocoaLumberjack/Default
   - DACircularProgress (2.2.0)
-  - Dropbox-iOS-SDK (1.3.13)
   - ELCImagePickerController (0.2.0)
   - ISO8601DateFormatter (0.7)
   - LTHPasscodeViewController (3.3.2)
@@ -53,7 +52,6 @@ DEPENDENCIES:
   - box-ios-sdk-v2 (from `https://github.com/box/box-ios-sdk-v2.git`, commit `76272c9`)
   - CocoaHTTPServer (= 2.3)
   - DACircularProgress (from `https://github.com/danielamitay/DACircularProgress.git`, commit `ccc7a2e`)
-  - Dropbox-iOS-SDK (from `localpods/Dropbox-iOS-SDK.podspec`)
   - ELCImagePickerController (from `https://github.com/B-Sides/ELCImagePickerController.git`, commit `b57e2f3`)
   - ISO8601DateFormatter (= 0.7)
   - LTHPasscodeViewController (= 3.3.2)
@@ -75,8 +73,6 @@ EXTERNAL SOURCES:
   DACircularProgress:
     :commit: ccc7a2e
     :git: https://github.com/danielamitay/DACircularProgress.git
-  Dropbox-iOS-SDK:
-    :path: localpods/Dropbox-iOS-SDK.podspec
   ELCImagePickerController:
     :commit: b57e2f3
     :git: https://github.com/B-Sides/ELCImagePickerController.git
@@ -94,7 +90,6 @@ SPEC CHECKSUMS:
   CocoaHTTPServer: 217df4cba4e48803db2480f97b805aaad2230dd1
   CocoaLumberjack: 55c22a2b8bde7a29c568ab4015b5874216524d70
   DACircularProgress: 659d6fd11b5fc099c13ba9350239d9dca324916a
-  Dropbox-iOS-SDK: 22dd66fd3a1fcf9bc1444592c40d6c2ad949afa4
   ELCImagePickerController: 1baf64fadfe088550c16f82225469e4dfad917e2
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   LTHPasscodeViewController: 1139ed7e6b5d96ef51f508b9a29e35a2d0a82ac4

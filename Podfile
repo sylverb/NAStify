@@ -14,7 +14,6 @@ pod 'PSTCollectionView', '1.2.3'
 pod 'SSKeychain', '1.2.2'
 pod 'upnpx', :git => 'https://github.com/fkuehne/upnpx.git', :commit => 'a4a17d0'
 pod 'XMLDictionary', '1.4'
-pod 'Dropbox-iOS-SDK', :path => 'localpods/Dropbox-iOS-SDK.podspec'
 # patched SDWebImage is depending on libRaw, need to find a way to include this in CocoaPod
 #pod 'MWPhotoBrowser', :git => 'https://github.com/mwaterfall/MWPhotoBrowser.git', :commit => 'd68f9cd'
 #pod 'SDWebImage', :git => 'https://github.com/rs/SDWebImage.git', :commit => 'd2da4d0'
