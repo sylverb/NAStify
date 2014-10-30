@@ -505,13 +505,14 @@ static void dav_delete_props(dav_props *props);
     });
 }
 
-#ifndef APP_EXTENSION
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder
 {
+#ifndef APP_EXTENSION
     __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     }];
+#endif
     
     dispatch_async(backgroundQueue, ^(void)
     {
@@ -538,11 +539,12 @@ static void dav_delete_props(dav_props *props);
             });
         }
         
+#ifndef APP_EXTENSION
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
+#endif
     });
 }
-#endif
 
 #ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files
@@ -868,7 +870,6 @@ file_reader(void *userdata, const char *block, size_t length)
 
 #pragma mark - upload management
 
-#ifndef APP_EXTENSION
 void status(void *userdata, ne_session_status status,
                          const ne_session_status_info *info)
 {
@@ -891,10 +892,12 @@ void status(void *userdata, ne_session_status status,
 
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
 {
+#ifndef APP_EXTENSION
     __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     }];
+#endif
     
     dispatch_async(backgroundQueue, ^(void)
     {
@@ -969,11 +972,12 @@ void status(void *userdata, ne_session_status status,
         free(uri);
         close(fd);
         
+#ifndef APP_EXTENSION
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
+#endif
     });
 }
-#endif
 
 #ifndef APP_EXTENSION
 - (NetworkConnection *)urlForFile:(FileItem *)file

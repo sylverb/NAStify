@@ -61,9 +61,9 @@
 - (BOOL)logout;
 - (void)listForPath:(FileItem *)folder;
 - (void)spaceInfoAtPath:(FileItem *)folder;
+- (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
 #ifndef APP_EXTENSION
 - (void)ejectFile:(FileItem *)fileItem;
-- (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
 - (void)deleteFiles:(NSArray *)files;
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
 - (void)copyFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
@@ -75,9 +75,9 @@
 #endif
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName;
 - (void)cancelDownloadTask;
-#ifndef APP_EXTENSION
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
 - (void)cancelUploadTask;
+#ifndef APP_EXTENSION
 - (void)cancelDeleteTask;
 - (void)cancelCopyTask;
 - (void)cancelMoveTask;

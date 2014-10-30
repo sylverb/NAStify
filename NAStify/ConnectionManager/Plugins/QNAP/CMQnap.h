@@ -30,9 +30,7 @@
     
     // To cancel download & upload tasks
     AFHTTPRequestOperation *downloadOperation;
-#ifndef APP_EXTENSION
     AFHTTPRequestOperation *uploadOperation;
-#endif
 }
 
 @property(nonatomic, strong) NSString *version;
@@ -46,8 +44,8 @@
 - (BOOL)logout;
 - (void)listForPath:(FileItem *)folder;
 - (void)spaceInfoAtPath:(FileItem *)folder;
-#ifndef APP_EXTENSION
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
+#ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files;
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
 - (void)copyFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
@@ -59,16 +57,14 @@
 - (SHARING_VALIDITY_UNIT)shareValidityUnit;
 #endif
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName;
-#ifndef APP_EXTENSION
-- (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
 - (void)cancelDownloadTask;
-#endif
+- (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
+- (void)cancelUploadTask;
 #ifndef APP_EXTENSION
 - (void)cancelCopyTask;
 - (void)cancelMoveTask;
 - (void)cancelExtractTask;
 - (void)cancelCompressTask;
-- (void)cancelUploadTask;
 #endif
 
 /* File URL requests */

@@ -490,6 +490,10 @@ static size_t WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *da
                 });
             }
         }
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
     });
     return YES;
 }
@@ -770,18 +774,23 @@ static int scan_perms (const char *s, int *perms)
                 }
             }
         }
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
     });
 }
 
 #pragma mark - Folder creation management
 
-#ifndef APP_EXTENSION
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder
 {
+#ifndef APP_EXTENSION
     __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     }];
+#endif
     
     dispatch_async(backgroundQueue, ^(void) {
         struct curl_slist* header = NULL;
@@ -931,9 +940,12 @@ static int scan_perms (const char *s, int *perms)
                 }
             }
         }
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
     });
 }
-#endif
 
 #pragma mark - Delete management
 
@@ -1109,6 +1121,8 @@ static int scan_perms (const char *s, int *perms)
                 });
             }
         }
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
     });
 }
 
@@ -1328,6 +1342,8 @@ static int scan_perms (const char *s, int *perms)
                 self.filesToMoveCount = 0;
             }
         }
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
     });
 }
 
@@ -1515,6 +1531,8 @@ static int scan_perms (const char *s, int *perms)
                 });
             }
         }
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
     });
 }
 #endif
@@ -1684,6 +1702,10 @@ static int download_progress (void *p, double dltotal, double dlnow, double ulto
             [[NSFileManager defaultManager] removeItemAtPath:localName
                                                        error:nil];
         }
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
     });
 }
 
@@ -1695,7 +1717,6 @@ static int download_progress (void *p, double dltotal, double dlnow, double ulto
 
 #pragma mark - Upload management
 
-#ifndef APP_EXTENSION
 struct uploadctx {
     FILE *fp;
     double transfered;
@@ -1729,10 +1750,12 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
 
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
 {
+#ifndef APP_EXTENSION
     __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     }];
+#endif
     
     dispatch_async(backgroundQueue, ^(void) {
         long ftpCode;
@@ -1920,6 +1943,10 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
                                                  nil]];
             });
         }
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
     });
 }
 
@@ -1928,7 +1955,6 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
     // Cancel request
     abortUpload = YES;
 }
-#endif
 
 #pragma mark - url management
 

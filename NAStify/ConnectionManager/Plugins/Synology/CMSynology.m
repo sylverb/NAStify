@@ -1041,7 +1041,6 @@
 
 #pragma mark - Folder creation management
 
-#ifndef APP_EXTENSION
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
 {
     if (dsmVersion >= SYNOLOGY_DSM_4_3)
@@ -1180,7 +1179,6 @@
     
     lastRequestDate = [NSDate date];
 }
-#endif
 
 #pragma mark - delete management
 
@@ -5811,7 +5809,6 @@
 
 #pragma mark - upload management
 
-#ifndef APP_EXTENSION
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
 {
     if (dsmVersion >= SYNOLOGY_DSM_4_3)
@@ -6049,7 +6046,6 @@
     
     lastRequestDate = [NSDate date];
 }
-#endif
 
 #pragma mark - Reconnection management
 

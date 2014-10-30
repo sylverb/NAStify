@@ -273,7 +273,6 @@
 
 #pragma mark - Folder creation management
 
-#ifndef APP_EXTENSION
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
 {
     BoxFolderBlock success = ^(BoxFolder *folder)
@@ -333,7 +332,6 @@
     
     [[BoxSDK sharedSDK].foldersManager createFolderWithRequestBuilder:builder success:success failure:failure];
 }
-#endif
 
 #pragma mark - delete management
 
@@ -769,7 +767,6 @@
 
 #pragma mark - Upload management
 
-#ifndef APP_EXTENSION
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
 {
     BoxFileBlock success = ^(BoxFile *file)
@@ -886,7 +883,6 @@
     // Cancel request
     [self.uploadOperation cancel];
 }
-#endif
 
 #pragma mark - search management
 

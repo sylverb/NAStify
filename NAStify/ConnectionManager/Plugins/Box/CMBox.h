@@ -30,9 +30,7 @@
 
 // Download management
 @property(nonatomic, weak) BoxAPIDataOperation *downloadOperation;
-#ifndef APP_EXTENSION
 @property(nonatomic, weak) BoxAPIMultipartToJSONOperation *uploadOperation;
-#endif
 
 /* Multiple file sharing */
 #ifndef APP_EXTENSION
@@ -44,8 +42,8 @@
 - (BOOL)logout;
 - (void)listForPath:(FileItem *)folder;
 - (void)spaceInfoAtPath:(FileItem *)folder;
-#ifndef APP_EXTENSION
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
+#ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files;
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
 - (void)copyFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
@@ -55,10 +53,8 @@
 #endif
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName;
 - (void)cancelDownloadTask;
-#ifndef APP_EXTENSION
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
 - (void)cancelUploadTask;
-#endif
 
 /* File URL requests */
 #ifndef APP_EXTENSION

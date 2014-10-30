@@ -225,7 +225,6 @@
 		D569B17D1982F7C0007C0AC5 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D569B17C1982F7C0007C0AC5 /* ShareViewController.m */; };
 		D57254CD18AD75BD0088A6C9 /* UploadBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */; };
 		D57C95AD18F9577F00617FB6 /* UIDeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = D57C95AC18F9577F00617FB6 /* UIDeviceHardware.m */; };
-		D58EBB2319EB128A00F32CBB /* DropboxSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F96294D71605FB3500E77885 /* DropboxSDK.framework */; };
 		D58EE84718DAD20F00E89437 /* UIPopoverController+iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = D58EE84618DAD20F00E89437 /* UIPopoverController+iPhone.m */; };
 		D595AF87185EEABE00AE8037 /* ServerSettingsSambaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */; };
 		D597AA6018C2A5FC006FA582 /* ServerSettingsDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D597AA5F18C2A5FC006FA582 /* ServerSettingsDropboxViewController.m */; };
@@ -275,6 +274,217 @@
 		D5D3CCBD19B7B9340083EA08 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D3CCBC19B7B9340083EA08 /* CoreTelephony.framework */; };
 		D5D3CCBF19B7BA110083EA08 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D3CCBE19B7BA110083EA08 /* AdSupport.framework */; };
 		D5D3CCC819B854770083EA08 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D3CCC719B854770083EA08 /* iAd.framework */; };
+		D5E4734E1A00446E00A02A1A /* DocumentPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E4734D1A00446E00A02A1A /* DocumentPickerViewController.m */; };
+		D5E473531A00446E00A02A1A /* NAStify-DocProvider.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = D5E473471A00446E00A02A1A /* NAStify-DocProvider.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		D5E4737B1A0045A800A02A1A /* FileProviderBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E473771A0045A800A02A1A /* FileProviderBrowserViewController.m */; };
+		D5E4737C1A0045A800A02A1A /* FileProviderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E473791A0045A800A02A1A /* FileProviderViewController.m */; };
+		D5E4738A1A00C5CD00A02A1A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D546FCA319FD3F4100125E62 /* libPods.a */; };
+		D5E4738C1A00C70600A02A1A /* ServerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F7E715D7CA060059428E /* ServerCell.m */; };
+		D5E4738D1A00C70C00A02A1A /* UserAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F7EF15D7CA060059428E /* UserAccount.m */; };
+		D5E4738E1A00C71900A02A1A /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F80715D7E9B50059428E /* ConnectionManager.m */; };
+		D5E4738F1A00C72000A02A1A /* NetworkConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F80C15D7E9B50059428E /* NetworkConnection.m */; };
+		D5E473901A00C72B00A02A1A /* CMBox.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3CC4B19A8F5040083EA08 /* CMBox.m */; };
+		D5E473911A00C73200A02A1A /* CMSamba.m in Sources */ = {isa = PBXBuildFile; fileRef = F98D8980181F8AD80053D5CF /* CMSamba.m */; };
+		D5E473921A00C73700A02A1A /* CMQnap.m in Sources */ = {isa = PBXBuildFile; fileRef = F97B1C121632BD4500E3FF7C /* CMQnap.m */; };
+		D5E473931A00C73B00A02A1A /* CMFreeboxRev.m in Sources */ = {isa = PBXBuildFile; fileRef = F90C6C2D160685C200153186 /* CMFreeboxRev.m */; };
+		D5E473941A00C74100A02A1A /* CMLocal.m in Sources */ = {isa = PBXBuildFile; fileRef = F975485715F6AB8400E9D1E1 /* CMLocal.m */; };
+		D5E473951A00C74900A02A1A /* CMDropbox.m in Sources */ = {isa = PBXBuildFile; fileRef = F9BF24D21605139A001F5BAF /* CMDropbox.m */; };
+		D5E473961A00C74F00A02A1A /* CMSynology.m in Sources */ = {isa = PBXBuildFile; fileRef = F9401E3D15F5347400AF40B2 /* CMSynology.m */; };
+		D5E473971A00C75300A02A1A /* CMFtp.m in Sources */ = {isa = PBXBuildFile; fileRef = F9345CAE15DC6321004035A9 /* CMFtp.m */; };
+		D5E473981A00C75E00A02A1A /* CMWebDav.m in Sources */ = {isa = PBXBuildFile; fileRef = F9115D2D15DA9047004259D3 /* CMWebDav.m */; };
+		D5E473CA1A00E6C800A02A1A /* licurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9401E4F15F536D800AF40B2 /* licurl.a */; };
+		D5E473CB1A00E6E700A02A1A /* libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9FCDFEE15E1C9CD009AD6A4 /* libssh2.a */; };
+		D5E473CC1A00E6FB00A02A1A /* libneon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9085E1015E1586900A030FF /* libneon.a */; };
+		D5E473CD1A00E70D00A02A1A /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9085DA515E1250100A030FF /* libcrypto.a */; };
+		D5E473CE1A00E70D00A02A1A /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9085DA615E1250100A030FF /* libssl.a */; };
+		D5E473CF1A00E74000A02A1A /* SBNetworkActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = F9401D5B15F5345E00AF40B2 /* SBNetworkActivityIndicator.m */; };
+		D5E473D01A00E76800A02A1A /* libiconv.2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F97661BE1603BE2700581863 /* libiconv.2.dylib */; };
+		D5E473D11A00E78200A02A1A /* FileBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F82415D8390A0059428E /* FileBrowserCell.m */; };
+		D5E473D21A00E79300A02A1A /* FileItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F81E15D8337B0059428E /* FileItem.m */; };
+		D5E473D31A00E79900A02A1A /* ftpparse.c in Sources */ = {isa = PBXBuildFile; fileRef = F9E707C115DF2AA000275445 /* ftpparse.c */; };
+		D5E473D41A00F4C200A02A1A /* libSDropboxSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E473B31A00D71D00A02A1A /* libSDropboxSDK.a */; };
+		D5E473D51A00F4E500A02A1A /* libSDropboxSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5E473B31A00D71D00A02A1A /* libSDropboxSDK.a */; };
+		D5E473D61A00F65F00A02A1A /* NSNumberAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F91245E11604E8ED00D9AFA9 /* NSNumberAdditions.m */; };
+		D5E473D71A00F66400A02A1A /* NSStringAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F91245E31604E8ED00D9AFA9 /* NSStringAdditions.m */; };
+		D5E473D81A00F66D00A02A1A /* NSMutableArrayAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F91245DF1604E8ED00D9AFA9 /* NSMutableArrayAdditions.m */; };
+		D5E473D91A00F67F00A02A1A /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F98D89A41820F7290053D5CF /* NSDataAdditions.m */; };
+		D5E473DA1A00F92400A02A1A /* 3gp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031F419E3310F004F7147 /* 3gp@2x.png */; };
+		D5E473DB1A00F92400A02A1A /* 3gp@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031F519E3310F004F7147 /* 3gp@3x.png */; };
+		D5E473DC1A00F92400A02A1A /* 7z@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031F619E3310F004F7147 /* 7z@2x.png */; };
+		D5E473DD1A00F92400A02A1A /* 7z@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031F719E3310F004F7147 /* 7z@3x.png */; };
+		D5E473DE1A00F92400A02A1A /* aa3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031F819E3310F004F7147 /* aa3@2x.png */; };
+		D5E473DF1A00F92400A02A1A /* aa3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031F919E3310F004F7147 /* aa3@3x.png */; };
+		D5E473E01A00F92400A02A1A /* aac@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031FA19E3310F004F7147 /* aac@2x.png */; };
+		D5E473E11A00F92400A02A1A /* aac@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031FB19E3310F004F7147 /* aac@3x.png */; };
+		D5E473E21A00F92400A02A1A /* ac3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031FC19E3310F004F7147 /* ac3@2x.png */; };
+		D5E473E31A00F92400A02A1A /* ac3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031FD19E3310F004F7147 /* ac3@3x.png */; };
+		D5E473E41A00F92400A02A1A /* acm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031FE19E3310F004F7147 /* acm@2x.png */; };
+		D5E473E51A00F92400A02A1A /* acm@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53031FF19E3310F004F7147 /* acm@3x.png */; };
+		D5E473E61A00F92400A02A1A /* aif@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320019E3310F004F7147 /* aif@2x.png */; };
+		D5E473E71A00F92400A02A1A /* aif@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320119E3310F004F7147 /* aif@3x.png */; };
+		D5E473E81A00F92400A02A1A /* aifc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320219E3310F004F7147 /* aifc@2x.png */; };
+		D5E473E91A00F92400A02A1A /* aifc@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320319E3310F004F7147 /* aifc@3x.png */; };
+		D5E473EA1A00F92400A02A1A /* al@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320419E3310F004F7147 /* al@2x.png */; };
+		D5E473EB1A00F92400A02A1A /* al@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320519E3310F004F7147 /* al@3x.png */; };
+		D5E473EC1A00F92400A02A1A /* alaw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320619E3310F004F7147 /* alaw@2x.png */; };
+		D5E473ED1A00F92400A02A1A /* alaw@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320719E3310F004F7147 /* alaw@3x.png */; };
+		D5E473EE1A00F92400A02A1A /* amr@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320819E3310F004F7147 /* amr@2x.png */; };
+		D5E473EF1A00F92400A02A1A /* amr@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320919E3310F004F7147 /* amr@3x.png */; };
+		D5E473F01A00F92400A02A1A /* ape@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320A19E3310F004F7147 /* ape@2x.png */; };
+		D5E473F11A00F92400A02A1A /* ape@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320B19E3310F004F7147 /* ape@3x.png */; };
+		D5E473F21A00F92400A02A1A /* asf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320C19E3310F004F7147 /* asf@2x.png */; };
+		D5E473F31A00F92400A02A1A /* asf@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320D19E3310F004F7147 /* asf@3x.png */; };
+		D5E473F41A00F92400A02A1A /* at3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320E19E3310F004F7147 /* at3@2x.png */; };
+		D5E473F51A00F92400A02A1A /* at3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530320F19E3310F004F7147 /* at3@3x.png */; };
+		D5E473F61A00F92400A02A1A /* avi@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321019E3310F004F7147 /* avi@2x.png */; };
+		D5E473F71A00F92400A02A1A /* avi@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321119E3310F004F7147 /* avi@3x.png */; };
+		D5E473F81A00F92400A02A1A /* bmp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321219E3310F004F7147 /* bmp@2x.png */; };
+		D5E473F91A00F92400A02A1A /* bmp@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321319E3310F004F7147 /* bmp@3x.png */; };
+		D5E473FA1A00F92400A02A1A /* cr2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321419E3310F004F7147 /* cr2@2x.png */; };
+		D5E473FB1A00F92400A02A1A /* cr2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321519E3310F004F7147 /* cr2@3x.png */; };
+		D5E473FC1A00F92400A02A1A /* crw@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321619E3310F004F7147 /* crw@2x.png */; };
+		D5E473FD1A00F92400A02A1A /* crw@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321719E3310F004F7147 /* crw@3x.png */; };
+		D5E473FE1A00F92400A02A1A /* csv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321819E3310F004F7147 /* csv@2x.png */; };
+		D5E473FF1A00F92400A02A1A /* csv@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321919E3310F004F7147 /* csv@3x.png */; };
+		D5E474001A00F92400A02A1A /* dcr@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321A19E3310F004F7147 /* dcr@2x.png */; };
+		D5E474011A00F92400A02A1A /* dcr@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321B19E3310F004F7147 /* dcr@3x.png */; };
+		D5E474021A00F92400A02A1A /* divx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321C19E3310F004F7147 /* divx@2x.png */; };
+		D5E474031A00F92400A02A1A /* divx@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321D19E3310F004F7147 /* divx@3x.png */; };
+		D5E474041A00F92400A02A1A /* dng@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321E19E3310F004F7147 /* dng@2x.png */; };
+		D5E474051A00F92400A02A1A /* dng@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530321F19E3310F004F7147 /* dng@3x.png */; };
+		D5E474061A00F92400A02A1A /* doc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322019E3310F004F7147 /* doc@2x.png */; };
+		D5E474071A00F92400A02A1A /* doc@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322119E3310F004F7147 /* doc@3x.png */; };
+		D5E474081A00F92400A02A1A /* dts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322219E3310F004F7147 /* dts@2x.png */; };
+		D5E474091A00F92400A02A1A /* dts@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322319E3310F004F7147 /* dts@3x.png */; };
+		D5E4740A1A00F92400A02A1A /* dtshd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322419E3310F004F7147 /* dtshd@2x.png */; };
+		D5E4740B1A00F92400A02A1A /* dtshd@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322519E3310F004F7147 /* dtshd@3x.png */; };
+		D5E4740C1A00F92400A02A1A /* dv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322619E3310F004F7147 /* dv@2x.png */; };
+		D5E4740D1A00F92400A02A1A /* dv@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322719E3310F004F7147 /* dv@3x.png */; };
+		D5E4740E1A00F92400A02A1A /* eject@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322819E3310F004F7147 /* eject@2x.png */; };
+		D5E4740F1A00F92400A02A1A /* eject@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322919E3310F004F7147 /* eject@3x.png */; };
+		D5E474101A00F92400A02A1A /* es@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322A19E3310F004F7147 /* es@2x.png */; };
+		D5E474111A00F92400A02A1A /* es@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322B19E3310F004F7147 /* es@3x.png */; };
+		D5E474121A00F92400A02A1A /* f4v@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322C19E3310F004F7147 /* f4v@2x.png */; };
+		D5E474131A00F92400A02A1A /* f4v@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322D19E3310F004F7147 /* f4v@3x.png */; };
+		D5E474141A00F92400A02A1A /* flac@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322E19E3310F004F7147 /* flac@2x.png */; };
+		D5E474151A00F92400A02A1A /* flac@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530322F19E3310F004F7147 /* flac@3x.png */; };
+		D5E474161A00F92400A02A1A /* flv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323019E3310F004F7147 /* flv@2x.png */; };
+		D5E474171A00F92400A02A1A /* flv@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323119E3310F004F7147 /* flv@3x.png */; };
+		D5E474181A00F92400A02A1A /* folder@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323219E3310F004F7147 /* folder@2x.png */; };
+		D5E474191A00F92400A02A1A /* folder@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323319E3310F004F7147 /* folder@3x.png */; };
+		D5E4741A1A00F92400A02A1A /* fpix@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323419E3310F004F7147 /* fpix@2x.png */; };
+		D5E4741B1A00F92400A02A1A /* fpix@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323519E3310F004F7147 /* fpix@3x.png */; };
+		D5E4741C1A00F92400A02A1A /* fpx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323619E3310F004F7147 /* fpx@2x.png */; };
+		D5E4741D1A00F92400A02A1A /* fpx@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323719E3310F004F7147 /* fpx@3x.png */; };
+		D5E4741E1A00F92400A02A1A /* gif@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323819E3310F004F7147 /* gif@2x.png */; };
+		D5E4741F1A00F92400A02A1A /* gif@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323919E3310F004F7147 /* gif@3x.png */; };
+		D5E474201A00F92400A02A1A /* jpeg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323A19E3310F004F7147 /* jpeg@2x.png */; };
+		D5E474211A00F92400A02A1A /* jpeg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323B19E3310F004F7147 /* jpeg@3x.png */; };
+		D5E474221A00F92400A02A1A /* jpg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323C19E3310F004F7147 /* jpg@2x.png */; };
+		D5E474231A00F92400A02A1A /* jpg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323D19E3310F004F7147 /* jpg@3x.png */; };
+		D5E474241A00F92400A02A1A /* m2ts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323E19E3310F004F7147 /* m2ts@2x.png */; };
+		D5E474251A00F92400A02A1A /* m2ts@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530323F19E3310F004F7147 /* m2ts@3x.png */; };
+		D5E474261A00F92400A02A1A /* m4a@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324019E3310F004F7147 /* m4a@2x.png */; };
+		D5E474271A00F92400A02A1A /* m4a@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324119E3310F004F7147 /* m4a@3x.png */; };
+		D5E474281A00F92400A02A1A /* m4v@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324219E3310F004F7147 /* m4v@2x.png */; };
+		D5E474291A00F92400A02A1A /* m4v@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324319E3310F004F7147 /* m4v@3x.png */; };
+		D5E4742A1A00F92400A02A1A /* mkv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324419E3310F004F7147 /* mkv@2x.png */; };
+		D5E4742B1A00F92400A02A1A /* mkv@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324519E3310F004F7147 /* mkv@3x.png */; };
+		D5E4742C1A00F92400A02A1A /* mlp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324619E3310F004F7147 /* mlp@2x.png */; };
+		D5E4742D1A00F92400A02A1A /* mlp@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324719E3310F004F7147 /* mlp@3x.png */; };
+		D5E4742E1A00F92400A02A1A /* mov@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324819E3310F004F7147 /* mov@2x.png */; };
+		D5E4742F1A00F92400A02A1A /* mov@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324919E3310F004F7147 /* mov@3x.png */; };
+		D5E474301A00F92400A02A1A /* mp1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324A19E3310F004F7147 /* mp1@2x.png */; };
+		D5E474311A00F92400A02A1A /* mp1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324B19E3310F004F7147 /* mp1@3x.png */; };
+		D5E474321A00F92400A02A1A /* mp2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324C19E3310F004F7147 /* mp2@2x.png */; };
+		D5E474331A00F92400A02A1A /* mp2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324D19E3310F004F7147 /* mp2@3x.png */; };
+		D5E474341A00F92400A02A1A /* mp3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324E19E3310F004F7147 /* mp3@2x.png */; };
+		D5E474351A00F92400A02A1A /* mp3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530324F19E3310F004F7147 /* mp3@3x.png */; };
+		D5E474361A00F92400A02A1A /* mp4@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325019E3310F004F7147 /* mp4@2x.png */; };
+		D5E474371A00F92400A02A1A /* mp4@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325119E3310F004F7147 /* mp4@3x.png */; };
+		D5E474381A00F92400A02A1A /* mpc@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325219E3310F004F7147 /* mpc@2x.png */; };
+		D5E474391A00F92400A02A1A /* mpc@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325319E3310F004F7147 /* mpc@3x.png */; };
+		D5E4743A1A00F92400A02A1A /* mpeg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325419E3310F004F7147 /* mpeg@2x.png */; };
+		D5E4743B1A00F92400A02A1A /* mpeg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325519E3310F004F7147 /* mpeg@3x.png */; };
+		D5E4743C1A00F92400A02A1A /* mpg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325619E3310F004F7147 /* mpg@2x.png */; };
+		D5E4743D1A00F92400A02A1A /* mpg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325719E3310F004F7147 /* mpg@3x.png */; };
+		D5E4743E1A00F92400A02A1A /* mpga@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325819E3310F004F7147 /* mpga@2x.png */; };
+		D5E4743F1A00F92400A02A1A /* mpga@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325919E3310F004F7147 /* mpga@3x.png */; };
+		D5E474401A00F92400A02A1A /* mpv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325A19E3310F004F7147 /* mpv@2x.png */; };
+		D5E474411A00F92400A02A1A /* mpv@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325B19E3310F004F7147 /* mpv@3x.png */; };
+		D5E474421A00F92400A02A1A /* nef@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325C19E3310F004F7147 /* nef@2x.png */; };
+		D5E474431A00F92400A02A1A /* nef@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325D19E3310F004F7147 /* nef@3x.png */; };
+		D5E474441A00F92400A02A1A /* numbers@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325E19E3310F004F7147 /* numbers@2x.png */; };
+		D5E474451A00F92400A02A1A /* numbers@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530325F19E3310F004F7147 /* numbers@3x.png */; };
+		D5E474461A00F92400A02A1A /* oga@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326019E3310F004F7147 /* oga@2x.png */; };
+		D5E474471A00F92400A02A1A /* oga@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326119E3310F004F7147 /* oga@3x.png */; };
+		D5E474481A00F92400A02A1A /* ogg@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326219E3310F004F7147 /* ogg@2x.png */; };
+		D5E474491A00F92400A02A1A /* ogg@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326319E3310F004F7147 /* ogg@3x.png */; };
+		D5E4744A1A00F92400A02A1A /* opus@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326419E3310F004F7147 /* opus@2x.png */; };
+		D5E4744B1A00F92400A02A1A /* opus@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326519E3310F004F7147 /* opus@3x.png */; };
+		D5E4744C1A00F92400A02A1A /* pdf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326619E3310F004F7147 /* pdf@2x.png */; };
+		D5E4744D1A00F92400A02A1A /* pdf@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326719E3310F004F7147 /* pdf@3x.png */; };
+		D5E4744E1A00F92400A02A1A /* png@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326819E3310F004F7147 /* png@2x.png */; };
+		D5E4744F1A00F92400A02A1A /* png@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326919E3310F004F7147 /* png@3x.png */; };
+		D5E474501A00F92400A02A1A /* pnt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326A19E3310F004F7147 /* pnt@2x.png */; };
+		D5E474511A00F92400A02A1A /* pnt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326B19E3310F004F7147 /* pnt@3x.png */; };
+		D5E474521A00F92400A02A1A /* ps@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326C19E3310F004F7147 /* ps@2x.png */; };
+		D5E474531A00F92400A02A1A /* ps@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326D19E3310F004F7147 /* ps@3x.png */; };
+		D5E474541A00F92400A02A1A /* ptng@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326E19E3310F004F7147 /* ptng@2x.png */; };
+		D5E474551A00F92400A02A1A /* ptng@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530326F19E3310F004F7147 /* ptng@3x.png */; };
+		D5E474561A00F92400A02A1A /* ra@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327019E3310F004F7147 /* ra@2x.png */; };
+		D5E474571A00F92400A02A1A /* ra@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327119E3310F004F7147 /* ra@3x.png */; };
+		D5E474581A00F92400A02A1A /* raf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327219E3310F004F7147 /* raf@2x.png */; };
+		D5E474591A00F92400A02A1A /* raf@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327319E3310F004F7147 /* raf@3x.png */; };
+		D5E4745A1A00F92400A02A1A /* ram@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327419E33110004F7147 /* ram@2x.png */; };
+		D5E4745B1A00F92400A02A1A /* ram@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327519E33110004F7147 /* ram@3x.png */; };
+		D5E4745C1A00F92400A02A1A /* rar@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327619E33110004F7147 /* rar@2x.png */; };
+		D5E4745D1A00F92400A02A1A /* rar@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327719E33110004F7147 /* rar@3x.png */; };
+		D5E4745E1A00F92400A02A1A /* rm@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327819E33110004F7147 /* rm@2x.png */; };
+		D5E4745F1A00F92400A02A1A /* rm@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327919E33110004F7147 /* rm@3x.png */; };
+		D5E474601A00F92400A02A1A /* rtf@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327A19E33110004F7147 /* rtf@2x.png */; };
+		D5E474611A00F92400A02A1A /* rtf@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327B19E33110004F7147 /* rtf@3x.png */; };
+		D5E474621A00F92400A02A1A /* spx@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327C19E33110004F7147 /* spx@2x.png */; };
+		D5E474631A00F92400A02A1A /* spx@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327D19E33110004F7147 /* spx@3x.png */; };
+		D5E474641A00F92400A02A1A /* ts@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327E19E33110004F7147 /* ts@2x.png */; };
+		D5E474651A00F92400A02A1A /* ts@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530327F19E33110004F7147 /* ts@3x.png */; };
+		D5E474661A00F92400A02A1A /* txt@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328019E33110004F7147 /* txt@2x.png */; };
+		D5E474671A00F92400A02A1A /* txt@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328119E33110004F7147 /* txt@3x.png */; };
+		D5E474681A00F92400A02A1A /* unknown@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328219E33110004F7147 /* unknown@2x.png */; };
+		D5E474691A00F92400A02A1A /* unknown@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328319E33110004F7147 /* unknown@3x.png */; };
+		D5E4746A1A00F92400A02A1A /* vob@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328419E33110004F7147 /* vob@2x.png */; };
+		D5E4746B1A00F92400A02A1A /* vob@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328519E33110004F7147 /* vob@3x.png */; };
+		D5E4746C1A00F92400A02A1A /* wav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328619E33110004F7147 /* wav@2x.png */; };
+		D5E4746D1A00F92400A02A1A /* wav@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328719E33110004F7147 /* wav@3x.png */; };
+		D5E4746E1A00F92400A02A1A /* wma@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328819E33110004F7147 /* wma@2x.png */; };
+		D5E4746F1A00F92400A02A1A /* wma@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328919E33110004F7147 /* wma@3x.png */; };
+		D5E474701A00F92400A02A1A /* wmv@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328A19E33110004F7147 /* wmv@2x.png */; };
+		D5E474711A00F92400A02A1A /* wmv@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328B19E33110004F7147 /* wmv@3x.png */; };
+		D5E474721A00F92400A02A1A /* xls@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328C19E33110004F7147 /* xls@2x.png */; };
+		D5E474731A00F92400A02A1A /* xls@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328D19E33110004F7147 /* xls@3x.png */; };
+		D5E474741A00F92400A02A1A /* zip@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328E19E33110004F7147 /* zip@2x.png */; };
+		D5E474751A00F92400A02A1A /* zip@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530328F19E33110004F7147 /* zip@3x.png */; };
+		D5E474761A00F93000A02A1A /* CloseButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F943558615FCC79B00307556 /* CloseButton@2x.png */; };
+		D5E474771A00F9B400A02A1A /* box@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D3CC6319AD36D00083EA08 /* box@2x.png */; };
+		D5E474781A00F9B400A02A1A /* box_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D3CC5B19AD300A0083EA08 /* box_small@2x.png */; };
+		D5E474791A00F9B400A02A1A /* dropbox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F96294CA1605BCD000E77885 /* dropbox@2x.png */; };
+		D5E4747A1A00F9B400A02A1A /* dropbox_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D597AA6218C32AE8006FA582 /* dropbox_small@2x.png */; };
+		D5E4747B1A00F9B400A02A1A /* freebox@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F98D89891820EAE30053D5CF /* freebox@2x.png */; };
+		D5E4747C1A00F9B400A02A1A /* freebox_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F98D89861820EAE30053D5CF /* freebox_small@2x.png */; };
+		D5E4747D1A00F9B400A02A1A /* ftp-ftps-sftp@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D562AC31197D87D300C2322A /* ftp-ftps-sftp@2x.png */; };
+		D5E4747E1A00F9B400A02A1A /* ftp_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D562AC24197D829900C2322A /* ftp_small@2x.png */; };
+		D5E4747F1A00F9B400A02A1A /* ftps_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D562AC25197D829900C2322A /* ftps_small@2x.png */; };
+		D5E474801A00F9B400A02A1A /* sftp_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D562AC26197D829900C2322A /* sftp_small@2x.png */; };
+		D5E474811A00F9B400A02A1A /* qnap_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F98D898B1820EAE30053D5CF /* qnap_small@2x.png */; };
+		D5E474821A00F9B400A02A1A /* qnap@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F98D898E1820EAE30053D5CF /* qnap@2x.png */; };
+		D5E474831A00F9B400A02A1A /* synology_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F98D89901820EAE30053D5CF /* synology_small@2x.png */; };
+		D5E474841A00F9B400A02A1A /* synology@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F98D89931820EAE30053D5CF /* synology@2x.png */; };
+		D5E474851A00F9B400A02A1A /* webdav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F9694CFA15D883E80040F5D9 /* webdav@2x.png */; };
+		D5E474861A00F9B400A02A1A /* webdav_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F9694CFC15D883E80040F5D9 /* webdav_small@2x.png */; };
+		D5E4748B1A0110FC00A02A1A /* local-storage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E474891A0110FC00A02A1A /* local-storage@2x.png */; };
+		D5E4748C1A0110FC00A02A1A /* local-storage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E4748A1A0110FC00A02A1A /* local-storage@3x.png */; };
+		D5E4748D1A01111600A02A1A /* local-storage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E474891A0110FC00A02A1A /* local-storage@2x.png */; };
+		D5E4748E1A01111600A02A1A /* local-storage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E4748A1A0110FC00A02A1A /* local-storage@3x.png */; };
 		D5F17F921972852D00A071AD /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = D5F17F881972852D00A071AD /* iTunesArtwork@2x */; };
 		D5F17F94197490EE00A071AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5F17F93197490EE00A071AD /* Images.xcassets */; };
 		F901F7AA15D7C7C50059428E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F901F7A915D7C7C50059428E /* UIKit.framework */; };
@@ -613,13 +823,6 @@
 			remoteGlobalIDString = 2C3CF050ACB49C5DF4DDA7D3;
 			remoteInfo = "Pods-SSKeychain";
 		};
-		D501D7491A0006AD0032AACD /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9BEDB6F8A16E24C7A7607C7C;
-			remoteInfo = "Pods-Dropbox-iOS-SDK";
-		};
 		D546FCA219FD3F4100125E62 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
@@ -638,7 +841,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 622A0AB5D2C056BC491AE0F6;
+			remoteGlobalIDString = 56F6F954D9F4DEA4B0BEE20E;
 			remoteInfo = Pods;
 		};
 		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
@@ -697,6 +900,55 @@
 			remoteGlobalIDString = 990A57550C9FF7F183B1A9CA;
 			remoteInfo = "Pods-upnpx";
 		};
+		D5E473511A00446E00A02A1A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F901F79C15D7C7C50059428E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D5E473461A00446E00A02A1A;
+			remoteInfo = "NAStify-DocProvider";
+		};
+		D5E473881A0047F300A02A1A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 56F6F954D9F4DEA4B0BEE20E;
+			remoteInfo = Pods;
+		};
+		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D3196B831412FE180060E7C6;
+			remoteInfo = DropboxSDK;
+		};
+		D5E473B21A00D71D00A02A1A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D3933BE5145F12AD00E15FA7;
+			remoteInfo = SDropboxSDK;
+		};
+		D5E473B41A00D71D00A02A1A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D36931CC15088350003FBA23;
+			remoteInfo = DropboxOSX;
+		};
+		D5E473C61A00D73E00A02A1A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D3933BE4145F12AD00E15FA7;
+			remoteInfo = SDropboxSDK;
+		};
+		D5E473C81A00D74400A02A1A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D3933BE4145F12AD00E15FA7;
+			remoteInfo = SDropboxSDK;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -706,6 +958,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				D5E473531A00446E00A02A1A /* NAStify-DocProvider.appex in Embed App Extensions */,
 			);
 			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1062,6 +1315,19 @@
 		D5D3CCC519B7C7000083EA08 /* GADCustomEventInterstitialDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventInterstitialDelegate.h; sourceTree = "<group>"; };
 		D5D3CCC619B7C7000083EA08 /* GADCustomEventRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GADCustomEventRequest.h; sourceTree = "<group>"; };
 		D5D3CCC719B854770083EA08 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
+		D5E473471A00446E00A02A1A /* NAStify-DocProvider.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "NAStify-DocProvider.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D5E4734A1A00446E00A02A1A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D5E4734B1A00446E00A02A1A /* NAStify_DocProvider.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = NAStify_DocProvider.entitlements; sourceTree = "<group>"; };
+		D5E4734C1A00446E00A02A1A /* DocumentPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentPickerViewController.h; sourceTree = "<group>"; };
+		D5E4734D1A00446E00A02A1A /* DocumentPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentPickerViewController.m; sourceTree = "<group>"; };
+		D5E473761A0045A800A02A1A /* FileProviderBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileProviderBrowserViewController.h; sourceTree = "<group>"; };
+		D5E473771A0045A800A02A1A /* FileProviderBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileProviderBrowserViewController.m; sourceTree = "<group>"; };
+		D5E473781A0045A800A02A1A /* FileProviderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileProviderViewController.h; sourceTree = "<group>"; };
+		D5E473791A0045A800A02A1A /* FileProviderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileProviderViewController.m; sourceTree = "<group>"; };
+		D5E4737A1A0045A800A02A1A /* NAStify-DocProvider-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NAStify-DocProvider-Prefix.pch"; sourceTree = "<group>"; };
+		D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DropboxSDK.xcodeproj; path = NAStify/External/DropboxSDK/DropboxSDK.xcodeproj; sourceTree = "<group>"; };
+		D5E474891A0110FC00A02A1A /* local-storage@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-storage@2x.png"; sourceTree = "<group>"; };
+		D5E4748A1A0110FC00A02A1A /* local-storage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-storage@3x.png"; sourceTree = "<group>"; };
 		D5ECEA0C19EAAC1E0026C4D2 /* NAStify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = NAStify.entitlements; sourceTree = "<group>"; };
 		D5F17F881972852D00A071AD /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; name = "iTunesArtwork@2x"; path = "Icons/iTunesArtwork@2x"; sourceTree = "<group>"; };
 		D5F17F93197490EE00A071AD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -1354,7 +1620,6 @@
 		F95BC4751602EF5C00A0C9C6 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		F96294CA1605BCD000E77885 /* dropbox@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox@2x.png"; sourceTree = "<group>"; };
 		F96294CD1605BD7B00E77885 /* dropbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dropbox.png; sourceTree = "<group>"; };
-		F96294D71605FB3500E77885 /* DropboxSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DropboxSDK.framework; path = NAStify/External/DropboxSDK.framework; sourceTree = "<group>"; };
 		F967FFE115FEA3400062ADFB /* FileInp7zInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileInp7zInfo.h; sourceTree = "<group>"; };
 		F967FFE215FEA3400062ADFB /* FileInp7zInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileInp7zInfo.m; sourceTree = "<group>"; };
 		F967FFE315FEA3400062ADFB /* P7zException.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P7zException.h; sourceTree = "<group>"; };
@@ -1645,10 +1910,26 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D5E473441A00446E00A02A1A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5E473D41A00F4C200A02A1A /* libSDropboxSDK.a in Frameworks */,
+				D5E473D01A00E76800A02A1A /* libiconv.2.dylib in Frameworks */,
+				D5E473CD1A00E70D00A02A1A /* libcrypto.a in Frameworks */,
+				D5E473CE1A00E70D00A02A1A /* libssl.a in Frameworks */,
+				D5E473CC1A00E6FB00A02A1A /* libneon.a in Frameworks */,
+				D5E473CB1A00E6E700A02A1A /* libssh2.a in Frameworks */,
+				D5E473CA1A00E6C800A02A1A /* licurl.a in Frameworks */,
+				D5E4738A1A00C5CD00A02A1A /* libPods.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F901F7A215D7C7C50059428E /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5E473D51A00F4E500A02A1A /* libSDropboxSDK.a in Frameworks */,
 				D546FCFA19FE5D2F00125E62 /* libc++.dylib in Frameworks */,
 				D546FCEC19FE4EA400125E62 /* libMediaLibraryKit.a in Frameworks */,
 				D53030EC19DA979C004F7147 /* MediaAccessibility.framework in Frameworks */,
@@ -1659,7 +1940,6 @@
 				D5D3CCBD19B7B9340083EA08 /* CoreTelephony.framework in Frameworks */,
 				D5D3CCBB19B7B8F20083EA08 /* CoreAudio.framework in Frameworks */,
 				F97661BF1603BE2700581863 /* libiconv.2.dylib in Frameworks */,
-				D58EBB2319EB128A00F32CBB /* DropboxSDK.framework in Frameworks */,
 				D5B07CAD190F823000882988 /* GoogleCast.framework in Frameworks */,
 				D5D30702190153700087F4C6 /* CoreText.framework in Frameworks */,
 				D5AFBAEA19CB9EC8001C14CC /* StoreKit.framework in Frameworks */,
@@ -1792,7 +2072,6 @@
 				D546FCD219FE483D00125E62 /* libPods-CocoaHTTPServer.a */,
 				D546FCD419FE483D00125E62 /* libPods-CocoaLumberjack.a */,
 				D501D65719FE862D0032AACD /* libPods-DACircularProgress.a */,
-				D501D74A1A0006AD0032AACD /* libPods-Dropbox-iOS-SDK.a */,
 				D546FCE019FE4C6500125E62 /* libPods-ELCImagePickerController.a */,
 				D501D64819FE85270032AACD /* libPods-ISO8601DateFormatter.a */,
 				D546FCEB19FE4DA900125E62 /* libPods-LTHPasscodeViewController.a */,
@@ -1986,6 +2265,40 @@
 			path = "External/GoogleMobileAdsSdkiOS/Add-ons/Mediation";
 			sourceTree = "<group>";
 		};
+		D5E473481A00446E00A02A1A /* NAStify-DocProvider */ = {
+			isa = PBXGroup;
+			children = (
+				D5E4734C1A00446E00A02A1A /* DocumentPickerViewController.h */,
+				D5E4734D1A00446E00A02A1A /* DocumentPickerViewController.m */,
+				D5E473781A0045A800A02A1A /* FileProviderViewController.h */,
+				D5E473791A0045A800A02A1A /* FileProviderViewController.m */,
+				D5E473761A0045A800A02A1A /* FileProviderBrowserViewController.h */,
+				D5E473771A0045A800A02A1A /* FileProviderBrowserViewController.m */,
+				D5E473491A00446E00A02A1A /* Supporting Files */,
+			);
+			path = "NAStify-DocProvider";
+			sourceTree = "<group>";
+		};
+		D5E473491A00446E00A02A1A /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				D5E4734A1A00446E00A02A1A /* Info.plist */,
+				D5E4737A1A0045A800A02A1A /* NAStify-DocProvider-Prefix.pch */,
+				D5E4734B1A00446E00A02A1A /* NAStify_DocProvider.entitlements */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		D5E473AB1A00D71D00A02A1A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D5E473B11A00D71D00A02A1A /* DropboxSDK.framework */,
+				D5E473B31A00D71D00A02A1A /* libSDropboxSDK.a */,
+				D5E473B51A00D71D00A02A1A /* DropboxOSX.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D5F17F7E197284D100A071AD /* Icons */ = {
 			isa = PBXGroup;
 			children = (
@@ -1997,8 +2310,10 @@
 		F901F79A15D7C7C50059428E = {
 			isa = PBXGroup;
 			children = (
+				D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */,
 				D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */,
 				F901F7AF15D7C7C50059428E /* NAStify */,
+				D5E473481A00446E00A02A1A /* NAStify-DocProvider */,
 				F901F7A815D7C7C50059428E /* Frameworks */,
 				F901F7A615D7C7C50059428E /* Products */,
 				100C4858E07EEABC5EBA21A5 /* Pods */,
@@ -2009,6 +2324,7 @@
 			isa = PBXGroup;
 			children = (
 				F901F7A515D7C7C50059428E /* NAStify.app */,
+				D5E473471A00446E00A02A1A /* NAStify-DocProvider.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2041,7 +2357,6 @@
 				F9E706D615DF0DB100275445 /* libz.dylib */,
 				F9DEFAFC175B04D800048AB2 /* SystemConfiguration.framework */,
 				F94DB58A16123F980097C51C /* MobileCoreServices.framework */,
-				F96294D71605FB3500E77885 /* DropboxSDK.framework */,
 				F99CB80615F7FC7D0011F91F /* ImageIO.framework */,
 				F9E706D415DF0D8F00275445 /* Security.framework */,
 				F901F85615D863980059428E /* QuartzCore.framework */,
@@ -3001,6 +3316,8 @@
 				D562AC24197D829900C2322A /* ftp_small@2x.png */,
 				D562AC2B197D86D400C2322A /* ftps_small.png */,
 				D562AC25197D829900C2322A /* ftps_small@2x.png */,
+				D5E474891A0110FC00A02A1A /* local-storage@2x.png */,
+				D5E4748A1A0110FC00A02A1A /* local-storage@3x.png */,
 				D562AC2C197D86D400C2322A /* sftp_small.png */,
 				D562AC26197D829900C2322A /* sftp_small@2x.png */,
 				F98D898A1820EAE30053D5CF /* qnap_small.png */,
@@ -3317,6 +3634,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D5E473461A00446E00A02A1A /* NAStify-DocProvider */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D5E473671A00446F00A02A1A /* Build configuration list for PBXNativeTarget "NAStify-DocProvider" */;
+			buildPhases = (
+				D5E473431A00446E00A02A1A /* Sources */,
+				D5E473441A00446E00A02A1A /* Frameworks */,
+				D5E473451A00446E00A02A1A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				D5E473C71A00D73E00A02A1A /* PBXTargetDependency */,
+				D5E473891A0047F300A02A1A /* PBXTargetDependency */,
+			);
+			name = "NAStify-DocProvider";
+			productName = "NAStify-DocProvider";
+			productReference = D5E473471A00446E00A02A1A /* NAStify-DocProvider.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		F901F7A415D7C7C50059428E /* NAStify */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = F901F7BD15D7C7C50059428E /* Build configuration list for PBXNativeTarget "NAStify" */;
@@ -3332,6 +3668,8 @@
 			);
 			dependencies = (
 				D546FCA719FD3F6400125E62 /* PBXTargetDependency */,
+				D5E473C91A00D74400A02A1A /* PBXTargetDependency */,
+				D5E473521A00446E00A02A1A /* PBXTargetDependency */,
 			);
 			name = NAStify;
 			productName = NAStify;
@@ -3347,6 +3685,10 @@
 				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = CodeIsALie;
 				TargetAttributes = {
+					D5E473461A00446E00A02A1A = {
+						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 7RQA4UEVL6;
+					};
 					F901F7A415D7C7C50059428E = {
 						DevelopmentTeam = 7RQA4UEVL6;
 						SystemCapabilities = {
@@ -3378,6 +3720,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = D5E473AB1A00D71D00A02A1A /* Products */;
+					ProjectRef = D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */;
+				},
+				{
 					ProductGroup = D546FC9E19FD3F4100125E62 /* Products */;
 					ProjectRef = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 				},
@@ -3385,6 +3731,7 @@
 			projectRoot = "";
 			targets = (
 				F901F7A415D7C7C50059428E /* NAStify */,
+				D5E473461A00446E00A02A1A /* NAStify-DocProvider */,
 			);
 		};
 /* End PBXProject section */
@@ -3437,13 +3784,6 @@
 			fileType = archive.ar;
 			path = "libPods-SSKeychain.a";
 			remoteRef = D501D6A719FFA8090032AACD /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D501D74A1A0006AD0032AACD /* libPods-Dropbox-iOS-SDK.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-Dropbox-iOS-SDK.a";
-			remoteRef = D501D7491A0006AD0032AACD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		D546FCA319FD3F4100125E62 /* libPods.a */ = {
@@ -3516,9 +3856,212 @@
 			remoteRef = D546FCF719FE5C5800125E62 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D5E473B11A00D71D00A02A1A /* DropboxSDK.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = DropboxSDK.framework;
+			remoteRef = D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D5E473B31A00D71D00A02A1A /* libSDropboxSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSDropboxSDK.a;
+			remoteRef = D5E473B21A00D71D00A02A1A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D5E473B51A00D71D00A02A1A /* DropboxOSX.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = DropboxOSX.framework;
+			remoteRef = D5E473B41A00D71D00A02A1A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		D5E473451A00446E00A02A1A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5E474761A00F93000A02A1A /* CloseButton@2x.png in Resources */,
+				D5E474771A00F9B400A02A1A /* box@2x.png in Resources */,
+				D5E474781A00F9B400A02A1A /* box_small@2x.png in Resources */,
+				D5E474791A00F9B400A02A1A /* dropbox@2x.png in Resources */,
+				D5E4747A1A00F9B400A02A1A /* dropbox_small@2x.png in Resources */,
+				D5E4747B1A00F9B400A02A1A /* freebox@2x.png in Resources */,
+				D5E4747C1A00F9B400A02A1A /* freebox_small@2x.png in Resources */,
+				D5E4747D1A00F9B400A02A1A /* ftp-ftps-sftp@2x.png in Resources */,
+				D5E4747E1A00F9B400A02A1A /* ftp_small@2x.png in Resources */,
+				D5E4747F1A00F9B400A02A1A /* ftps_small@2x.png in Resources */,
+				D5E4748D1A01111600A02A1A /* local-storage@2x.png in Resources */,
+				D5E4748E1A01111600A02A1A /* local-storage@3x.png in Resources */,
+				D5E474801A00F9B400A02A1A /* sftp_small@2x.png in Resources */,
+				D5E474811A00F9B400A02A1A /* qnap_small@2x.png in Resources */,
+				D5E474821A00F9B400A02A1A /* qnap@2x.png in Resources */,
+				D5E474831A00F9B400A02A1A /* synology_small@2x.png in Resources */,
+				D5E474841A00F9B400A02A1A /* synology@2x.png in Resources */,
+				D5E474851A00F9B400A02A1A /* webdav@2x.png in Resources */,
+				D5E474861A00F9B400A02A1A /* webdav_small@2x.png in Resources */,
+				D5E473DA1A00F92400A02A1A /* 3gp@2x.png in Resources */,
+				D5E473DB1A00F92400A02A1A /* 3gp@3x.png in Resources */,
+				D5E473DC1A00F92400A02A1A /* 7z@2x.png in Resources */,
+				D5E473DD1A00F92400A02A1A /* 7z@3x.png in Resources */,
+				D5E473DE1A00F92400A02A1A /* aa3@2x.png in Resources */,
+				D5E473DF1A00F92400A02A1A /* aa3@3x.png in Resources */,
+				D5E473E01A00F92400A02A1A /* aac@2x.png in Resources */,
+				D5E473E11A00F92400A02A1A /* aac@3x.png in Resources */,
+				D5E473E21A00F92400A02A1A /* ac3@2x.png in Resources */,
+				D5E473E31A00F92400A02A1A /* ac3@3x.png in Resources */,
+				D5E473E41A00F92400A02A1A /* acm@2x.png in Resources */,
+				D5E473E51A00F92400A02A1A /* acm@3x.png in Resources */,
+				D5E473E61A00F92400A02A1A /* aif@2x.png in Resources */,
+				D5E473E71A00F92400A02A1A /* aif@3x.png in Resources */,
+				D5E473E81A00F92400A02A1A /* aifc@2x.png in Resources */,
+				D5E473E91A00F92400A02A1A /* aifc@3x.png in Resources */,
+				D5E473EA1A00F92400A02A1A /* al@2x.png in Resources */,
+				D5E473EB1A00F92400A02A1A /* al@3x.png in Resources */,
+				D5E473EC1A00F92400A02A1A /* alaw@2x.png in Resources */,
+				D5E473ED1A00F92400A02A1A /* alaw@3x.png in Resources */,
+				D5E473EE1A00F92400A02A1A /* amr@2x.png in Resources */,
+				D5E473EF1A00F92400A02A1A /* amr@3x.png in Resources */,
+				D5E473F01A00F92400A02A1A /* ape@2x.png in Resources */,
+				D5E473F11A00F92400A02A1A /* ape@3x.png in Resources */,
+				D5E473F21A00F92400A02A1A /* asf@2x.png in Resources */,
+				D5E473F31A00F92400A02A1A /* asf@3x.png in Resources */,
+				D5E473F41A00F92400A02A1A /* at3@2x.png in Resources */,
+				D5E473F51A00F92400A02A1A /* at3@3x.png in Resources */,
+				D5E473F61A00F92400A02A1A /* avi@2x.png in Resources */,
+				D5E473F71A00F92400A02A1A /* avi@3x.png in Resources */,
+				D5E473F81A00F92400A02A1A /* bmp@2x.png in Resources */,
+				D5E473F91A00F92400A02A1A /* bmp@3x.png in Resources */,
+				D5E473FA1A00F92400A02A1A /* cr2@2x.png in Resources */,
+				D5E473FB1A00F92400A02A1A /* cr2@3x.png in Resources */,
+				D5E473FC1A00F92400A02A1A /* crw@2x.png in Resources */,
+				D5E473FD1A00F92400A02A1A /* crw@3x.png in Resources */,
+				D5E473FE1A00F92400A02A1A /* csv@2x.png in Resources */,
+				D5E473FF1A00F92400A02A1A /* csv@3x.png in Resources */,
+				D5E474001A00F92400A02A1A /* dcr@2x.png in Resources */,
+				D5E474011A00F92400A02A1A /* dcr@3x.png in Resources */,
+				D5E474021A00F92400A02A1A /* divx@2x.png in Resources */,
+				D5E474031A00F92400A02A1A /* divx@3x.png in Resources */,
+				D5E474041A00F92400A02A1A /* dng@2x.png in Resources */,
+				D5E474051A00F92400A02A1A /* dng@3x.png in Resources */,
+				D5E474061A00F92400A02A1A /* doc@2x.png in Resources */,
+				D5E474071A00F92400A02A1A /* doc@3x.png in Resources */,
+				D5E474081A00F92400A02A1A /* dts@2x.png in Resources */,
+				D5E474091A00F92400A02A1A /* dts@3x.png in Resources */,
+				D5E4740A1A00F92400A02A1A /* dtshd@2x.png in Resources */,
+				D5E4740B1A00F92400A02A1A /* dtshd@3x.png in Resources */,
+				D5E4740C1A00F92400A02A1A /* dv@2x.png in Resources */,
+				D5E4740D1A00F92400A02A1A /* dv@3x.png in Resources */,
+				D5E4740E1A00F92400A02A1A /* eject@2x.png in Resources */,
+				D5E4740F1A00F92400A02A1A /* eject@3x.png in Resources */,
+				D5E474101A00F92400A02A1A /* es@2x.png in Resources */,
+				D5E474111A00F92400A02A1A /* es@3x.png in Resources */,
+				D5E474121A00F92400A02A1A /* f4v@2x.png in Resources */,
+				D5E474131A00F92400A02A1A /* f4v@3x.png in Resources */,
+				D5E474141A00F92400A02A1A /* flac@2x.png in Resources */,
+				D5E474151A00F92400A02A1A /* flac@3x.png in Resources */,
+				D5E474161A00F92400A02A1A /* flv@2x.png in Resources */,
+				D5E474171A00F92400A02A1A /* flv@3x.png in Resources */,
+				D5E474181A00F92400A02A1A /* folder@2x.png in Resources */,
+				D5E474191A00F92400A02A1A /* folder@3x.png in Resources */,
+				D5E4741A1A00F92400A02A1A /* fpix@2x.png in Resources */,
+				D5E4741B1A00F92400A02A1A /* fpix@3x.png in Resources */,
+				D5E4741C1A00F92400A02A1A /* fpx@2x.png in Resources */,
+				D5E4741D1A00F92400A02A1A /* fpx@3x.png in Resources */,
+				D5E4741E1A00F92400A02A1A /* gif@2x.png in Resources */,
+				D5E4741F1A00F92400A02A1A /* gif@3x.png in Resources */,
+				D5E474201A00F92400A02A1A /* jpeg@2x.png in Resources */,
+				D5E474211A00F92400A02A1A /* jpeg@3x.png in Resources */,
+				D5E474221A00F92400A02A1A /* jpg@2x.png in Resources */,
+				D5E474231A00F92400A02A1A /* jpg@3x.png in Resources */,
+				D5E474241A00F92400A02A1A /* m2ts@2x.png in Resources */,
+				D5E474251A00F92400A02A1A /* m2ts@3x.png in Resources */,
+				D5E474261A00F92400A02A1A /* m4a@2x.png in Resources */,
+				D5E474271A00F92400A02A1A /* m4a@3x.png in Resources */,
+				D5E474281A00F92400A02A1A /* m4v@2x.png in Resources */,
+				D5E474291A00F92400A02A1A /* m4v@3x.png in Resources */,
+				D5E4742A1A00F92400A02A1A /* mkv@2x.png in Resources */,
+				D5E4742B1A00F92400A02A1A /* mkv@3x.png in Resources */,
+				D5E4742C1A00F92400A02A1A /* mlp@2x.png in Resources */,
+				D5E4742D1A00F92400A02A1A /* mlp@3x.png in Resources */,
+				D5E4742E1A00F92400A02A1A /* mov@2x.png in Resources */,
+				D5E4742F1A00F92400A02A1A /* mov@3x.png in Resources */,
+				D5E474301A00F92400A02A1A /* mp1@2x.png in Resources */,
+				D5E474311A00F92400A02A1A /* mp1@3x.png in Resources */,
+				D5E474321A00F92400A02A1A /* mp2@2x.png in Resources */,
+				D5E474331A00F92400A02A1A /* mp2@3x.png in Resources */,
+				D5E474341A00F92400A02A1A /* mp3@2x.png in Resources */,
+				D5E474351A00F92400A02A1A /* mp3@3x.png in Resources */,
+				D5E474361A00F92400A02A1A /* mp4@2x.png in Resources */,
+				D5E474371A00F92400A02A1A /* mp4@3x.png in Resources */,
+				D5E474381A00F92400A02A1A /* mpc@2x.png in Resources */,
+				D5E474391A00F92400A02A1A /* mpc@3x.png in Resources */,
+				D5E4743A1A00F92400A02A1A /* mpeg@2x.png in Resources */,
+				D5E4743B1A00F92400A02A1A /* mpeg@3x.png in Resources */,
+				D5E4743C1A00F92400A02A1A /* mpg@2x.png in Resources */,
+				D5E4743D1A00F92400A02A1A /* mpg@3x.png in Resources */,
+				D5E4743E1A00F92400A02A1A /* mpga@2x.png in Resources */,
+				D5E4743F1A00F92400A02A1A /* mpga@3x.png in Resources */,
+				D5E474401A00F92400A02A1A /* mpv@2x.png in Resources */,
+				D5E474411A00F92400A02A1A /* mpv@3x.png in Resources */,
+				D5E474421A00F92400A02A1A /* nef@2x.png in Resources */,
+				D5E474431A00F92400A02A1A /* nef@3x.png in Resources */,
+				D5E474441A00F92400A02A1A /* numbers@2x.png in Resources */,
+				D5E474451A00F92400A02A1A /* numbers@3x.png in Resources */,
+				D5E474461A00F92400A02A1A /* oga@2x.png in Resources */,
+				D5E474471A00F92400A02A1A /* oga@3x.png in Resources */,
+				D5E474481A00F92400A02A1A /* ogg@2x.png in Resources */,
+				D5E474491A00F92400A02A1A /* ogg@3x.png in Resources */,
+				D5E4744A1A00F92400A02A1A /* opus@2x.png in Resources */,
+				D5E4744B1A00F92400A02A1A /* opus@3x.png in Resources */,
+				D5E4744C1A00F92400A02A1A /* pdf@2x.png in Resources */,
+				D5E4744D1A00F92400A02A1A /* pdf@3x.png in Resources */,
+				D5E4744E1A00F92400A02A1A /* png@2x.png in Resources */,
+				D5E4744F1A00F92400A02A1A /* png@3x.png in Resources */,
+				D5E474501A00F92400A02A1A /* pnt@2x.png in Resources */,
+				D5E474511A00F92400A02A1A /* pnt@3x.png in Resources */,
+				D5E474521A00F92400A02A1A /* ps@2x.png in Resources */,
+				D5E474531A00F92400A02A1A /* ps@3x.png in Resources */,
+				D5E474541A00F92400A02A1A /* ptng@2x.png in Resources */,
+				D5E474551A00F92400A02A1A /* ptng@3x.png in Resources */,
+				D5E474561A00F92400A02A1A /* ra@2x.png in Resources */,
+				D5E474571A00F92400A02A1A /* ra@3x.png in Resources */,
+				D5E474581A00F92400A02A1A /* raf@2x.png in Resources */,
+				D5E474591A00F92400A02A1A /* raf@3x.png in Resources */,
+				D5E4745A1A00F92400A02A1A /* ram@2x.png in Resources */,
+				D5E4745B1A00F92400A02A1A /* ram@3x.png in Resources */,
+				D5E4745C1A00F92400A02A1A /* rar@2x.png in Resources */,
+				D5E4745D1A00F92400A02A1A /* rar@3x.png in Resources */,
+				D5E4745E1A00F92400A02A1A /* rm@2x.png in Resources */,
+				D5E4745F1A00F92400A02A1A /* rm@3x.png in Resources */,
+				D5E474601A00F92400A02A1A /* rtf@2x.png in Resources */,
+				D5E474611A00F92400A02A1A /* rtf@3x.png in Resources */,
+				D5E474621A00F92400A02A1A /* spx@2x.png in Resources */,
+				D5E474631A00F92400A02A1A /* spx@3x.png in Resources */,
+				D5E474641A00F92400A02A1A /* ts@2x.png in Resources */,
+				D5E474651A00F92400A02A1A /* ts@3x.png in Resources */,
+				D5E474661A00F92400A02A1A /* txt@2x.png in Resources */,
+				D5E474671A00F92400A02A1A /* txt@3x.png in Resources */,
+				D5E474681A00F92400A02A1A /* unknown@2x.png in Resources */,
+				D5E474691A00F92400A02A1A /* unknown@3x.png in Resources */,
+				D5E4746A1A00F92400A02A1A /* vob@2x.png in Resources */,
+				D5E4746B1A00F92400A02A1A /* vob@3x.png in Resources */,
+				D5E4746C1A00F92400A02A1A /* wav@2x.png in Resources */,
+				D5E4746D1A00F92400A02A1A /* wav@3x.png in Resources */,
+				D5E4746E1A00F92400A02A1A /* wma@2x.png in Resources */,
+				D5E4746F1A00F92400A02A1A /* wma@3x.png in Resources */,
+				D5E474701A00F92400A02A1A /* wmv@2x.png in Resources */,
+				D5E474711A00F92400A02A1A /* wmv@3x.png in Resources */,
+				D5E474721A00F92400A02A1A /* xls@2x.png in Resources */,
+				D5E474731A00F92400A02A1A /* xls@3x.png in Resources */,
+				D5E474741A00F92400A02A1A /* zip@2x.png in Resources */,
+				D5E474751A00F92400A02A1A /* zip@3x.png in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F901F7A315D7C7C50059428E /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -3780,6 +4323,7 @@
 				D53032FC19E33110004F7147 /* oga@2x.png in Resources */,
 				D5D308AF190157EE0087F4C6 /* VLCMovieViewController~iphone.xib in Resources */,
 				D53032E219E33110004F7147 /* mlp@2x.png in Resources */,
+				D5E4748B1A0110FC00A02A1A /* local-storage@2x.png in Resources */,
 				D530330E19E33110004F7147 /* raf@2x.png in Resources */,
 				D530329A19E33110004F7147 /* acm@2x.png in Resources */,
 				D530331419E33110004F7147 /* rm@2x.png in Resources */,
@@ -3813,6 +4357,7 @@
 				D53032F519E33110004F7147 /* mpga@3x.png in Resources */,
 				D53032FA19E33110004F7147 /* numbers@2x.png in Resources */,
 				F98D899D1820EAE30053D5CF /* qnap@2x.png in Resources */,
+				D5E4748C1A0110FC00A02A1A /* local-storage@3x.png in Resources */,
 				D5B07CC61917777600882988 /* PlayingExternally@2x~ipad.png in Resources */,
 				D51D0FCC19D1DFE80001ECF8 /* Reader-Export@2x.png in Resources */,
 				D597AA6318C32AE8006FA582 /* dropbox_small.png in Resources */,
@@ -3862,6 +4407,37 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		D5E473431A00446E00A02A1A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D5E473D31A00E79900A02A1A /* ftpparse.c in Sources */,
+				D5E473D11A00E78200A02A1A /* FileBrowserCell.m in Sources */,
+				D5E473D21A00E79300A02A1A /* FileItem.m in Sources */,
+				D5E473CF1A00E74000A02A1A /* SBNetworkActivityIndicator.m in Sources */,
+				D5E4737C1A0045A800A02A1A /* FileProviderViewController.m in Sources */,
+				D5E4737B1A0045A800A02A1A /* FileProviderBrowserViewController.m in Sources */,
+				D5E4734E1A00446E00A02A1A /* DocumentPickerViewController.m in Sources */,
+				D5E4738C1A00C70600A02A1A /* ServerCell.m in Sources */,
+				D5E4738D1A00C70C00A02A1A /* UserAccount.m in Sources */,
+				D5E4738E1A00C71900A02A1A /* ConnectionManager.m in Sources */,
+				D5E4738F1A00C72000A02A1A /* NetworkConnection.m in Sources */,
+				D5E473901A00C72B00A02A1A /* CMBox.m in Sources */,
+				D5E473911A00C73200A02A1A /* CMSamba.m in Sources */,
+				D5E473921A00C73700A02A1A /* CMQnap.m in Sources */,
+				D5E473931A00C73B00A02A1A /* CMFreeboxRev.m in Sources */,
+				D5E473941A00C74100A02A1A /* CMLocal.m in Sources */,
+				D5E473951A00C74900A02A1A /* CMDropbox.m in Sources */,
+				D5E473961A00C74F00A02A1A /* CMSynology.m in Sources */,
+				D5E473971A00C75300A02A1A /* CMFtp.m in Sources */,
+				D5E473981A00C75E00A02A1A /* CMWebDav.m in Sources */,
+				D5E473D61A00F65F00A02A1A /* NSNumberAdditions.m in Sources */,
+				D5E473D71A00F66400A02A1A /* NSStringAdditions.m in Sources */,
+				D5E473D81A00F66D00A02A1A /* NSMutableArrayAdditions.m in Sources */,
+				D5E473D91A00F67F00A02A1A /* NSDataAdditions.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		F901F7A115D7C7C50059428E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -4084,6 +4660,26 @@
 			name = Pods;
 			targetProxy = D546FCA619FD3F6400125E62 /* PBXContainerItemProxy */;
 		};
+		D5E473521A00446E00A02A1A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D5E473461A00446E00A02A1A /* NAStify-DocProvider */;
+			targetProxy = D5E473511A00446E00A02A1A /* PBXContainerItemProxy */;
+		};
+		D5E473891A0047F300A02A1A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Pods;
+			targetProxy = D5E473881A0047F300A02A1A /* PBXContainerItemProxy */;
+		};
+		D5E473C71A00D73E00A02A1A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SDropboxSDK;
+			targetProxy = D5E473C61A00D73E00A02A1A /* PBXContainerItemProxy */;
+		};
+		D5E473C91A00D74400A02A1A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SDropboxSDK;
+			targetProxy = D5E473C81A00D74400A02A1A /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -4106,6 +4702,113 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		D5E473541A00446F00A02A1A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 513D370EB7021CE537F92518 /* Pods.debug.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "NAStify-DocProvider/NAStify_DocProvider.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREFIX_HEADER = "NAStify-DocProvider/NAStify-DocProvider-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "NAStify-DocProvider/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/external/curl/lib",
+					"$(SRCROOT)/external/openssl/lib",
+					"$(SRCROOT)/external/neon/lib",
+					"$(SRCROOT)/external/libssh2/lib",
+					"$(PROJECT_DIR)/external/curl/lib",
+					"$(PROJECT_DIR)/external/libssh2/lib",
+					"$(PROJECT_DIR)/external/neon/lib",
+					"$(PROJECT_DIR)/external/openssl/lib",
+				);
+				MTL_ENABLE_DEBUG_INFO = YES;
+				OTHER_CFLAGS = "$(inherited)";
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		D5E473551A00446F00A02A1A /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A6953849EB9283B9A860C597 /* Pods.release.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_ENTITLEMENTS = "NAStify-DocProvider/NAStify_DocProvider.entitlements";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_PREFIX_HEADER = "NAStify-DocProvider/NAStify-DocProvider-Prefix.pch";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "NAStify-DocProvider/Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/external/curl/lib",
+					"$(SRCROOT)/external/openssl/lib",
+					"$(SRCROOT)/external/neon/lib",
+					"$(SRCROOT)/external/libssh2/lib",
+					"$(PROJECT_DIR)/external/curl/lib",
+					"$(PROJECT_DIR)/external/libssh2/lib",
+					"$(PROJECT_DIR)/external/neon/lib",
+					"$(PROJECT_DIR)/external/openssl/lib",
+				);
+				MTL_ENABLE_DEBUG_INFO = NO;
+				OTHER_CFLAGS = (
+					"-DNS_BLOCK_ASSERTIONS=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		F901F7BB15D7C7C50059428E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4187,9 +4890,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
 					"$(SRCROOT)/external/curl/lib/include",
 					"${SDKROOT}/usr/include/libxml2",
-					"$(SDKROOT)/DropboxSDK/Classes/DropboxSDK",
 					"$(SRCROOT)/external/MediaLibraryKit/build/Release-iphoneos/include",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos/include",
 					"\"$(BUILT_PRODUCTS_DIR)\"/**",
@@ -4210,10 +4913,7 @@
 					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
 				);
 				OTHER_CFLAGS = "$(inherited)";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"$(inherited)",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4243,9 +4943,9 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
 					"$(SRCROOT)/external/curl/lib/include",
 					"${SDKROOT}/usr/include/libxml2",
-					"$(SDKROOT)/DropboxSDK/Classes/DropboxSDK",
 					"$(SRCROOT)/external/MediaLibraryKit/build/Release-iphoneos/include",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos/include",
 					"\"$(BUILT_PRODUCTS_DIR)\"/**",
@@ -4269,10 +4969,7 @@
 					"-DNS_BLOCK_ASSERTIONS=1",
 					"$(inherited)",
 				);
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"$(inherited)",
-				);
+				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -4284,6 +4981,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D5E473671A00446F00A02A1A /* Build configuration list for PBXNativeTarget "NAStify-DocProvider" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D5E473541A00446F00A02A1A /* Debug */,
+				D5E473551A00446F00A02A1A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		F901F79F15D7C7C50059428E /* Build configuration list for PBXProject "NAStify" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

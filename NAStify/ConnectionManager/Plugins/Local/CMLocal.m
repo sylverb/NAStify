@@ -181,13 +181,14 @@
 }
 #endif
 
-#ifndef APP_EXTENSION
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder
 {
+#ifndef APP_EXTENSION
     __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     }];
+#endif
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
         NSError *error = nil;
@@ -214,11 +215,12 @@
                                                nil]];
             });
         }
+#ifndef APP_EXTENSION
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
+#endif
     });
 }
-#endif
 
 #ifndef APP_EXTENSION
 - (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder
@@ -374,7 +376,7 @@
         {
             NSString *fileDest = [destFolder.fullPath stringByAppendingPathComponent:file.name];
             
-            // If we want to overwrite but destination file exists, delete existing file before moving
+            // If we want to overwrite but destination file exists, delete existing file before copying
             if ((overwrite) && ([self.fileManager fileExistsAtPath:fileDest]))
             {
                 [self.fileManager removeItemAtPath:fileDest error:nil];
@@ -916,7 +918,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
         NSError *error = nil;
         
-        // If we want to overwrite but destination file exists, delete existing file before moving
+        // Delete existing file before copying
         if ([self.fileManager fileExistsAtPath:localName])
         {
             [self.fileManager removeItemAtPath:localName error:nil];
@@ -944,6 +946,52 @@
     });
 }
 #endif
+
+- (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
+{
+#ifndef APP_EXTENSION
+    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+#endif
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
+        NSError *error = nil;
+        
+        NSString *fileDest = [destFolder.fullPath stringByAppendingPathComponent:file.name];
+        
+        // If we want to overwrite but destination file exists, delete existing file before moving
+        if ((overwrite) && ([self.fileManager fileExistsAtPath:fileDest]))
+        {
+            [self.fileManager removeItemAtPath:fileDest error:nil];
+        }
+        
+        if ([self.fileManager copyItemAtPath:file.fullPath
+                                      toPath:fileDest
+                                       error:&error])
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:YES],@"success",
+                                               nil]];
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               [error localizedDescription],@"error",
+                                               nil]];
+            });
+        }
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
+    });
+}
 
 #ifndef APP_EXTENSION
 - (NetworkConnection *)urlForVideo:(FileItem *)file
@@ -1017,6 +1065,10 @@
                          CMSupportedFeaturesMaskCompress       |
                          CMSupportedFeaturesMaskExtract        |
                          CMSupportedFeaturesMaskSearch         |
+#ifdef APP_EXTENSION
+                         CMSupportedFeaturesMaskFileDownload   |
+                         CMSupportedFeaturesMaskFileUpload     |
+#endif
                          CMSupportedFeaturesMaskQTPlayer       |
                          CMSupportedFeaturesMaskVLCPlayer      |
                          CMSupportedFeaturesMaskVideoSeek      |

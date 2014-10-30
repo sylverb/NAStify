@@ -651,7 +651,6 @@
 
 #pragma mark - Folder creation management
 
-#ifndef APP_EXTENSION
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder
 {
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
@@ -716,7 +715,6 @@
                success:successBlock
                failure:failureBlock];
 }
-#endif
 
 #pragma mark - delete management
 
@@ -2090,7 +2088,6 @@
 
 #pragma mark - upload management
 
-#ifndef APP_EXTENSION
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
 {
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
@@ -2287,7 +2284,6 @@
                  success:successBlock
                  failure:failureBlock];
 }
-#endif
 
 #pragma mark - url management
 

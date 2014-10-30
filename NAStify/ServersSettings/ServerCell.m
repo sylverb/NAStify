@@ -107,8 +107,14 @@
             self.fileTypeImage.image = [UIImage imageNamed:@"box_small.png"];
             break;
         }
+        case SERVER_TYPE_LOCAL:
+        {
+            self.fileTypeImage.image = [UIImage imageNamed:@"local-storage.png"];
+            break;
+        }
         default:
         {
+            self.fileTypeImage.image = nil;
             break;
         }
     }

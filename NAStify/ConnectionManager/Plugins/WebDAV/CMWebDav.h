@@ -44,17 +44,15 @@
 - (BOOL)login;
 - (BOOL)logout;
 - (void)listForPath:(FileItem *)folder;
-#ifndef APP_EXTENSION
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
+#ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files;
 - (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder;
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
 - (void)copyFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
 #endif
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localpath;
-#ifndef APP_EXTENSION
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
-#endif
 
 #ifndef APP_EXTENSION
 - (NetworkConnection *)urlForFile:(FileItem *)file;

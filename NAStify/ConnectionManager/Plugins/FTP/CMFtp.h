@@ -37,16 +37,16 @@ struct CurlMemoryStruct {
 - (NSArray *)serverInfo;
 - (BOOL)login;
 - (void)listForPath:(FileItem *)folder;
-#ifndef APP_EXTENSION
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
+#ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files;
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
 - (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder;
 #endif
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName;
-#ifndef APP_EXTENSION
+- (void)cancelDownloadTask;
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
-#endif
+- (void)cancelUploadTask;
 
 /* File URL requests */
 #ifndef APP_EXTENSION
