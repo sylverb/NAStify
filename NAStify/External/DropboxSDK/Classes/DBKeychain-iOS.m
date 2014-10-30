@@ -15,12 +15,25 @@ static NSDictionary *kDBKeychainDict;
 
 @implementation DBKeychain
 
++ (NSString *)mainBundleName
+{
+	// Always return main application bundle name (for app extensions, remove last component)
+	NSMutableArray *components = [NSMutableArray arrayWithArray:[[[NSBundle mainBundle] bundleIdentifier] componentsSeparatedByString:@"."]];
+	while ([components count] > 3) {
+		[components removeLastObject];
+	}
+	return [components componentsJoinedByString:@"."];
+}
+
 + (void)initialize {
 	if ([self class] != [DBKeychain class]) return;
-	NSString *keychainId = [NSString stringWithFormat:@"%@.dropbox.auth", [[NSBundle mainBundle] bundleIdentifier]];
+	NSString *keychainId = [NSString stringWithFormat:@"%@.dropbox.auth", [self mainBundleName]];
 	kDBKeychainDict = [[NSDictionary alloc] initWithObjectsAndKeys:
 					   (id)kSecClassGenericPassword, (id)kSecClass,
 					   keychainId, (id)kSecAttrService,
+#if TARGET_OS_IPHONE && !TARGET_IPHONE_SIMULATOR
+					   @"7RQA4UEVL6.com.sylver.NAStify",(id)kSecAttrAccessGroup,
+#endif
 					   nil];
 }
 
