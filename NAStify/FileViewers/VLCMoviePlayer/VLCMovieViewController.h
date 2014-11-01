@@ -28,6 +28,7 @@
 @property (nonatomic, strong) IBOutlet UIBarButtonItem *backButton;
 @property (nonatomic, strong) IBOutlet OBSlider *positionSlider;
 @property (nonatomic, strong) IBOutlet UIButton *timeDisplay;
+@property (nonatomic, strong) IBOutlet UIButton *googleCastButton;
 @property (nonatomic, strong) IBOutlet UIButton *playPauseButton;
 @property (nonatomic, strong) IBOutlet UIButton *playPauseButtonLandscape;
 @property (nonatomic, strong) IBOutlet UIButton *bwdButton;

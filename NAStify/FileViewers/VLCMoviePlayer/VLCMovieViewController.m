@@ -147,6 +147,18 @@
 {
     [super viewDidLoad];
 
+    // GoogleCast controller init
+    _gcController = [GoogleCastController sharedGCController];
+    _gcController.delegate = self;
+    
+    if (_gcController.deviceScanner.devices.count != 0)
+    {
+        self.googleCastButton.hidden = FALSE;
+    }
+    else
+    {
+        self.googleCastButton.hidden = TRUE;
+    }
     self.videoFilterView.hidden = YES;
     _videoFiltersHidden = YES;
     _hueLabel.text = NSLocalizedString(@"VFILTER_HUE", @"");
@@ -323,10 +335,6 @@
 
     [self.movieView setAccessibilityLabel:NSLocalizedString(@"VO_VIDEOPLAYER_TITLE", @"")];
     [self.movieView setAccessibilityHint:NSLocalizedString(@"VO_VIDEOPLAYER_DOUBLETAP", @"")];
-    
-    // GoogleCast controller init
-    _gcController = [GoogleCastController sharedGCController];
-    _gcController.delegate = self;
 }
 
 - (void)volumeChanged:(NSNotification *)notification {
@@ -1979,13 +1987,27 @@
 #pragma mark - GCControllerDelegate
 
 - (void)didDiscoverDeviceOnNetwork {
-    // Add the chromecast icon if not present.
-//    self.navigationItem.rightBarButtonItem = _chromecastController.chromecastBarButton;
     NSLog(@"didDiscoverDeviceOnNetwork");
+    if (_gcController.deviceScanner.devices.count != 0)
+    {
+        self.googleCastButton.hidden = FALSE;
+    }
+    else
+    {
+        self.googleCastButton.hidden = TRUE;
+    }
 }
 
 - (void)updateGCState
 {
+    if (_gcController.deviceScanner.devices.count != 0)
+    {
+        self.googleCastButton.hidden = FALSE;
+    }
+    else
+    {
+        self.googleCastButton.hidden = TRUE;
+    }
     NSLog(@"updateGCState");
     if ([_gcController isConnected]) {
         NSLog(@"to analyse");
