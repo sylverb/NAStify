@@ -17,7 +17,7 @@
 	{
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
-			self.label = [[UILabel alloc] initWithFrame:CGRectMake(55,11,170,21)];
+			self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,170,21)];
 		}
         else
         {
@@ -35,7 +35,7 @@
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
-			self.switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(170,8,0,0)];
+			self.switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(215,8,0,0)];
 		}
         else
         {

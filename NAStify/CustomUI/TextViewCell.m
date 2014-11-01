@@ -17,7 +17,7 @@
 	{
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
-			self.label = [[UILabel alloc] initWithFrame:CGRectMake(55,11,112,21)];
+			self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,112,21)];
 		}
         else
         {

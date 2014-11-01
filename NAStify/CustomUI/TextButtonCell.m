@@ -21,8 +21,10 @@
 	{
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
-            label = [[UILabel alloc] initWithFrame:CGRectMake(55,11,157,21)];
-		} else {
+            label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,157,21)];
+		}
+        else
+        {
 			label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,157,21)];
 		}
         label.backgroundColor = [UIColor clearColor];

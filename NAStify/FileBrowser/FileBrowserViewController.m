@@ -191,6 +191,7 @@
     [buttonItems addObject:[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemOrganize
                                                                          target:self
                                                                          action:@selector(sortButton:)]];
+    
     if ([[defaults objectForKey:kNASTifySettingBrowserShowGCast] boolValue] &&
         ServerSupportsFeature(GoogleCast) &&
         (_gcController.deviceScanner.devices.count != 0))
@@ -1867,6 +1868,13 @@
 
 #pragma mark - UIActionSheetDelegate
 
+- (void)showOpenInMenu:(UITableViewCell *)cell
+{
+    [self.documentInteractionController presentOpenInMenuFromRect:cell.frame
+                                                           inView:cell.superview
+                                                         animated:YES];
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
 	if (buttonIndex == -1)
@@ -2078,6 +2086,8 @@
                 // Present an Open in menu
                 CGRect openInRect;
                 UIView *openInView = nil;
+                
+                FileBrowserCell *openInCell;
                 if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                 {
                     openInRect = CGRectZero;
@@ -2090,8 +2100,8 @@
                     {
                         if ([cell.nameLabel.text isEqualToString:fileItem.name])
                         {
-                            openInRect = cell.frame;
-                            openInView = self.view;
+                            openInCell = cell;
+                            [self performSelector:@selector(showOpenInMenu:) withObject:openInCell afterDelay:0.1];
                             break;
                         }
                     }
@@ -2100,11 +2110,10 @@
                 {
                     openInRect = CGRectZero;
                     openInView = self.view.superview;
+                    [self.documentInteractionController presentOpenInMenuFromRect:openInRect
+                                                                           inView:openInView
+                                                                         animated:YES];
                 }
-                //FIXME: not working on iPad !
-                [self.documentInteractionController presentOpenInMenuFromRect:openInRect
-                                                                       inView:openInView
-                                                                     animated:YES];
             }
             else if (buttonIndex == self.downloadButtonIndex)
             {
