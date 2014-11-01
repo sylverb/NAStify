@@ -43,18 +43,31 @@ static NSString * kReceiverAppID;
 }
 
 #pragma mark - GCKDeviceScannerListener
+
+- (void)callDelegateDidDiscoverDeviceOnNetwork
+{
+    [self.delegate didDiscoverDeviceOnNetwork];
+}
+
+- (void)callDelegateupdateGCState
+{
+    [self.delegate updateGCState];
+}
+
 - (void)deviceDidComeOnline:(GCKDevice *)device {
     NSLog(@"device found!! %@", device.friendlyName);
     if ([self.delegate respondsToSelector:@selector(didDiscoverDeviceOnNetwork)])
     {
-        [self.delegate didDiscoverDeviceOnNetwork];
+        // Trigger an update in the next run loop so we pick up the updated devices array.
+        [self performSelector:@selector(callDelegateDidDiscoverDeviceOnNetwork) withObject:nil afterDelay:0];
     }
 }
 
 - (void)deviceDidGoOffline:(GCKDevice *)device {
-    if ([self.delegate respondsToSelector:@selector(didDiscoverDeviceOnNetwork)])
+    if ([self.delegate respondsToSelector:@selector(updateGCState)])
     {
-        [self.delegate updateGCState];
+        // Trigger an update in the next run loop so we pick up the updated devices array.
+        [self performSelector:@selector(callDelegateupdateGCState) withObject:nil afterDelay:0];
     }
 }
 
@@ -120,8 +133,8 @@ volumeDidChangeToLevel:(float)volumeLevel
     
 }
 
-- (void)deviceManager:(GCKDeviceManager *)deviceManager
-didReceiveStatusForApplication:(GCKApplicationMetadata *)applicationMetadata {
+- (void)deviceManager:(GCKDeviceManager *)deviceManager didReceiveApplicationMetadata:(GCKApplicationMetadata *)applicationMetadata
+{
     self.applicationMetadata = applicationMetadata;
 }
 
@@ -273,7 +286,7 @@ didCompleteLoadWithSessionID:(NSInteger)sessionID {
 
 - (void)logFromFunction:(const char *)function message:(NSString *)message {
     // Send SDK’s log messages directly to the console, as an example.
-    NSLog(@"%s  %@", function, message);
+//    NSLog(@"%s  %@", function, message);
 }
 
 @end
