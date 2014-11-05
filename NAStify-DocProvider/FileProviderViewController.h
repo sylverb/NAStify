@@ -10,11 +10,6 @@
 #import "ServerCell.h"
 #import "DocumentPickerViewController.h"
 
-typedef enum {
-    ProviderModeImport,
-    ProviderModeExport
-} ProviderMode;
-
 @class ConnectionManager;
 
 @interface FileProviderViewController : UITableViewController<UITextFieldDelegate>

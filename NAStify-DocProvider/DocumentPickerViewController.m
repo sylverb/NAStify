@@ -9,16 +9,17 @@
 #import "DocumentPickerViewController.h"
 #import "FileProviderViewController.h"
 #import "SSKeychain.h"
-#import "LTHPasscodeViewController.h"
 #import "private.h"
 
 @implementation DocumentPickerViewController
 
-- (void)openDocument:(NSString *)path {
+- (void)openDocument:(NSString *)path
+{
     NSURL *documentURL = [NSURL fileURLWithPath:path];
     NSFileManager *manager = [NSFileManager defaultManager];
     
-    if (![manager fileExistsAtPath:[documentURL path]]) {
+    if (![manager fileExistsAtPath:[documentURL path]])
+    {
         return;
     }
 
@@ -44,12 +45,12 @@
     [self dismissGrantingAccessToURL:nil];
 }
 
--(void)prepareForPresentationInMode:(UIDocumentPickerMode)mode {
-    // Show Passkey if needed
-    if ([LTHPasscodeViewController doesPasscodeExist])
-    {
-        [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES withLogout:NO andLogoutTitle:nil];
-    }
+-(void)prepareForPresentationInMode:(UIDocumentPickerMode)mode
+{
+    // Setup Passkey controller
+    [LTHPasscodeViewController sharedUser].delegate = self;
+    [LTHPasscodeViewController sharedUser].maxNumberOfAllowedFailedAttempts = 3;
+    [LTHPasscodeViewController sharedUser].keychainAccessGroup = @"7RQA4UEVL6.com.sylver.NAStify";
 
     // Prepare "File Provider Storage" folder (delete previous one and create it again to clean it)
     NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
@@ -75,31 +76,72 @@
     {
         case UIDocumentPickerModeImport:
         {
-            FileProviderViewController *vc = [[FileProviderViewController alloc] init];
-            vc.delegate = self;
-            vc.validTypes = self.validTypes;
-            vc.mode = ProviderModeImport;
-            self.nc = [[UINavigationController alloc] initWithRootViewController:vc];
-            [self presentViewController:self.nc
-                               animated:YES
-                             completion:nil];
+            self.mode = ProviderModeImport;
+            if ([LTHPasscodeViewController doesPasscodeExist])
+            {
+                [[LTHPasscodeViewController sharedUser] showLockScreenInViewController:self asModal:YES];
+            }
+            else
+            {
+                FileProviderViewController *vc = [[FileProviderViewController alloc] init];
+                vc.delegate = self;
+                vc.validTypes = self.validTypes;
+                vc.mode = self.mode;
+                self.nc = [[UINavigationController alloc] initWithRootViewController:vc];
+                [self presentViewController:self.nc
+                                   animated:YES
+                                 completion:nil];
+            }
             break;
         }
         case UIDocumentPickerModeExportToService:
         {
-            FileProviderViewController *vc = [[FileProviderViewController alloc] init];
-            vc.delegate = self;
-            vc.validTypes = self.validTypes;
-            vc.mode = ProviderModeExport;
-            vc.fileURL = self.originalURL;
-            self.nc = [[UINavigationController alloc] initWithRootViewController:vc];
-            [self presentViewController:self.nc
-                               animated:YES
-                             completion:nil];
+            self.mode = ProviderModeExport;
+            if ([LTHPasscodeViewController doesPasscodeExist])
+            {
+                [[LTHPasscodeViewController sharedUser] showLockScreenInViewController:self asModal:YES];
+            }
+            else
+            {
+                FileProviderViewController *vc = [[FileProviderViewController alloc] init];
+                vc.delegate = self;
+                vc.validTypes = self.validTypes;
+                vc.mode = self.mode;
+                vc.fileURL = self.originalURL;
+                self.nc = [[UINavigationController alloc] initWithRootViewController:vc];
+                [self presentViewController:self.nc
+                                   animated:YES
+                                 completion:nil];
+            }
         }
         default:
             break;
     }
+}
+
+#pragma mark - LTHPasscodeViewControllerDelegate methods
+
+- (void)passcodeViewControllerWillClose:(NSNumber *)passcodeWasEnteredSuccessfully
+{
+    // If we quit the screen lock without a good passcode, we have to dismiss Document provider
+    if (![passcodeWasEnteredSuccessfully boolValue])
+    {
+        [self dismissGrantingAccessToURL:nil];
+    }
+}
+
+- (void)passcodeWasEnteredSuccessfully
+{
+    // Passcode ok, push the server list view controller
+    FileProviderViewController *vc = [[FileProviderViewController alloc] init];
+    vc.delegate = self;
+    vc.validTypes = self.validTypes;
+    vc.mode = self.mode;
+    vc.fileURL = self.originalURL;
+    self.nc = [[UINavigationController alloc] initWithRootViewController:vc];
+    [self presentViewController:self.nc
+                       animated:YES
+                     completion:nil];
 }
 
 #pragma mark - DBSessionDelegate methods

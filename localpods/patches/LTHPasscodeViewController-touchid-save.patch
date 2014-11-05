@@ -1,0 +1,194 @@
+5afa474775d3129cdc4becfeae5adb5a8404f1d5
+diff --git a/Demo/LTHPasscodeViewController Demo/LTHDemoViewController.m b/Demo/LTHPasscodeViewController Demo/LTHDemoViewController.m
+index f16912b..ad28de4 100644
+--- a/Demo/LTHPasscodeViewController Demo/LTHDemoViewController.m	
++++ b/Demo/LTHPasscodeViewController Demo/LTHDemoViewController.m	
+@@ -18,6 +18,8 @@
+ @property (nonatomic, strong) UIButton *turnOffPasscode;
+ @property (nonatomic, strong) UILabel  *typeLabel;
+ @property (nonatomic, strong) UISwitch *typeSwitch;
++@property (nonatomic, strong) UILabel *touchIDLabel;
++@property (nonatomic, strong) UISwitch *touchIDSwitch;
+ @end
+ 
+ 
+@@ -49,6 +51,7 @@
+ 	}
+     
+     _typeSwitch.on = [[LTHPasscodeViewController sharedUser] isSimple];
++    _touchIDSwitch.on = [[LTHPasscodeViewController sharedUser] allowUnlockWithTouchID];
+ }
+ 
+ - (void)viewDidLoad {
+@@ -66,6 +69,8 @@
+     
+     _typeLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 230, 60, 30}];
+ 	_typeSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 260, 100, 100}];
++    _touchIDLabel = [[UILabel alloc] initWithFrame:(CGRect){230, 330, 60, 30}];
++    _touchIDSwitch = [[UISwitch alloc] initWithFrame:(CGRect){230, 360, 100, 100}];
+ 	_enablePasscode.frame = CGRectMake(100, 100, 100, 50);
+ 	_testPasscode.frame = CGRectMake(100, 200, 100, 50);
+ 	_changePasscode.frame = CGRectMake(100, 300, 100, 50);
+@@ -77,6 +82,7 @@
+ 	[_testPasscode setTitle: @"Test" forState: UIControlStateNormal];
+ 	[_enablePasscode setTitle: @"Enable" forState: UIControlStateNormal];
+     _typeLabel.text = @"Simple";
++    _touchIDLabel.text = @"TouchID";
+ 	
+ 	[self _refreshUI];
+ 	
+@@ -85,6 +91,7 @@
+ 	[_testPasscode addTarget: self action: @selector(_testPasscode) forControlEvents: UIControlEventTouchUpInside];
+ 	[_turnOffPasscode addTarget: self action: @selector(_turnOffPasscode) forControlEvents: UIControlEventTouchUpInside];
+     [_typeSwitch addTarget:self action:@selector(_switchPasscodeType:) forControlEvents:UIControlEventValueChanged];
++    [_touchIDSwitch addTarget:self action:@selector(_switchTouchIDType:) forControlEvents:UIControlEventValueChanged];
+ 	
+ 	[self.view addSubview: _changePasscode];
+ 	[self.view addSubview: _turnOffPasscode];
+@@ -92,6 +99,8 @@
+ 	[self.view addSubview: _enablePasscode];
+     [self.view addSubview:_typeSwitch];
+     [self.view addSubview:_typeLabel];
++    [self.view addSubview:_touchIDSwitch];
++    [self.view addSubview:_touchIDLabel];
+ }
+ 
+ 
+@@ -129,6 +138,10 @@
+                                                 asModal:YES];
+ }
+ 
++- (void)_switchTouchIDType:(UISwitch *)sender {
++    [[LTHPasscodeViewController sharedUser] setAllowUnlockWithTouchID:sender.isOn];
++}
++
+ - (void)showLockViewForEnablingPasscode {
+ 	[[LTHPasscodeViewController sharedUser] showForEnablingPasscodeInViewController:self
+                                                                             asModal:YES];
+diff --git a/LTHPasscodeViewController/LTHPasscodeViewController.h b/LTHPasscodeViewController/LTHPasscodeViewController.h
+index 762306d..f98822a 100644
+--- a/LTHPasscodeViewController/LTHPasscodeViewController.h
++++ b/LTHPasscodeViewController/LTHPasscodeViewController.h
+@@ -73,6 +73,18 @@
+  @return The passcode.
+  */
+ - (NSString *)passcode;
++/**
++ @brief   Retrieve here the saved preference for allowing the use of Touch ID.
++ @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
++ @return allowUnlockWithTouchID boolean.
++ */
++- (BOOL)allowUnlockWithTouchID;
++/**
++ @brief   Handle here the saving of the preference for allowing the use of Touch ID.
++ @details Called if @c +useKeychain:NO was used, but falls back to the Keychain anyway if not implemented.
++ @param allowUnlockWithTouchID The boolean for the preference for allowing the use of Touch ID.
++ */
++- (void)saveAllowUnlockWithTouchID:(BOOL)allowUnlockWithTouchID;
+ @end
+ 
+ @interface LTHPasscodeViewController : UIViewController
+@@ -169,6 +181,10 @@
+  */
+ @property (nonatomic, strong) NSString  *keychainTimerDurationUsername;
+ /**
++ @brief The string to be used as username for allow Touch ID unlock in the Keychain.
++ */
++@property (nonatomic, strong) NSString  *keychainAllowUnlockWithTouchID;
++/**
+  @brief The string to be used as service name for all the Keychain entries.
+  */
+ @property (nonatomic, strong) NSString  *keychainServiceName;
+diff --git a/LTHPasscodeViewController/LTHPasscodeViewController.m b/LTHPasscodeViewController/LTHPasscodeViewController.m
+index 5eefd9c..843f2dc 100644
+--- a/LTHPasscodeViewController/LTHPasscodeViewController.m
++++ b/LTHPasscodeViewController/LTHPasscodeViewController.m
+@@ -208,6 +208,45 @@ options:NSNumericSearch] != NSOrderedAscending)
+ 							   error:nil];
+ }
+ 
++- (void)setAllowUnlockWithTouchID:(BOOL)setAllowUnlockWithTouchID
++{
++    _allowUnlockWithTouchID = setAllowUnlockWithTouchID;
++    [self _saveAllowUnlockWithTouchID];
++}
++
++- (BOOL)_allowUnlockWithTouchID {
++    if (!_usesKeychain &&
++        [self.delegate respondsToSelector:@selector(allowUnlockWithTouchID)]) {
++        return [self.delegate allowUnlockWithTouchID];
++    }
++    
++    NSString *keychainValue =
++    [LTHKeychainUtils getPasswordForUsername:_keychainAllowUnlockWithTouchID
++                              andServiceName:_keychainServiceName
++                              andAccessGroup:_keychainAccessGroup
++                                       error:nil];
++    if (!keychainValue) return YES;
++    return keychainValue.boolValue;
++}
++
++
++- (void)_saveAllowUnlockWithTouchID {
++    if (!_usesKeychain &&
++        [self.delegate respondsToSelector:@selector(saveAllowUnlockWithTouchID:)]) {
++        [self.delegate saveAllowUnlockWithTouchID:_allowUnlockWithTouchID];
++        
++        return;
++    }
++    
++    [LTHKeychainUtils storeUsername:_keychainAllowUnlockWithTouchID
++                        andPassword:[NSString stringWithFormat: @"%d",
++                                     _allowUnlockWithTouchID]
++                     forServiceName:_keychainServiceName
++                     andAccessGroup:_keychainAccessGroup
++                     updateExisting:YES
++                              error:nil];
++}
++
+ 
+ - (BOOL)_didPasscodeTimerEnd {
+     if (!_usesKeychain &&
+@@ -953,6 +992,9 @@ options:NSNumericSearch] != NSOrderedAscending)
+ 
+ - (void)showLockScreenInViewController:(UIViewController *)viewController asModal:(BOOL)isModal
+ {
++    // We need to refresh the value for App Extension
++    _allowUnlockWithTouchID = [self _allowUnlockWithTouchID];
++    
+ 	_displayedAsModal = isModal;
+ 	[self _prepareAsLockScreen];
+ 	[self _prepareNavigationControllerWithController:viewController];
+@@ -1457,12 +1499,12 @@ options:NSNumericSearch] != NSOrderedAscending)
+ 
+ 
+ - (void)_loadDefaults {
++    [self _loadKeychainDefaults];
+     [self _loadMiscDefaults];
+     [self _loadStringDefaults];
+     [self _loadGapDefaults];
+     [self _loadFontDefaults];
+     [self _loadColorDefaults];
+-    [self _loadKeychainDefaults];
+ }
+ 
+ 
+@@ -1474,9 +1516,9 @@ options:NSNumericSearch] != NSOrderedAscending)
+     _usesKeychain = YES;
+     _displayedAsModal = YES;
+     _hidesBackButton = YES;
+-    _allowUnlockWithTouchID = YES;
+     _passcodeCharacter = @"\u2014"; // A longer "-";
+     _localizationTableName = @"LTHPasscodeViewController";
++    _allowUnlockWithTouchID = [self _allowUnlockWithTouchID];
+ }
+ 
+ 
+@@ -1536,6 +1578,7 @@ options:NSNumericSearch] != NSOrderedAscending)
+     _keychainTimerStartUsername = @"demoPasscodeTimerStart";
+     _keychainServiceName = @"demoServiceName";
+     _keychainTimerDurationUsername = @"passcodeTimerDuration";
++    _keychainAllowUnlockWithTouchID = @"allowUnlockWithTouchID";
+     _keychainAccessGroup = nil;
+ }
+ 

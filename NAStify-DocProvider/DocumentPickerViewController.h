@@ -7,15 +7,21 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LTHPasscodeViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
 
-@interface DocumentPickerViewController : UIDocumentPickerExtensionViewController <DBSessionDelegate>
+typedef enum {
+    ProviderModeImport,
+    ProviderModeExport
+} ProviderMode;
+
+@interface DocumentPickerViewController : UIDocumentPickerExtensionViewController <DBSessionDelegate, LTHPasscodeViewControllerDelegate>
 
 @property(nonatomic,retain) UINavigationController *nc;
+@property(nonatomic) ProviderMode mode;
+@property (strong, nonatomic) NSString *relinkUserId; // Dropbox relink handling
 
 - (void)openDocument:(NSString *)path;
 - (void)uploadFinished;
-
-@property (strong, nonatomic) NSString *relinkUserId; // Dropbox relink handling
 
 @end

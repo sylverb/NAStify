@@ -6,7 +6,7 @@ pod 'CocoaHTTPServer', '2.3'
 pod 'DACircularProgress', :git => 'https://github.com/danielamitay/DACircularProgress.git', :commit => 'ccc7a2e'
 pod 'ELCImagePickerController', :git => 'https://github.com/B-Sides/ELCImagePickerController.git', :commit => 'b57e2f3'
 pod 'ISO8601DateFormatter', '0.7'
-pod 'LTHPasscodeViewController', '3.3.2'
+pod 'LTHPasscodeViewController', '3.3.3'
 pod 'MBProgressHUD', :git => 'https://github.com/jdg/MBProgressHUD.git', :commit => 'fc1903f'
 pod 'objective-zip', '0.8.3'
 pod 'OBSlider', '1.1.0'
@@ -27,7 +27,8 @@ post_install do |installer|
     puts 'Patching SSKeychain to add automatic AccessGroup filling'
     %x(patch Pods/SSKeychain/SSKeychain/SSKeychain.m < localpods/patches/SSKeychain-automatic-accessgroup.patch)
     puts 'Patching LTHPasscodeViewController to add automatic AccessGroup filling'
-    %x(patch -Np1 < localpods/patches/LTHPasscodeViewController-automatic-accessgroup.patch)
+    %x(patch -Np1 < localpods/patches/LTHPasscodeViewController-app-extension.patch)
+    %x(patch -Np1 < localpods/patches/LTHPasscodeViewController-touchid-save.patch)
 #    puts 'Patching SDWebImage to add RAW images decoding (using libRaw)'
 #    %x(patch -Np1 < localpods/patches/SDWebImage-add-libRaw-use.patch)
 #    puts 'Patching MWPhotoBrowser to enable cookies usage and invalid certificates'
