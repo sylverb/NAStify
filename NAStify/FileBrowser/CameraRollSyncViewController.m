@@ -877,7 +877,7 @@
         
         [self performSelector:@selector(uploadNextFile)
                    withObject:nil
-                   afterDelay:0.1];
+                   afterDelay:0];
     }
     else if (([self.assetItems count] == 0) ||
              (self.parsingOnProgress == YES))
