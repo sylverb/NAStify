@@ -78,13 +78,10 @@
     self.uploadOnProgress = NO;
     self.allAlbumsSelected = YES;
     
-    //
     self.connectionManager.delegate = self;
     
-    self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
-    [self.hud hide:NO];
-    
     self.parsingOnProgress = YES;
+    
     /* Get file list */
     [self.connectionManager listForPath:self.currentFolder];
     
@@ -858,6 +855,8 @@
         self.filesTotal = [self.assetItems count];
         self.filesCount = 1;
 
+        self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
+
         if (ServerSupportsFeature(UploadCancel))
         {
             self.hud.allowsCancelation = YES;
@@ -1085,7 +1084,6 @@
         if ([[asset valueForProperty:ALAssetPropertyAssetURL] isEqual:[[info lastObject] objectForKey:UIImagePickerControllerReferenceURL]])
         {
             // Last element parsed, update info
-//#error filter already existing elements
             [self.tableView reloadData];
         }
     };
