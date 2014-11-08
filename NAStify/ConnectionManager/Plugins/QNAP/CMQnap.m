@@ -2002,7 +2002,6 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
 
 #pragma mark - search management
 
-#ifndef APP_EXTENSION
 - (void)searchFiles:(NSString *)searchString atPath:(FileItem *)folder
 {
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
@@ -2119,7 +2118,6 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
                success:successBlock
                failure:failureBlock];
 }
-#endif
 
 #pragma mark - Sharing management
 

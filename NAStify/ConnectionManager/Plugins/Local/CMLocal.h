@@ -28,10 +28,10 @@
 - (void)deleteFiles:(NSArray *)files;
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
 - (void)copyFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
-- (void)searchFiles:(NSString *)searchString atPath:(FileItem *)folder;
 - (void)compressFiles:(NSArray *)files toArchive:(NSString *)archive archiveType:(ARCHIVE_TYPE)archiveType compressionLevel:(ARCHIVE_COMPRESSION_LEVEL)compressionLevel password:(NSString *)password overwrite:(BOOL)overwrite;
 - (void)extractFiles:(NSArray *)files toFolder:(FileItem *)folder withPassword:(NSString *)password overwrite:(BOOL)overwrite extractWithFolder:(BOOL)extractFolders;
 #endif
+- (void)searchFiles:(NSString *)searchString atPath:(FileItem *)folder;
 #ifdef APP_EXTENSION
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName;
 #endif

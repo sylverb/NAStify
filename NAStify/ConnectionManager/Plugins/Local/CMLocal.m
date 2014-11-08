@@ -43,9 +43,9 @@
 
 @interface CMLocal (Private)
 - (BOOL)isCompressed:(NSString *)type;
-#ifndef APP_EXTENSION
 - (NSMutableArray *)itemsInFolder:(NSString *)path addFolderElement:(BOOL)addFolder;
 - (NSMutableArray *)expandFileList:(NSArray *)fileList addFolderElement:(BOOL)addFolder;
+#ifndef APP_EXTENSION
 - (NSString *)getIPAddress;
 #endif
 @end
@@ -415,13 +415,14 @@
 }
 #endif
 
-#ifndef APP_EXTENSION
 - (void)searchFiles:(NSString *)searchString atPath:(FileItem *)folder
 {
+#ifndef APP_EXTENSION
     __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     }];
+#endif
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
         // Go to documents folder
@@ -489,11 +490,12 @@
                                              nil]];
         });
         
+#ifndef APP_EXTENSION
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
+#endif
     });
 }
-#endif
 
 #ifndef APP_EXTENSION
 - (void)compressFiles:(NSArray *)files
@@ -1101,7 +1103,6 @@
     return supportedArchiveType;
 }
 
-#ifndef APP_EXTENSION
 // Create a mutable array with expanded list of files at path (recursive method)
 - (NSMutableArray *)itemsInFolder:(NSString *)path addFolderElement:(BOOL)addFolder
 {
@@ -1134,9 +1135,7 @@
     }
     return expandedArray;
 }
-#endif
 
-#ifndef APP_EXTENSION
 - (NSMutableArray *)expandFileList:(NSArray *)fileList addFolderElement:(BOOL)addFolder
 {
     NSMutableArray *expandedArray = [NSMutableArray array];
@@ -1153,7 +1152,6 @@
     }
     return expandedArray;
 }
-#endif
 
 #ifndef APP_EXTENSION
 - (NSString *)getIPAddress

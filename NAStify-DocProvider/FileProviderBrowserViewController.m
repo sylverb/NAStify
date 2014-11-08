@@ -20,6 +20,7 @@
 /* HUD Tags */
 #define TAG_HUD_DOWNLOAD    1
 #define TAG_HUD_UPLOAD      2
+#define TAG_HUD_SEARCH      3
 
 #define TABLE_ROW_HEIGHT    50.0f
 
@@ -27,6 +28,7 @@
 #define SEARCH_SCOPE_RECURSIVE 1
 
 @implementation FileProviderBrowserViewController
+@synthesize searchDisplayController;
 
 - (id)init
 {
@@ -118,6 +120,28 @@
                                   nil]];
 
     [self setToolbarItems:buttons];
+    
+    // Setup search
+    CGRect f = [[self view] bounds];
+    
+    CGRect searchBarFrame = CGRectMake(0.0f, 0.0f, f.size.width, 50.0f);
+    self.searchBar = [[UISearchBar alloc] initWithFrame:searchBarFrame];
+    self.searchBar.delegate = self;
+    self.searchBar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    self.searchBar.barStyle = UIBarStyleBlack;
+    self.searchBar.placeholder = NSLocalizedString(@"Search",nil);
+    
+    self.tableView.tableHeaderView = self.searchBar;
+    [self.tableView setContentOffset:CGPointMake(0,searchBarFrame.size.height)];
+    
+    self.searchDisplayController = [[CustomSearchDisplayController alloc] initWithSearchBar:self.searchBar
+                                                                         contentsController:self];
+    
+    [self.searchDisplayController setDelegate:self];
+    [self.searchDisplayController setSearchResultsDataSource:self];
+    [self.searchDisplayController setSearchResultsDelegate:self];
+    
+    self.filteredFilesArray = [[NSMutableArray alloc] init];
 }
 
 - (void)dropViewDidBeginRefreshing:(UIRefreshControl *)refreshControl
@@ -129,6 +153,14 @@
 {
     [super viewWillAppear:animated];
     
+    if (ServerSupportsFeature(Search))
+    {
+        [self.searchBar setScopeButtonTitles:[NSArray arrayWithObjects:
+                                              NSLocalizedString(@"Folder",nil),
+                                              NSLocalizedString(@"Recursive",nil),
+                                              nil]];
+    }
+
     self.navigationController.navigationBarHidden = NO;
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -263,6 +295,20 @@
 
 #pragma mark - Table view data source
 
+- (NSMutableArray *)sourceArray
+{
+    NSMutableArray *sourceArray = nil;
+    if (self.searchDisplayController.active)
+    {
+        sourceArray = self.filteredFilesArray;
+    }
+    else
+    {
+        sourceArray = self.filesArray;
+    }
+    return sourceArray;
+}
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
@@ -272,15 +318,42 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.filesArray count];
+    return [[self sourceArray] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *FileBrowserCellIdentifier = @"FileBrowserCell";
+    static NSString *FileBrowserSearchCellIdentifier = @"FileBrowserSearchCell";
     
-    FileItem *fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
-    
+    FileItem *fileItem = nil;
+    if (tableView == self.searchDisplayController.searchResultsTableView)
+    {
+        fileItem = (FileItem *)([self.filteredFilesArray objectAtIndex:indexPath.row]);
+    }
+    else
+    {
+        fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
+    }
+
+    if ((self.searchDisplayController.active) &&
+        ([self.searchDisplayController.searchBar selectedScopeButtonIndex] == SEARCH_SCOPE_RECURSIVE))
+    {
+        FileBrowserSearchCell *fileBrowserSearchCell = (FileBrowserSearchCell *)[tableView dequeueReusableCellWithIdentifier:FileBrowserSearchCellIdentifier];
+        if (fileBrowserSearchCell == nil)
+        {
+            fileBrowserSearchCell = [[FileBrowserSearchCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                 reuseIdentifier:FileBrowserSearchCellIdentifier];
+        }
+        
+        // Configure the cell...
+        [fileBrowserSearchCell setFileItem:fileItem
+                              withDelegate:self
+                                    andTag:TAG_TEXTFIELD_FILENAME];
+        
+        return fileBrowserSearchCell;
+    }
+    else
     {
         FileBrowserCell *fileBrowserCell = (FileBrowserCell *)[tableView dequeueReusableCellWithIdentifier:FileBrowserCellIdentifier];
         if (fileBrowserCell == nil)
@@ -313,7 +386,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    FileItem *fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
+    FileItem *fileItem = (FileItem *)([[self sourceArray] objectAtIndex:indexPath.row]);
     
     switch ([fileItem fileType])
     {
@@ -368,18 +441,22 @@
         case TAG_HUD_DOWNLOAD:
         {
             [self.connectionManager cancelDownloadTask];
-            [hud hide:YES];
             break;
         }
         case TAG_HUD_UPLOAD:
         {
             [self.connectionManager cancelUploadTask];
-            [hud hide:YES];
+            break;
+        }
+        case TAG_HUD_SEARCH:
+        {
+            [self.connectionManager cancelSearchTask];
             break;
         }
         default:
             break;
     }
+    [hud hide:YES];
 }
 
 #pragma mark - Reconnection delegate
@@ -713,6 +790,111 @@
     }
 }
 
+- (void)CMSearchFinished:(NSDictionary *)dict
+{
+    self.searchBarPlaceholderText.text = NSLocalizedString(@"No Results", nil);
+    
+    // Check if we are still in the server search view
+    if ((self.searchDisplayController.active) &&
+        ([self.searchDisplayController.searchBar selectedScopeButtonIndex] == SEARCH_SCOPE_RECURSIVE))
+    {
+        NSArray *filesList = [dict objectForKey:@"filesList"];
+        [self.filteredFilesArray removeAllObjects];
+        
+        int i;
+        for (i=0; i<[filesList count]; i++)
+        {
+            FileItem *fileItem = [[FileItem alloc] init];
+            fileItem.name = [[filesList objectAtIndex:i] objectForKey:@"filename"];
+            fileItem.isDir = [[[filesList objectAtIndex:i] objectForKey:@"isdir"] boolValue];
+            fileItem.shortPath = [[[filesList objectAtIndex:i] objectForKey:@"path"] stringByDeletingLastPathComponent];
+            fileItem.path = [[filesList objectAtIndex:i] objectForKey:@"path"];
+            
+            if ([[filesList objectAtIndex:i] objectForKey:@"fullpath"])
+            {
+                fileItem.fullPath = [[filesList objectAtIndex:i] objectForKey:@"fullpath"];
+            }
+            else
+            {
+                fileItem.fullPath = fileItem.path;
+            }
+            
+            fileItem.isCompressed = [[[filesList objectAtIndex:i] objectForKey:@"iscompressed"] boolValue];
+            
+            if (fileItem.isDir)
+            {
+                fileItem.fileSize = nil;
+                fileItem.fileSizeNumber = nil;
+                fileItem.owner = nil;
+                if ([[filesList objectAtIndex:i] objectForKey:@"isejectable"])
+                {
+                    fileItem.isEjectable = [[[filesList objectAtIndex:i] objectForKey:@"isejectable"] boolValue];
+                }
+                else
+                {
+                    fileItem.isEjectable = NO;
+                }
+            }
+            else
+            {
+                if ([[filesList objectAtIndex:i] objectForKey:@"type"])
+                {
+                    fileItem.type = [[filesList objectAtIndex:i] objectForKey:@"type"];
+                }
+                else
+                {
+                    fileItem.type = [[fileItem.name componentsSeparatedByString:@"."] lastObject];
+                }
+                
+                if ([[filesList objectAtIndex:i] objectForKey:@"filesizenumber"])
+                {
+                    fileItem.fileSizeNumber = [[filesList objectAtIndex:i] objectForKey:@"filesizenumber"];
+                }
+                else
+                {
+                    fileItem.fileSizeNumber = nil;
+                }
+                fileItem.fileSize = [[[filesList objectAtIndex:i] objectForKey:@"filesizenumber"] stringForNumberOfBytes];
+                
+                fileItem.owner = [[filesList objectAtIndex:i] objectForKey:@"owner"];
+                
+                fileItem.isEjectable = NO;
+            }
+            fileItem.writeAccess = [[[filesList objectAtIndex:i] objectForKey:@"writeaccess"] boolValue];
+            
+            /* Date */
+            if ([[filesList objectAtIndex:i] objectForKey:@"date"])
+            {
+                fileItem.fileDateNumber = [NSNumber numberWithDouble:[[[filesList objectAtIndex:i] objectForKey:@"date"] doubleValue]];
+                NSTimeInterval mtime = (NSTimeInterval)[[[filesList objectAtIndex:i] objectForKey:@"date"] doubleValue];
+                NSDate *mdate = [NSDate dateWithTimeIntervalSince1970:mtime];
+                NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+                [formatter setDateStyle:NSDateFormatterMediumStyle];
+                [formatter setTimeStyle:NSDateFormatterShortStyle];
+                
+                fileItem.fileDate = [formatter stringFromDate:mdate];
+            }
+            
+            if ([[filesList objectAtIndex:i] objectForKey:@"id"])
+            {
+                fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[[filesList objectAtIndex:i] objectForKey:@"id"]];
+            }
+            
+            [self.filteredFilesArray addObject:fileItem];
+        }
+        
+        // Sort files array
+        [self.filteredFilesArray sortFileItemArrayWithOrder:self.sortingType];
+        
+        // Refresh tableView
+        [[self.searchDisplayController searchResultsTableView] performSelectorOnMainThread:@selector(reloadData)
+                                                                                withObject:nil
+                                                                             waitUntilDone:NO];
+    }
+    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
+    [hud hide:YES];
+}
+
 - (void)CMDownloadProgress:(NSDictionary *)dict
 {
     MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
@@ -834,6 +1016,161 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+#pragma mark - UISearchDisplayController Delegate Methods
+
+- (void)updateFilteredResults
+{
+    if ((self.searchDisplayController.active) && ([self.searchDisplayController.searchBar selectedScopeButtonIndex] == SEARCH_SCOPE_FOLDER))
+    {
+        // Update the current search
+        [self.filteredFilesArray removeAllObjects];
+        
+        for (FileItem *file in self.filesArray)
+        {
+            NSRange range = [file.name rangeOfString:self.searchDisplayController.searchBar.text
+                                             options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)];
+            if (range.location != NSNotFound)
+            {
+                [self.filteredFilesArray addObject:file];
+            }
+        }
+        // Refresh tableView
+        [self.searchDisplayController.searchResultsTableView performSelectorOnMainThread:@selector(reloadData)
+                                                                              withObject:nil
+                                                                           waitUntilDone:NO];
+    }
+}
+
+- (void)searchDisplayController:(UISearchDisplayController *)controller didLoadSearchResultsTableView:(UITableView *)tableView
+{
+    tableView.rowHeight = TABLE_ROW_HEIGHT;
+    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.filteredFilesArray removeAllObjects];
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+    // Hack to get the UISearchDisplayController "No Result" UILabel
+    if (!self.searchBarPlaceholderText)
+    {
+        for (UIView* v in self.searchDisplayController.searchResultsTableView.subviews) {
+            if ([v isKindOfClass: [UILabel class]])
+            {
+                self.searchBarPlaceholderText = (UILabel *)v;
+                break;
+            }
+        }
+    }
+    
+    switch ([self.searchDisplayController.searchBar selectedScopeButtonIndex])
+    {
+        case SEARCH_SCOPE_FOLDER:
+        {
+            self.searchBarPlaceholderText.text = NSLocalizedString(@"No Results", nil);
+            [self.filteredFilesArray removeAllObjects];
+            
+            for (FileItem *file in self.filesArray)
+            {
+                NSRange range = [file.name rangeOfString:searchString
+                                                 options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)];
+                if (range.location != NSNotFound)
+                {
+                    [self.filteredFilesArray addObject:file];
+                }
+            }
+            break;
+        }
+        case SEARCH_SCOPE_RECURSIVE:
+        {
+            // Clear previous info
+            [self.filteredFilesArray removeAllObjects];
+            self.searchBarPlaceholderText.text = NSLocalizedString(@"Press search to get results", nil);
+            break;
+        }
+        default:
+            break;
+    }
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchScope:(NSInteger)searchOption
+{
+    switch ([self.searchDisplayController.searchBar selectedScopeButtonIndex])
+    {
+        case SEARCH_SCOPE_FOLDER:
+        {
+            self.searchBarPlaceholderText.text = NSLocalizedString(@"No Results", nil);
+            [self.filteredFilesArray removeAllObjects];
+            
+            for (FileItem *file in self.filesArray)
+            {
+                NSRange range = [file.name rangeOfString:self.searchDisplayController.searchBar.text
+                                                 options:(NSCaseInsensitiveSearch|NSDiacriticInsensitiveSearch)];
+                if (range.location != NSNotFound)
+                {
+                    [self.filteredFilesArray addObject:file];
+                }
+            }
+            break;
+        }
+        case SEARCH_SCOPE_RECURSIVE:
+        {
+            self.searchBarPlaceholderText.text = NSLocalizedString(@"Press search to get results", nil);
+            [self.filteredFilesArray removeAllObjects];
+            if ([self.searchDisplayController.searchBar.text length] != 0)
+            {
+                [self.searchBar resignFirstResponder];
+                
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
+                                                          animated:YES];
+                if (ServerSupportsFeature(SearchCancel))
+                {
+                    hud.allowsCancelation = YES;
+                    hud.tag = TAG_HUD_SEARCH;
+                }
+                hud.delegate = self;
+                hud.labelText = NSLocalizedString(@"Searching", nil);
+                
+                [self.connectionManager searchFiles:self.searchDisplayController.searchBar.text atPath:self.currentFolder];
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    
+    // Return YES to cause the search result table view to be reloaded.
+    return YES;
+}
+
+- (void)searchDisplayControllerDidBeginSearch:(UISearchDisplayController *)controller
+{
+}
+
+#pragma mark - UISearchBar Delegate Methods
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+    if (([self.searchDisplayController.searchBar selectedScopeButtonIndex] == SEARCH_SCOPE_RECURSIVE) &&
+        ([self.searchDisplayController.searchBar.text length] != 0))
+    {
+        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
+                                                  animated:YES];
+        if (ServerSupportsFeature(SearchCancel))
+        {
+            hud.allowsCancelation = YES;
+            hud.tag = TAG_HUD_SEARCH;
+        }
+        hud.delegate = self;
+        hud.labelText = NSLocalizedString(@"Searching", nil);
+        
+        [self.connectionManager searchFiles:self.searchDisplayController.searchBar.text atPath:self.currentFolder];
+    }
+}
+
 #pragma mark - Orientation management
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)inOrientation
@@ -933,6 +1270,9 @@
 {
     // To fix "-[UIView release]: message sent to deallocated instance xxxxx"
     self.tableView.tableHeaderView = nil;
+    [self.searchBar removeFromSuperview];
+    self.searchBar = nil;
+    self.searchDisplayController = nil;
 }
 
 @end

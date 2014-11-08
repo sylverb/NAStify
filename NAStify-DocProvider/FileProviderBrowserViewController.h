@@ -11,11 +11,16 @@
 #import "NSMutableArrayAdditions.h"
 #import "ConnectionManager.h"
 #import "FileBrowserCell.h"
+#import "FileBrowserSearchCell.h"
 #import "MBProgressHUD.h"
 #import "UIPopoverController+iPhone.h"
 #import "FileProviderViewController.h"
+#import "CustomSearchDisplayController.h"
 
-@interface FileProviderBrowserViewController : UIViewController <CMDelegate, UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate>
+@interface FileProviderBrowserViewController : UIViewController <CMDelegate, UITableViewDataSource, UITableViewDelegate, MBProgressHUDDelegate, UISearchBarDelegate, UISearchDisplayDelegate>
+{
+    CustomSearchDisplayController	*searchDisplayController;
+}
 
 @property(nonatomic, strong) DocumentPickerViewController *delegate;
 @property(nonatomic, strong) NSArray *validTypes;
@@ -33,6 +38,12 @@
 @property(nonatomic, strong) FileItem *currentFolder;
 
 @property(nonatomic, strong) NSMutableArray *filesArray;
+
+/* Filtering/Searching handling */
+@property(nonatomic, strong) NSMutableArray *filteredFilesArray;
+@property(nonatomic, strong) CustomSearchDisplayController *searchDisplayController;
+@property(nonatomic, strong) UISearchBar *searchBar;
+@property(nonatomic, strong) UILabel *searchBarPlaceholderText;
 
 /* Logout handling */
 @property(nonatomic) BOOL isConnected;
@@ -63,6 +74,7 @@
 - (void)CMSpaceInfo:(NSNotification*)notification;
 - (void)CMDownloadProgress:(NSNotification *)notification;
 - (void)CMDownloadFinished:(NSNotification *)notification;
+- (void)CMSearchFinished:(NSNotification *)notification;
 - (void)CMConnectionError:(NSNotification*)notification;
 
 @end

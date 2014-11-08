@@ -5013,7 +5013,6 @@
 
 #pragma mark - search management
 
-#ifndef APP_EXTENSION
 - (void)searchFiles:(NSString *)searchString atPath:(FileItem *)folder
 {
     if (dsmVersion >= SYNOLOGY_DSM_4_3)
@@ -5466,7 +5465,6 @@
     
     lastRequestDate = [NSDate date];
 }
-#endif
 
 #pragma mark - Share management
 
@@ -6453,7 +6451,7 @@
          * DSM4.2 : 3202 - 3320 (3202,3211,3214,3227,3233,3234,3235,3236,3243,3246,3320)
          * DSM4.3 : 3776 - 3827 (3776,3781,3803,3805,3810,3827)
          * DSM5.0 : 4458 - ?
-         * DSM5.1 : ? - ?
+         * DSM5.1 : 5004 - ?
          */
         /* DSM beta versions (may not work correctly)
          * DSM3.1 beta : 1553

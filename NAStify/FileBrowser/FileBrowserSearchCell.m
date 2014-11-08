@@ -109,24 +109,16 @@
 	[self.fileTypeImage setFrame:b];
 }
 
-- (void)drawRect:(CGRect)rect{
+- (void)drawRect:(CGRect)rect
+{
     CGContextRef context = UIGraphicsGetCurrentContext();
     
     [[UIColor colorWithRed:0.7 green:0.7 blue:0.7 alpha:0.4] setStroke];
     
     CGContextSetLineWidth(context, 1);
     CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 0, 0.5);
-    CGContextAddLineToPoint(context, CGRectGetMaxX(rect), 0.5);
-    
-    CGContextStrokePath(context);
-    
-    [[UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.4] setStroke];
-    
-    CGContextSetLineWidth(context, 1);
-    CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 0, 49.5);
-    CGContextAddLineToPoint(context, CGRectGetMaxX(rect), 49.5);
+    CGContextMoveToPoint(context, 15, 49.5);
+    CGContextAddLineToPoint(context, CGRectGetMaxX(rect) - 15, 49.5);
     
     CGContextStrokePath(context);
 }

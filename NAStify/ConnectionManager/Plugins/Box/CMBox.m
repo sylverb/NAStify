@@ -886,7 +886,6 @@
 
 #pragma mark - search management
 
-#ifndef APP_EXTENSION
 - (void)searchFiles:(NSString *)searchString atPath:(FileItem *)folder
 {
     BoxCollectionBlock success = ^(BoxCollection *collection)
@@ -993,7 +992,6 @@
                                            successBlock:success
                                            failureBlock:failure];
 }
-#endif
 
 #pragma mark - sharing management
 

@@ -48,9 +48,9 @@
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
 - (void)copyFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
 - (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder;
-- (void)searchFiles:(NSString *)searchString atPath:(FileItem *)folder;
 - (void)shareFiles:(NSArray *)files duration:(NSTimeInterval)duration password:(NSString *)password;
 #endif
+- (void)searchFiles:(NSString *)searchString atPath:(FileItem *)folder;
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName;
 - (void)cancelDownloadTask;
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
