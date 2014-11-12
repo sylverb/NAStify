@@ -10,10 +10,8 @@
 #import "UserAccount.h"
 
 @interface ServerTypeCell : UITableViewCell
-{
-    UIImageView *serverTypeImage;
-}
 
 @property (nonatomic) SERVER_TYPE serverType;
+@property (nonatomic, retain) UIImageView *serverTypeImage;
 
 @end

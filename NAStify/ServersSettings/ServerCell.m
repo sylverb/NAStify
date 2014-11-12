@@ -84,12 +84,12 @@
         }
         case SERVER_TYPE_SYNOLOGY:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"synology.png"];
+            self.fileTypeImage.image = [UIImage imageNamed:@"synology_small.png"];
             break;
         }
         case SERVER_TYPE_FREEBOX_REVOLUTION:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"freebox.png"];
+            self.fileTypeImage.image = [UIImage imageNamed:@"freebox_small.png"];
             break;
         }
         case SERVER_TYPE_DROPBOX:
@@ -99,7 +99,7 @@
         }
         case SERVER_TYPE_QNAP:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"qnap.png"];
+            self.fileTypeImage.image = [UIImage imageNamed:@"qnap_small.png"];
             break;
         }
         case SERVER_TYPE_BOX:
