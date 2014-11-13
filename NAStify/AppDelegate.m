@@ -62,13 +62,14 @@
     
     // Create Documents folder
     NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
-    NSString *incomingPath = [containerURL.path stringByAppendingString:@"/Documents/"];
+    NSString *incomingPath = [containerURL.path stringByAppendingString:@"/Documents/incoming/"];
     
     [[NSFileManager defaultManager] createDirectoryAtPath:incomingPath
                               withIntermediateDirectories:YES
                                                attributes:nil
                                                     error:NULL];
 
+    // Init views
     FileItem *rootFolder = [[FileItem alloc] init];
     rootFolder.isDir = YES;
     rootFolder.path = @"/";
@@ -78,7 +79,6 @@
                                                attributes:nil
                                                     error:NULL];
 
-    
     FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
     fileBrowserViewController.userAccount = localAccount;
     fileBrowserViewController.currentFolder =rootFolder;
@@ -220,7 +220,24 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    // Move files imported using iTunes into the Documents/incoming folder
+    NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
+    NSString *incomingPath = [containerURL.path stringByAppendingString:@"/Documents/incoming/"];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *itunesSharePath = [paths objectAtIndex:0];
+    
+    NSArray *filesArray = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:itunesSharePath
+                                                                              error:NULL];
+    for (NSString *file in filesArray)
+    {
+        if (![file isEqualToString:@"Inbox"])
+        {
+            NSString *filePath = [itunesSharePath stringByAppendingPathComponent:file];
+            NSString *destFilePath = [incomingPath stringByAppendingPathComponent:file];
+            [[NSFileManager defaultManager] moveItemAtPath:filePath toPath:destFilePath error:NULL];
+        }
+    }
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
