@@ -220,6 +220,13 @@
 		D5316A081A141A6B00364CA7 /* synology_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D53D93931A0E45BF00E6D6B6 /* synology_small@3x.png */; };
 		D5316A091A141A6B00364CA7 /* webdav_small.png in Resources */ = {isa = PBXBuildFile; fileRef = F9694CFB15D883E80040F5D9 /* webdav_small.png */; };
 		D5316A0A1A141A6B00364CA7 /* webdav_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F9694CFC15D883E80040F5D9 /* webdav_small@2x.png */; };
+		D5316A0C1A154CE400364CA7 /* webdav_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316A0B1A154CE400364CA7 /* webdav_small@3x.png */; };
+		D5316A0D1A154CE400364CA7 /* webdav_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316A0B1A154CE400364CA7 /* webdav_small@3x.png */; };
+		D5316A131A15546D00364CA7 /* webdav@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316A0E1A15546D00364CA7 /* webdav@2x~ipad.png */; };
+		D5316A151A15546D00364CA7 /* webdav@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316A0F1A15546D00364CA7 /* webdav@2x~iphone.png */; };
+		D5316A171A15546D00364CA7 /* webdav@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316A101A15546D00364CA7 /* webdav@3x.png */; };
+		D5316A191A15546D00364CA7 /* webdav~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316A111A15546D00364CA7 /* webdav~ipad.png */; };
+		D5316A1B1A15546D00364CA7 /* webdav~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316A121A15546D00364CA7 /* webdav~iphone.png */; };
 		D53D92881A0DBE9000E6D6B6 /* FileBrowserSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B4024E162771B200FB8C98 /* FileBrowserSearchCell.m */; };
 		D53D92891A0DBECE00E6D6B6 /* CustomSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = F97B1C0C162BA68400E3FF7C /* CustomSearchDisplayController.m */; };
 		D53D92D81A0E1E0500E6D6B6 /* 3gp.png in Resources */ = {isa = PBXBuildFile; fileRef = D53D928A1A0E1E0400E6D6B6 /* 3gp.png */; };
@@ -793,8 +800,6 @@
 		F967FFE715FEA3400062ADFB /* FileInp7zInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F967FFE215FEA3400062ADFB /* FileInp7zInfo.m */; settings = {COMPILER_FLAGS = "-D_LZMA_UINT32_IS_ULONG -D_7ZIP_ST"; }; };
 		F967FFE815FEA3400062ADFB /* P7zException.m in Sources */ = {isa = PBXBuildFile; fileRef = F967FFE415FEA3400062ADFB /* P7zException.m */; settings = {COMPILER_FLAGS = "-D_LZMA_UINT32_IS_ULONG -D_7ZIP_ST"; }; };
 		F967FFE915FEA3400062ADFB /* P7zFile.m in Sources */ = {isa = PBXBuildFile; fileRef = F967FFE615FEA3400062ADFB /* P7zFile.m */; settings = {COMPILER_FLAGS = "-D_LZMA_UINT32_IS_ULONG -D_7ZIP_ST"; }; };
-		F9694D9615D883E80040F5D9 /* webdav.png in Resources */ = {isa = PBXBuildFile; fileRef = F9694CF915D883E80040F5D9 /* webdav.png */; };
-		F9694D9715D883E80040F5D9 /* webdav@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F9694CFA15D883E80040F5D9 /* webdav@2x.png */; };
 		F9694D9815D883E80040F5D9 /* webdav_small.png in Resources */ = {isa = PBXBuildFile; fileRef = F9694CFB15D883E80040F5D9 /* webdav_small.png */; };
 		F9694D9915D883E80040F5D9 /* webdav_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F9694CFC15D883E80040F5D9 /* webdav_small@2x.png */; };
 		F975485315F6AA5100E9D1E1 /* FileInRarInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = F975484C15F6AA5100E9D1E1 /* FileInRarInfo.m */; };
@@ -1304,6 +1309,12 @@
 		D530328D19E33110004F7147 /* xls@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xls@3x.png"; sourceTree = "<group>"; };
 		D530328E19E33110004F7147 /* zip@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zip@2x.png"; sourceTree = "<group>"; };
 		D530328F19E33110004F7147 /* zip@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "zip@3x.png"; sourceTree = "<group>"; };
+		D5316A0B1A154CE400364CA7 /* webdav_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webdav_small@3x.png"; sourceTree = "<group>"; };
+		D5316A0E1A15546D00364CA7 /* webdav@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webdav@2x~ipad.png"; sourceTree = "<group>"; };
+		D5316A0F1A15546D00364CA7 /* webdav@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webdav@2x~iphone.png"; sourceTree = "<group>"; };
+		D5316A101A15546D00364CA7 /* webdav@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webdav@3x.png"; sourceTree = "<group>"; };
+		D5316A111A15546D00364CA7 /* webdav~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webdav~ipad.png"; sourceTree = "<group>"; };
+		D5316A121A15546D00364CA7 /* webdav~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webdav~iphone.png"; sourceTree = "<group>"; };
 		D53D928A1A0E1E0400E6D6B6 /* 3gp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3gp.png; sourceTree = "<group>"; };
 		D53D928B1A0E1E0400E6D6B6 /* 7z.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 7z.png; sourceTree = "<group>"; };
 		D53D928C1A0E1E0400E6D6B6 /* aa3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aa3.png; sourceTree = "<group>"; };
@@ -1864,8 +1875,6 @@
 		F967FFE415FEA3400062ADFB /* P7zException.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P7zException.m; sourceTree = "<group>"; };
 		F967FFE515FEA3400062ADFB /* P7zFile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = P7zFile.h; sourceTree = "<group>"; };
 		F967FFE615FEA3400062ADFB /* P7zFile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = P7zFile.m; sourceTree = "<group>"; };
-		F9694CF915D883E80040F5D9 /* webdav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webdav.png; sourceTree = "<group>"; };
-		F9694CFA15D883E80040F5D9 /* webdav@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webdav@2x.png"; sourceTree = "<group>"; };
 		F9694CFB15D883E80040F5D9 /* webdav_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webdav_small.png; sourceTree = "<group>"; };
 		F9694CFC15D883E80040F5D9 /* webdav_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webdav_small@2x.png"; sourceTree = "<group>"; };
 		F975484B15F6AA5100E9D1E1 /* FileInRarInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileInRarInfo.h; sourceTree = "<group>"; };
@@ -3522,10 +3531,14 @@
 				D53D939C1A0E5B1C00E6D6B6 /* synology@2x~ipad.png */,
 				D53D939D1A0E5B1C00E6D6B6 /* synology@2x~iphone.png */,
 				D53D93941A0E45BF00E6D6B6 /* synology@3x.png */,
-				F9694CF915D883E80040F5D9 /* webdav.png */,
-				F9694CFA15D883E80040F5D9 /* webdav@2x.png */,
 				F9694CFB15D883E80040F5D9 /* webdav_small.png */,
 				F9694CFC15D883E80040F5D9 /* webdav_small@2x.png */,
+				D5316A0B1A154CE400364CA7 /* webdav_small@3x.png */,
+				D5316A111A15546D00364CA7 /* webdav~ipad.png */,
+				D5316A121A15546D00364CA7 /* webdav~iphone.png */,
+				D5316A0E1A15546D00364CA7 /* webdav@2x~ipad.png */,
+				D5316A0F1A15546D00364CA7 /* webdav@2x~iphone.png */,
+				D5316A101A15546D00364CA7 /* webdav@3x.png */,
 			);
 			path = ServerType;
 			sourceTree = "<group>";
@@ -4080,6 +4093,7 @@
 				D53169F01A141A6B00364CA7 /* box_small@3x.png in Resources */,
 				D53169F11A141A6B00364CA7 /* dropbox_small.png in Resources */,
 				D53169F21A141A6B00364CA7 /* dropbox_small@2x.png in Resources */,
+				D5316A0D1A154CE400364CA7 /* webdav_small@3x.png in Resources */,
 				D53169F31A141A6B00364CA7 /* dropbox_small@3x.png in Resources */,
 				D53169F41A141A6B00364CA7 /* freebox_small.png in Resources */,
 				D53169F51A141A6B00364CA7 /* freebox_small@2x.png in Resources */,
@@ -4370,10 +4384,13 @@
 				D53D93701A0E1E0500E6D6B6 /* xls.png in Resources */,
 				D53D936A1A0E1E0500E6D6B6 /* wav.png in Resources */,
 				D53D92FA1A0E1E0500E6D6B6 /* crw.png in Resources */,
+				D5316A171A15546D00364CA7 /* webdav@3x.png in Resources */,
 				D530331619E33110004F7147 /* rtf@2x.png in Resources */,
 				D53D93041A0E1E0500E6D6B6 /* doc.png in Resources */,
 				D53D932A1A0E1E0500E6D6B6 /* mlp.png in Resources */,
+				D5316A191A15546D00364CA7 /* webdav~ipad.png in Resources */,
 				D530330D19E33110004F7147 /* ra@3x.png in Resources */,
+				D5316A1B1A15546D00364CA7 /* webdav~iphone.png in Resources */,
 				D53032EA19E33110004F7147 /* mp3@2x.png in Resources */,
 				D53D93AA1A0E601E00E6D6B6 /* qnap~ipad.png in Resources */,
 				D53032E919E33110004F7147 /* mp2@3x.png in Resources */,
@@ -4440,6 +4457,7 @@
 				D5551BFA1901827B00652A08 /* audioTrackIcon@2x.png in Resources */,
 				D530332219E33110004F7147 /* wav@2x.png in Resources */,
 				D53032B519E33110004F7147 /* csv@3x.png in Resources */,
+				D5316A131A15546D00364CA7 /* webdav@2x~ipad.png in Resources */,
 				D53D934E1A0E1E0500E6D6B6 /* pnt.png in Resources */,
 				D53D93501A0E1E0500E6D6B6 /* ps.png in Resources */,
 				D53D93281A0E1E0500E6D6B6 /* mkv.png in Resources */,
@@ -4517,12 +4535,10 @@
 				D530331F19E33110004F7147 /* unknown@3x.png in Resources */,
 				D5F17F921972852D00A071AD /* iTunesArtwork@2x in Resources */,
 				D53032CE19E33110004F7147 /* folder@2x.png in Resources */,
-				F9694D9615D883E80040F5D9 /* webdav.png in Resources */,
 				D53032F919E33110004F7147 /* nef@3x.png in Resources */,
 				D53032FF19E33110004F7147 /* ogg@3x.png in Resources */,
 				D53D93CF1A12053C00E6D6B6 /* dropbox~iphone.png in Resources */,
 				D53D93581A0E1E0500E6D6B6 /* ram.png in Resources */,
-				F9694D9715D883E80040F5D9 /* webdav@2x.png in Resources */,
 				F9694D9815D883E80040F5D9 /* webdav_small.png in Resources */,
 				D53032C119E33110004F7147 /* dtshd@3x.png in Resources */,
 				D530329B19E33110004F7147 /* acm@3x.png in Resources */,
@@ -4605,6 +4621,8 @@
 				D562AC2F197D86D400C2322A /* sftp_small.png in Resources */,
 				D53D93B81A0E65CA00E6D6B6 /* freebox@2x~ipad.png in Resources */,
 				D53032EC19E33110004F7147 /* mp4@2x.png in Resources */,
+				D5316A0C1A154CE400364CA7 /* webdav_small@3x.png in Resources */,
+				D5316A151A15546D00364CA7 /* webdav@2x~iphone.png in Resources */,
 				D562AC27197D829900C2322A /* ftp_small@2x.png in Resources */,
 				D53032EF19E33110004F7147 /* mpc@3x.png in Resources */,
 				D53D936E1A0E1E0500E6D6B6 /* wmv.png in Resources */,
