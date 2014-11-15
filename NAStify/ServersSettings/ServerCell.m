@@ -107,6 +107,11 @@
             self.fileTypeImage.image = [UIImage imageNamed:@"box_small.png"];
             break;
         }
+        case SERVER_TYPE_SAMBA:
+        {
+            self.fileTypeImage.image = [UIImage imageNamed:@"samba_small.png"];
+            break;
+        }
         case SERVER_TYPE_LOCAL:
         {
             self.fileTypeImage.image = [UIImage imageNamed:@"local-storage.png"];

@@ -463,6 +463,17 @@
 		D5316B4C1A17B0CD00364CA7 /* webdav_small.png in Resources */ = {isa = PBXBuildFile; fileRef = F9694CFB15D883E80040F5D9 /* webdav_small.png */; };
 		D5316B4D1A17B0CD00364CA7 /* webdav_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F9694CFC15D883E80040F5D9 /* webdav_small@2x.png */; };
 		D5316B4E1A17B0CD00364CA7 /* webdav_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316A0B1A154CE400364CA7 /* webdav_small@3x.png */; };
+		D5316B571A17B6AA00364CA7 /* samba_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B4F1A17B6AA00364CA7 /* samba_small.png */; };
+		D5316B581A17B6AA00364CA7 /* samba_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B501A17B6AA00364CA7 /* samba_small@2x.png */; };
+		D5316B591A17B6AA00364CA7 /* samba_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B511A17B6AA00364CA7 /* samba_small@3x.png */; };
+		D5316B5A1A17B6AA00364CA7 /* samba@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B521A17B6AA00364CA7 /* samba@2x~ipad.png */; };
+		D5316B5B1A17B6AA00364CA7 /* samba@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B531A17B6AA00364CA7 /* samba@2x~iphone.png */; };
+		D5316B5C1A17B6AA00364CA7 /* samba@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B541A17B6AA00364CA7 /* samba@3x.png */; };
+		D5316B5D1A17B6AA00364CA7 /* samba~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B551A17B6AA00364CA7 /* samba~ipad.png */; };
+		D5316B5E1A17B6AA00364CA7 /* samba~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B561A17B6AA00364CA7 /* samba~iphone.png */; };
+		D5316B5F1A17B6F800364CA7 /* samba_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B4F1A17B6AA00364CA7 /* samba_small.png */; };
+		D5316B601A17B6F800364CA7 /* samba_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B501A17B6AA00364CA7 /* samba_small@2x.png */; };
+		D5316B611A17B6F800364CA7 /* samba_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B511A17B6AA00364CA7 /* samba_small@3x.png */; };
 		D53D92881A0DBE9000E6D6B6 /* FileBrowserSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B4024E162771B200FB8C98 /* FileBrowserSearchCell.m */; };
 		D53D92891A0DBECE00E6D6B6 /* CustomSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = F97B1C0C162BA68400E3FF7C /* CustomSearchDisplayController.m */; };
 		D53D92D81A0E1E0500E6D6B6 /* 3gp.png in Resources */ = {isa = PBXBuildFile; fileRef = D53D928A1A0E1E0400E6D6B6 /* 3gp.png */; };
@@ -1318,6 +1329,14 @@
 		D5316A111A15546D00364CA7 /* webdav~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webdav~ipad.png"; sourceTree = "<group>"; };
 		D5316A121A15546D00364CA7 /* webdav~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "webdav~iphone.png"; sourceTree = "<group>"; };
 		D5316B2E1A17B07700364CA7 /* CloseButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CloseButton.png; sourceTree = "<group>"; };
+		D5316B4F1A17B6AA00364CA7 /* samba_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = samba_small.png; sourceTree = "<group>"; };
+		D5316B501A17B6AA00364CA7 /* samba_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba_small@2x.png"; sourceTree = "<group>"; };
+		D5316B511A17B6AA00364CA7 /* samba_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba_small@3x.png"; sourceTree = "<group>"; };
+		D5316B521A17B6AA00364CA7 /* samba@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba@2x~ipad.png"; sourceTree = "<group>"; };
+		D5316B531A17B6AA00364CA7 /* samba@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba@2x~iphone.png"; sourceTree = "<group>"; };
+		D5316B541A17B6AA00364CA7 /* samba@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba@3x.png"; sourceTree = "<group>"; };
+		D5316B551A17B6AA00364CA7 /* samba~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba~ipad.png"; sourceTree = "<group>"; };
+		D5316B561A17B6AA00364CA7 /* samba~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba~iphone.png"; sourceTree = "<group>"; };
 		D53D928A1A0E1E0400E6D6B6 /* 3gp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3gp.png; sourceTree = "<group>"; };
 		D53D928B1A0E1E0400E6D6B6 /* 7z.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 7z.png; sourceTree = "<group>"; };
 		D53D928C1A0E1E0400E6D6B6 /* aa3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aa3.png; sourceTree = "<group>"; };
@@ -3524,6 +3543,14 @@
 				D53D93A41A0E601E00E6D6B6 /* qnap@2x~ipad.png */,
 				D53D93A51A0E601E00E6D6B6 /* qnap@2x~iphone.png */,
 				D53D93971A0E4B4A00E6D6B6 /* qnap@3x.png */,
+				D5316B4F1A17B6AA00364CA7 /* samba_small.png */,
+				D5316B501A17B6AA00364CA7 /* samba_small@2x.png */,
+				D5316B511A17B6AA00364CA7 /* samba_small@3x.png */,
+				D5316B551A17B6AA00364CA7 /* samba~ipad.png */,
+				D5316B561A17B6AA00364CA7 /* samba~iphone.png */,
+				D5316B521A17B6AA00364CA7 /* samba@2x~ipad.png */,
+				D5316B531A17B6AA00364CA7 /* samba@2x~iphone.png */,
+				D5316B541A17B6AA00364CA7 /* samba@3x.png */,
 				D562AC2C197D86D400C2322A /* sftp_small.png */,
 				D562AC26197D829900C2322A /* sftp_small@2x.png */,
 				D5CD858F1A1412C800438F15 /* sftp_small@3x.png */,
@@ -4115,6 +4142,9 @@
 				D5316B431A17B0CD00364CA7 /* qnap_small.png in Resources */,
 				D5316B441A17B0CD00364CA7 /* qnap_small@2x.png in Resources */,
 				D5316B451A17B0CD00364CA7 /* qnap_small@3x.png in Resources */,
+				D5316B5F1A17B6F800364CA7 /* samba_small.png in Resources */,
+				D5316B601A17B6F800364CA7 /* samba_small@2x.png in Resources */,
+				D5316B611A17B6F800364CA7 /* samba_small@3x.png in Resources */,
 				D5316B461A17B0CD00364CA7 /* sftp_small.png in Resources */,
 				D5316B471A17B0CD00364CA7 /* sftp_small@2x.png in Resources */,
 				D5316B481A17B0CD00364CA7 /* sftp_small@3x.png in Resources */,
@@ -4370,6 +4400,7 @@
 				D5F17F94197490EE00A071AD /* Images.xcassets in Resources */,
 				D53032D719E33110004F7147 /* jpeg@3x.png in Resources */,
 				D530331719E33110004F7147 /* rtf@3x.png in Resources */,
+				D5316B5D1A17B6AA00364CA7 /* samba~ipad.png in Resources */,
 				D53D939E1A0E5B1C00E6D6B6 /* synology@2x~ipad.png in Resources */,
 				D530329D19E33110004F7147 /* aif@3x.png in Resources */,
 				D53032D319E33110004F7147 /* fpx@3x.png in Resources */,
@@ -4377,6 +4408,7 @@
 				D53032D019E33110004F7147 /* fpix@2x.png in Resources */,
 				D53032BC19E33110004F7147 /* doc@2x.png in Resources */,
 				D53032ED19E33110004F7147 /* mp4@3x.png in Resources */,
+				D5316B5E1A17B6AA00364CA7 /* samba~iphone.png in Resources */,
 				D53D92F21A0E1E0500E6D6B6 /* at3.png in Resources */,
 				D53032AA19E33110004F7147 /* at3@2x.png in Resources */,
 				D53D92EE1A0E1E0500E6D6B6 /* ape.png in Resources */,
@@ -4387,6 +4419,7 @@
 				D53D93B61A0E65CA00E6D6B6 /* box~iphone.png in Resources */,
 				D5D3CC5D19AD300A0083EA08 /* box_small@2x.png in Resources */,
 				D53D93701A0E1E0500E6D6B6 /* xls.png in Resources */,
+				D5316B571A17B6AA00364CA7 /* samba_small.png in Resources */,
 				D53D936A1A0E1E0500E6D6B6 /* wav.png in Resources */,
 				D53D92FA1A0E1E0500E6D6B6 /* crw.png in Resources */,
 				D5316A171A15546D00364CA7 /* webdav@3x.png in Resources */,
@@ -4435,6 +4468,7 @@
 				D53032E719E33110004F7147 /* mp1@3x.png in Resources */,
 				D53D93101A0E1E0500E6D6B6 /* f4v.png in Resources */,
 				D53032A419E33110004F7147 /* amr@2x.png in Resources */,
+				D5316B581A17B6AA00364CA7 /* samba_small@2x.png in Resources */,
 				D5A0625419D4C46B006D395D /* Entitlements.plist in Resources */,
 				D562AC2D197D86D400C2322A /* ftp_small.png in Resources */,
 				D53D93401A0E1E0500E6D6B6 /* nef.png in Resources */,
@@ -4492,6 +4526,7 @@
 				D53D93CD1A12053C00E6D6B6 /* dropbox@3x.png in Resources */,
 				D530313A19E32783004F7147 /* network-disk@3x.png in Resources */,
 				D53032B419E33110004F7147 /* csv@2x.png in Resources */,
+				D5316B5B1A17B6AA00364CA7 /* samba@2x~iphone.png in Resources */,
 				D53032E819E33110004F7147 /* mp2@2x.png in Resources */,
 				D530329C19E33110004F7147 /* aif@2x.png in Resources */,
 				D53032B819E33110004F7147 /* divx@2x.png in Resources */,
@@ -4501,6 +4536,7 @@
 				D53032A219E33110004F7147 /* alaw@2x.png in Resources */,
 				D5D3CC5C19AD300A0083EA08 /* box_small.png in Resources */,
 				D53D93981A0E4B4A00E6D6B6 /* qnap@3x.png in Resources */,
+				D5316B591A17B6AA00364CA7 /* samba_small@3x.png in Resources */,
 				D53032AC19E33110004F7147 /* avi@2x.png in Resources */,
 				D53D93AB1A0E601E00E6D6B6 /* qnap~iphone.png in Resources */,
 				D53032EB19E33110004F7147 /* mp3@3x.png in Resources */,
@@ -4598,6 +4634,7 @@
 				D53D92F81A0E1E0500E6D6B6 /* cr2.png in Resources */,
 				D53D93A21A0E5FFF00E6D6B6 /* synology~ipad.png in Resources */,
 				D53D93381A0E1E0500E6D6B6 /* mpeg.png in Resources */,
+				D5316B5A1A17B6AA00364CA7 /* samba@2x~ipad.png in Resources */,
 				D53D93221A0E1E0500E6D6B6 /* m2ts.png in Resources */,
 				F98D89951820EAE30053D5CF /* freebox_small@2x.png in Resources */,
 				D53D931A1A0E1E0500E6D6B6 /* fpx.png in Resources */,
@@ -4646,6 +4683,7 @@
 				D5CD855D1A120DFF00438F15 /* dropbox_small@3x.png in Resources */,
 				D530332419E33110004F7147 /* wma@2x.png in Resources */,
 				D53032B619E33110004F7147 /* dcr@2x.png in Resources */,
+				D5316B5C1A17B6AA00364CA7 /* samba@3x.png in Resources */,
 				D530329F19E33110004F7147 /* aifc@3x.png in Resources */,
 				D53D93021A0E1E0500E6D6B6 /* dng.png in Resources */,
 				D53D93BB1A0E65CA00E6D6B6 /* freebox~ipad.png in Resources */,
@@ -5258,7 +5296,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -5314,7 +5352,7 @@
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				USER_HEADER_SEARCH_PATHS = "";
 				WRAPPER_EXTENSION = app;
 			};

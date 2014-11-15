@@ -29,7 +29,7 @@
 #define ROW_INDEX_SAMBA     7
 
 // Update this when adding new server types !!!
-#define NUMBER_OF_ROWS      ROW_INDEX_BOX + 1
+#define NUMBER_OF_ROWS      ROW_INDEX_SAMBA + 1
 
 - (void)viewDidLoad
 {
