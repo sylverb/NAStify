@@ -221,6 +221,7 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Move files imported using iTunes into the Documents/incoming folder
+    BOOL importedFiles = NO;
     NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
     NSString *incomingPath = [containerURL.path stringByAppendingString:@"/Documents/incoming/"];
     
@@ -233,10 +234,32 @@
     {
         if (![file isEqualToString:@"Inbox"])
         {
+            importedFiles = YES;
             NSString *filePath = [itunesSharePath stringByAppendingPathComponent:file];
             NSString *destFilePath = [incomingPath stringByAppendingPathComponent:file];
             [[NSFileManager defaultManager] moveItemAtPath:filePath toPath:destFilePath error:NULL];
         }
+    }
+    
+    // Show "/incoming" folder content to user if some files have been imported
+    if (importedFiles)
+    {
+        [self.tabBarController setSelectedIndex:1];
+        [self.fileBrowserNavController popToRootViewControllerAnimated:NO];
+        
+        UserAccount *localAccount = [[UserAccount alloc] init];
+        localAccount.serverType = SERVER_TYPE_LOCAL;
+        
+        FileItem *inboxFolder = [[FileItem alloc] init];
+        inboxFolder.isDir = YES;
+        inboxFolder.path = @"/incoming";
+        inboxFolder.fullPath = incomingPath;
+        
+        FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+        fileBrowserViewController.userAccount = localAccount;
+        fileBrowserViewController.currentFolder = inboxFolder;
+        
+        [self.fileBrowserNavController pushViewController:fileBrowserViewController animated:NO];
     }
 }
 
