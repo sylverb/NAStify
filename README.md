@@ -5,7 +5,7 @@ NAStify
 
 - Edit NAStify/private.h to enter your private application keys for Dropbox/Box.net/Google Cast/...
 - run 'pod install' to install pods
-- run 'builddep.sh' from external folder to compile c libraries
+- run 'builddep.sh' from external folder to compile c libraries (need autoconf 2.53 or later)
 
 ## License
 

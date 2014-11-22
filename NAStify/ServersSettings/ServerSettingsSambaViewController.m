@@ -14,15 +14,15 @@
 typedef enum _SETTINGS_TAG
 {
     ADDRESS_TAG = 0,
-    PORT_TAG,
-    ACCOUNT_NAME_TAG
+    UNAME_TAG,
+    PWD_TAG,
+    ACCOUNT_NAME_TAG,
 } SETTINGS_TAG;
 
 @implementation ServerSettingsSambaViewController
 
-@synthesize textCellProfile, textCellAddress, textCellPort;
+@synthesize textCellProfile, textCellAddress, textCellUsername, textCellPassword;
 @synthesize userAccount, accountIndex;
-@synthesize tokenString;
 
 - (id)initWithStyle:(UITableViewStyle)style andAccount:(UserAccount *)account andIndex:(NSInteger)index
 {
@@ -32,11 +32,7 @@ typedef enum _SETTINGS_TAG
         
         // If it's a new account, create a new one
         if (self.accountIndex == -1) {
-            userAccount = [[UserAccount alloc] init];
-            userAccount.server = @"mafreebox.freebox.fr";
-            userAccount.port = @"80";
-            userAccount.serverType = SERVER_TYPE_FREEBOX_REVOLUTION;
-            userAccount.authenticationType = AUTHENTICATION_TYPE_TOKEN;
+            self.userAccount = [[UserAccount alloc] init];
         }
     }
     return self;
@@ -47,20 +43,23 @@ typedef enum _SETTINGS_TAG
     [super viewDidLoad];
     
     [self.navigationItem setHidesBackButton:YES];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
-                                                                                          target:self 
-                                                                                          action:@selector(saveButtonAction)];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
+                                                                                           target:self
+                                                                                           action:@selector(saveButtonAction)];
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
-                                                                                           target:self 
-                                                                                           action:@selector(cancelButtonAction)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
+                                                                                          target:self
+                                                                                          action:@selector(cancelButtonAction)];
     
     // Load custom tableView
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-
+    
     self.navigationItem.title = NSLocalizedString(@"Settings",nil);
+    
+    // Init localPassword with keychain content
+    self.localPassword = [SSKeychain passwordForService:self.userAccount.uuid account:@"password"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -82,9 +81,7 @@ typedef enum _SETTINGS_TAG
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    NSInteger sections = 0;
-    sections = 2;
-    return sections;
+    return 3;
 }
 
 
@@ -92,7 +89,7 @@ typedef enum _SETTINGS_TAG
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     NSInteger numberOfRows = 0;
-
+    
     switch (section)
     {
         case 0:
@@ -102,12 +99,12 @@ typedef enum _SETTINGS_TAG
         }
         case 1:
         {
-            numberOfRows = 2;
+            numberOfRows = 1;
             break;
         }
         case 2:
         {
-            numberOfRows = 1;
+            numberOfRows = 2;
             break;
         }
     }
@@ -119,10 +116,9 @@ typedef enum _SETTINGS_TAG
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *TextCellIdentifier = @"TextCell";
-    static NSString *CellIdentifier = @"Cell";
-
+    
     UITableViewCell *cell = nil;
-
+    
     switch (indexPath.section)
     {
         case 0:
@@ -135,15 +131,15 @@ typedef enum _SETTINGS_TAG
                     if (textCellProfile == nil)
                     {
                         textCellProfile = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                           reuseIdentifier:TextCellIdentifier];
+                                                          reuseIdentifier:TextCellIdentifier];
                     }
-                    [textCellProfile setCellDataWithLabelString:NSLocalizedString(@"Profile Name:",nil)
-                                                withText:userAccount.accountName
-                                         withPlaceHolder:NSLocalizedString(@"Description",nil)
-                                                isSecure:NO
-                                        withKeyboardType:UIKeyboardTypeDefault
-                                            withDelegate:self
-                                                  andTag:ACCOUNT_NAME_TAG];
+                    [textCellProfile setCellDataWithLabelString:NSLocalizedString(@"Profile Name:",@"")
+                                                       withText:userAccount.accountName
+                                                withPlaceHolder:NSLocalizedString(@"Description",@"")
+                                                       isSecure:NO
+                                               withKeyboardType:UIKeyboardTypeDefault
+                                                   withDelegate:self
+                                                         andTag:ACCOUNT_NAME_TAG];
                     cell = textCellProfile;
                     break;
                 }
@@ -160,34 +156,16 @@ typedef enum _SETTINGS_TAG
                     if (textCellAddress == nil)
                     {
                         textCellAddress = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                           reuseIdentifier:TextCellIdentifier];
+                                                          reuseIdentifier:TextCellIdentifier];
                     }
                     [textCellAddress setCellDataWithLabelString:NSLocalizedString(@"Address:",nil)
-                                                withText:userAccount.server
-                                         withPlaceHolder:NSLocalizedString(@"Hostname or IP",nil)
-                                                isSecure:NO
-                                        withKeyboardType:UIKeyboardTypeURL
-                                            withDelegate:self
-                                                  andTag:ADDRESS_TAG];
+                                                       withText:userAccount.server
+                                                withPlaceHolder:NSLocalizedString(@"Hostname/IP",nil)
+                                                       isSecure:NO
+                                               withKeyboardType:UIKeyboardTypeURL
+                                                   withDelegate:self
+                                                         andTag:ADDRESS_TAG];
                     cell = textCellAddress;
-                    break;
-                }
-                case 1:
-                {
-                    textCellPort = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
-                    if (textCellPort == nil)
-                    {
-                        textCellPort = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                        reuseIdentifier:TextCellIdentifier];
-                    }
-                    [textCellPort setCellDataWithLabelString:NSLocalizedString(@"Port:",nil)
-                                                withText:userAccount.port
-                                         withPlaceHolder:NSLocalizedString(@"Port number",nil)
-                                                isSecure:NO
-                                        withKeyboardType:UIKeyboardTypePhonePad
-                                            withDelegate:self
-                                                  andTag:PORT_TAG];
-                    cell = textCellPort;
                     break;
                 }
             }
@@ -199,14 +177,38 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
-                    cell = [tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
-                    if (cell == nil)
+                    textCellUsername = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (textCellUsername == nil)
                     {
-                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                          reuseIdentifier:CellIdentifier];
+                        textCellUsername = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                           reuseIdentifier:TextCellIdentifier];
                     }
-                    cell.textLabel.text = [SSKeychain passwordForService:self.userAccount.uuid
-                                                                 account:@"password"];
+                    [textCellUsername setCellDataWithLabelString:NSLocalizedString(@"Username:",@"")
+                                                        withText:userAccount.userName
+                                                 withPlaceHolder:NSLocalizedString(@"Username",@"")
+                                                        isSecure:NO
+                                                withKeyboardType:UIKeyboardTypeDefault
+                                                    withDelegate:self
+                                                          andTag:UNAME_TAG];
+                    cell = textCellUsername;
+                    break;
+                }
+                case 1:
+                {
+                    textCellPassword = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (textCellPassword == nil)
+                    {
+                        textCellPassword = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                           reuseIdentifier:TextCellIdentifier];
+                    }
+                    [textCellPassword setCellDataWithLabelString:NSLocalizedString(@"Password:",@"")
+                                                        withText:self.localPassword
+                                                 withPlaceHolder:NSLocalizedString(@"Password",@"")
+                                                        isSecure:YES
+                                                withKeyboardType:UIKeyboardTypeDefault
+                                                    withDelegate:self
+                                                          andTag:PWD_TAG];
+                    cell = textCellPassword;
                     break;
                 }
             }
@@ -233,7 +235,7 @@ typedef enum _SETTINGS_TAG
         }
         case 2:
         {
-            title = NSLocalizedString(@"Token",nil);
+            title = NSLocalizedString(@"Security",nil);
             break;
         }
     }
@@ -249,20 +251,24 @@ typedef enum _SETTINGS_TAG
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	[textField resignFirstResponder];
+    [textField resignFirstResponder];
     if (textField == textCellProfile.textField)
     {
         [textCellAddress.textField becomeFirstResponder];
     }
     else if (textField == textCellAddress.textField)
     {
-        [textCellPort.textField becomeFirstResponder];
+        [textCellUsername.textField becomeFirstResponder];
     }
-    else if (textField == textCellPort.textField)
+    else if (textField == textCellUsername.textField)
     {
-        [textCellProfile.textField becomeFirstResponder];
+        [textCellPassword.textField becomeFirstResponder];
     }
-	return YES;
+    else if (textField == textCellPassword.textField)
+    {
+        [textCellAddress.textField becomeFirstResponder];
+    }
+    return YES;
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
@@ -278,12 +284,25 @@ typedef enum _SETTINGS_TAG
         }
         case ADDRESS_TAG:
         {
+            if ([textField.text hasPrefix:@"https://"])
+            {
+                self.userAccount.boolSSL = YES;
+            }
+            else
+            {
+                self.userAccount.boolSSL = NO;
+            }
             self.userAccount.server = textField.text;
             break;
         }
-        case PORT_TAG:
+        case UNAME_TAG:
         {
-            self.userAccount.port = textField.text;
+            self.userAccount.userName = textField.text;
+            break;
+        }
+        case PWD_TAG:
+        {
+            self.localPassword = textField.text;
             break;
         }
     }
@@ -292,7 +311,13 @@ typedef enum _SETTINGS_TAG
 - (void)saveButtonAction {
     [textCellProfile resignFirstResponder];
     [textCellAddress resignFirstResponder];
-    [textCellPort resignFirstResponder];
+    [textCellUsername resignFirstResponder];
+    [textCellPassword resignFirstResponder];
+    
+    [SSKeychain setPassword:self.localPassword
+                 forService:self.userAccount.uuid
+                    account:@"password"];
+    
     if (self.accountIndex == -1)
     {
         NSNotification* notification = [NSNotification notificationWithName:@"ADDACCOUNT"
@@ -309,7 +334,7 @@ typedef enum _SETTINGS_TAG
         
         [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
     }
-        
+    
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
@@ -323,6 +348,7 @@ typedef enum _SETTINGS_TAG
     }
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
+
 
 @end
 

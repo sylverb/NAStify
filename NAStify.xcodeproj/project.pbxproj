@@ -474,6 +474,17 @@
 		D5316B5F1A17B6F800364CA7 /* samba_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B4F1A17B6AA00364CA7 /* samba_small.png */; };
 		D5316B601A17B6F800364CA7 /* samba_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B501A17B6AA00364CA7 /* samba_small@2x.png */; };
 		D5316B611A17B6F800364CA7 /* samba_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5316B511A17B6AA00364CA7 /* samba_small@3x.png */; };
+		D5316B631A17C54E00364CA7 /* libsmbclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5316B621A17C54E00364CA7 /* libsmbclient.a */; };
+		D5316B691A17C6E100364CA7 /* libtalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5316B681A17C6E100364CA7 /* libtalloc.a */; };
+		D5316B7E1A18C37600364CA7 /* libsmbclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5316B621A17C54E00364CA7 /* libsmbclient.a */; };
+		D5316B7F1A18C37600364CA7 /* libtalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5316B681A17C6E100364CA7 /* libtalloc.a */; };
+		D5316B811A18C48600364CA7 /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D5AC93271870F06F00D190FA /* libresolv.dylib */; };
+		D5316B831A18C4D200364CA7 /* libtevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5316B821A18C4D200364CA7 /* libtevent.a */; };
+		D5316B851A18C5B800364CA7 /* libtdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5316B841A18C5B800364CA7 /* libtdb.a */; };
+		D5316B861A18C5E400364CA7 /* libtdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5316B841A18C5B800364CA7 /* libtdb.a */; };
+		D5316B871A18C5E400364CA7 /* libtevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5316B821A18C4D200364CA7 /* libtevent.a */; };
+		D5316B891A18C61C00364CA7 /* libwbclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5316B881A18C61C00364CA7 /* libwbclient.a */; };
+		D5316B8A1A18C65100364CA7 /* libwbclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5316B881A18C61C00364CA7 /* libwbclient.a */; };
 		D53D92881A0DBE9000E6D6B6 /* FileBrowserSearchCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F9B4024E162771B200FB8C98 /* FileBrowserSearchCell.m */; };
 		D53D92891A0DBECE00E6D6B6 /* CustomSearchDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = F97B1C0C162BA68400E3FF7C /* CustomSearchDisplayController.m */; };
 		D53D92D81A0E1E0500E6D6B6 /* 3gp.png in Resources */ = {isa = PBXBuildFile; fileRef = D53D928A1A0E1E0400E6D6B6 /* 3gp.png */; };
@@ -1337,6 +1348,11 @@
 		D5316B541A17B6AA00364CA7 /* samba@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba@3x.png"; sourceTree = "<group>"; };
 		D5316B551A17B6AA00364CA7 /* samba~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba~ipad.png"; sourceTree = "<group>"; };
 		D5316B561A17B6AA00364CA7 /* samba~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba~iphone.png"; sourceTree = "<group>"; };
+		D5316B621A17C54E00364CA7 /* libsmbclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsmbclient.a; path = external/samba/libs/libsmbclient.a; sourceTree = "<group>"; };
+		D5316B681A17C6E100364CA7 /* libtalloc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtalloc.a; path = external/samba/libs/libtalloc.a; sourceTree = "<group>"; };
+		D5316B821A18C4D200364CA7 /* libtevent.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtevent.a; path = external/samba/libs/libtevent.a; sourceTree = "<group>"; };
+		D5316B841A18C5B800364CA7 /* libtdb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdb.a; path = external/samba/libs/libtdb.a; sourceTree = "<group>"; };
+		D5316B881A18C61C00364CA7 /* libwbclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwbclient.a; path = external/samba/libs/libwbclient.a; sourceTree = "<group>"; };
 		D53D928A1A0E1E0400E6D6B6 /* 3gp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 3gp.png; sourceTree = "<group>"; };
 		D53D928B1A0E1E0400E6D6B6 /* 7z.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 7z.png; sourceTree = "<group>"; };
 		D53D928C1A0E1E0400E6D6B6 /* aa3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = aa3.png; sourceTree = "<group>"; };
@@ -2108,6 +2124,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5316B811A18C48600364CA7 /* libresolv.dylib in Frameworks */,
+				D5316B891A18C61C00364CA7 /* libwbclient.a in Frameworks */,
+				D5316B851A18C5B800364CA7 /* libtdb.a in Frameworks */,
+				D5316B831A18C4D200364CA7 /* libtevent.a in Frameworks */,
+				D5316B7E1A18C37600364CA7 /* libsmbclient.a in Frameworks */,
+				D5316B7F1A18C37600364CA7 /* libtalloc.a in Frameworks */,
 				D5E473D41A00F4C200A02A1A /* libSDropboxSDK.a in Frameworks */,
 				D5E473D01A00E76800A02A1A /* libiconv.2.dylib in Frameworks */,
 				D5E473CD1A00E70D00A02A1A /* libcrypto.a in Frameworks */,
@@ -2123,6 +2145,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5316B8A1A18C65100364CA7 /* libwbclient.a in Frameworks */,
+				D5316B861A18C5E400364CA7 /* libtdb.a in Frameworks */,
+				D5316B871A18C5E400364CA7 /* libtevent.a in Frameworks */,
+				D5316B631A17C54E00364CA7 /* libsmbclient.a in Frameworks */,
+				D5316B691A17C6E100364CA7 /* libtalloc.a in Frameworks */,
 				D5E473D51A00F4E500A02A1A /* libSDropboxSDK.a in Frameworks */,
 				D546FCFA19FE5D2F00125E62 /* libc++.dylib in Frameworks */,
 				D546FCEC19FE4EA400125E62 /* libMediaLibraryKit.a in Frameworks */,
@@ -2526,6 +2553,11 @@
 		F901F7A815D7C7C50059428E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D5316B881A18C61C00364CA7 /* libwbclient.a */,
+				D5316B841A18C5B800364CA7 /* libtdb.a */,
+				D5316B821A18C4D200364CA7 /* libtevent.a */,
+				D5316B681A17C6E100364CA7 /* libtalloc.a */,
+				D5316B621A17C54E00364CA7 /* libsmbclient.a */,
 				D546FCF919FE5D2F00125E62 /* libc++.dylib */,
 				D53030EB19DA979C004F7147 /* MediaAccessibility.framework */,
 				D5AFBAED19CF64AA001C14CC /* EventKitUI.framework */,
@@ -5110,6 +5142,7 @@
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
 					"$(inherited)",
+					"$(SRCROOT)/external/samba/libs",
 				);
 				INFOPLIST_FILE = "NAStify-DocProvider/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -5124,6 +5157,7 @@
 					"$(PROJECT_DIR)/external/libssh2/lib",
 					"$(PROJECT_DIR)/external/neon/lib",
 					"$(PROJECT_DIR)/external/openssl/lib",
+					"$(PROJECT_DIR)/external/samba/libs",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_CFLAGS = "$(inherited)";
@@ -5162,6 +5196,7 @@
 				HEADER_SEARCH_PATHS = (
 					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
 					"$(inherited)",
+					"$(SRCROOT)/external/samba/libs",
 				);
 				INFOPLIST_FILE = "NAStify-DocProvider/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -5176,6 +5211,7 @@
 					"$(PROJECT_DIR)/external/libssh2/lib",
 					"$(PROJECT_DIR)/external/neon/lib",
 					"$(PROJECT_DIR)/external/openssl/lib",
+					"$(PROJECT_DIR)/external/samba/libs",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = (
@@ -5276,6 +5312,7 @@
 					"$(SRCROOT)/external/MediaLibraryKit/build/Release-iphoneos/include",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos/include",
 					"\"$(BUILT_PRODUCTS_DIR)\"/**",
+					"$(SRCROOT)/external/samba/libs",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "NAStify/NAStify-Info.plist";
@@ -5291,6 +5328,7 @@
 					"$(SRCROOT)/external/VLCKit/build/Release-iphoneos/",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos",
 					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
+					"$(PROJECT_DIR)/external/samba/libs",
 				);
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -5329,6 +5367,7 @@
 					"$(SRCROOT)/external/MediaLibraryKit/build/Release-iphoneos/include",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos/include",
 					"\"$(BUILT_PRODUCTS_DIR)\"/**",
+					"$(SRCROOT)/external/samba/libs",
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = "NAStify/NAStify-Info.plist";
@@ -5344,6 +5383,7 @@
 					"$(SRCROOT)/external/VLCKit/build/Release-iphoneos/",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos",
 					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
+					"$(PROJECT_DIR)/external/samba/libs",
 				);
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",

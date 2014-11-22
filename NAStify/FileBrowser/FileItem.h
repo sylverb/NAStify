@@ -21,17 +21,6 @@ typedef enum _FILETYPE
     FILETYPE_PDF,
     FILETYPE_TEXT,
 	FILETYPE_UNKNOWN,
-    // Samba
-    KxSMBItemTypeUnknown,
-    KxSMBItemTypeWorkgroup,
-    KxSMBItemTypeServer,
-    KxSMBItemTypeFileShare,
-    KxSMBItemTypePrinter,
-    KxSMBItemTypeComms,
-    KxSMBItemTypeIPC,
-    KxSMBItemTypeDir,
-    KxSMBItemTypeFile,
-    KxSMBItemTypeLink,
 } FILETYPE;
 
 #define kRootID @"-1"

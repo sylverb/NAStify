@@ -26,6 +26,7 @@
         self.acceptUntrustedCertificate = YES;
         self.encoding = nil;
         self.transfertMode = 0;
+        self.settings = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
@@ -46,6 +47,11 @@
         self.acceptUntrustedCertificate = [coder decodeBoolForKey:@"acceptUntrustedCertificate"];
         self.encoding = [coder decodeObjectForKey:@"encoding"];
         self.transfertMode = [coder decodeIntForKey:@"transfertMode"];
+        self.settings = [coder decodeObjectForKey:@"settings"];
+        if ([coder decodeObjectForKey:@"settings"])
+        {
+            self.settings = [coder decodeObjectForKey:@"settings"];
+        }
     }
     return self;
 }
@@ -63,22 +69,24 @@
     [coder encodeBool:self.acceptUntrustedCertificate forKey:@"acceptUntrustedCertificate"];
     [coder encodeObject:self.encoding forKey:@"encoding"];
     [coder encodeInt:self.transfertMode forKey:@"transfertMode"];
+    [coder encodeObject:self.settings forKey:@"settings"];
 }
 
 - (id)copyWithZone:(NSZone *)zone
 {
     UserAccount *copy = [[[self class] allocWithZone: zone] init];
-    copy.uuid = self.uuid;
-    copy.accountName = self.accountName;
+    copy.uuid = [self.uuid copyWithZone:zone];
+    copy.accountName = [self.accountName copyWithZone:zone];
     copy.serverType = self.serverType;
     copy.authenticationType = self.authenticationType;
-    copy.server = self.server;
-    copy.port = self.port;
-    copy.userName = self.userName;
+    copy.server = [self.server copyWithZone:zone];
+    copy.port = [self.port copyWithZone:zone];
+    copy.userName = [self.userName copyWithZone:zone];
     copy.boolSSL = self.boolSSL;
     copy.acceptUntrustedCertificate = self.acceptUntrustedCertificate;
-    copy.encoding = self.encoding;
+    copy.encoding = [self.encoding copyWithZone:zone];
     copy.transfertMode = self.transfertMode;
+    copy.settings = [self.settings copyWithZone:zone];
     return copy;
 }
 

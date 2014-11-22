@@ -75,6 +75,7 @@ typedef enum _TRANSFERT_MODE
 @property(nonatomic, strong) NSString *encoding;
 /* Transfert mode (for FTP) */
 @property(nonatomic) TRANSFERT_MODE transfertMode;
+@property(nonatomic, strong) NSMutableDictionary *settings;
 
 @property(nonatomic) BOOL boolSSL;
 @property(nonatomic) BOOL acceptUntrustedCertificate;

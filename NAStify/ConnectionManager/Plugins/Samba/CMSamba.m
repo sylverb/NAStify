@@ -8,24 +8,33 @@
 //  using samba library
 //  using code from KxSMB (https://github.com/kolyvan/kxsmb)
 //
+//FIXME: just uploaded file returns "busy" if trying to delete it
+//FIXME: crash when trying to list unreachable network (when in 3G/4G for example)
 
-#if 0
+#if !(TARGET_IPHONE_SIMULATOR)
 #import "CMSamba.h"
 #import "NSStringAdditions.h"
 #import "SBNetworkActivityIndicator.h"
 #import "SSKeychain.h"
 
+#ifdef DEBUG
 #define SAMBA_DEBUG_LEVEL 2
+#else
+#define SAMBA_DEBUG_LEVEL 0
+#endif
+
+char user[255];
+char password[255];
 
 NSString * const KxSMBErrorDomain = @"com.sylver.NAStify";
 
 // Prototypes
 
-static void my_smbc_get_auth_data_fn(const char *srv,
-                                     const char *shr,
-                                     char *workgroup, int wglen,
-                                     char *username, int unlen,
-                                     char *password, int pwlen);
+static void nastify_smbc_get_auth_data_fn(const char *srv,
+                                          const char *shr,
+                                          char *pworkgroup, int wglen,
+                                          char *pusername, int unlen,
+                                          char *ppassword, int pwlen);
 
 // Functions
 
@@ -45,7 +54,7 @@ static NSString * KxSMBErrorMessage (KxSMBError errorCode)
         case KxSMBErrorItemAlreadyExists:   return NSLocalizedString(@"SMB Item already exists", nil);
         case KxSMBErrorDirNotEmpty:         return NSLocalizedString(@"SMB Directory not empty", nil);
         case KxSMBErrorFileIO:              return NSLocalizedString(@"SMB File I/O failure", nil);
-            
+        case KxSMBErrorBusy:                return NSLocalizedString(@"SMB Ressource busy", nil);
     }
 }
 
@@ -62,11 +71,13 @@ static KxSMBError errnoToSMBErr(int err)
         case ENODEV:    return KxSMBErrorShareDoesNotExist;
         case EEXIST:    return KxSMBErrorItemAlreadyExists;
         case ENOTEMPTY: return KxSMBErrorDirNotEmpty;
+        case EBUSY:     return KxSMBErrorBusy;
         default:        return KxSMBErrorUnknown;
     }
 }
 
-static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
+#ifndef APP_EXTENSION
+static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
 {
     NSDictionary *userInfo = nil;
     NSString *reason = nil;
@@ -95,10 +106,55 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
                                code:error
                            userInfo:userInfo];
 }
+#endif
 
 @implementation CMSamba
 
 #pragma mark -
+
+- (NSString *)buildURI:(FileItem *)file
+{
+    NSString *uri = nil;
+    
+    if ([self.userAccount.server length] == 0)
+    {
+        // Browse from workgroups list
+        if ([file.objectIds count] == 1)
+        {
+            uri = [NSString stringWithFormat:@"smb:/%@",file.path];
+        }
+        else
+        {
+            uri = @"smb:/";
+            for (NSString *pathComponent in file.objectIds)
+            {
+                if (![pathComponent isEqualToString:kRootID])
+                {
+                    uri = [uri stringByAppendingFormat:@"/%@",pathComponent];
+                }
+            }
+            if (file.isDir)
+            {
+                uri = [uri stringByAppendingString:@"/"];
+            }
+        }
+    }
+    else
+    {
+        uri = [NSString stringWithFormat:@"smb://%@%@",self.userAccount.server,file.path];
+    }
+    return uri;
+}
+
+- (NSArray *)serverInfo
+{
+    NSArray *serverInfo = [NSArray arrayWithObjects:
+                           [NSString stringWithFormat:NSLocalizedString(@"%@",nil), @"Samba"],
+                           [NSString stringWithFormat:NSLocalizedString(@"Workgroup: %s",nil), smbc_getWorkgroup(self.smbContext)],
+                           [NSString stringWithFormat:NSLocalizedString(@"User: %s",nil), user],
+                           nil];
+    return serverInfo;
+}
 
 - (id)init
 {
@@ -114,25 +170,44 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
 
 - (BOOL)login
 {
-    smbContext = smbc_new_context();
-	if (!smbContext)
-		return NULL;
+    self.smbContext = smbc_new_context();
+	if (!self.smbContext)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithBool:NO],@"success",
+                                    NSLocalizedString(@"Initialization failure", nil),@"error",
+                                    nil]];
+        });
+		return YES;
+    }
+
+    if ((self.userAccount.userName) && ([self.userAccount.userName length] != 0))
+    {
+        strcpy(user,[self.userAccount.userName cStringUsingEncoding:NSUTF8StringEncoding]);
+        strcpy(password, [[SSKeychain passwordForService:self.userAccount.uuid account:@"password"] cStringUsingEncoding:NSUTF8StringEncoding]);
+    }
+    else
+    {
+        strcpy(user,"guest");
+    }
+    smbc_setDebug(self.smbContext, SAMBA_DEBUG_LEVEL);
     
-#ifdef DEBUG
-    smbc_setDebug(smbContext, SAMBA_DEBUG_LEVEL);
-#else
-    smbc_setDebug(smbContext, 0);
-#endif
+	smbc_setTimeout(self.smbContext, 0);
+    smbc_setFunctionAuthData(self.smbContext, nastify_smbc_get_auth_data_fn);
     
-	smbc_setTimeout(smbContext, 0);
-    smbc_setFunctionAuthData(smbContext, my_smbc_get_auth_data_fn);
-    
-	if (!smbc_init_context(smbContext)) {
-		smbc_free_context(smbContext, NO);
-		return NULL;
+	if (!smbc_init_context(self.smbContext)) {
+		smbc_free_context(self.smbContext, NO);
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithBool:NO],@"success",
+                                    NSLocalizedString(@"Initialization failure", nil),@"error",
+                                    nil]];
+        });
+        return YES;
 	}
     
-    smbc_set_context(smbContext);
+    smbc_set_context(self.smbContext);
 
     // Return YES if we need to wait for the login answer to continue
     // This is needed if the login process if needed to build other requests
@@ -142,33 +217,37 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
 
 - (BOOL)logout
 {
-    if (smbContext) {
-        
+    if (self.smbContext)
+    {
         // fixes warning: no talloc stackframe at libsmb/cliconnect.c:2637, leaking memory
         TALLOC_CTX *frame = talloc_stackframe();
-        smbc_getFunctionPurgeCachedServers(smbContext)(smbContext);
+        smbc_getFunctionPurgeCachedServers(self.smbContext)(self.smbContext);
         TALLOC_FREE(frame);
         
-        smbc_free_context(smbContext, NO);
+        smbc_free_context(self.smbContext, NO);
     }
     return NO;
 }
 
 - (void)listForPath:(FileItem *)folder
 {
+#ifndef APP_EXTENSION
     __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     }];
+#endif
     
     dispatch_async(backgroundQueue, ^(void)
     {
         // Start the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
         
+        // Build SMB URI
+        NSString *uri = [self buildURI:folder];
+        
         // get files list
-        NSLog(@"Get file at %@",[NSString stringWithFormat:@"smb://192.168.1.10%@",folder.path]);
-        SMBCFILE *smbFile = smbc_getFunctionOpendir(smbContext)(smbContext, [NSString stringWithFormat:@"smb://192.168.1.10%@",folder.path].UTF8String);
+        SMBCFILE *smbFile = smbc_getFunctionOpendir(self.smbContext)(self.smbContext, uri.UTF8String);
         
         // Stop the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
@@ -179,23 +258,26 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
             
             struct smbc_dirent *dirent;
             
-            smbc_readdir_fn readdirFn = smbc_getFunctionReaddir(smbContext);
+            smbc_readdir_fn readdirFn = smbc_getFunctionReaddir(self.smbContext);
             
-            while((dirent = readdirFn(smbContext, smbFile)) != NULL) {
-                
+            while((dirent = readdirFn(self.smbContext, smbFile)) != NULL)
+            {
                 if (!dirent->name) continue;
                 if (!strlen(dirent->name)) continue;
-                if (dirent->name[0] == '.') continue;
-                if (!strcmp(dirent->name, "IPC$")) continue;
+                if (!strcmp(dirent->name, ".") || !strcmp(dirent->name, "..") || !strcmp(dirent->name, "IPC$")) continue;
                 
                 NSString *name = [NSString stringWithUTF8String:dirent->name];
                 
                 NSString *itemPath;
-                if ([folder.path hasSuffix:@"/"])
-                    itemPath = [folder.path stringByAppendingString:name] ;
+                if ([uri hasSuffix:@"/"])
+                {
+                    itemPath = [uri stringByAppendingString:name] ;
+                }
                 else
-                    itemPath = [NSString stringWithFormat:@"%@/%@", folder.path, name];
-
+                {
+                    itemPath = [NSString stringWithFormat:@"%@/%@", uri, name];
+                }
+                
                 // Get file type
                 NSString *type = @"";
                 
@@ -230,59 +312,149 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
 
                 struct stat st;
                 memset(&st, 0, sizeof(struct stat));
-                if (dirent->smbc_type != SMBC_WORKGROUP &&
-                    dirent->smbc_type != SMBC_SERVER)
+                switch (dirent->smbc_type)
                 {
-                    int r = smbc_getFunctionStat(smbContext)(smbContext, [NSString stringWithFormat:@"smb://192.168.1.10%@",itemPath].UTF8String, &st);
-                    if (r < 0)
-                    {
-                        NSLog(@"get stat error %@",KxSMBErrorMessage(errnoToSMBErr(errno)));
-                    }
-                    else
+                    case SMBC_WORKGROUP:
                     {
                         NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
                                                   [NSNumber numberWithBool:isDir],@"isdir",
                                                   name,@"filename",
-                                                  [NSNumber numberWithLongLong:st.st_size],@"filesizenumber",
-//                                                  @"",@"group",
-//                                                  @"",@"owner",
-                                                  [NSNumber numberWithBool:NO],@"iscompressed",
-                                                  [NSNumber numberWithBool:!(st.st_mode & SMBC_DOS_MODE_READONLY)],@"writeaccess",
-                                                  [NSNumber numberWithDouble:st.st_mtime],@"date",
-                                                  type,@"type",
                                                   nil];
                         [filesOutputArray addObject:dictItem];
+                        break;
+                    }
+                    case SMBC_SERVER:
+                    {
+                        NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithBool:isDir],@"isdir",
+                                                  name,@"filename",
+                                                  name,@"id",
+                                                  nil];
+                        [filesOutputArray addObject:dictItem];
+                        break;
+                    }
+                    default:
+                    {
+                        // Start the network activity spinner
+                        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+                        
+                        int r = smbc_getFunctionStat(self.smbContext)(self.smbContext, itemPath.UTF8String, &st);
+                        
+                        // Stop the network activity spinner
+                        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+                        
+                        if (r < 0)
+                        {
+                            NSLog(@"get stat error on %@ : %@",name,KxSMBErrorMessage(errnoToSMBErr(errno)));
+                        }
+                        else
+                        {
+                            NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      [NSNumber numberWithBool:isDir],@"isdir",
+                                                      name,@"filename",
+                                                      [NSNumber numberWithLongLong:st.st_size],@"filesizenumber",
+                                                      name,@"id",
+//                                                    @"",@"group",
+//                                                    @"",@"owner",
+                                                      [NSNumber numberWithBool:NO],@"iscompressed",
+                                                      [NSNumber numberWithBool:YES],@"writeaccess",
+                                                      [NSNumber numberWithDouble:st.st_mtime],@"date",
+                                                      type,@"type",
+                                                      nil];
+                            [filesOutputArray addObject:dictItem];
+                        }
+                        break;
                     }
                 }
             }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:YES],@"success",
+                                            folder.path,@"path",
+                                            filesOutputArray,@"filesList",
+                                            nil]];
+            });
             
-            [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:YES],@"success",
-                                        folder.path,@"path",
-                                        filesOutputArray,@"filesList",
-                                        nil]];
-            
-            smbc_getFunctionClose(smbContext)(smbContext, smbFile);
+            smbc_getFunctionClose(self.smbContext)(self.smbContext, smbFile);
         
         }
         else
         {
-            NSString *error = KxSMBErrorMessage(errnoToSMBErr(errno));
-            [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:NO],@"success",
-                                        folder.path,@"path",
-                                        error,@"error",
-                                        nil]];
+//            smbc_free_context(self.smbContext, NO);
+            
+            const int err = errno;
+            NSString *error = KxSMBErrorMessage(errnoToSMBErr(err));
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:NO],@"success",
+                                            folder.path,@"path",
+                                            error,@"error",
+                                            nil]];
+            });
         }
-        
+#ifndef APP_EXTENSION
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
+#endif
     });
 }
 
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
 {
-#if 0
+#ifndef APP_EXTENSION
+    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+#endif
+    
+    dispatch_async(backgroundQueue, ^(void)
+    {
+        NSString *uri = [self buildURI:folder];
+        NSString *itemPath;
+        if ([uri hasSuffix:@"/"])
+        {
+            itemPath = [uri stringByAppendingString:folderName] ;
+        }
+        else
+        {
+            itemPath = [NSString stringWithFormat:@"%@/%@", uri, folderName];
+        }
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+        
+        int r = smbc_getFunctionMkdir(self.smbContext)(self.smbContext, itemPath.UTF8String, 0);
+        
+        // Stop the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+        
+        if (r < 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                const int err = errno;
+                [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               KxSMBErrorMessage(errnoToSMBErr(err)),@"error",
+                                               nil]];
+            });
+        } else {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:YES],@"success",
+                                               nil]];
+            });
+        }
+        
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
+    });
+}
+
+#ifndef APP_EXTENSION
+- (void)deleteFiles:(NSArray *)files
+{
     __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
@@ -290,15 +462,161 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
     
     dispatch_async(backgroundQueue, ^(void)
     {
-        int ret;
-        NSString *fullPath = [NSString stringWithFormat:@"%@/%@",path,folder];
-        const char *spath = [[fullPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
-        ret = ne_mkcol(self.webDavSession, spath);
+        BOOL success = YES;
+        NSError *error = nil;
         
-        if (!ret)
+        for (FileItem *file in files)
+        {
+            NSString *uri = [self buildURI:file];
+            // Start the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+            
+            int r = smbc_getFunctionUnlink(self.smbContext)(self.smbContext, uri.UTF8String);
+            
+            // Stop the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+            
+            if (r < 0)
+            {
+                int err = errno;
+                if (err == EISDIR)
+                {
+                    // Start the network activity spinner
+                    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+                    
+                    r = smbc_getFunctionRmdir(self.smbContext)(self.smbContext, uri.UTF8String);
+                    
+                    // Stop the network activity spinner
+                    [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+                    
+                    if (r < 0)
+                    {
+                        int err = errno;
+                        error =  mkKxSMBError(errnoToSMBErr(err),
+                                              NSLocalizedString(@"Unable rmdir file:%@ (errno:%d)", nil), file.name, err);
+                    }
+                }
+                else
+                {
+                    error =  mkKxSMBError(errnoToSMBErr(err),
+                                           NSLocalizedString(@"Unable unlink file:%@ (errno:%d)", nil), file.name, err);
+                }
+            }
+
+            if (error)
+            {
+                success = NO;
+                break;
+            }
+        }
+        
+        if (success)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
+                [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:YES],@"success",
+                                                 nil]];
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:NO],@"success",
+                                                 [error localizedDescription],@"error",
+                                                 nil]];
+            });
+        }
+        
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    });
+}
+#endif
+
+#ifndef APP_EXTENSION
+- (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder
+{
+    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+    
+    dispatch_async(backgroundQueue, ^(void)
+    {
+        NSString *pathUri = [self buildURI:folder];
+        NSString *oldUri = [pathUri stringByAppendingFormat:@"/%@",oldFile.name];
+        NSString *newUri = [pathUri stringByAppendingFormat:@"/%@",newName];
+        
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+        
+        int r = smbc_getFunctionRename(self.smbContext)(self.smbContext, oldUri.UTF8String, self.smbContext, newUri.UTF8String);
+        
+        // Stop the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+        
+        if (r < 0)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                const int err = errno;
+                [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
+                                         [NSNumber numberWithBool:NO],@"success",
+                                         KxSMBErrorMessage(errnoToSMBErr(err)),@"error",
+                                         nil]];
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
+                                         [NSNumber numberWithBool:YES],@"success",
+                                         nil]];
+            });
+        }
+        
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    });
+}
+#endif
+
+#ifndef APP_EXTENSION
+- (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite
+{
+    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+    
+    dispatch_async(backgroundQueue, ^(void)
+    {
+        BOOL success = YES;
+        NSString *destUri = [self buildURI:destFolder];
+        for (FileItem *file in files)
+        {
+            NSString *oldUri = [self buildURI:file];
+            NSString *newUri = [destUri stringByAppendingFormat:@"/%@",file.name];
+            
+            // Start the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+            
+            int r = smbc_getFunctionRename(self.smbContext)(self.smbContext, oldUri.UTF8String, self.smbContext, newUri.UTF8String);
+            
+            // Stop the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+            
+            if (r < 0)
+            {
+                success = NO;
+                break;
+            }
+        }
+        
+        if (success)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithBool:YES],@"success",
                                                nil]];
             });
@@ -306,9 +624,10 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
         else
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
+                const int err = errno;
+                [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithBool:NO],@"success",
-                                               [error description],@"error",
+                                               KxSMBErrorMessage(errnoToSMBErr(err)),@"error",
                                                nil]];
             });
         }
@@ -316,295 +635,247 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     });
-#endif
 }
-
-- (void)deleteFiles:(NSArray *)files
-{
-#if 0
-    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
-    
-    dispatch_async(backgroundQueue, ^(void)
-    {
-        int ret;
-        BOOL success = YES;
-        for (FileItem *file in files)
-        {
-            const char *spath = [[file.path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
-            ret = ne_delete(self.webDavSession, spath);
-            if (ret)
-            {
-                success = NO;
-                break;
-            }
-        }
-        
-        if (success)
-        {
-            NSNotification *notification = [NSNotification notificationWithName:NotificationName(CMDELETEFINISHED)
-                                                                         object:self
-                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 [NSNumber numberWithBool:YES],@"success",
-                                                                                 nil]];
-            
-            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
-        }
-        else
-        {
-            NSNotification *notification = [NSNotification notificationWithName:NotificationName(CMDELETEFINISHED)
-                                                                         object:self
-                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 [NSNumber numberWithBool:NO],@"success",
-                                                                                 [NSString stringWithFormat:@"Error code : %d",ret],@"error",
-                                                                                 nil]];
-            
-            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
-        }
-        
-        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    });
 #endif
-}
-
-- (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder
-{
-#if 0
-    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
-    
-    dispatch_async(backgroundQueue, ^(void)
-    {
-        int ret;
-        NSString *fullSrcName = [NSString stringWithFormat:@"%@/%@",path.path,oldName];
-        NSString *fullDestName = [NSString stringWithFormat:@"%@/%@",path.path,newName];
-        const char *sname = [[fullSrcName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
-        const char *dname = [[fullDestName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
-        
-        ret = ne_move(self.webDavSession, FALSE, sname, dname);
-        if (!ret)
-        {
-            NSNotification *notification = [NSNotification notificationWithName:NotificationName(CMRENAMEFINISHED)
-                                                                         object:self
-                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 [NSNumber numberWithBool:YES],@"success",
-                                                                                 nil]];
-            
-            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
-        }
-        else
-        {
-            NSNotification *notification = [NSNotification notificationWithName:NotificationName(CMRENAMEFINISHED)
-                                                                         object:self
-                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 [NSNumber numberWithBool:NO],@"success",
-                                                                                 [NSString stringWithFormat:@"Error code : %d",ret],@"error",
-                                                                                 nil]];
-            
-            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
-        }
-        
-        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    });
-#endif
-}
-
-- (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite
-{
-#if 0
-    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
-    
-    dispatch_async(backgroundQueue, ^(void)
-    {
-        int ret;
-        BOOL success = YES;
-        for (FileItem *file in files)
-        {
-            NSString *fullDestPath = [NSString stringWithFormat:@"%@/%@",toPath,file.name];
-            const char *spath = [[file.path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
-            const char *dpath = [[fullDestPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
-            ret = ne_move(self.webDavSession, overwrite, spath, dpath);
-            if (ret)
-            {
-                success = NO;
-                break;
-            }
-        }
-        
-        if (success)
-        {
-            NSNotification *notification = [NSNotification notificationWithName:NotificationName(CMMOVEFINISHED)
-                                                                         object:self
-                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 [NSNumber numberWithBool:YES],@"success",
-                                                                                 nil]];
-            
-            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
-        }
-        else
-        {
-            NSNotification *notification = [NSNotification notificationWithName:NotificationName(CMMOVEFINISHED)
-                                                                         object:self
-                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 [NSNumber numberWithBool:NO],@"success",
-                                                                                 [NSString stringWithFormat:@"Error code : %d",ret],@"error",
-                                                                                 nil]];
-            
-            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
-        }
-        
-        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    });
-#endif
-}
-
-- (void)copyFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite
-{
-#if 0
-    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
-        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    }];
-    
-    dispatch_async(backgroundQueue, ^(void)
-    {
-        int ret;
-        BOOL success = YES;
-        for (FileItem *file in files)
-        {
-            NSString *fullDestPath = [NSString stringWithFormat:@"%@/%@",toPath,file.name];
-            const char *spath = [[file.path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
-            const char *dpath = [[fullDestPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
-            ret = ne_copy(self.webDavSession, overwrite, NE_DEPTH_INFINITE, spath, dpath);
-            if (ret)
-            {
-                success = NO;
-                break;
-            }
-        }
-        
-        if (success)
-        {
-            NSNotification *notification = [NSNotification notificationWithName:NotificationName(CMCOPYFINISHED)
-                                                                         object:self
-                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 [NSNumber numberWithBool:YES],@"success",
-                                                                                 nil]];
-            
-            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
-        }
-        else
-        {
-            NSNotification *notification = [NSNotification notificationWithName:NotificationName(CMCOPYFINISHED)
-                                                                         object:self
-                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 [NSNumber numberWithBool:NO],@"success",
-                                                                                 [NSString stringWithFormat:@"Error code : %d",ret],@"error",
-                                                                                 nil]];
-            
-            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
-        }
-        
-        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
-        bgTask = UIBackgroundTaskInvalid;
-    });
-#endif
-}
 
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName
 {
-#if 0
+#ifndef APP_EXTENSION
     __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
     }];
+#endif
     
     dispatch_async(backgroundQueue, ^(void)
     {
-        // Go to documents folder
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *localPath = [[paths objectAtIndex:0] stringByAppendingFormat:@"/%@",localName];
-        int ret;
+        self.cancelDownload = NO;
+        NSFileManager *fm = [[NSFileManager alloc] init];
+        [fm createFileAtPath:localName
+                    contents:nil
+                  attributes:nil];
+        NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingToURL:[NSURL fileURLWithPath:localName] error:NULL];
         
-        size_t downloaded = 0;
-        get_context ctx;
-        ctx.session = self.webDavSession;
-        ctx.error = 0;
-        ctx.file = [localPath UTF8String];
-        ctx.fd = 0;
-        ctx.totalDownloaded = &downloaded;
+        SMBCFILE *smbFile = smbc_getFunctionOpen(self.smbContext)(self.smbContext,
+                                                                  [self buildURI:file].UTF8String,
+                                                                  O_RDONLY,
+                                                                  0);
         
-        char *spath = ne_path_escape([file.path UTF8String]);
-        ne_request *req = ne_request_create(self.webDavSession, "GET", spath);
-        
-        ne_add_response_body_reader(req, ne_accept_2xx, file_reader, &ctx);
-        
-        dispatch_source_t timer = dispatch_source_create(DISPATCH_SOURCE_TYPE_TIMER,
-                                                         0, 0, dispatch_get_main_queue());
-        long long totalSize = [file.fileSizeNumber longLongValue];
-        if (timer)
+        if (smbFile)
         {
-            dispatch_source_set_timer(timer, dispatch_walltime(NULL, 0), 100 * USEC_PER_SEC,  100 * USEC_PER_SEC);
-            dispatch_source_set_event_handler(timer, ^{
-                NSNotification* notification = [NSNotification notificationWithName:NotificationName(CMDOWNLOADPROGRESS)
-                                                                             object:self
-                                                                           userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                     [NSNumber numberWithLongLong:*(ctx.totalDownloaded)],@"downloadedBytes",
-                                                                                     file.fileSizeNumber,@"totalBytes",
-                                                                                     [NSNumber numberWithFloat:(float)((float)*(ctx.totalDownloaded)/(float)totalSize)],@"progress",
-                                                                                     nil]];
-                [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:)
-                                                                       withObject:notification
-                                                                    waitUntilDone:YES];
-                
-            });
-            dispatch_resume(timer);
-        }
-        ret = ne_request_dispatch(req);
-        
-        ne_request_destroy(req);
-        if (ctx.fd > 0)
-        {
-            close(ctx.fd);
-        }
-        
-        if (!ret)
-        {
-            NSNotification *notification = [NSNotification notificationWithName:NotificationName(CMDOWNLOADFINISHED)
-                                                                         object:self
-                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 [NSNumber numberWithBool:YES],@"success",
-                                                                                 nil]];
+            Byte buffer[32768];
             
-            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
+            // Start the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+            
+            smbc_read_fn readFn = smbc_getFunctionRead(self.smbContext);
+            while (1)
+            {
+                NSInteger bytesToRead = [file.fileSizeNumber integerValue];
+                NSInteger totalBytesExpectedToRead = bytesToRead;
+                NSInteger totalBytesRead = 0;
+                ssize_t r = 0;
+                while (bytesToRead > 0)
+                {
+                    r = readFn(self.smbContext, smbFile, buffer, sizeof(buffer));
+                    if ((r == 0) || (self.cancelDownload == YES))
+                    {
+                        break;
+                    }
+                    if (r < 0)
+                    {
+                        const int err = errno;
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.delegate CMDownloadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                               [NSNumber numberWithBool:NO],@"success",
+                                                               KxSMBErrorMessage(errnoToSMBErr(err)),@"error",
+                                                               nil]];
+                        });
+                        self.cancelDownload = YES;
+                        break;
+                    }
+                    
+                    bytesToRead -= r;
+                    totalBytesRead += r;
+                    @try
+                    {
+                        [fileHandle writeData:[NSData dataWithBytes:buffer length:r]];
+                    }
+                    @catch (NSException *exception)
+                    {
+                        self.cancelDownload = YES;
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                             [NSNumber numberWithBool:NO],@"success",
+                                                             [exception description],@"error",
+                                                             nil]];
+                        });
+                        break;
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMDownloadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithLongLong:totalBytesRead],@"downloadedBytes",
+                                                           file.fileSizeNumber,@"totalBytes",
+                                                           [NSNumber numberWithFloat:(float)((float)totalBytesRead/(float)totalBytesExpectedToRead)],@"progress",
+                                                           nil]];
+                    });
+                }
+                [fileHandle closeFile];
+                if (self.cancelDownload == NO)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMDownloadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:YES],@"success",
+                                                           nil]];
+                    });
+                }
+                break;
+            }
+            // Stop the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
         }
         else
         {
-            NSNotification *notification = [NSNotification notificationWithName:NotificationName(CMDOWNLOADFINISHED)
-                                                                         object:self
-                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                                                 [NSNumber numberWithBool:NO],@"success",
-                                                                                 [[NSString alloc] initWithUTF8String:ne_get_error(self.webDavSession)],@"error",
-                                                                                 nil]];
-            
-            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
-
+            const int err = errno;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMDownloadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [NSNumber numberWithBool:NO],@"success",
+                                                   KxSMBErrorMessage(errnoToSMBErr(err)),@"error",
+                                                   nil]];
+            });
         }
         
+        if (self.cancelDownload == YES)
+        {
+            // Delete partially donwloaded file
+            [fm removeItemAtPath:localName error:NULL];
+        }
+#ifndef APP_EXTENSION
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
         bgTask = UIBackgroundTaskInvalid;
-    });
 #endif
+    });
+}
+
+- (void)cancelDownloadTask
+{
+    self.cancelDownload = YES;
+}
+
+- (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
+{
+#ifndef APP_EXTENSION
+    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+#endif
+    
+    dispatch_async(backgroundQueue, ^(void)
+    {
+        NSLog(@"local file : %@",file.fullPath);
+        
+        NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingFromURL:[NSURL fileURLWithPath:file.fullPath] error:NULL];
+
+        smbc_write_fn writeFn = smbc_getFunctionWrite(self.smbContext);
+        
+        NSLog(@"%@",[[self buildURI:destFolder] stringByAppendingString:file.name]);
+        SMBCFILE *smbFile = smbc_getFunctionCreat(self.smbContext)(self.smbContext,
+                                                            [[self buildURI:destFolder] stringByAppendingString:file.name].UTF8String,
+                                                            O_WRONLY|O_CREAT|(overwrite ? O_TRUNC : O_EXCL));
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+        
+        while (1)
+        {
+            NSData *data = nil;
+            @try
+            {
+                data = [fileHandle readDataOfLength:256*1024];
+            }
+            @catch (NSException *exception)
+            {
+                [fileHandle closeFile];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                     [NSNumber numberWithBool:NO],@"success",
+                                                     [exception description],@"error",
+                                                     nil]];
+                });
+                // Stop the network activity spinner
+                [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+                return;
+            }
+            // read data = fileHandle.offsetInFile
+            NSInteger bytesToWrite = data.length;
+            const Byte *bytes = data.bytes;
+            if ((bytesToWrite == 0) || (self.cancelUpload == YES))
+            {
+                // end of file or cancel request
+                break;
+            }
+            while (bytesToWrite > 0)
+            {
+                ssize_t r = writeFn(self.smbContext, smbFile, bytes, bytesToWrite);
+                NSLog(@"written %zd",r);
+                if (r == 0)
+                {
+                    break;
+                }
+                if (r < 0)
+                {
+                    self.cancelUpload = YES;
+                    const int err = errno;
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSNumber numberWithBool:NO],@"success",
+                                                         KxSMBErrorMessage(errnoToSMBErr(err)),@"error",
+                                                         nil]];
+                    });
+                    break;
+                }
+                
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate CMUploadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSNumber numberWithLongLong:fileHandle.offsetInFile],@"uploadedBytes",
+                                                         file.fileSizeNumber,@"totalBytes",
+                                                         [NSNumber numberWithFloat:(float)((float)fileHandle.offsetInFile/(float)([file.fileSizeNumber longLongValue]))],@"progress",
+                                                         nil]];
+                });
+
+                bytesToWrite -= r;
+                bytes += r;
+            }
+        }
+        // Stop the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+        
+        if (self.cancelUpload == NO)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:YES],@"success",
+                                                 nil]];
+            });
+        }
+        else
+        {
+            //FIXME: Delete partially uploaded file
+        }
+        [fileHandle closeFile];
+        
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
+    });
+}
+
+- (void)cancelUploadTask
+{
+    self.cancelUpload = YES;
 }
 
 - (NetworkConnection *)urlForFile:(FileItem *)file
@@ -624,10 +895,10 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
                           CMSupportedFeaturesMaskFolderRename    |
                           CMSupportedFeaturesMaskFileMove        |
                           CMSupportedFeaturesMaskFolderMove      |
-                          CMSupportedFeaturesMaskFileCopy        |
-                          CMSupportedFeaturesMaskFolderCopy      |
                           CMSupportedFeaturesMaskFileDownload    |
+                          CMSupportedFeaturesMaskDownloadCancel  |
                           CMSupportedFeaturesMaskFileUpload      |
+                          CMSupportedFeaturesMaskUploadCancel    |
                           CMSupportedFeaturesMaskVideoSeek       |
                           CMSupportedFeaturesMaskAirPlay
                           );
@@ -636,19 +907,13 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
 
 @end
 
-static void my_smbc_get_auth_data_fn(const char *srv,
-                                     const char *shr,
-                                     char *workgroup, int wglen,
-                                     char *username, int unlen,
-                                     char *password, int pwlen)
+static void nastify_smbc_get_auth_data_fn(const char *srv,
+                                          const char *shr,
+                                          char *pworkgroup, int wglen,
+                                          char *pusername, int unlen,
+                                          char *ppassword, int pwlen)
 {
-    strncpy(username, "username", unlen - 1);
-    strncpy(password, "password", pwlen - 1);
-    strncpy(workgroup, "WORKGROUP", wglen - 1);
-//    strncpy(username, "guest", unlen - 1);
-//    password[0] = 0;
-    workgroup[0] = 0;
-    
-//    NSLog(@"smb get auth for %s/%s -> %s/%s:%s", srv, shr, workgroup, username, password);
+    strncpy(pusername, user, unlen - 1);
+    strncpy(ppassword, password, pwlen - 1);
 }
 #endif

@@ -2842,6 +2842,10 @@
                 {
                     fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[element objectForKey:@"id"]];
                 }
+                else
+                {
+                    fileItem.objectIds = self.currentFolder.objectIds;
+                }
                 
                 if ([element objectForKey:@"iscompressed"])
                 {
@@ -3986,6 +3990,7 @@
 
 - (void)requestAd
 {
+#ifndef DEBUG
     if (([self.userAccount shouldShowAds]) &&
         ([self.currentFolder.path isEqual:@"/"]))
     {
@@ -4005,6 +4010,7 @@
             [self.interstitial loadRequest:request];
         }
     }
+#endif
 }
 
 #pragma mark - GADInterstitialDelegate

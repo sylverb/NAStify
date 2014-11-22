@@ -33,3 +33,6 @@ external/neon/lib
 external/openssl/openssl-*
 external/openssl/bin
 external/openssl/lib
+external/samba/libs
+external/samba/samba
+external/samba/tmp
