@@ -1,23 +1,23 @@
 PODS:
-  - AFNetworking (2.4.1):
-    - AFNetworking/NSURLConnection (= 2.4.1)
-    - AFNetworking/NSURLSession (= 2.4.1)
-    - AFNetworking/Reachability (= 2.4.1)
-    - AFNetworking/Security (= 2.4.1)
-    - AFNetworking/Serialization (= 2.4.1)
-    - AFNetworking/UIKit (= 2.4.1)
-  - AFNetworking/NSURLConnection (2.4.1):
+  - AFNetworking (2.5.0):
+    - AFNetworking/NSURLConnection (= 2.5.0)
+    - AFNetworking/NSURLSession (= 2.5.0)
+    - AFNetworking/Reachability (= 2.5.0)
+    - AFNetworking/Security (= 2.5.0)
+    - AFNetworking/Serialization (= 2.5.0)
+    - AFNetworking/UIKit (= 2.5.0)
+  - AFNetworking/NSURLConnection (2.5.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.4.1):
+  - AFNetworking/NSURLSession (2.5.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.4.1)
-  - AFNetworking/Security (2.4.1)
-  - AFNetworking/Serialization (2.4.1)
-  - AFNetworking/UIKit (2.4.1):
+  - AFNetworking/Reachability (2.5.0)
+  - AFNetworking/Security (2.5.0)
+  - AFNetworking/Serialization (2.5.0)
+  - AFNetworking/UIKit (2.5.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - box-ios-sdk-v2 (1.2.2):
@@ -45,7 +45,7 @@ PODS:
   - XMLDictionary (1.4)
 
 DEPENDENCIES:
-  - AFNetworking (from `https://github.com/AFNetworking/AFNetworking.git`, commit `05e542f`)
+  - AFNetworking (= 2.5.0)
   - box-ios-sdk-v2 (from `https://github.com/box/box-ios-sdk-v2.git`, commit `76272c9`)
   - CocoaHTTPServer (= 2.3)
   - DACircularProgress (from `https://github.com/danielamitay/DACircularProgress.git`, commit `ccc7a2e`)
@@ -61,9 +61,6 @@ DEPENDENCIES:
   - XMLDictionary (= 1.4)
 
 EXTERNAL SOURCES:
-  AFNetworking:
-    :commit: 05e542f
-    :git: https://github.com/AFNetworking/AFNetworking.git
   box-ios-sdk-v2:
     :commit: 76272c9
     :git: https://github.com/box/box-ios-sdk-v2.git
@@ -81,7 +78,7 @@ EXTERNAL SOURCES:
     :git: https://github.com/fkuehne/upnpx.git
 
 SPEC CHECKSUMS:
-  AFNetworking: 72af5ca61de0fac5773557f14decb1d635700a87
+  AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
   box-ios-sdk-v2: c06d3009266dc2c5c27bbb3882f1e5cf1f3c72cb
   CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
   CocoaHTTPServer: 217df4cba4e48803db2480f97b805aaad2230dd1
