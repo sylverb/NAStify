@@ -368,16 +368,52 @@
             {
                 [self save];
                 
-                FileItem *rootFolder = [[FileItem alloc] init];
-                rootFolder.isDir = YES;
-                rootFolder.path = @"/";
-                rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
-
-                FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
-                fileBrowserViewController.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                fileBrowserViewController.currentFolder = rootFolder;
-                
-                [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                UserAccount *account = [self.accounts objectAtIndex:indexPath.row];
+                switch (account.serverType)
+                {
+                    case SERVER_TYPE_SAMBA:
+                    {
+                        if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+                        {
+                            FileItem *rootFolder = [[FileItem alloc] init];
+                            rootFolder.isDir = YES;
+                            rootFolder.path = @"/";
+                            rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
+                            
+                            FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+                            fileBrowserViewController.userAccount = account;
+                            fileBrowserViewController.currentFolder = rootFolder;
+                            
+                            [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                        }
+                        else
+                        {
+                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error",nil)
+                                                                            message:NSLocalizedString(@"You need to be connected to a WiFi network",nil)
+                                                                           delegate:nil
+                                                                  cancelButtonTitle:nil
+                                                                  otherButtonTitles:NSLocalizedString(@"OK",nil),nil];
+                            alert.alertViewStyle = UIAlertViewStyleDefault;
+                            [alert show];
+                        }
+                        break;
+                            
+                    }
+                    default:
+                    {
+                        FileItem *rootFolder = [[FileItem alloc] init];
+                        rootFolder.isDir = YES;
+                        rootFolder.path = @"/";
+                        rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
+                        
+                        FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+                        fileBrowserViewController.userAccount = account;
+                        fileBrowserViewController.currentFolder = rootFolder;
+                        
+                        [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                        break;
+                    }
+                }
                 break;
             }
             case 1: // UPnP
