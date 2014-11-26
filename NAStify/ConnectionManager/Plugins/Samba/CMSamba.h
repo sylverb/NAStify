@@ -34,6 +34,7 @@ typedef enum {
     KxSMBErrorDirNotEmpty,
     KxSMBErrorFileIO,
     KxSMBErrorBusy,
+    KxSMBErrorRefused,
 } KxSMBError;
 
 #ifndef APP_EXTENSION
@@ -51,6 +52,9 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...);
 @property(nonatomic) BOOL cancelUpload;
 @property(nonatomic, strong) UserAccount *userAccount;
 @property(nonatomic, weak)   id <CMDelegate> delegate;
+@property(nonatomic, strong) NSString *tempUser;
+@property(nonatomic, strong) NSString *tempPassword;
+
 
 - (NSArray *)serverInfo;
 - (BOOL)login;
@@ -65,6 +69,7 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...);
 - (void)cancelDownloadTask;
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
 - (void)cancelUploadTask;
+- (void)setCredential:(NSString *)user password:(NSString *)password;
 
 - (NetworkConnection *)urlForFile:(FileItem *)file;
 

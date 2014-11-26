@@ -23,8 +23,8 @@
 #define SAMBA_DEBUG_LEVEL 0
 #endif
 
-char user[255];
-char password[255];
+char c_user[255];
+char c_password[255];
 
 NSString * const KxSMBErrorDomain = @"com.sylver.NAStify";
 
@@ -55,6 +55,7 @@ static NSString * KxSMBErrorMessage (KxSMBError errorCode)
         case KxSMBErrorDirNotEmpty:         return NSLocalizedString(@"SMB Directory not empty", nil);
         case KxSMBErrorFileIO:              return NSLocalizedString(@"SMB File I/O failure", nil);
         case KxSMBErrorBusy:                return NSLocalizedString(@"SMB Ressource busy", nil);
+        case KxSMBErrorRefused:             return NSLocalizedString(@"SMB Connection refused", nil);
     }
 }
 
@@ -72,6 +73,7 @@ static KxSMBError errnoToSMBErr(int err)
         case EEXIST:    return KxSMBErrorItemAlreadyExists;
         case ENOTEMPTY: return KxSMBErrorDirNotEmpty;
         case EBUSY:     return KxSMBErrorBusy;
+        case ECONNREFUSED:  return KxSMBErrorRefused;
         default:        return KxSMBErrorUnknown;
     }
 }
@@ -148,10 +150,20 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
 
 - (NSArray *)serverInfo
 {
+    NSString *user = nil;
+    if (self.tempUser)
+    {
+        user = self.tempUser;
+    }
+    else
+    {
+        user = [NSString stringWithUTF8String:c_user];
+    }
+    
     NSArray *serverInfo = [NSArray arrayWithObjects:
                            [NSString stringWithFormat:NSLocalizedString(@"%@",nil), @"Samba"],
                            [NSString stringWithFormat:NSLocalizedString(@"Workgroup: %s",nil), smbc_getWorkgroup(self.smbContext)],
-                           [NSString stringWithFormat:NSLocalizedString(@"User: %s",nil), user],
+                           [NSString stringWithFormat:NSLocalizedString(@"User: %@",nil), user],
                            nil];
     return serverInfo;
 }
@@ -182,14 +194,19 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
 		return YES;
     }
 
-    if ((self.userAccount.userName) && ([self.userAccount.userName length] != 0))
+    if (self.tempUser != nil)
     {
-        strcpy(user,[self.userAccount.userName cStringUsingEncoding:NSUTF8StringEncoding]);
-        strcpy(password, [[SSKeychain passwordForService:self.userAccount.uuid account:@"password"] cStringUsingEncoding:NSUTF8StringEncoding]);
+        strcpy(c_user,[self.tempUser cStringUsingEncoding:NSUTF8StringEncoding]);
+        strcpy(c_password, [self.tempPassword cStringUsingEncoding:NSUTF8StringEncoding]);
+    }
+    else if ((self.userAccount.userName) && ([self.userAccount.userName length] != 0))
+    {
+        strcpy(c_user,[self.userAccount.userName cStringUsingEncoding:NSUTF8StringEncoding]);
+        strcpy(c_password, [[SSKeychain passwordForService:self.userAccount.uuid account:@"password"] cStringUsingEncoding:NSUTF8StringEncoding]);
     }
     else
     {
-        strcpy(user,"guest");
+        strcpy(c_user,"guest");
     }
     smbc_setDebug(self.smbContext, SAMBA_DEBUG_LEVEL);
     
@@ -383,14 +400,23 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
 //            smbc_free_context(self.smbContext, NO);
             
             const int err = errno;
-            NSString *error = KxSMBErrorMessage(errnoToSMBErr(err));
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
-                                            [NSNumber numberWithBool:NO],@"success",
-                                            folder.path,@"path",
-                                            error,@"error",
-                                            nil]];
-            });
+            if (errno != EPERM)
+            {
+                NSString *error = KxSMBErrorMessage(errnoToSMBErr(err));
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSNumber numberWithBool:NO],@"success",
+                                                folder.path,@"path",
+                                                error,@"error",
+                                                nil]];
+                });
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate CMCredentialRequest:nil];
+                });
+            }
         }
 #ifndef APP_EXTENSION
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
@@ -878,6 +904,12 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
     self.cancelUpload = YES;
 }
 
+- (void)setCredential:(NSString *)user password:(NSString *)password
+{
+    self.tempUser = user;
+    self.tempPassword = password;
+}
+
 - (NetworkConnection *)urlForFile:(FileItem *)file
 {
     NetworkConnection *networkConnection = [[NetworkConnection alloc] init];
@@ -913,7 +945,7 @@ static void nastify_smbc_get_auth_data_fn(const char *srv,
                                           char *pusername, int unlen,
                                           char *ppassword, int pwlen)
 {
-    strncpy(pusername, user, unlen - 1);
-    strncpy(ppassword, password, pwlen - 1);
+    strncpy(pusername, c_user, unlen - 1);
+    strncpy(ppassword, c_password, pwlen - 1);
 }
 #endif

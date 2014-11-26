@@ -47,6 +47,7 @@
 #define TAG_ALERT_DO_NOTHING    2
 #define TAG_ALERT_DISCONNECT    3
 #define TAG_ALERT_DELETE_FILES  4
+#define TAG_ALERT_CREDENTIAL    5
 
 /* HUD Tags */
 #define TAG_HUD_DOWNLOAD    1
@@ -1122,6 +1123,15 @@
             self.cameraRollSyncButtonIndex = -1;
         }
         
+        if ([self.connectionManager pluginRespondsToSelector:@selector(setCredential:password:)])
+        {
+            self.connectAsButtonIndex = [self.actionSheet addButtonWithTitle:NSLocalizedString(@"Connect as ...",nil)];
+        }
+        else
+        {
+            self.connectAsButtonIndex = -1;
+        }
+        
         if (self.userAccount.serverType == SERVER_TYPE_LOCAL)
         {
             self.serverInfoButtonIndex = [self.actionSheet addButtonWithTitle:NSLocalizedString(@"Device info",nil)];
@@ -1950,6 +1960,17 @@
                  this is a dirty workaround until a proper solution is found */
                 [self performSelector:@selector(selectFileToUpload) withObject:nil afterDelay:0.5];
             }
+            else if (buttonIndex == self.connectAsButtonIndex)
+            {
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Authentication",nil)
+                                                                message:NSLocalizedString(@"Enter login/password",nil)
+                                                               delegate:self
+                                                      cancelButtonTitle:NSLocalizedString(@"Cancel",nil)
+                                                      otherButtonTitles:NSLocalizedString(@"OK",nil),nil];
+                alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+                alert.tag = TAG_ALERT_CREDENTIAL;
+                [alert show];
+            }
             else if (buttonIndex == self.serverInfoButtonIndex)
             {
                 NSString *message = [NSString string];
@@ -2390,7 +2411,7 @@
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-	if (buttonIndex == -1)
+	if ((buttonIndex == -1) || (buttonIndex == alertView.cancelButtonIndex))
 		return;
     
     NSMutableArray *sourceArray = nil;
@@ -2511,6 +2532,26 @@
                 [self sendOTPEmergencyCode];
             }
             break;
+        }
+        case TAG_ALERT_CREDENTIAL:
+        {
+            [self.connectionManager setCredential:[alertView textFieldAtIndex:0].text
+                                         password:[alertView textFieldAtIndex:1].text];
+            
+            [self.connectionManager logout];
+            // Login
+            BOOL needToWaitLogin = NO;
+            needToWaitLogin = [self.connectionManager login];
+            
+            // Get file list if possible
+            if (!needToWaitLogin)
+            {
+                // Request ad
+                [self requestAd];
+                
+                [self.connectionManager listForPath:self.currentFolder];
+                [self.connectionManager spaceInfoAtPath:self.currentFolder];
+            }
         }
         case TAG_ALERT_DO_NOTHING:
         {
@@ -2925,6 +2966,7 @@
         }
         else
         {
+            NSLog(@"Error : %@",[dict objectForKey:@"error"]);
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Browse",nil)
                                                             message:NSLocalizedString([dict objectForKey:@"error"],nil)
                                                            delegate:self
@@ -3513,6 +3555,18 @@
         alert.tag = TAG_ALERT_DO_NOTHING;
 		[alert show];
 	}
+}
+
+- (void)CMCredentialRequest:(NSDictionary *)dict
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Authentication",nil)
+                                                    message:NSLocalizedString(@"Enter login/password",nil)
+                                                   delegate:self
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel",nil)
+                                          otherButtonTitles:NSLocalizedString(@"OK",nil),nil];
+    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+    alert.tag = TAG_ALERT_CREDENTIAL;
+    [alert show];
 }
 
 - (void)CMConnectionError:(NSDictionary *)dict

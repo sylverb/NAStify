@@ -73,6 +73,7 @@ typedef enum _SHARING_VALIDITY_UNIT
 - (void)CMShareFinished:(NSDictionary *)dict;
 - (void)CMConnectionError:(NSDictionary *)dict;
 - (void)CMAction:(NSDictionary *)dict;
+- (void)CMCredentialRequest:(NSDictionary *)dict;
 @end
 
 @protocol CM<NSObject>
@@ -112,7 +113,9 @@ typedef enum _SHARING_VALIDITY_UNIT
 - (SHARING_VALIDITY_UNIT)shareValidityUnit;
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localpath;
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
+- (void)setCredential:(NSString *)user password:(NSString *)password;
 - (void)reconnect;
+- (BOOL)pluginRespondsToSelector:(SEL)aSelector;
 
 - (void)cancelDeleteTask;
 - (void)cancelCopyTask;
@@ -154,6 +157,7 @@ typedef enum _SHARING_VALIDITY_UNIT
 - (void)shareFiles:(NSArray *)files duration:(NSTimeInterval)duration password:(NSString *)password;
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localpath;
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
+- (void)setCredential:(NSString *)user password:(NSString *)password;
 
 - (void)cancelDeleteTask;
 - (void)cancelCopyTask;
@@ -167,8 +171,9 @@ typedef enum _SHARING_VALIDITY_UNIT
 - (NetworkConnection *)urlForFile:(FileItem *)file;
 - (NetworkConnection *)urlForVideo:(FileItem *)file;
 
-/* Server features */
+- (BOOL)pluginRespondsToSelector:(SEL)aSelector;
 
+/* Server features */
 #define ServerSupportsFeature(feature) \
 ([self.connectionManager supportedFeaturesAtPath:self.currentFolder.path] & CMSupportedFeaturesMask##feature) == CMSupportedFeaturesMask##feature
 
@@ -294,5 +299,6 @@ typedef NS_OPTIONS(NSUInteger, CMSupportedSharingMask) {
 - (void)CMUploadFinished:(NSDictionary *)dict;
 - (void)CMAction:(NSDictionary *)dict;
 - (void)CMConnectionError:(NSDictionary *)dict;
+- (void)CMCredentialRequest:(NSDictionary *)dict;
 
 @end

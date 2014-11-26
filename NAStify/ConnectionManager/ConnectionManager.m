@@ -325,6 +325,14 @@
     }
 }
 
+- (void)setCredential:(NSString *)user password:(NSString *)password
+{
+    if ([[self idCM] respondsToSelector:@selector(setCredential:password:)])
+    {
+        [[self idCM] setCredential:user password:password];
+    }
+}
+
 - (void)reconnect
 {
     if ([[self idCM] respondsToSelector:@selector(reconnect)])
@@ -613,6 +621,14 @@
     }
 }
 
+- (void)CMCredentialRequest:(NSDictionary *)dict
+{
+    if ([self.delegate respondsToSelector:@selector(CMCredentialRequest:)])
+    {
+        [self.delegate CMCredentialRequest:dict];
+    }
+}
+
 - (void)CMConnectionError:(NSDictionary *)dict
 {
     if ([self.delegate respondsToSelector:@selector(CMConnectionError:)])
@@ -621,4 +637,13 @@
     }
 }
 
+- (BOOL)pluginRespondsToSelector:(SEL)aSelector
+{
+    BOOL responds = NO;
+    if ([[self idCM] respondsToSelector:aSelector])
+    {
+        responds = YES;
+    }
+    return responds;
+}
 @end

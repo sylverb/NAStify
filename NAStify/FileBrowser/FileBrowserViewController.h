@@ -86,6 +86,7 @@
 @property(nonatomic) NSInteger uploadButtonIndex;
 @property(nonatomic) NSInteger serverInfoButtonIndex;
 @property(nonatomic) NSInteger cameraRollSyncButtonIndex;
+@property(nonatomic) NSInteger connectAsButtonIndex;
 
 /* Long press sheet handling */
 @property(nonatomic, strong) UIActionSheet *itemActionSheet;
@@ -111,7 +112,6 @@
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 
 /* CMDelegate protocol */
-- (void)CMAction:(NSNotification*)notification;
 - (void)CMLogin:(NSDictionary *)dict;
 - (void)CMLogout:(NSDictionary *)dict;
 - (void)CMRequestOTP:(NSNotification *)notification;
@@ -129,6 +129,8 @@
 - (void)CMUploadFinished:(NSNotification*)notification;
 - (void)CMSearchFinished:(NSNotification *)notification;
 - (void)CMShareFinished:(NSDictionary *)dict;
+- (void)CMAction:(NSNotification*)notification;
+- (void)CMCredentialRequest:(NSDictionary *)dict;
 - (void)CMConnectionError:(NSNotification*)notification;
 
 /* SortingItemsController delegate */
