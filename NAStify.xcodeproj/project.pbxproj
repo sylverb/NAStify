@@ -2343,6 +2343,60 @@
 			name = GoogleCast;
 			sourceTree = "<group>";
 		};
+		D5D059811A228DB000461226 /* Dropbox */ = {
+			isa = PBXGroup;
+			children = (
+				D597AA5E18C2A5FC006FA582 /* ServerSettingsDropboxViewController.h */,
+				D597AA5F18C2A5FC006FA582 /* ServerSettingsDropboxViewController.m */,
+			);
+			name = Dropbox;
+			sourceTree = "<group>";
+		};
+		D5D059941A228DC900461226 /* Freebox */ = {
+			isa = PBXGroup;
+			children = (
+				F98D89821820E5200053D5CF /* ServerSettingsFreeboxRevViewController.h */,
+				F98D89831820E5200053D5CF /* ServerSettingsFreeboxRevViewController.m */,
+			);
+			name = Freebox;
+			sourceTree = "<group>";
+		};
+		D5D059951A228DDA00461226 /* FTP */ = {
+			isa = PBXGroup;
+			children = (
+				D54EBF481954A7A5008AC4BB /* ServerSettingsFtpViewController.h */,
+				D54EBF491954A7A5008AC4BB /* ServerSettingsFtpViewController.m */,
+			);
+			name = FTP;
+			sourceTree = "<group>";
+		};
+		D5D059961A228DE500461226 /* Samba */ = {
+			isa = PBXGroup;
+			children = (
+				D595AF86185EEABE00AE8037 /* ServerSettingsSambaViewController.h */,
+				D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */,
+			);
+			name = Samba;
+			sourceTree = "<group>";
+		};
+		D5D059971A228DF100461226 /* Synology */ = {
+			isa = PBXGroup;
+			children = (
+				D54EBF451950290A008AC4BB /* ServerSettingsSynologyViewController.h */,
+				D54EBF461950290A008AC4BB /* ServerSettingsSynologyViewController.m */,
+			);
+			name = Synology;
+			sourceTree = "<group>";
+		};
+		D5D059981A228DFF00461226 /* WebDAV */ = {
+			isa = PBXGroup;
+			children = (
+				F901F7EC15D7CA060059428E /* ServerSettingsWebDavViewController.h */,
+				F901F7ED15D7CA060059428E /* ServerSettingsWebDavViewController.m */,
+			);
+			name = WebDAV;
+			sourceTree = "<group>";
+		};
 		D5D302D818FDE3810087F4C6 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -2639,7 +2693,6 @@
 		F901F7C415D7C9380059428E /* ServersSettings */ = {
 			isa = PBXGroup;
 			children = (
-				D5D3CC5019A92AB90083EA08 /* Box */,
 				F901F7EE15D7CA060059428E /* UserAccount.h */,
 				F901F7EF15D7CA060059428E /* UserAccount.m */,
 				F901F7F015D7CA060059428E /* ServersListViewController.h */,
@@ -2650,18 +2703,13 @@
 				F901F7E915D7CA060059428E /* ServerTypeCell.m */,
 				F901F7EA15D7CA060059428E /* ServerTypeViewController.h */,
 				F901F7EB15D7CA060059428E /* ServerTypeViewController.m */,
-				D597AA5E18C2A5FC006FA582 /* ServerSettingsDropboxViewController.h */,
-				D597AA5F18C2A5FC006FA582 /* ServerSettingsDropboxViewController.m */,
-				F98D89821820E5200053D5CF /* ServerSettingsFreeboxRevViewController.h */,
-				F98D89831820E5200053D5CF /* ServerSettingsFreeboxRevViewController.m */,
-				D54EBF481954A7A5008AC4BB /* ServerSettingsFtpViewController.h */,
-				D54EBF491954A7A5008AC4BB /* ServerSettingsFtpViewController.m */,
-				D595AF86185EEABE00AE8037 /* ServerSettingsSambaViewController.h */,
-				D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */,
-				D54EBF451950290A008AC4BB /* ServerSettingsSynologyViewController.h */,
-				D54EBF461950290A008AC4BB /* ServerSettingsSynologyViewController.m */,
-				F901F7EC15D7CA060059428E /* ServerSettingsWebDavViewController.h */,
-				F901F7ED15D7CA060059428E /* ServerSettingsWebDavViewController.m */,
+				D5D3CC5019A92AB90083EA08 /* Box */,
+				D5D059811A228DB000461226 /* Dropbox */,
+				D5D059941A228DC900461226 /* Freebox */,
+				D5D059951A228DDA00461226 /* FTP */,
+				D5D059961A228DE500461226 /* Samba */,
+				D5D059971A228DF100461226 /* Synology */,
+				D5D059981A228DFF00461226 /* WebDAV */,
 			);
 			name = ServersSettings;
 			sourceTree = "<group>";
@@ -3008,14 +3056,14 @@
 			isa = PBXGroup;
 			children = (
 				D5D3CC4919A8F5040083EA08 /* Box */,
-				D5D3043718FF443D0087F4C6 /* UPnP */,
-				F98D897E181F8AD80053D5CF /* Samba */,
-				F97B1C101632BD4400E3FF7C /* QNAP */,
-				F90C6C2B160685C200153186 /* FreeboxRev */,
-				F9115D2815DA9047004259D3 /* Local */,
 				F9BF24D01605139A001F5BAF /* Dropbox */,
-				F9401E3B15F5347400AF40B2 /* Synology */,
+				F90C6C2B160685C200153186 /* FreeboxRev */,
 				F9345CAC15DC6321004035A9 /* FTP */,
+				F9115D2815DA9047004259D3 /* Local */,
+				F97B1C101632BD4400E3FF7C /* QNAP */,
+				F98D897E181F8AD80053D5CF /* Samba */,
+				F9401E3B15F5347400AF40B2 /* Synology */,
+				D5D3043718FF443D0087F4C6 /* UPnP */,
 				F9115D2B15DA9047004259D3 /* WebDAV */,
 			);
 			path = Plugins;
