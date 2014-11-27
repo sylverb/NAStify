@@ -1463,6 +1463,46 @@
 
 #pragma mark - Table view delegate
 
+- (BOOL)getSubtitleFileForMedia:(FileItem *)media
+{
+    NSString *urlTemp = [media.name stringByDeletingPathExtension];
+    NSMutableArray *fileList = [[NSMutableArray alloc] init];
+    for (FileItem *file in self.filesArray)
+    {
+        if ([[file.name stringByDeletingPathExtension] isEqualToString:urlTemp])
+        {
+            [fileList addObject:file];
+        }
+    }
+    
+    NSUInteger options = NSRegularExpressionSearch | NSCaseInsensitiveSearch;
+    for (FileItem *file in fileList)
+    {
+        if ([file.name rangeOfString:kSupportedSubtitleFileExtensions options:options].location != NSNotFound)
+        {
+            {
+                MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
+                                                          animated:YES];
+                if (ServerSupportsFeature(DownloadCancel))
+                {
+                    hud.allowsCancelation = YES;
+                    hud.tag = TAG_HUD_DOWNLOAD;
+                }
+                hud.delegate = self;
+                hud.labelText = NSLocalizedString(@"Preparing subtitle", nil);
+                
+                NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
+                NSString *downloadFilePath = [containerURL.path stringByAppendingString:@"/Documents/.tempSubtitle"];
+                self.subtitlePath = downloadFilePath;
+                [self.connectionManager downloadFile:file
+                                         toLocalName:downloadFilePath];
+            }
+            return YES;
+        }
+    }
+    return NO;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (self.searchDisplayController.active)
@@ -1534,18 +1574,18 @@
             case FILETYPE_QT_AUDIO:
             {
                 NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-                NetworkConnection *networkConnection = [self.connectionManager urlForVideo:fileItem];
+                self.videoNetworkConnection = [self.connectionManager urlForVideo:fileItem];
                 
                 BOOL useExternalPlayer = NO;
                 if (([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeExternal) &&
-                    (networkConnection.urlType != URLTYPE_LOCAL))
+                    (self.videoNetworkConnection.urlType != URLTYPE_LOCAL))
                 {
                     useExternalPlayer = YES;
                 }
                 
                 if (useExternalPlayer)
                 {
-                    NSString *stringURL = [networkConnection.url absoluteString];
+                    NSString *stringURL = [self.videoNetworkConnection.url absoluteString];
                     BOOL *playerFound = NO;
                     switch ([[defaults objectForKey:kNASTifySettingExternalPlayerType] integerValue])
                     {
@@ -1598,19 +1638,22 @@
                     {
                         // If GoogleCast connected, use VLC player
                         itemHandled = YES;
-                        VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
-                        
-                        movieViewController.url = networkConnection.url;
-                        
-                        UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
-                        navCon.modalPresentationStyle = UIModalPresentationFullScreen;
-                        [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                        if (![self getSubtitleFileForMedia:fileItem])
+                        {
+                            VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
+                            
+                            movieViewController.url = self.videoNetworkConnection.url;
+                            
+                            UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                            navCon.modalPresentationStyle = UIModalPresentationFullScreen;
+                            [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                        }
                     }
                     else if (ServerSupportsFeature(QTPlayer))
                     {
                         itemHandled = YES;
                         // Internal player can handle this media
-                        CustomMoviePlayerViewController *mp = [[CustomMoviePlayerViewController alloc] initWithContentURL:networkConnection.url];
+                        CustomMoviePlayerViewController *mp = [[CustomMoviePlayerViewController alloc] initWithContentURL:self.videoNetworkConnection.url];
                         mp.allowsAirPlay = ServerSupportsFeature(AirPlay);
                         if (mp)
                         {
@@ -1622,13 +1665,16 @@
                     {
                         itemHandled = YES;
                         // Fallback to VLC media player
-                        VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
-                        
-                        movieViewController.url = networkConnection.url;
-                        
-                        UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
-                        navCon.modalPresentationStyle = UIModalPresentationFullScreen;
-                        [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                        if (![self getSubtitleFileForMedia:fileItem])
+                        {
+                            VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
+                            
+                            movieViewController.url = self.videoNetworkConnection.url;
+                            
+                            UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                            navCon.modalPresentationStyle = UIModalPresentationFullScreen;
+                            [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                        }
                     }
                 }
                 break;
@@ -1637,17 +1683,17 @@
             case FILETYPE_VLC_AUDIO:
             {
                 NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-                NetworkConnection *networkConnection = [self.connectionManager urlForVideo:fileItem];
+                self.videoNetworkConnection = [self.connectionManager urlForVideo:fileItem];
                 BOOL useExternalPlayer = NO;
                 if (([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeExternal) &&
-                    (networkConnection.urlType != URLTYPE_LOCAL))
+                    (self.videoNetworkConnection.urlType != URLTYPE_LOCAL))
                 {
                     useExternalPlayer = YES;
                 }
                 
                 if (useExternalPlayer)
                 {
-                    NSString *stringURL = [networkConnection.url absoluteString];
+                    NSString *stringURL = [self.videoNetworkConnection.url absoluteString];
                     BOOL *playerFound = NO;
                     switch ([[defaults objectForKey:kNASTifySettingExternalPlayerType] integerValue])
                     {
@@ -1696,13 +1742,16 @@
                 else if (ServerSupportsFeature(VLCPlayer))
                 {
                     itemHandled = YES;
-                    VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
-                    
-                    movieViewController.url = networkConnection.url;
-                    
-                    UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
-                    navCon.modalPresentationStyle = UIModalPresentationFullScreen;
-                    [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                    if (![self getSubtitleFileForMedia:fileItem])
+                    {
+                        VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
+                        
+                        movieViewController.url = self.videoNetworkConnection.url;
+                        
+                        UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                        navCon.modalPresentationStyle = UIModalPresentationFullScreen;
+                        [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                    }
                 }
                 break;
             }
@@ -1887,14 +1936,19 @@
     
     if (actionSheet == _gcActionSheet)
     {
-        if (_gcController.selectedDevice == nil) {
-            if (buttonIndex < _gcController.deviceScanner.devices.count) {
+        if (_gcController.selectedDevice == nil)
+        {
+            if (buttonIndex < _gcController.deviceScanner.devices.count)
+            {
                 _gcController.selectedDevice = _gcController.deviceScanner.devices[buttonIndex];
                 NSLog(@"Selecting device:%@", _gcController.selectedDevice.friendlyName);
                 [_gcController connectToDevice];
             }
-        } else {
-            if (buttonIndex == _gcActionSheet.destructiveButtonIndex) {  //Disconnect button
+        }
+        else
+        {
+            if (buttonIndex == _gcActionSheet.destructiveButtonIndex)
+            {  //Disconnect button
                 NSLog(@"Disconnecting device:%@", _gcController.selectedDevice.friendlyName);
                 // New way of doing things: We're not going to stop the applicaton. We're just going
                 // to leave it.
@@ -1905,12 +1959,14 @@
                 
                 [_gcController deviceDisconnected];
                 [self updateGCState];
-            } else if (buttonIndex == 0) {
+            }
+            else if (buttonIndex == 0)
+            {
                 // Join the existing session.
                 VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
                 
                 movieViewController.url = nil;
-                
+
                 UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
                 navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                 [self.navigationController presentViewController:navCon animated:YES completion:nil];
@@ -2119,6 +2175,8 @@
             }
             else if (buttonIndex == self.downloadButtonIndex)
             {
+                self.videoNetworkConnection = nil;
+                
                 // TODO : create a download/upload queue manager which will handle all requested downloads
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                           animated:YES];
@@ -2156,6 +2214,15 @@
         {
             [self.connectionManager cancelDownloadTask];
             [hud hide:YES];
+            if (self.videoNetworkConnection)
+            {
+                VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
+                movieViewController.url = self.videoNetworkConnection.url;
+                
+                UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                navCon.modalPresentationStyle = UIModalPresentationFullScreen;
+                [self.navigationController presentViewController:navCon animated:YES completion:nil];
+            }
             break;
         }
         case TAG_HUD_UPLOAD:
@@ -3197,6 +3264,18 @@
     // TODO : Find a smart way to present this information ...
 	if ([[dict objectForKey:@"success"] boolValue])
     {
+        if (self.videoNetworkConnection)
+        {
+            NSLog(@"self.subtitlePath = %@",self.subtitlePath);
+            VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
+            
+            movieViewController.url = self.videoNetworkConnection.url;
+            movieViewController.pathToExternalSubtitlesFile = self.subtitlePath;
+            
+            UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+            navCon.modalPresentationStyle = UIModalPresentationFullScreen;
+            [self.navigationController presentViewController:navCon animated:YES completion:nil];
+        }
 	}
     else
     {

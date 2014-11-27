@@ -50,6 +50,8 @@
 #define kNASTifySettingExternalPlayerTypeGoodplayer 4
 #define kNASTifySettingExternalPlayerTypePlex       5
 
+#define kSupportedSubtitleFileExtensions @"\\.(srt|sub|cdg|idx|utf|ass|ssa|aqt|jss|psb|rt|smi|txt|smil)$"
+
 @interface VlcSettingsViewController : UITableViewController <TableSelectViewControllerDelegate>
 
 // libVLC settings

@@ -32,9 +32,7 @@
 - (void)extractFiles:(NSArray *)files toFolder:(FileItem *)folder withPassword:(NSString *)password overwrite:(BOOL)overwrite extractWithFolder:(BOOL)extractFolders;
 #endif
 - (void)searchFiles:(NSString *)searchString atPath:(FileItem *)folder;
-#ifdef APP_EXTENSION
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName;
-#endif
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
 
 #ifndef APP_EXTENSION
