@@ -368,14 +368,15 @@ typedef enum _SETTINGS_TAG
             {
                 case SERVER_TYPE_WEBDAV:
                 {
-                    if ([textField.text hasPrefix:@"https://"])
+                    if (([textField.text hasPrefix:@"https://"]) || ([textField.text hasPrefix:@"webdavs://"]))
                     {
                         self.userAccount.boolSSL = YES;
                     }
-                    else
+                    else if (([textField.text hasPrefix:@"http://"]) || ([textField.text hasPrefix:@"webdav://"]))
                     {
                         self.userAccount.boolSSL = NO;
                     }
+                    [self.tableView reloadData];
                     break;
                 }
                 default:

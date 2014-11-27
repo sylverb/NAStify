@@ -914,7 +914,6 @@
 }
 #endif
 
-#ifdef APP_EXTENSION
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^(void) {
@@ -947,7 +946,6 @@
         }
     });
 }
-#endif
 
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
 {
@@ -1067,8 +1065,8 @@
                          CMSupportedFeaturesMaskCompress       |
                          CMSupportedFeaturesMaskExtract        |
                          CMSupportedFeaturesMaskSearch         |
-#ifdef APP_EXTENSION
                          CMSupportedFeaturesMaskFileDownload   |
+#ifdef APP_EXTENSION
                          CMSupportedFeaturesMaskFileUpload     |
 #endif
                          CMSupportedFeaturesMaskQTPlayer       |

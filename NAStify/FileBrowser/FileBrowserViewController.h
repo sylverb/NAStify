@@ -70,6 +70,12 @@
 @property(nonatomic, strong) UITableView *multipleSelectionTableView;
 @property(nonatomic, strong) NSMutableIndexSet *selectedIndexes;
 
+/* Subtitle downloading handling */
+@property(nonatomic, strong) NetworkConnection *videoNetworkConnection;
+@property(nonatomic, strong) NSString *videoUrl;
+@property(nonatomic, strong) NSString *subtitlePath;
+
+
 /* UIBarButtonItems for multiple selection */
 @property(nonatomic, strong) UIBarButtonItem *deleteFilesButtonItem;
 @property(nonatomic, strong) UIBarButtonItem *moveCopyFilesButtonItem;

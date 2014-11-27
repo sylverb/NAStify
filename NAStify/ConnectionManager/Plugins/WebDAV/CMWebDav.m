@@ -318,8 +318,8 @@ static void dav_delete_props(dav_props *props);
             }
             
             auth_creds_context auth_ctx;
-            auth_ctx.username = [self.userAccount.userName UTF8String];
-            auth_ctx.password = [password UTF8String];
+            auth_ctx.username = ne_strdup([self.userAccount.userName UTF8String]);
+            auth_ctx.password = ne_strdup([password UTF8String]);
             ne_add_server_auth(self.webDavSession, NE_AUTH_ALL, auth_creds_callback, &auth_ctx);
             
             // If SSL connection requested, configure certificate verification
@@ -483,11 +483,23 @@ static void dav_delete_props(dav_props *props);
                 dav_delete_props(tofree);
             }
             
-            [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
-                                        [NSNumber numberWithBool:YES],@"success",
-                                        folder.path,@"path",
-                                        filesOutputArray,@"filesList",
-                                        nil]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:YES],@"success",
+                                            folder.path,@"path",
+                                            filesOutputArray,@"filesList",
+                                            nil]];
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:NO],@"success",
+                                            folder.path,@"path",
+                                            [[NSString alloc] initWithUTF8String:ne_get_error(self.webDavSession)],@"error",
+                                            nil]];
+            });
         }
         
         // Clear results
@@ -534,7 +546,7 @@ static void dav_delete_props(dav_props *props);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithBool:NO],@"success",
-                                               [NSString stringWithFormat:@"Error code : %d",ret],@"error",
+                                               [[NSString alloc] initWithUTF8String:ne_get_error(self.webDavSession)],@"error",
                                                nil]];
             });
         }
@@ -582,7 +594,7 @@ static void dav_delete_props(dav_props *props);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                  [NSNumber numberWithBool:NO],@"success",
-                                                 [NSString stringWithFormat:@"Error code : %d",ret],@"error",
+                                                 [[NSString alloc] initWithUTF8String:ne_get_error(self.webDavSession)],@"error",
                                                  nil]];
             });
         }
@@ -623,7 +635,7 @@ static void dav_delete_props(dav_props *props);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
                                          [NSNumber numberWithBool:NO],@"success",
-                                         [NSString stringWithFormat:@"Error code : %d",ret],@"error",
+                                         [[NSString alloc] initWithUTF8String:ne_get_error(self.webDavSession)],@"error",
                                          nil]];
             });
         }
@@ -672,7 +684,7 @@ static void dav_delete_props(dav_props *props);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithBool:NO],@"success",
-                                               [NSString stringWithFormat:@"Error code : %d",ret],@"error",
+                                               [[NSString alloc] initWithUTF8String:ne_get_error(self.webDavSession)],@"error",
                                                nil]];
             });
         }
@@ -721,7 +733,7 @@ static void dav_delete_props(dav_props *props);
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMCopyFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithBool:NO],@"success",
-                                               [NSString stringWithFormat:@"Error code : %d",ret],@"error",
+                                               [[NSString alloc] initWithUTF8String:ne_get_error(self.webDavSession)],@"error",
                                                nil]];
             });
         }
