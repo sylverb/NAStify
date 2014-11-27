@@ -270,7 +270,7 @@
     
 	if ([self.currentFolder.path isEqualToString:@"/"])
     {
-		if (([self.filesArray count] == 0))
+		if (([self.filesArray count] == 0) && (!self.isConnected))
         {
             // Login
             BOOL needToWaitLogin = NO;
@@ -279,6 +279,8 @@
 			// Get file list if possible
             if (!needToWaitLogin)
             {
+                self.isConnected = YES;
+                
                 // Request ad
                 [self requestAd];
 
