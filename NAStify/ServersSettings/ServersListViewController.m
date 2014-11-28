@@ -170,19 +170,19 @@
             rows = [self.accounts count];
             break;
         }
-        case 1: // UPnP
-        {
-            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
-            {
-                rows = _filteredUPNPDevices.count;
-            }
-            break;
-        }
-        case 2: // SMB/CIFS
+        case 1: // SMB/CIFS
         {
             if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
             {
                 rows = 1;
+            }
+            break;
+        }
+        case 2: // UPnP
+        {
+            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+            {
+                rows = _filteredUPNPDevices.count;
             }
             break;
         }
@@ -206,17 +206,17 @@
         }
         case 1:
         {
-            if ((self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi) && (_filteredUPNPDevices.count > 0))
+            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
             {
-                sectionName = NSLocalizedString(@"UPnP",nil);
+                sectionName = NSLocalizedString(@"Windows Shares (SMB/CIFS)",nil);
             }
             break;
         }
         case 2:
         {
-            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+            if ((self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi) && (_filteredUPNPDevices.count > 0))
             {
-                sectionName = NSLocalizedString(@"Windows Shares (SMB/CIFS)",nil);
+                sectionName = NSLocalizedString(@"UPnP",nil);
             }
             break;
         }
@@ -250,29 +250,7 @@
             cell = serverCell;
             break;
         }
-        case 1: // UPnP
-        {
-            ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:ServerCellIdentifier];
-            if (serverCell == nil)
-            {
-                serverCell = [[ServerCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                               reuseIdentifier:ServerCellIdentifier];
-            }
-
-            // Get device info
-            BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
-
-            // Configure the cell...
-            serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
-            serverCell.showsReorderControl = YES;
-            
-            serverCell.serverLabel.text = [device friendlyName];
-            serverCell.fileTypeImage.image = [device smallIcon];
-
-            cell = serverCell;
-            break;
-        }
-        case 2: // SMB/CIFS
+        case 1: // SMB/CIFS
         {
             ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:ServerCellIdentifier];
             if (serverCell == nil)
@@ -288,6 +266,28 @@
             account.serverType = SERVER_TYPE_SAMBA;
             account.accountName = NSLocalizedString(@"Windows Shares", nil);
             [serverCell setAccount:account];
+            cell = serverCell;
+            break;
+        }
+        case 2: // UPnP
+        {
+            ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:ServerCellIdentifier];
+            if (serverCell == nil)
+            {
+                serverCell = [[ServerCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                               reuseIdentifier:ServerCellIdentifier];
+            }
+            
+            // Get device info
+            BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
+            
+            // Configure the cell...
+            serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
+            serverCell.showsReorderControl = YES;
+            
+            serverCell.serverLabel.text = [device friendlyName];
+            serverCell.fileTypeImage.image = [device smallIcon];
+            
             cell = serverCell;
             break;
         }
@@ -451,31 +451,7 @@
                 }
                 break;
             }
-            case 1: // UPnP
-            {
-                BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
-                if ([[device urn] isEqualToString:@"urn:schemas-upnp-org:device:MediaServer:1"])
-                {
-                    MediaServer1Device *server = (MediaServer1Device*)device;
-                    
-                    UserAccount *account = [[UserAccount alloc] init];
-                    account.serverType = SERVER_TYPE_UPNP;
-                    account.serverObject = server;
-                    
-                    FileItem *rootFolder = [[FileItem alloc] init];
-                    rootFolder.isDir = YES;
-                    rootFolder.path = @"/";
-                    rootFolder.objectIds = [NSArray arrayWithObject:@"0"];
-
-                    FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
-                    fileBrowserViewController.userAccount = account;
-                    fileBrowserViewController.currentFolder = rootFolder;
-                    
-                    [self.navigationController pushViewController:fileBrowserViewController animated:YES];
-                }
-                break;
-            }
-            case 2: // SMB/CIFS
+            case 1: // SMB/CIFS
             {
                 UserAccount *account = [[UserAccount alloc] init];
                 account.serverType = SERVER_TYPE_SAMBA;
@@ -490,6 +466,30 @@
                 fileBrowserViewController.currentFolder = rootFolder;
                 
                 [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                break;
+            }
+            case 2: // UPnP
+            {
+                BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
+                if ([[device urn] isEqualToString:@"urn:schemas-upnp-org:device:MediaServer:1"])
+                {
+                    MediaServer1Device *server = (MediaServer1Device*)device;
+                    
+                    UserAccount *account = [[UserAccount alloc] init];
+                    account.serverType = SERVER_TYPE_UPNP;
+                    account.serverObject = server;
+                    
+                    FileItem *rootFolder = [[FileItem alloc] init];
+                    rootFolder.isDir = YES;
+                    rootFolder.path = @"/";
+                    rootFolder.objectIds = [NSArray arrayWithObject:@"0"];
+                    
+                    FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+                    fileBrowserViewController.userAccount = account;
+                    fileBrowserViewController.currentFolder = rootFolder;
+                    
+                    [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                }
                 break;
             }
             default:
