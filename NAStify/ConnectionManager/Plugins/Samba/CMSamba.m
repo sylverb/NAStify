@@ -161,7 +161,7 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
     }
     
     NSArray *serverInfo = [NSArray arrayWithObjects:
-                           [NSString stringWithFormat:NSLocalizedString(@"%@",nil), @"Samba"],
+                           [NSString stringWithFormat:NSLocalizedString(@"%@",nil), @"SMB/CIFS"],
                            [NSString stringWithFormat:NSLocalizedString(@"Workgroup: %s",nil), smbc_getWorkgroup(self.smbContext)],
                            [NSString stringWithFormat:NSLocalizedString(@"User: %@",nil), user],
                            nil];
