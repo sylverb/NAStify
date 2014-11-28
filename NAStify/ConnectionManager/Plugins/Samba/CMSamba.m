@@ -8,7 +8,6 @@
 //  using samba library
 //  using code from KxSMB (https://github.com/kolyvan/kxsmb)
 //
-//FIXME: just uploaded file returns "busy" if trying to delete it
 //FIXME: crash when trying to list unreachable network (when in 3G/4G for example)
 
 #if !(TARGET_IPHONE_SIMULATOR)
@@ -36,7 +35,7 @@ static void nastify_smbc_get_auth_data_fn(const char *srv,
                                           char *pusername, int unlen,
                                           char *ppassword, int pwlen);
 
-// Functions
+// C functions
 
 static NSString * KxSMBErrorMessage (KxSMBError errorCode)
 {
@@ -110,6 +109,16 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
 }
 #endif
 
+static void nastify_smbc_get_auth_data_fn(const char *srv,
+                                          const char *shr,
+                                          char *pworkgroup, int wglen,
+                                          char *pusername, int unlen,
+                                          char *ppassword, int pwlen)
+{
+    strncpy(pusername, c_user, unlen - 1);
+    strncpy(ppassword, c_password, pwlen - 1);
+}
+
 @implementation CMSamba
 
 #pragma mark -
@@ -148,6 +157,18 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
     return uri;
 }
 
+- (id)init
+{
+    self = [super init];
+	if (self)
+    {
+        backgroundQueue = dispatch_queue_create("com.sylver.nastify.local.bgqueue", DISPATCH_QUEUE_SERIAL);
+    }
+    return self;
+}
+
+#pragma mark - Server Info
+
 - (NSArray *)serverInfo
 {
     NSString *user = nil;
@@ -168,17 +189,7 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
     return serverInfo;
 }
 
-- (id)init
-{
-    self = [super init];
-	if (self)
-    {
-        backgroundQueue = dispatch_queue_create("com.sylver.nastify.local.bgqueue", DISPATCH_QUEUE_SERIAL);
-    }
-    return self;
-}
-
-#pragma mark - Supported features
+#pragma mark - login/logout management
 
 - (BOOL)login
 {
@@ -246,6 +257,8 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
     return NO;
 }
 
+#pragma mark - list files management
+
 - (void)listForPath:(FileItem *)folder
 {
 #ifndef APP_EXTENSION
@@ -305,26 +318,31 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
                 {
                     case SMBC_WORKGROUP:
                     case SMBC_SERVER:
+                    {
                         isDir = YES;
                         break;
-                        
+                    }
                     case SMBC_FILE_SHARE:
                     case SMBC_IPC_SHARE:
                     case SMBC_DIR:
+                    {
                         isDir = YES;
                         break;
-                        
+                    }
                     case SMBC_FILE:
+                    {
                         if ([[name componentsSeparatedByString:@"."] count] > 1)
                         {
                             type = [[name componentsSeparatedByString:@"."] lastObject];
                         }
                         break;
-                        
+                    }
                     case SMBC_PRINTER_SHARE:
                     case SMBC_COMMS_SHARE:
                     case SMBC_LINK:
+                    {
                         break;
+                    }
                 }
 
                 struct stat st;
@@ -371,8 +389,6 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
                                                       name,@"filename",
                                                       [NSNumber numberWithLongLong:st.st_size],@"filesizenumber",
                                                       name,@"id",
-//                                                    @"",@"group",
-//                                                    @"",@"owner",
                                                       [NSNumber numberWithBool:NO],@"iscompressed",
                                                       [NSNumber numberWithBool:YES],@"writeaccess",
                                                       [NSNumber numberWithDouble:st.st_mtime],@"date",
@@ -397,8 +413,6 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
         }
         else
         {
-//            smbc_free_context(self.smbContext, NO);
-            
             const int err = errno;
             if (errno != EPERM)
             {
@@ -424,6 +438,35 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
 #endif
     });
 }
+
+#pragma mark - space info management
+
+#if 0
+//FIXME : for some reason it crash ...
+- (void)spaceInfoAtPath:(FileItem *)folder
+{
+    struct statvfs st;
+    if ([folder.objectIds count] > 2)
+    {
+        SMBCCTX *ctx = [self openSmbContext];
+        int ret = smbc_getFunctionStatVFS(ctx)(ctx, (char *)[self buildURI:folder].UTF8String, &st);
+//        int ret = smbc_statvfs((char *)[self buildURI:folder].UTF8String, &st);
+        if (ret == 0)
+        {
+            NSLog(@"free %ld Go",st.f_bsize*st.f_bavail/1024/1024/1024);
+            NSLog(@"size %ld Go",st.f_bsize*st.f_blocks/1024/1024/1024);
+        }
+        else
+        {
+            const int err = errno;
+            NSLog(@"error %@",KxSMBErrorMessage(errnoToSMBErr(err)));
+        }
+        [self closeSmbContext:ctx];
+    }
+}
+#endif
+
+#pragma mark - Folder creation management
 
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
 {
@@ -477,6 +520,8 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
 #endif
     });
 }
+
+#pragma mark - delete management
 
 #ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files
@@ -560,6 +605,8 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
 }
 #endif
 
+#pragma mark - Renaming management
+
 #ifndef APP_EXTENSION
 - (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder
 {
@@ -606,6 +653,8 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
     });
 }
 #endif
+
+#pragma mark - move management
 
 #ifndef APP_EXTENSION
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite
@@ -663,6 +712,8 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
     });
 }
 #endif
+
+#pragma mark - Download management
 
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName
 {
@@ -758,6 +809,8 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
                 }
                 break;
             }
+            smbc_getFunctionClose(self.smbContext)(self.smbContext, smbFile);
+
             // Stop the network activity spinner
             [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
         }
@@ -789,6 +842,8 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
     self.cancelDownload = YES;
 }
 
+#pragma mark - Upload management
+
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
 {
 #ifndef APP_EXTENSION
@@ -800,84 +855,98 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
     
     dispatch_async(backgroundQueue, ^(void)
     {
-        NSLog(@"local file : %@",file.fullPath);
-        
+        self.cancelUpload = NO;
         NSFileHandle *fileHandle = [NSFileHandle fileHandleForReadingFromURL:[NSURL fileURLWithPath:file.fullPath] error:NULL];
 
         smbc_write_fn writeFn = smbc_getFunctionWrite(self.smbContext);
         
-        NSLog(@"%@",[[self buildURI:destFolder] stringByAppendingString:file.name]);
         SMBCFILE *smbFile = smbc_getFunctionCreat(self.smbContext)(self.smbContext,
                                                             [[self buildURI:destFolder] stringByAppendingString:file.name].UTF8String,
                                                             O_WRONLY|O_CREAT|(overwrite ? O_TRUNC : O_EXCL));
 
-        // Start the network activity spinner
-        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-        
-        while (1)
+        if (smbFile)
         {
-            NSData *data = nil;
-            @try
+            // Start the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+            
+            while (1)
             {
-                data = [fileHandle readDataOfLength:256*1024];
-            }
-            @catch (NSException *exception)
-            {
-                [fileHandle closeFile];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                     [NSNumber numberWithBool:NO],@"success",
-                                                     [exception description],@"error",
-                                                     nil]];
-                });
-                // Stop the network activity spinner
-                [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-                return;
-            }
-            // read data = fileHandle.offsetInFile
-            NSInteger bytesToWrite = data.length;
-            const Byte *bytes = data.bytes;
-            if ((bytesToWrite == 0) || (self.cancelUpload == YES))
-            {
-                // end of file or cancel request
-                break;
-            }
-            while (bytesToWrite > 0)
-            {
-                ssize_t r = writeFn(self.smbContext, smbFile, bytes, bytesToWrite);
-                NSLog(@"written %zd",r);
-                if (r == 0)
+                NSData *data = nil;
+                @try
                 {
-                    break;
+                    data = [fileHandle readDataOfLength:256*1024];
                 }
-                if (r < 0)
+                @catch (NSException *exception)
                 {
-                    self.cancelUpload = YES;
-                    const int err = errno;
+                    [fileHandle closeFile];
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                          [NSNumber numberWithBool:NO],@"success",
-                                                         KxSMBErrorMessage(errnoToSMBErr(err)),@"error",
+                                                         [exception description],@"error",
                                                          nil]];
                     });
+                    // Stop the network activity spinner
+                    [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+                    return;
+                }
+                // read data = fileHandle.offsetInFile
+                NSInteger bytesToWrite = data.length;
+                const Byte *bytes = data.bytes;
+                if ((bytesToWrite == 0) || (self.cancelUpload == YES))
+                {
+                    // end of file or cancel request
                     break;
                 }
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate CMUploadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                while (bytesToWrite > 0)
+                {
+                    ssize_t r = writeFn(self.smbContext, smbFile, bytes, bytesToWrite);
+                    if (r == 0)
+                    {
+                        break;
+                    }
+                    if (r < 0)
+                    {
+                        self.cancelUpload = YES;
+                        const int err = errno;
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                             [NSNumber numberWithBool:NO],@"success",
+                                                             KxSMBErrorMessage(errnoToSMBErr(err)),@"error",
+                                                             nil]];
+                        });
+                        break;
+                    }
+                    
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMUploadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
                                                          [NSNumber numberWithLongLong:fileHandle.offsetInFile],@"uploadedBytes",
                                                          file.fileSizeNumber,@"totalBytes",
                                                          [NSNumber numberWithFloat:(float)((float)fileHandle.offsetInFile/(float)([file.fileSizeNumber longLongValue]))],@"progress",
                                                          nil]];
-                });
-
-                bytesToWrite -= r;
-                bytes += r;
+                    });
+                    
+                    bytesToWrite -= r;
+                    bytes += r;
+                }
             }
+            smbc_getFunctionClose(self.smbContext)(self.smbContext, smbFile);
+            
+            // Stop the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
         }
-        // Stop the network activity spinner
-        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-        
+        else
+        {
+            const int err = errno;
+            self.cancelDownload = YES;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:NO],@"success",
+                                                 KxSMBErrorMessage(errnoToSMBErr(err)),@"error",
+                                                 nil]];
+            });
+        }
+        [fileHandle closeFile];
+
         if (self.cancelUpload == NO)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
@@ -888,9 +957,10 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
         }
         else
         {
-            //FIXME: Delete partially uploaded file
+            // Delete incomplete file
+            NSString *uri = [[self buildURI:destFolder] stringByAppendingString:file.name];
+            smbc_getFunctionUnlink(self.smbContext)(self.smbContext, uri.UTF8String);
         }
-        [fileHandle closeFile];
         
 #ifndef APP_EXTENSION
         [[UIApplication sharedApplication] endBackgroundTask:bgTask];
@@ -904,11 +974,15 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
     self.cancelUpload = YES;
 }
 
+#pragma mark - Credentials management
+
 - (void)setCredential:(NSString *)user password:(NSString *)password
 {
     self.tempUser = user;
     self.tempPassword = password;
 }
+
+#pragma mark - url management
 
 - (NetworkConnection *)urlForFile:(FileItem *)file
 {
@@ -916,7 +990,8 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
   	return networkConnection;
 }
 
-/* Server features */
+#pragma mark - supported features
+
 - (NSInteger)supportedFeaturesAtPath:(NSString *)path
 {
     NSInteger features = (
@@ -938,14 +1013,4 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...)
 }
 
 @end
-
-static void nastify_smbc_get_auth_data_fn(const char *srv,
-                                          const char *shr,
-                                          char *pworkgroup, int wglen,
-                                          char *pusername, int unlen,
-                                          char *ppassword, int pwlen)
-{
-    strncpy(pusername, c_user, unlen - 1);
-    strncpy(ppassword, c_password, pwlen - 1);
-}
 #endif
