@@ -26,10 +26,10 @@
 #define ROW_INDEX_QNAP      4
 #define ROW_INDEX_FREEBOX   5
 #define ROW_INDEX_BOX       6
-#define ROW_INDEX_SAMBA     7
+#define ROW_INDEX_SAMBA     99 // Not shown
 
 // Update this when adding new server types !!!
-#define NUMBER_OF_ROWS      ROW_INDEX_SAMBA + 1
+#define NUMBER_OF_ROWS      ROW_INDEX_BOX + 1
 
 - (void)viewDidLoad
 {

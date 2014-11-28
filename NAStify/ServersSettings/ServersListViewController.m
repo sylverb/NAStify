@@ -140,7 +140,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    return 3;
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
@@ -178,6 +178,14 @@
             }
             break;
         }
+        case 2: // SMB/CIFS
+        {
+            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+            {
+                rows = 1;
+            }
+            break;
+        }
         default:
         {
             break;
@@ -198,9 +206,17 @@
         }
         case 1:
         {
-            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+            if ((self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi) && (_filteredUPNPDevices.count > 0))
             {
                 sectionName = NSLocalizedString(@"UPnP",nil);
+            }
+            break;
+        }
+        case 2:
+        {
+            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+            {
+                sectionName = NSLocalizedString(@"Windows Shares (SMB/CIFS)",nil);
             }
             break;
         }
@@ -234,7 +250,7 @@
             cell = serverCell;
             break;
         }
-        case 1:
+        case 1: // UPnP
         {
             ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:ServerCellIdentifier];
             if (serverCell == nil)
@@ -247,12 +263,31 @@
             BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
 
             // Configure the cell...
-            serverCell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
             serverCell.showsReorderControl = YES;
             
             serverCell.serverLabel.text = [device friendlyName];
             serverCell.fileTypeImage.image = [device smallIcon];
 
+            cell = serverCell;
+            break;
+        }
+        case 2: // SMB/CIFS
+        {
+            ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:ServerCellIdentifier];
+            if (serverCell == nil)
+            {
+                serverCell = [[ServerCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                               reuseIdentifier:ServerCellIdentifier];
+            }
+            
+            // Configure the cell...
+            serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
+            serverCell.showsReorderControl = NO;
+            UserAccount *account = [[UserAccount alloc] init];
+            account.serverType = SERVER_TYPE_SAMBA;
+            account.accountName = NSLocalizedString(@"Windows Shares", nil);
+            [serverCell setAccount:account];
             cell = serverCell;
             break;
         }
@@ -438,6 +473,23 @@
                     
                     [self.navigationController pushViewController:fileBrowserViewController animated:YES];
                 }
+                break;
+            }
+            case 2: // SMB/CIFS
+            {
+                UserAccount *account = [[UserAccount alloc] init];
+                account.serverType = SERVER_TYPE_SAMBA;
+                
+                FileItem *rootFolder = [[FileItem alloc] init];
+                rootFolder.isDir = YES;
+                rootFolder.path = @"/";
+                rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
+                
+                FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+                fileBrowserViewController.userAccount = account;
+                fileBrowserViewController.currentFolder = rootFolder;
+                
+                [self.navigationController pushViewController:fileBrowserViewController animated:YES];
                 break;
             }
             default:

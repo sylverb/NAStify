@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ServerCell.h"
 #import "DocumentPickerViewController.h"
+#import "AFNetworking.h"
 
 @class ConnectionManager;
 
@@ -18,5 +19,6 @@
 @property(nonatomic, strong) NSArray *validTypes;
 @property(nonatomic) ProviderMode mode;
 @property(nonatomic, strong) NSURL *fileURL;
+@property(nonatomic, strong) AFHTTPRequestOperationManager *manager;
 
 @end
