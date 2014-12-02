@@ -21,8 +21,8 @@
 #include <sys/stat.h>
 
 typedef struct {
-    const char *username;     /* Username for server authentication */
-    const char *password;     /* Password for server authentication */
+    char username[255];     /* Username for server authentication */
+    char password[255];     /* Password for server authentication */
 } auth_creds_context;
 
 typedef struct {
@@ -117,6 +117,25 @@ static void dav_delete_props(dav_props *props);
 }
 
 #pragma mark - Supported features
+
+- (NSString *)createFullPath:(NSString *)path
+{
+    NSString *fullPath = nil;
+    if ([self.userAccount.settings objectForKey:@"path"])
+    {
+        fullPath = [self.userAccount.settings objectForKey:@"path"];
+        while ([fullPath hasSuffix:@"/"])
+        {
+            fullPath = [fullPath substringToIndex:[fullPath length]-1];
+        }
+        fullPath = [fullPath stringByAppendingString:path];
+    }
+    else
+    {
+        fullPath = path;
+    }
+    return fullPath;
+}
 
 - (NSString *)createRootURLString
 {
@@ -318,8 +337,8 @@ static void dav_delete_props(dav_props *props);
             }
             
             auth_creds_context auth_ctx;
-            auth_ctx.username = ne_strdup([self.userAccount.userName UTF8String]);
-            auth_ctx.password = ne_strdup([password UTF8String]);
+            strcpy(auth_ctx.username, ne_strdup([self.userAccount.userName UTF8String]));
+            strcpy(auth_ctx.password, ne_strdup([password UTF8String]));
             ne_add_server_auth(self.webDavSession, NE_AUTH_ALL, auth_creds_callback, &auth_ctx);
             
             // If SSL connection requested, configure certificate verification
@@ -346,7 +365,7 @@ static void dav_delete_props(dav_props *props);
             [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
             
             unsigned int caps;
-            int ret = ne_options2(self.webDavSession, "/", &caps);
+            int ret = ne_options2(self.webDavSession, [self createFullPath:@"/"].UTF8String, &caps);
 
             // Stop the network activity spinner
             [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
@@ -428,10 +447,10 @@ static void dav_delete_props(dav_props *props);
         int ret;
         
         propfind_context ctx;
-        ctx.path = [folder.path UTF8String];
+        ctx.path = [[self createFullPath:folder.path] UTF8String];
         ctx.results = NULL;
         
-        const char *spath = [[folder.path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
+        const char *spath = [[[self createFullPath:folder.path] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
         ne_propfind_handler *propfind_handler = ne_propfind_create(self.webDavSession, spath, NE_DEPTH_ONE);
         
         // Start the network activity spinner
@@ -452,33 +471,32 @@ static void dav_delete_props(dav_props *props);
                 dav_props *tofree = ctx.results;
                 ctx.results = ctx.results->next;
                 
-                
-                // Get filename
-                NSString *fileName = [NSString stringWithUTF8String:tofree->name];
-                
-                // Get file type
-                NSString *type = @"";
-                if ([[fileName componentsSeparatedByString:@"."] count] > 1)
+                if (strcmp(tofree->name, "") != 0)
                 {
-                    type = [[fileName componentsSeparatedByString:@"."] lastObject];
+                    // Get filename
+                    NSString *fileName = [NSString stringWithUTF8String:tofree->name];
+                    
+                    // Get file type
+                    NSString *type = @"";
+                    if ([[fileName componentsSeparatedByString:@"."] count] > 1)
+                    {
+                        type = [[fileName componentsSeparatedByString:@"."] lastObject];
+                    }
+                    
+                    /* Is it a directory */
+                    BOOL isDir = tofree->is_dir;
+                    
+                    NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSNumber numberWithBool:isDir],@"isdir",
+                                              [[fileName componentsSeparatedByString:@"/"] lastObject],@"filename",
+                                              [NSNumber numberWithLongLong:tofree->size],@"filesizenumber",
+                                              [NSNumber numberWithBool:NO],@"iscompressed",
+                                              [NSNumber numberWithBool:YES],@"writeaccess",
+                                              [NSNumber numberWithDouble:tofree->mtime],@"date",
+                                              type,@"type",
+                                              nil];
+                    [filesOutputArray addObject:dictItem];
                 }
-                
-                /* Is it a directory */
-                BOOL isDir = tofree->is_dir;
-                
-                NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
-                                          [NSNumber numberWithBool:isDir],@"isdir",
-                                          [[fileName componentsSeparatedByString:@"/"] lastObject],@"filename",
-                                          [NSNumber numberWithLongLong:tofree->size],@"filesizenumber",
-//                                          @"",@"group",
-//                                          @"",@"owner",
-                                          [NSNumber numberWithBool:NO],@"iscompressed",
-                                          [NSNumber numberWithBool:YES],@"writeaccess",
-                                          [NSNumber numberWithDouble:tofree->mtime],@"date",
-                                          type,@"type",
-                                          nil];
-                [filesOutputArray addObject:dictItem];
-                
                 // free element
                 dav_delete_props(tofree);
             }
@@ -529,7 +547,7 @@ static void dav_delete_props(dav_props *props);
     dispatch_async(backgroundQueue, ^(void)
     {
         int ret;
-        NSString *fullPath = [NSString stringWithFormat:@"%@/%@",folder.path,folderName];
+        NSString *fullPath = [self createFullPath:[NSString stringWithFormat:@"%@/%@",folder.path,folderName]];
         const char *spath = [[fullPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
         ret = ne_mkcol(self.webDavSession, spath);
         
@@ -572,7 +590,7 @@ static void dav_delete_props(dav_props *props);
         BOOL success = YES;
         for (FileItem *file in files)
         {
-            const char *spath = [[file.path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
+            const char *spath = [[[self createFullPath:file.path] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
             ret = ne_delete(self.webDavSession, spath);
             if (ret)
             {
@@ -616,8 +634,8 @@ static void dav_delete_props(dav_props *props);
     dispatch_async(backgroundQueue, ^(void)
     {
         int ret;
-        NSString *fullSrcName = [NSString stringWithFormat:@"%@/%@",folder.path,oldFile.name];
-        NSString *fullDestName = [NSString stringWithFormat:@"%@/%@",folder.path,newName];
+        NSString *fullSrcName = [self createFullPath:[NSString stringWithFormat:@"%@/%@",folder.path,oldFile.name]];
+        NSString *fullDestName = [self createFullPath:[NSString stringWithFormat:@"%@/%@",folder.path,newName]];
         const char *sname = [[fullSrcName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
         const char *dname = [[fullDestName stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
         
@@ -661,8 +679,8 @@ static void dav_delete_props(dav_props *props);
         for (FileItem *file in files)
         {
             NSString *fullDestPath = [NSString stringWithFormat:@"%@/%@",destFolder.path,file.name];
-            const char *spath = [[file.path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
-            const char *dpath = [[fullDestPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
+            const char *spath = [[[self createFullPath:file.path] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
+            const char *dpath = [[[self createFullPath:fullDestPath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
             ret = ne_move(self.webDavSession, overwrite, spath, dpath);
             if (ret)
             {
@@ -710,8 +728,8 @@ static void dav_delete_props(dav_props *props);
         for (FileItem *file in files)
         {
             NSString *fullDestPath = [NSString stringWithFormat:@"%@/%@",destFolder.path,file.name];
-            const char *spath = [[file.path stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
-            const char *dpath = [[fullDestPath stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
+            const char *spath = [[[self createFullPath:file.path] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
+            const char *dpath = [[[self createFullPath:fullDestPath] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] UTF8String];
             ret = ne_copy(self.webDavSession, overwrite, NE_DEPTH_INFINITE, spath, dpath);
             if (ret)
             {
@@ -809,7 +827,9 @@ file_reader(void *userdata, const char *block, size_t length)
         ctx.fd = 0;
         ctx.totalDownloaded = &downloaded;
         
-        char *spath = ne_path_escape([file.path UTF8String]);
+        NSString *destPath = [self createFullPath:file.path];
+
+        char *spath = ne_path_escape([destPath UTF8String]);
         ne_request *req = ne_request_create(self.webDavSession, "GET", spath);
         
         ne_decompress *dc_state = NULL;
@@ -916,16 +936,17 @@ void status(void *userdata, ne_session_status status,
         int ret;
         
         size_t uploaded = 0;
+        NSString *destPath = [self createFullPath:[NSString stringWithFormat:@"%@/%@",destFolder.path,file.name]];
+
         get_context ctx;
         ctx.session = self.webDavSession;
-        ctx.file = [file.path UTF8String];
+        ctx.file = [destPath UTF8String];
         ctx.totalUploaded = &uploaded;
         
         int fd = open([file.fullPath UTF8String], O_RDONLY);
         struct stat st;
         fstat(fd, &st);
-        
-        char *uri = ne_path_escape([[NSString stringWithFormat:@"%@/%@",destFolder.path,file.name] UTF8String]);
+        char *uri = ne_path_escape([destPath UTF8String]);
         
         ne_request *req = ne_request_create(self.webDavSession, "PUT", uri);
         ne_set_notifier(self.webDavSession, status, &ctx);
@@ -996,7 +1017,7 @@ void status(void *userdata, ne_session_status status,
 {
     NSMutableString *urlString = [NSMutableString stringWithString:[self createRootURLStringWithCredentials]];
     
-    NSArray *pathArray = [file.path componentsSeparatedByString:@"/"];
+    NSArray *pathArray = [[self createFullPath:file.path] componentsSeparatedByString:@"/"];
     
     NSInteger i;
     for (i = 0; i < [pathArray count]; i++)

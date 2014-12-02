@@ -15,6 +15,7 @@ typedef enum _SETTINGS_TAG
 {
     ADDRESS_TAG = 0,
     PORT_TAG,
+    PATH_TAG,
     UNAME_TAG,
     PWD_TAG,
     ACCOUNT_NAME_TAG,
@@ -24,7 +25,7 @@ typedef enum _SETTINGS_TAG
 
 @implementation ServerSettingsWebDavViewController
 
-@synthesize textCellProfile, textCellAddress, textCellPort, textCellUsername, textCellPassword;
+@synthesize textCellProfile, textCellAddress, textCellPort, textCellPath, textCellUsername, textCellPassword;
 @synthesize userAccount, accountIndex;
 
 - (id)initWithStyle:(UITableViewStyle)style andAccount:(UserAccount *)account andIndex:(NSInteger)index
@@ -37,6 +38,7 @@ typedef enum _SETTINGS_TAG
         if (self.accountIndex == -1) {
             userAccount = [[UserAccount alloc] init];
         }
+        self.localSettings = [NSMutableDictionary dictionaryWithDictionary:self.userAccount.settings];
     }
     return self;
 }
@@ -102,7 +104,7 @@ typedef enum _SETTINGS_TAG
         }
         case 1:
         {
-            numberOfRows = 2;
+            numberOfRows = 3;
             break;
         }
         case 2:
@@ -200,6 +202,24 @@ typedef enum _SETTINGS_TAG
                                             withDelegate:self
                                                   andTag:PORT_TAG];
                     cell = textCellPort;
+                    break;
+                }
+                case 2:
+                {
+                    textCellPath = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (textCellPath == nil)
+                    {
+                        textCellPath = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                       reuseIdentifier:TextCellIdentifier];
+                    }
+                    [textCellPath setCellDataWithLabelString:NSLocalizedString(@"Path:",@"")
+                                                    withText:[self.localSettings objectForKey:@"path"]
+                                             withPlaceHolder:NSLocalizedString(@"Root path",@"")
+                                                    isSecure:NO
+                                            withKeyboardType:UIKeyboardTypeDefault
+                                                withDelegate:self
+                                                      andTag:PATH_TAG];
+                    cell = textCellPath;
                     break;
                 }
             }
@@ -338,6 +358,10 @@ typedef enum _SETTINGS_TAG
     }
     else if (textField == textCellPort.textField)
     {
+        [textCellPath.textField becomeFirstResponder];
+    }
+    else if (textField == textCellPath.textField)
+    {
         [textCellUsername.textField becomeFirstResponder];
     }
     else if (textField == textCellUsername.textField)
@@ -390,6 +414,11 @@ typedef enum _SETTINGS_TAG
             self.userAccount.port = textField.text;
             break;
         }
+        case PATH_TAG:
+        {
+            [self.localSettings setObject:textField.text forKey:@"path"];
+            break;
+        }
         case UNAME_TAG:
         {
             self.userAccount.userName = textField.text;
@@ -407,8 +436,10 @@ typedef enum _SETTINGS_TAG
     [textCellProfile resignFirstResponder];
     [textCellAddress resignFirstResponder];
     [textCellPort resignFirstResponder];
+    [textCellPath resignFirstResponder];
     [textCellUsername resignFirstResponder];
     [textCellPassword resignFirstResponder];
+    self.userAccount.settings = [NSDictionary dictionaryWithDictionary:self.localSettings];
     [SSKeychain setPassword:self.localPassword
                  forService:self.userAccount.uuid
                     account:@"password"];

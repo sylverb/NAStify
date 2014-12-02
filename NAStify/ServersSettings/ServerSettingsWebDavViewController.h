@@ -20,6 +20,7 @@
     TextCell * textCellProfile;
     TextCell * textCellAddress;
     TextCell * textCellPort;
+    TextCell * textCellPath;
     TextCell * textCellUsername;
     TextCell * textCellPassword;
 }
@@ -28,10 +29,12 @@
 @property(nonatomic, strong) TextCell * textCellProfile;
 @property(nonatomic, strong) TextCell * textCellAddress;
 @property(nonatomic, strong) TextCell * textCellPort;
+@property(nonatomic, strong) TextCell * textCellPath;
 @property(nonatomic, strong) TextCell * textCellUsername;
 @property(nonatomic, strong) TextCell * textCellPassword;
 @property(nonatomic) NSInteger    accountIndex;
 @property(nonatomic, strong) NSString *localPassword;
+@property(nonatomic, strong) NSMutableDictionary *localSettings;
 
 @property(nonatomic, strong) id currentFirstResponder;
 

@@ -26,6 +26,7 @@
         self.acceptUntrustedCertificate = YES;
         self.encoding = nil;
         self.transfertMode = 0;
+        self.settings = [[NSDictionary alloc] init];
     }
     return self;
 }
@@ -46,6 +47,10 @@
         self.acceptUntrustedCertificate = [coder decodeBoolForKey:@"acceptUntrustedCertificate"];
         self.encoding = [coder decodeObjectForKey:@"encoding"];
         self.transfertMode = [coder decodeIntForKey:@"transfertMode"];
+        if ([coder decodeObjectForKey:@"settings"])
+        {
+            self.settings = [coder decodeObjectForKey:@"settings"];
+        }
     }
     return self;
 }
@@ -63,6 +68,7 @@
     [coder encodeBool:self.acceptUntrustedCertificate forKey:@"acceptUntrustedCertificate"];
     [coder encodeObject:self.encoding forKey:@"encoding"];
     [coder encodeInt:self.transfertMode forKey:@"transfertMode"];
+    [coder encodeObject:self.settings forKey:@"settings"];
 }
 
 - (id)copyWithZone:(NSZone *)zone
@@ -79,6 +85,7 @@
     copy.acceptUntrustedCertificate = self.acceptUntrustedCertificate;
     copy.encoding = self.encoding;
     copy.transfertMode = self.transfertMode;
+    copy.settings = [self.settings copyWithZone:zone];
     return copy;
 }
 
