@@ -632,6 +632,9 @@
 		D5CD85901A1412C800438F15 /* sftp_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5CD858F1A1412C800438F15 /* sftp_small@3x.png */; };
 		D5CD85921A1413C600438F15 /* ftps_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5CD85911A1413C600438F15 /* ftps_small@3x.png */; };
 		D5CD85941A14149800438F15 /* ftp_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5CD85931A14149800438F15 /* ftp_small@3x.png */; };
+		D5D059A21A2DAFA000461226 /* upnp_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D0599F1A2DAFA000461226 /* upnp_small.png */; };
+		D5D059A31A2DAFA000461226 /* upnp_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D059A01A2DAFA000461226 /* upnp_small@2x.png */; };
+		D5D059A41A2DAFA000461226 /* upnp_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D059A11A2DAFA000461226 /* upnp_small@3x.png */; };
 		D5D302D718FD49730087F4C6 /* setup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D302D518FD49730087F4C6 /* setup@2x.png */; };
 		D5D302DB18FDE4EE0087F4C6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D302DA18FDE4EE0087F4C6 /* SettingsViewController.m */; };
 		D5D3043A18FF443D0087F4C6 /* CMUPnP.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3043918FF443D0087F4C6 /* CMUPnP.m */; };
@@ -1499,6 +1502,9 @@
 		D5CD858F1A1412C800438F15 /* sftp_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "sftp_small@3x.png"; sourceTree = "<group>"; };
 		D5CD85911A1413C600438F15 /* ftps_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ftps_small@3x.png"; sourceTree = "<group>"; };
 		D5CD85931A14149800438F15 /* ftp_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ftp_small@3x.png"; sourceTree = "<group>"; };
+		D5D0599F1A2DAFA000461226 /* upnp_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = upnp_small.png; sourceTree = "<group>"; };
+		D5D059A01A2DAFA000461226 /* upnp_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upnp_small@2x.png"; sourceTree = "<group>"; };
+		D5D059A11A2DAFA000461226 /* upnp_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upnp_small@3x.png"; sourceTree = "<group>"; };
 		D5D302D518FD49730087F4C6 /* setup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setup@2x.png"; sourceTree = "<group>"; };
 		D5D302D918FDE4EE0087F4C6 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Settings/SettingsViewController.h; sourceTree = "<group>"; };
 		D5D302DA18FDE4EE0087F4C6 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Settings/SettingsViewController.m; sourceTree = "<group>"; };
@@ -3535,6 +3541,9 @@
 				D53D939C1A0E5B1C00E6D6B6 /* synology@2x~ipad.png */,
 				D53D939D1A0E5B1C00E6D6B6 /* synology@2x~iphone.png */,
 				D53D93941A0E45BF00E6D6B6 /* synology@3x.png */,
+				D5D0599F1A2DAFA000461226 /* upnp_small.png */,
+				D5D059A01A2DAFA000461226 /* upnp_small@2x.png */,
+				D5D059A11A2DAFA000461226 /* upnp_small@3x.png */,
 				F9694CFB15D883E80040F5D9 /* webdav_small.png */,
 				F9694CFC15D883E80040F5D9 /* webdav_small@2x.png */,
 				D5316A0B1A154CE400364CA7 /* webdav_small@3x.png */,
@@ -4453,6 +4462,7 @@
 				D53032F019E33110004F7147 /* mpeg@2x.png in Resources */,
 				D53032F119E33110004F7147 /* mpeg@3x.png in Resources */,
 				D53D92D81A0E1E0500E6D6B6 /* 3gp.png in Resources */,
+				D5D059A31A2DAFA000461226 /* upnp_small@2x.png in Resources */,
 				D53032C019E33110004F7147 /* dtshd@2x.png in Resources */,
 				D53D92DE1A0E1E0500E6D6B6 /* aac.png in Resources */,
 				D53032E619E33110004F7147 /* mp1@2x.png in Resources */,
@@ -4516,6 +4526,7 @@
 				D53D931E1A0E1E0500E6D6B6 /* jpeg.png in Resources */,
 				D5CD85921A1413C600438F15 /* ftps_small@3x.png in Resources */,
 				D530329019E33110004F7147 /* 3gp@2x.png in Resources */,
+				D5D059A41A2DAFA000461226 /* upnp_small@3x.png in Resources */,
 				D53032C719E33110004F7147 /* es@3x.png in Resources */,
 				D530330C19E33110004F7147 /* ra@2x.png in Resources */,
 				D530329919E33110004F7147 /* ac3@3x.png in Resources */,
@@ -4641,6 +4652,7 @@
 				D530331D19E33110004F7147 /* txt@3x.png in Resources */,
 				D53D93261A0E1E0500E6D6B6 /* m4v.png in Resources */,
 				D5B07CC71917777600882988 /* PlayingExternally@2x~iphone.png in Resources */,
+				D5D059A21A2DAFA000461226 /* upnp_small.png in Resources */,
 				D530330519E33110004F7147 /* png@3x.png in Resources */,
 				D53032FD19E33110004F7147 /* oga@3x.png in Resources */,
 				D5CD855D1A120DFF00438F15 /* dropbox_small@3x.png in Resources */,

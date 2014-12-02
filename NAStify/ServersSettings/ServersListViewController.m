@@ -214,6 +214,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString * ServerCellIdentifier = @"ServerCell";
+    static NSString * UPnPCellIdentifier = @"UPnPCell";
     UITableViewCell *cell = nil;
     
     switch (indexPath.section)
@@ -236,23 +237,29 @@
         }
         case 1:
         {
-            ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:ServerCellIdentifier];
+            ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:UPnPCellIdentifier];
             if (serverCell == nil)
             {
                 serverCell = [[ServerCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                               reuseIdentifier:ServerCellIdentifier];
+                                               reuseIdentifier:UPnPCellIdentifier];
             }
 
             // Get device info
             BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
 
             // Configure the cell...
-            serverCell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            serverCell.showsReorderControl = YES;
+            serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
+            serverCell.showsReorderControl = NO;
             
             serverCell.serverLabel.text = [device friendlyName];
-            serverCell.fileTypeImage.image = [device smallIcon];
-
+            if ([device smallIcon])
+            {
+                serverCell.fileTypeImage.image = [device smallIcon];
+            }
+            else
+            {
+                serverCell.fileTypeImage.image = [UIImage imageNamed:@"upnp_small.png"];
+            }
             cell = serverCell;
             break;
         }
