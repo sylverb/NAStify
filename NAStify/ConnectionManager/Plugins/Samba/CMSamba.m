@@ -400,16 +400,26 @@ static void nastify_smbc_get_auth_data_fn(const char *srv,
                     }
                 }
             }
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
-                                            [NSNumber numberWithBool:YES],@"success",
-                                            folder.path,@"path",
-                                            filesOutputArray,@"filesList",
-                                            nil]];
-            });
-            
+            const int err = errno;
+            if (([filesOutputArray count] == 0) &&
+                ([folder.objectIds count] == 2) &&
+                (err != 0))
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate CMCredentialRequest:nil];
+                });
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSNumber numberWithBool:YES],@"success",
+                                                folder.path,@"path",
+                                                filesOutputArray,@"filesList",
+                                                nil]];
+                });
+            }
             smbc_getFunctionClose(self.smbContext)(self.smbContext, smbFile);
-        
         }
         else
         {
