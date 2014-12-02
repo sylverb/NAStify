@@ -327,6 +327,11 @@ static size_t WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *da
             text = NSLocalizedString(@"SSL/TLS handshake failed", nil);
             break;
         }
+        case CURLE_RECV_ERROR:
+        {
+            text = NSLocalizedString(@"Receiving network data failed", nil);
+            break;
+        }
         default:
         {
             text = [NSString stringWithFormat:NSLocalizedString(@"Unknown curl code (%ld)", nil),code];
@@ -1729,7 +1734,6 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
     {
         return 0;
     }
-    
     struct uploadctx *ulCtx = (struct uploadctx *)p;
     size_t retcode = fread(ptr, size, nmemb, ulCtx->fp);
 
@@ -1742,7 +1746,7 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
         [cself.delegate CMUploadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
                                           [NSNumber numberWithDouble:ulCtx->transfered],@"uploadedBytes",
                                           [NSNumber numberWithDouble:ulCtx->size],@"totalBytes",
-                                          [NSNumber numberWithDouble:ulCtx->transfered/ulCtx->size],@"progress",
+                                          [NSNumber numberWithDouble:(float)ulCtx->transfered/(float)ulCtx->size],@"progress",
                                           nil]];
     }
     return retcode;
