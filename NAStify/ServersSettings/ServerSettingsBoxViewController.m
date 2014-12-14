@@ -31,7 +31,7 @@
         if (self.accountIndex == -1)
         {
             self.userAccount = [[UserAccount alloc] init];
-            self.userAccount.serverType = SERVER_TYPE_DROPBOX;
+            self.userAccount.serverType = SERVER_TYPE_BOX;
             self.userAccount.accountName = nil;
         }
     }
