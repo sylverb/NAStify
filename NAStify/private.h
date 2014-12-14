@@ -21,3 +21,7 @@
 // ADMob private info
 #define NASTIFY_FULL_SCREEN_INTERSTITIAL_ID @"ADMOB_ID"
 #define IPHONE5S_ID                         @"DEVDEVICE_UUID"
+
+// GoogleDrive
+#define GOOGLEDRIVE_CLIENT_ID               @"CLIENT_ID"
+#define GOOGLEDRIVE_CLIENT_SECRET           @"CLIENT_SECRET"

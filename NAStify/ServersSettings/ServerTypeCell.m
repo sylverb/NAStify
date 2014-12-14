@@ -69,6 +69,11 @@
             self.serverTypeImage.image = [UIImage imageNamed:@"box.png"];
             break;
         }
+        case SERVER_TYPE_GOOGLEDRIVE:
+        {
+            self.serverTypeImage.image = [UIImage imageNamed:@"googledrive.png"];
+            break;
+        }
         default:
             break;
     }

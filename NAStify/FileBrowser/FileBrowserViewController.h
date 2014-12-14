@@ -134,6 +134,7 @@
 - (void)CMUploadProgress:(NSNotification*)notification;
 - (void)CMUploadFinished:(NSNotification*)notification;
 - (void)CMSearchFinished:(NSNotification *)notification;
+- (void)CMShareProgress:(NSDictionary *)dict;
 - (void)CMShareFinished:(NSDictionary *)dict;
 - (void)CMConnectionError:(NSNotification*)notification;
 

@@ -11,6 +11,7 @@
 #import "ServerSettingsFreeboxRevViewController.h"
 #import "ServerSettingsFtpViewController.h"
 #import "ServerSettingsBoxViewController.h"
+#import "ServerSettingsGoogleDriveViewController.h"
 #import "ServerSettingsDropboxViewController.h"
 #import "ServerSettingsSambaViewController.h"
 #import "ServerSettingsSynologyViewController.h"
@@ -19,17 +20,18 @@
 
 @implementation ServerTypeViewController
 
-#define ROW_INDEX_DROPBOX   0
-#define ROW_INDEX_WEBDAV    1
-#define ROW_INDEX_FTP       2
-#define ROW_INDEX_SYNOLOGY  3
-#define ROW_INDEX_QNAP      4
-#define ROW_INDEX_FREEBOX   5
-#define ROW_INDEX_BOX       6
-#define ROW_INDEX_SAMBA     7
+#define ROW_INDEX_DROPBOX       0
+#define ROW_INDEX_WEBDAV        1
+#define ROW_INDEX_FTP           2
+#define ROW_INDEX_SYNOLOGY      3
+#define ROW_INDEX_QNAP          4
+#define ROW_INDEX_FREEBOX       5
+#define ROW_INDEX_BOX           6
+#define ROW_INDEX_GOOGLEDRIVE   7
+#define ROW_INDEX_SAMBA         99
 
 // Update this when adding new server types !!!
-#define NUMBER_OF_ROWS      ROW_INDEX_BOX + 1
+#define NUMBER_OF_ROWS      ROW_INDEX_GOOGLEDRIVE + 1
 
 - (void)viewDidLoad
 {
@@ -128,6 +130,11 @@
             cell.serverType = SERVER_TYPE_BOX;
             break;
         }
+        case ROW_INDEX_GOOGLEDRIVE:
+        {
+            cell.serverType = SERVER_TYPE_GOOGLEDRIVE;
+            break;
+        }
         default:
             break;
     }
@@ -193,7 +200,6 @@
             svc.userAccount.serverType = SERVER_TYPE_DROPBOX;
             [self.navigationController pushViewController:svc animated:YES];
             break;
-            break;
         }
         case ROW_INDEX_BOX:
         {
@@ -203,6 +209,15 @@
             svc.userAccount.serverType = SERVER_TYPE_BOX;
             [self.navigationController pushViewController:svc animated:YES];
             break;
+        }
+        case ROW_INDEX_GOOGLEDRIVE:
+        {
+            ServerSettingsGoogleDriveViewController *svc =
+            [[ServerSettingsGoogleDriveViewController alloc] initWithStyle:UITableViewStyleGrouped
+                                                                andAccount:nil
+                                                                  andIndex:-1];
+            svc.userAccount.serverType = SERVER_TYPE_GOOGLEDRIVE;
+            [self.navigationController pushViewController:svc animated:YES];
             break;
         }
         case ROW_INDEX_SAMBA:

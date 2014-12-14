@@ -21,17 +21,6 @@ typedef enum _FILETYPE
     FILETYPE_PDF,
     FILETYPE_TEXT,
 	FILETYPE_UNKNOWN,
-    // Samba
-    KxSMBItemTypeUnknown,
-    KxSMBItemTypeWorkgroup,
-    KxSMBItemTypeServer,
-    KxSMBItemTypeFileShare,
-    KxSMBItemTypePrinter,
-    KxSMBItemTypeComms,
-    KxSMBItemTypeIPC,
-    KxSMBItemTypeDir,
-    KxSMBItemTypeFile,
-    KxSMBItemTypeLink,
 } FILETYPE;
 
 #define kRootID @"-1"
@@ -49,6 +38,7 @@ typedef enum _FILETYPE
 @property(nonatomic, strong) NSString *owner;
 @property(nonatomic, strong) NSString *ejectName;
 @property(nonatomic, strong) NSArray *objectIds;
+@property(nonatomic, strong) NSString *downloadUrl;
 @property(nonatomic) BOOL isCompressed;
 @property(nonatomic) BOOL isDir;
 @property(nonatomic) BOOL isEjectable;

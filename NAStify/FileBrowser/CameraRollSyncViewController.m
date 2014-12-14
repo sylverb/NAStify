@@ -932,6 +932,7 @@
         fileItem.shortPath = [file stringByDeletingLastPathComponent];
         fileItem.fullPath = file;
         fileItem.name = [file lastPathComponent];
+        fileItem.type = [file pathExtension];
         fileItem.fileSizeNumber = [NSNumber numberWithLongLong:[rep size]];
         fileItem.fileDateNumber = [NSNumber numberWithDouble:[[asset valueForProperty:ALAssetPropertyDate] timeIntervalSince1970]];
 
