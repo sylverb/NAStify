@@ -613,6 +613,8 @@
 		D569B17D1982F7C0007C0AC5 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D569B17C1982F7C0007C0AC5 /* ShareViewController.m */; };
 		D57254CD18AD75BD0088A6C9 /* UploadBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */; };
 		D57C95AD18F9577F00617FB6 /* UIDeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = D57C95AC18F9577F00617FB6 /* UIDeviceHardware.m */; };
+		D57CCF381A3E12E300D9E6A9 /* libownCloudiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D57CCF201A3E124C00D9E6A9 /* libownCloudiOS.a */; };
+		D57CCF3B1A3E12F500D9E6A9 /* libownCloudiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D57CCF201A3E124C00D9E6A9 /* libownCloudiOS.a */; };
 		D58EE84718DAD20F00E89437 /* UIPopoverController+iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = D58EE84618DAD20F00E89437 /* UIPopoverController+iPhone.m */; };
 		D595AF87185EEABE00AE8037 /* ServerSettingsSambaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */; };
 		D597AA6018C2A5FC006FA582 /* ServerSettingsDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D597AA5F18C2A5FC006FA582 /* ServerSettingsDropboxViewController.m */; };
@@ -992,7 +994,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 1E79CD18673E037A2D67DD5B;
+			remoteGlobalIDString = 8043173BE96E05C5E19B102D;
 			remoteInfo = Pods;
 		};
 		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
@@ -1051,6 +1053,34 @@
 			remoteGlobalIDString = 990A57550C9FF7F183B1A9CA;
 			remoteInfo = "Pods-upnpx";
 		};
+		D57CCF1F1A3E124C00D9E6A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EA7CC897183E11E600B6A4B4;
+			remoteInfo = "ownCloud iOS library";
+		};
+		D57CCF211A3E124C00D9E6A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EA7CC8A7183E11E600B6A4B4;
+			remoteInfo = "ownCloud iOS libraryTests";
+		};
+		D57CCF361A3E12CF00D9E6A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = EA7CC896183E11E600B6A4B4;
+			remoteInfo = "ownCloud iOS library";
+		};
+		D57CCF391A3E12EF00D9E6A9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = EA7CC896183E11E600B6A4B4;
+			remoteInfo = "ownCloud iOS library";
+		};
 		D5D059F01A31A37800461226 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
@@ -1083,7 +1113,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 1E79CD18673E037A2D67DD5B;
+			remoteGlobalIDString = 8043173BE96E05C5E19B102D;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -1514,6 +1544,7 @@
 		D57254CC18AD75BD0088A6C9 /* UploadBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadBrowserViewController.h; path = FileBrowser/UploadBrowserViewController.h; sourceTree = "<group>"; };
 		D57C95AB18F9577F00617FB6 /* UIDeviceHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDeviceHardware.h; sourceTree = "<group>"; };
 		D57C95AC18F9577F00617FB6 /* UIDeviceHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDeviceHardware.m; sourceTree = "<group>"; };
+		D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "ownCloud iOS library.xcodeproj"; path = "NAStify/External/ownCloud-ios-library/OCCommunicationLib/ownCloud iOS library.xcodeproj"; sourceTree = "<group>"; };
 		D58EE84518DAD20F00E89437 /* UIPopoverController+iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPopoverController+iPhone.h"; sourceTree = "<group>"; };
 		D58EE84618DAD20F00E89437 /* UIPopoverController+iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPopoverController+iPhone.m"; sourceTree = "<group>"; };
 		D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerSettingsSambaViewController.m; path = ServersSettings/ServerSettingsSambaViewController.m; sourceTree = "<group>"; };
@@ -2142,6 +2173,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D57CCF3B1A3E12F500D9E6A9 /* libownCloudiOS.a in Frameworks */,
 				D5E473D41A00F4C200A02A1A /* libSDropboxSDK.a in Frameworks */,
 				D5E473D01A00E76800A02A1A /* libiconv.2.dylib in Frameworks */,
 				D5E473CD1A00E70D00A02A1A /* libcrypto.a in Frameworks */,
@@ -2157,6 +2189,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D57CCF381A3E12E300D9E6A9 /* libownCloudiOS.a in Frameworks */,
 				D5E473D51A00F4E500A02A1A /* libSDropboxSDK.a in Frameworks */,
 				D546FCFA19FE5D2F00125E62 /* libc++.dylib in Frameworks */,
 				D546FCEC19FE4EA400125E62 /* libMediaLibraryKit.a in Frameworks */,
@@ -2342,6 +2375,15 @@
 				D569B17C1982F7C0007C0AC5 /* ShareViewController.m */,
 			);
 			name = Share;
+			sourceTree = "<group>";
+		};
+		D57CCF191A3E124C00D9E6A9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D57CCF201A3E124C00D9E6A9 /* libownCloudiOS.a */,
+				D57CCF221A3E124C00D9E6A9 /* ownCloud iOS libraryTests.xctest */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 		D5B07CAF190F871800882988 /* ChromeCast */ = {
@@ -2570,6 +2612,7 @@
 			isa = PBXGroup;
 			children = (
 				D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */,
+				D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */,
 				D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */,
 				F901F7AF15D7C7C50059428E /* NAStify */,
 				D5E473481A00446E00A02A1A /* NAStify-DocProvider */,
@@ -3949,6 +3992,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D57CCF3A1A3E12EF00D9E6A9 /* PBXTargetDependency */,
 				D5E473C71A00D73E00A02A1A /* PBXTargetDependency */,
 				D5E473891A0047F300A02A1A /* PBXTargetDependency */,
 			);
@@ -3971,6 +4015,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D57CCF371A3E12CF00D9E6A9 /* PBXTargetDependency */,
 				D546FCA719FD3F6400125E62 /* PBXTargetDependency */,
 				D5E473C91A00D74400A02A1A /* PBXTargetDependency */,
 				D5E473521A00446E00A02A1A /* PBXTargetDependency */,
@@ -4026,6 +4071,10 @@
 				{
 					ProductGroup = D5E473AB1A00D71D00A02A1A /* Products */;
 					ProjectRef = D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */;
+				},
+				{
+					ProductGroup = D57CCF191A3E124C00D9E6A9 /* Products */;
+					ProjectRef = D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */;
 				},
 				{
 					ProductGroup = D546FC9E19FD3F4100125E62 /* Products */;
@@ -4158,6 +4207,20 @@
 			fileType = archive.ar;
 			path = "libPods-upnpx.a";
 			remoteRef = D546FCF719FE5C5800125E62 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D57CCF201A3E124C00D9E6A9 /* libownCloudiOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libownCloudiOS.a;
+			remoteRef = D57CCF1F1A3E124C00D9E6A9 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D57CCF221A3E124C00D9E6A9 /* ownCloud iOS libraryTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "ownCloud iOS libraryTests.xctest";
+			remoteRef = D57CCF211A3E124C00D9E6A9 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		D5D059F11A31A37800461226 /* libPods-Google-API-Client.a */ = {
@@ -5135,6 +5198,16 @@
 			isa = PBXTargetDependency;
 			name = Pods;
 			targetProxy = D546FCA619FD3F6400125E62 /* PBXContainerItemProxy */;
+		};
+		D57CCF371A3E12CF00D9E6A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ownCloud iOS library";
+			targetProxy = D57CCF361A3E12CF00D9E6A9 /* PBXContainerItemProxy */;
+		};
+		D57CCF3A1A3E12EF00D9E6A9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ownCloud iOS library";
+			targetProxy = D57CCF391A3E12EF00D9E6A9 /* PBXContainerItemProxy */;
 		};
 		D5E473521A00446E00A02A1A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
