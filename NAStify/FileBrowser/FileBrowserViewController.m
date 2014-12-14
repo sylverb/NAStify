@@ -3959,7 +3959,7 @@
         self.openInButtonIndex = -1;
     }
     
-    if ((ServerSupportsFeature(FileDownload)) && (!fileItem.isDir))
+    if ((ServerSupportsFeature(FileDownload)) && (!fileItem.isDir) && (self.userAccount.serverType != SERVER_TYPE_LOCAL))
     {
         self.downloadButtonIndex = [self.itemActionSheet addButtonWithTitle:NSLocalizedString(@"Download locally",nil)];
     }
