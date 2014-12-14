@@ -973,6 +973,7 @@
             CMSupportedFeaturesMaskFileShare       |
             CMSupportedFeaturesMaskFolderShare     |
             CMSupportedFeaturesMaskQTPlayer        |
+            CMSupportedFeaturesMaskVLCPlayer       |
             CMSupportedFeaturesMaskVideoSeek       |
             CMSupportedFeaturesMaskAirPlay         |
             CMSupportedFeaturesMaskGoogleCast
