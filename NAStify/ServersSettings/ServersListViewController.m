@@ -11,6 +11,7 @@
 #import "ServerSettingsFreeboxRevViewController.h"
 #import "ServerSettingsFtpViewController.h"
 #import "ServerSettingsBoxViewController.h"
+#import "ServerSettingsGoogleDriveViewController.h"
 #import "ServerSettingsDropboxViewController.h"
 #import "ServerSettingsSambaViewController.h"
 #import "ServerSettingsSynologyViewController.h"
@@ -355,6 +356,16 @@
                         [self.navigationController pushViewController:svc animated:YES];
                         break;
                     }
+                    case SERVER_TYPE_GOOGLEDRIVE:
+                    {
+                        ServerSettingsGoogleDriveViewController *svc =
+                        [[ServerSettingsGoogleDriveViewController alloc] initWithStyle:UITableViewStyleGrouped
+                                                                            andAccount:account
+                                                                              andIndex:indexPath.row];
+                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
+                        [self.navigationController pushViewController:svc animated:YES];
+                        break;
+                    }
                     case SERVER_TYPE_UNKNOWN:
                     case SERVER_TYPE_LOCAL:
                     case SERVER_TYPE_UPNP:
@@ -450,14 +461,26 @@
                     break;
             }
             // delete entries in keychain
-            [SSKeychain deletePasswordForService:account.uuid
-                                         account:@"password"];
-            [SSKeychain deletePasswordForService:account.uuid
-                                         account:@"token"];
-            [SSKeychain deletePasswordForService:account.uuid
-                                         account:@"pubCert"];
-            [SSKeychain deletePasswordForService:account.uuid
-                                         account:@"privCert"];
+            switch (account.serverType)
+            {
+                case SERVER_TYPE_GOOGLEDRIVE:
+                {
+                    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:account.uuid];
+                    break;
+                }
+                default:
+                {
+                    [SSKeychain deletePasswordForService:account.uuid
+                                                 account:@"password"];
+                    [SSKeychain deletePasswordForService:account.uuid
+                                                 account:@"token"];
+                    [SSKeychain deletePasswordForService:account.uuid
+                                                 account:@"pubCert"];
+                    [SSKeychain deletePasswordForService:account.uuid
+                                                 account:@"privCert"];
+                    break;
+                }
+            }
             
             [self.accounts removeObjectAtIndex:indexPath.row];
             [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];

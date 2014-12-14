@@ -709,6 +709,13 @@
                     
                     fileItem.fileDate = [formatter stringFromDate:mdate];
                 }
+                
+                /* DownloadURL */
+                if ([element objectForKey:@"url"])
+                {
+                    fileItem.downloadUrl = [element objectForKey:@"url"];
+                }
+                
                 [self.filesArray addObject:fileItem];
             }
             

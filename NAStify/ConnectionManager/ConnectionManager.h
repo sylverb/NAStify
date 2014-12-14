@@ -71,6 +71,7 @@ typedef enum _SHARING_VALIDITY_UNIT
 - (void)CMUploadProgress:(NSDictionary *)dict;
 - (void)CMUploadFinished:(NSDictionary *)dict;
 - (void)CMShareFinished:(NSDictionary *)dict;
+- (void)CMShareProgress:(NSDictionary *)dict;
 - (void)CMConnectionError:(NSDictionary *)dict;
 - (void)CMAction:(NSDictionary *)dict;
 @end

@@ -574,6 +574,14 @@
 		D53D93CE1A12053C00E6D6B6 /* dropbox~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D53D93C91A12053C00E6D6B6 /* dropbox~ipad.png */; };
 		D53D93CF1A12053C00E6D6B6 /* dropbox~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D53D93CA1A12053C00E6D6B6 /* dropbox~iphone.png */; };
 		D54042FF197C44E000A902DA /* VlcSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54042FE197C44E000A902DA /* VlcSettingsViewController.m */; };
+		D54236C41A3655C8008AC52A /* googledrive@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D54236BF1A3655C8008AC52A /* googledrive@2x~ipad.png */; };
+		D54236C61A3655C8008AC52A /* googledrive@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D54236C01A3655C8008AC52A /* googledrive@2x~iphone.png */; };
+		D54236C81A3655C8008AC52A /* googledrive@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D54236C11A3655C8008AC52A /* googledrive@3x.png */; };
+		D54236CA1A3655C8008AC52A /* googledrive~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D54236C21A3655C8008AC52A /* googledrive~ipad.png */; };
+		D54236CC1A3655C8008AC52A /* googledrive~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D54236C31A3655C8008AC52A /* googledrive~iphone.png */; };
+		D54236D01A36572F008AC52A /* CMGoogleDrive.m in Sources */ = {isa = PBXBuildFile; fileRef = D54236CF1A36572F008AC52A /* CMGoogleDrive.m */; };
+		D54236D11A36572F008AC52A /* CMGoogleDrive.m in Sources */ = {isa = PBXBuildFile; fileRef = D54236CF1A36572F008AC52A /* CMGoogleDrive.m */; };
+		D54236D41A365884008AC52A /* ServerSettingsGoogleDriveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54236D31A365884008AC52A /* ServerSettingsGoogleDriveViewController.m */; };
 		D546FCEC19FE4EA400125E62 /* libMediaLibraryKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D306F71901186B0087F4C6 /* libMediaLibraryKit.a */; };
 		D546FCFA19FE5D2F00125E62 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D546FCF919FE5D2F00125E62 /* libc++.dylib */; };
 		D546FCFD19FE5F9900125E62 /* MediaLibrary.mom in Resources */ = {isa = PBXBuildFile; fileRef = D546FCFC19FE5F9900125E62 /* MediaLibrary.mom */; };
@@ -635,6 +643,12 @@
 		D5D059A21A2DAFA000461226 /* upnp_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D0599F1A2DAFA000461226 /* upnp_small.png */; };
 		D5D059A31A2DAFA000461226 /* upnp_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D059A01A2DAFA000461226 /* upnp_small@2x.png */; };
 		D5D059A41A2DAFA000461226 /* upnp_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D059A11A2DAFA000461226 /* upnp_small@3x.png */; };
+		D5D059FE1A34AFD400461226 /* googledrive_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D059FB1A34AFD400461226 /* googledrive_small.png */; };
+		D5D059FF1A34AFD400461226 /* googledrive_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D059FC1A34AFD400461226 /* googledrive_small@2x.png */; };
+		D5D05A001A34AFD400461226 /* googledrive_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D059FD1A34AFD400461226 /* googledrive_small@3x.png */; };
+		D5D05A011A34B0B200461226 /* googledrive_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D059FB1A34AFD400461226 /* googledrive_small.png */; };
+		D5D05A021A34B0B200461226 /* googledrive_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D059FC1A34AFD400461226 /* googledrive_small@2x.png */; };
+		D5D05A031A34B0B200461226 /* googledrive_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D059FD1A34AFD400461226 /* googledrive_small@3x.png */; };
 		D5D302D718FD49730087F4C6 /* setup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D302D518FD49730087F4C6 /* setup@2x.png */; };
 		D5D302DB18FDE4EE0087F4C6 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D302DA18FDE4EE0087F4C6 /* SettingsViewController.m */; };
 		D5D3043A18FF443D0087F4C6 /* CMUPnP.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3043918FF443D0087F4C6 /* CMUPnP.m */; };
@@ -978,7 +992,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 0EE8B02EB28411E0FE6E34D4;
+			remoteGlobalIDString = 1E79CD18673E037A2D67DD5B;
 			remoteInfo = Pods;
 		};
 		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
@@ -1037,6 +1051,27 @@
 			remoteGlobalIDString = 990A57550C9FF7F183B1A9CA;
 			remoteInfo = "Pods-upnpx";
 		};
+		D5D059F01A31A37800461226 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E2CC3CCCD0EB3EFF08F995B1;
+			remoteInfo = "Pods-Google-API-Client";
+		};
+		D5D059F21A31A37800461226 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52D229C0ED11A55B452A2911;
+			remoteInfo = "Pods-gtm-http-fetcher";
+		};
+		D5D059F41A31A37800461226 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = F29422C688817D4D040465B3;
+			remoteInfo = "Pods-gtm-oauth2";
+		};
 		D5E473511A00446E00A02A1A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F901F79C15D7C7C50059428E /* Project object */;
@@ -1048,7 +1083,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 0EE8B02EB28411E0FE6E34D4;
+			remoteGlobalIDString = 1E79CD18673E037A2D67DD5B;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -1431,6 +1466,15 @@
 		D53D93CA1A12053C00E6D6B6 /* dropbox~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dropbox~iphone.png"; sourceTree = "<group>"; };
 		D54042FD197C44E000A902DA /* VlcSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VlcSettingsViewController.h; path = Settings/VlcSettingsViewController.h; sourceTree = "<group>"; };
 		D54042FE197C44E000A902DA /* VlcSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VlcSettingsViewController.m; path = Settings/VlcSettingsViewController.m; sourceTree = "<group>"; };
+		D54236BF1A3655C8008AC52A /* googledrive@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "googledrive@2x~ipad.png"; sourceTree = "<group>"; };
+		D54236C01A3655C8008AC52A /* googledrive@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "googledrive@2x~iphone.png"; sourceTree = "<group>"; };
+		D54236C11A3655C8008AC52A /* googledrive@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "googledrive@3x.png"; sourceTree = "<group>"; };
+		D54236C21A3655C8008AC52A /* googledrive~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "googledrive~ipad.png"; sourceTree = "<group>"; };
+		D54236C31A3655C8008AC52A /* googledrive~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "googledrive~iphone.png"; sourceTree = "<group>"; };
+		D54236CE1A36572F008AC52A /* CMGoogleDrive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CMGoogleDrive.h; path = NAStify/ConnectionManager/Plugins/GoogleDrive/CMGoogleDrive.h; sourceTree = SOURCE_ROOT; };
+		D54236CF1A36572F008AC52A /* CMGoogleDrive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMGoogleDrive.m; path = NAStify/ConnectionManager/Plugins/GoogleDrive/CMGoogleDrive.m; sourceTree = SOURCE_ROOT; };
+		D54236D21A365884008AC52A /* ServerSettingsGoogleDriveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerSettingsGoogleDriveViewController.h; path = ServersSettings/ServerSettingsGoogleDriveViewController.h; sourceTree = "<group>"; };
+		D54236D31A365884008AC52A /* ServerSettingsGoogleDriveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerSettingsGoogleDriveViewController.m; path = ServersSettings/ServerSettingsGoogleDriveViewController.m; sourceTree = "<group>"; };
 		D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		D546FCF919FE5D2F00125E62 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		D546FCFC19FE5F9900125E62 /* MediaLibrary.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = MediaLibrary.mom; path = "external/MediaLibraryKit/build/Release-iphoneos/MediaLibrary.mom"; sourceTree = SOURCE_ROOT; };
@@ -1505,6 +1549,9 @@
 		D5D0599F1A2DAFA000461226 /* upnp_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = upnp_small.png; sourceTree = "<group>"; };
 		D5D059A01A2DAFA000461226 /* upnp_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upnp_small@2x.png"; sourceTree = "<group>"; };
 		D5D059A11A2DAFA000461226 /* upnp_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "upnp_small@3x.png"; sourceTree = "<group>"; };
+		D5D059FB1A34AFD400461226 /* googledrive_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = googledrive_small.png; sourceTree = "<group>"; };
+		D5D059FC1A34AFD400461226 /* googledrive_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "googledrive_small@2x.png"; sourceTree = "<group>"; };
+		D5D059FD1A34AFD400461226 /* googledrive_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "googledrive_small@3x.png"; sourceTree = "<group>"; };
 		D5D302D518FD49730087F4C6 /* setup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setup@2x.png"; sourceTree = "<group>"; };
 		D5D302D918FDE4EE0087F4C6 /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SettingsViewController.h; path = Settings/SettingsViewController.h; sourceTree = "<group>"; };
 		D5D302DA18FDE4EE0087F4C6 /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SettingsViewController.m; path = Settings/SettingsViewController.m; sourceTree = "<group>"; };
@@ -2244,6 +2291,15 @@
 			path = External/SDWebImage/SDWebImage;
 			sourceTree = "<group>";
 		};
+		D54236A91A3590F1008AC52A /* DropBox */ = {
+			isa = PBXGroup;
+			children = (
+				D597AA5E18C2A5FC006FA582 /* ServerSettingsDropboxViewController.h */,
+				D597AA5F18C2A5FC006FA582 /* ServerSettingsDropboxViewController.m */,
+			);
+			name = DropBox;
+			sourceTree = "<group>";
+		};
 		D546FC9E19FD3F4100125E62 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2254,6 +2310,7 @@
 				D546FCD419FE483D00125E62 /* libPods-CocoaLumberjack.a */,
 				D501D65719FE862D0032AACD /* libPods-DACircularProgress.a */,
 				D546FCE019FE4C6500125E62 /* libPods-ELCImagePickerController.a */,
+				D5D059F11A31A37800461226 /* libPods-Google-API-Client.a */,
 				D501D64819FE85270032AACD /* libPods-ISO8601DateFormatter.a */,
 				D546FCEB19FE4DA900125E62 /* libPods-LTHPasscodeViewController.a */,
 				D501D69019FF9D860032AACD /* libPods-MBProgressHUD.a */,
@@ -2262,6 +2319,8 @@
 				D501D6A819FFA8090032AACD /* libPods-SSKeychain.a */,
 				D546FCD619FE483D00125E62 /* libPods-XMLDictionary.a */,
 				D546FCA519FD3F4100125E62 /* libPods-box-ios-sdk-v2.a */,
+				D5D059F31A31A37800461226 /* libPods-gtm-http-fetcher.a */,
+				D5D059F51A31A37800461226 /* libPods-gtm-oauth2.a */,
 				D501D66919FE87FD0032AACD /* libPods-objective-zip.a */,
 				D546FCF819FE5C5800125E62 /* libPods-upnpx.a */,
 			);
@@ -2301,6 +2360,25 @@
 				D5B07CBA1910784000882988 /* GoogleCastController.m */,
 			);
 			name = GoogleCast;
+			sourceTree = "<group>";
+		};
+		D5D059D71A31A37800461226 /* GoogleDrive */ = {
+			isa = PBXGroup;
+			children = (
+				D54236CE1A36572F008AC52A /* CMGoogleDrive.h */,
+				D54236CF1A36572F008AC52A /* CMGoogleDrive.m */,
+			);
+			name = GoogleDrive;
+			path = GDrive;
+			sourceTree = "<group>";
+		};
+		D5D059F61A31A7CA00461226 /* GoogleDrive */ = {
+			isa = PBXGroup;
+			children = (
+				D54236D21A365884008AC52A /* ServerSettingsGoogleDriveViewController.h */,
+				D54236D31A365884008AC52A /* ServerSettingsGoogleDriveViewController.m */,
+			);
+			name = GoogleDrive;
 			sourceTree = "<group>";
 		};
 		D5D302D818FDE3810087F4C6 /* Settings */ = {
@@ -2595,6 +2673,8 @@
 			isa = PBXGroup;
 			children = (
 				D5D3CC5019A92AB90083EA08 /* Box */,
+				D54236A91A3590F1008AC52A /* DropBox */,
+				D5D059F61A31A7CA00461226 /* GoogleDrive */,
 				F901F7EE15D7CA060059428E /* UserAccount.h */,
 				F901F7EF15D7CA060059428E /* UserAccount.m */,
 				F901F7F015D7CA060059428E /* ServersListViewController.h */,
@@ -2605,8 +2685,6 @@
 				F901F7E915D7CA060059428E /* ServerTypeCell.m */,
 				F901F7EA15D7CA060059428E /* ServerTypeViewController.h */,
 				F901F7EB15D7CA060059428E /* ServerTypeViewController.m */,
-				D597AA5E18C2A5FC006FA582 /* ServerSettingsDropboxViewController.h */,
-				D597AA5F18C2A5FC006FA582 /* ServerSettingsDropboxViewController.m */,
 				F98D89821820E5200053D5CF /* ServerSettingsFreeboxRevViewController.h */,
 				F98D89831820E5200053D5CF /* ServerSettingsFreeboxRevViewController.m */,
 				D54EBF481954A7A5008AC4BB /* ServerSettingsFtpViewController.h */,
@@ -2963,14 +3041,15 @@
 			isa = PBXGroup;
 			children = (
 				D5D3CC4919A8F5040083EA08 /* Box */,
-				D5D3043718FF443D0087F4C6 /* UPnP */,
-				F98D897E181F8AD80053D5CF /* Samba */,
-				F97B1C101632BD4400E3FF7C /* QNAP */,
-				F90C6C2B160685C200153186 /* FreeboxRev */,
-				F9115D2815DA9047004259D3 /* Local */,
 				F9BF24D01605139A001F5BAF /* Dropbox */,
-				F9401E3B15F5347400AF40B2 /* Synology */,
+				F90C6C2B160685C200153186 /* FreeboxRev */,
 				F9345CAC15DC6321004035A9 /* FTP */,
+				D5D059D71A31A37800461226 /* GoogleDrive */,
+				F9115D2815DA9047004259D3 /* Local */,
+				F97B1C101632BD4400E3FF7C /* QNAP */,
+				F98D897E181F8AD80053D5CF /* Samba */,
+				F9401E3B15F5347400AF40B2 /* Synology */,
+				D5D3043718FF443D0087F4C6 /* UPnP */,
 				F9115D2B15DA9047004259D3 /* WebDAV */,
 			);
 			path = Plugins;
@@ -3519,6 +3598,14 @@
 				D562AC2B197D86D400C2322A /* ftps_small.png */,
 				D562AC25197D829900C2322A /* ftps_small@2x.png */,
 				D5CD85911A1413C600438F15 /* ftps_small@3x.png */,
+				D5D059FB1A34AFD400461226 /* googledrive_small.png */,
+				D5D059FC1A34AFD400461226 /* googledrive_small@2x.png */,
+				D5D059FD1A34AFD400461226 /* googledrive_small@3x.png */,
+				D54236C21A3655C8008AC52A /* googledrive~ipad.png */,
+				D54236C31A3655C8008AC52A /* googledrive~iphone.png */,
+				D54236BF1A3655C8008AC52A /* googledrive@2x~ipad.png */,
+				D54236C01A3655C8008AC52A /* googledrive@2x~iphone.png */,
+				D54236C11A3655C8008AC52A /* googledrive@3x.png */,
 				D53D93B41A0E65CA00E6D6B6 /* local-storage.png */,
 				D5E474891A0110FC00A02A1A /* local-storage@2x.png */,
 				D5E4748A1A0110FC00A02A1A /* local-storage@3x.png */,
@@ -4073,6 +4160,27 @@
 			remoteRef = D546FCF719FE5C5800125E62 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D5D059F11A31A37800461226 /* libPods-Google-API-Client.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-Google-API-Client.a";
+			remoteRef = D5D059F01A31A37800461226 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D5D059F31A31A37800461226 /* libPods-gtm-http-fetcher.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-gtm-http-fetcher.a";
+			remoteRef = D5D059F21A31A37800461226 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D5D059F51A31A37800461226 /* libPods-gtm-oauth2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-gtm-oauth2.a";
+			remoteRef = D5D059F41A31A37800461226 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		D5E473B11A00D71D00A02A1A /* DropboxSDK.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -4101,6 +4209,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5D05A011A34B0B200461226 /* googledrive_small.png in Resources */,
+				D5D05A021A34B0B200461226 /* googledrive_small@2x.png in Resources */,
+				D5D05A031A34B0B200461226 /* googledrive_small@3x.png in Resources */,
 				D5316B301A17B07F00364CA7 /* CloseButton.png in Resources */,
 				D5E474761A00F93000A02A1A /* CloseButton@2x.png in Resources */,
 				D5316B311A17B0CD00364CA7 /* box_small.png in Resources */,
@@ -4410,6 +4521,7 @@
 				D53032E919E33110004F7147 /* mp2@3x.png in Resources */,
 				D53D933E1A0E1E0500E6D6B6 /* mpv.png in Resources */,
 				D5CD858A1A140EA000438F15 /* ftp-ftps-sftp@2x~ipad.png in Resources */,
+				D5D059FF1A34AFD400461226 /* googledrive_small@2x.png in Resources */,
 				D53032BB19E33110004F7147 /* dng@3x.png in Resources */,
 				D530331E19E33110004F7147 /* unknown@2x.png in Resources */,
 				D53D93361A0E1E0500E6D6B6 /* mpc.png in Resources */,
@@ -4516,6 +4628,7 @@
 				D53032EB19E33110004F7147 /* mp3@3x.png in Resources */,
 				D53D93081A0E1E0500E6D6B6 /* dtshd.png in Resources */,
 				D530330219E33110004F7147 /* pdf@2x.png in Resources */,
+				D5D059FE1A34AFD400461226 /* googledrive_small.png in Resources */,
 				D53D93CB1A12053C00E6D6B6 /* dropbox@2x~ipad.png in Resources */,
 				D53032E419E33110004F7147 /* mov@2x.png in Resources */,
 				D53032D519E33110004F7147 /* gif@3x.png in Resources */,
@@ -4524,6 +4637,7 @@
 				D53D93241A0E1E0500E6D6B6 /* m4a.png in Resources */,
 				D530331019E33110004F7147 /* ram@2x.png in Resources */,
 				D53D931E1A0E1E0500E6D6B6 /* jpeg.png in Resources */,
+				D5D05A001A34AFD400461226 /* googledrive_small@3x.png in Resources */,
 				D5CD85921A1413C600438F15 /* ftps_small@3x.png in Resources */,
 				D530329019E33110004F7147 /* 3gp@2x.png in Resources */,
 				D5D059A41A2DAFA000461226 /* upnp_small@3x.png in Resources */,
@@ -4582,6 +4696,7 @@
 				D53D934A1A0E1E0500E6D6B6 /* pdf.png in Resources */,
 				D562AC28197D829900C2322A /* ftps_small@2x.png in Resources */,
 				F98D899F1820EAE30053D5CF /* synology_small@2x.png in Resources */,
+				D54236CC1A3655C8008AC52A /* googledrive~iphone.png in Resources */,
 				D5CD85941A14149800438F15 /* ftp_small@3x.png in Resources */,
 				D530329119E33110004F7147 /* 3gp@3x.png in Resources */,
 				D53032C519E33110004F7147 /* eject@3x.png in Resources */,
@@ -4630,9 +4745,11 @@
 				D53D93B71A0E65CA00E6D6B6 /* freebox_small@3x.png in Resources */,
 				F98D89941820EAE30053D5CF /* freebox_small.png in Resources */,
 				D530332019E33110004F7147 /* vob@2x.png in Resources */,
+				D54236C41A3655C8008AC52A /* googledrive@2x~ipad.png in Resources */,
 				D5551C101901827B00652A08 /* subtitleIcon@2x.png in Resources */,
 				D530330119E33110004F7147 /* opus@3x.png in Resources */,
 				D546FCFD19FE5F9900125E62 /* MediaLibrary.mom in Resources */,
+				D54236C81A3655C8008AC52A /* googledrive@3x.png in Resources */,
 				D53032A019E33110004F7147 /* al@2x.png in Resources */,
 				D530332619E33110004F7147 /* wmv@2x.png in Resources */,
 				D562AC2F197D86D400C2322A /* sftp_small.png in Resources */,
@@ -4646,6 +4763,7 @@
 				D5CD85901A1412C800438F15 /* sftp_small@3x.png in Resources */,
 				D53D931C1A0E1E0500E6D6B6 /* gif.png in Resources */,
 				D5B07CB7190F871800882988 /* icon-cast-identified@2x.png in Resources */,
+				D54236C61A3655C8008AC52A /* googledrive@2x~iphone.png in Resources */,
 				D53032AD19E33110004F7147 /* avi@3x.png in Resources */,
 				D53D934C1A0E1E0500E6D6B6 /* png.png in Resources */,
 				D53D92FC1A0E1E0500E6D6B6 /* csv.png in Resources */,
@@ -4668,6 +4786,7 @@
 				D5D308AF190157EE0087F4C6 /* VLCMovieViewController~iphone.xib in Resources */,
 				D53D939F1A0E5B1C00E6D6B6 /* synology@2x~iphone.png in Resources */,
 				D53032E219E33110004F7147 /* mlp@2x.png in Resources */,
+				D54236CA1A3655C8008AC52A /* googledrive~ipad.png in Resources */,
 				D5E4748B1A0110FC00A02A1A /* local-storage@2x.png in Resources */,
 				D53D933A1A0E1E0500E6D6B6 /* mpg.png in Resources */,
 				D530330E19E33110004F7147 /* raf@2x.png in Resources */,
@@ -4779,6 +4898,7 @@
 				D5E473911A00C73200A02A1A /* CMSamba.m in Sources */,
 				D5E473921A00C73700A02A1A /* CMQnap.m in Sources */,
 				D5E473931A00C73B00A02A1A /* CMFreeboxRev.m in Sources */,
+				D54236D11A36572F008AC52A /* CMGoogleDrive.m in Sources */,
 				D5E473941A00C74100A02A1A /* CMLocal.m in Sources */,
 				D5E473951A00C74900A02A1A /* CMDropbox.m in Sources */,
 				D5E473961A00C74F00A02A1A /* CMSynology.m in Sources */,
@@ -4841,6 +4961,7 @@
 				F975485315F6AA5100E9D1E1 /* FileInRarInfo.m in Sources */,
 				F975485415F6AA5100E9D1E1 /* RarException.m in Sources */,
 				F975485515F6AA5100E9D1E1 /* RarFile.mm in Sources */,
+				D54236D41A365884008AC52A /* ServerSettingsGoogleDriveViewController.m in Sources */,
 				D501D6F519FFEB7F0032AACD /* MWZoomingScrollView.m in Sources */,
 				F975485815F6AB8400E9D1E1 /* CMLocal.m in Sources */,
 				F99CB70115F770A30011F91F /* archive.cpp in Sources */,
@@ -4860,6 +4981,7 @@
 				D58EE84718DAD20F00E89437 /* UIPopoverController+iPhone.m in Sources */,
 				F99CB71015F770A30011F91F /* filcreat.cpp in Sources */,
 				F99CB71115F770A30011F91F /* file.cpp in Sources */,
+				D54236D01A36572F008AC52A /* CMGoogleDrive.m in Sources */,
 				F99CB71215F770A30011F91F /* filefn.cpp in Sources */,
 				F99CB71315F770A30011F91F /* filestr.cpp in Sources */,
 				F99CB71415F770A30011F91F /* find.cpp in Sources */,

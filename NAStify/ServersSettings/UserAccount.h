@@ -22,7 +22,7 @@ typedef enum _SERVER_TYPE
     SERVER_TYPE_UPNP,               // UPnP servers
     SERVER_TYPE_SFTP,               // For SFTP servers
     SERVER_TYPE_BOX,                // Box ( https://github.com/box/box-ios-sdk-v2 )
-//    SERVER_TYPE_GOOGLEDRIVE,        // Google drive ( https://code.google.com/p/google-api-objectivec-client/ )
+    SERVER_TYPE_GOOGLEDRIVE,        // Google drive ( https://code.google.com/p/google-api-objectivec-client/ )
 //    SERVER_TYPE_CLOUDDRIVE,         // Amazon cloud drive ( https://github.com/aws/aws-sdk-ios )
 //    SERVER_TYPE_AMAZONS3            // Amazon S3 ( https://github.com/aws/aws-sdk-ios )
 //    SERVER_TYPE_OWNCLOUD,           // Own Cloud ( https://github.com/owncloud/ios-library )

@@ -112,6 +112,11 @@
             self.fileTypeImage.image = [UIImage imageNamed:@"local-storage.png"];
             break;
         }
+        case SERVER_TYPE_GOOGLEDRIVE:
+        {
+            self.fileTypeImage.image = [UIImage imageNamed:@"googledrive_small.png"];
+            break;
+        }
         default:
         {
             self.fileTypeImage.image = nil;

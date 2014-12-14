@@ -2234,18 +2234,26 @@
         case TAG_HUD_DELETE:
         {
             [self.connectionManager cancelDeleteTask];
+            
+            // Update file list as delete process has been cancelled
+            [self.connectionManager listForPath:self.currentFolder];
+            [self.connectionManager spaceInfoAtPath:self.currentFolder];
             [hud hide:YES];
             break;
         }
         case TAG_HUD_COPY:
         {
             [self.connectionManager cancelCopyTask];
+            // Update free space as copy process has been cancelled
+            [self.connectionManager spaceInfoAtPath:self.currentFolder];
             [hud hide:YES];
             break;
         }
         case TAG_HUD_MOVE:
         {
             [self.connectionManager cancelMoveTask];
+            // Update file list as move process has been cancelled
+            [self.connectionManager listForPath:self.currentFolder];
             [hud hide:YES];
             break;
         }
@@ -2874,7 +2882,7 @@
     
     // Check if the notification is for this folder
     if ((([dict objectForKey:@"path"]) && ([self.currentFolder.path isEqualToString:[dict objectForKey:@"path"]])) ||
-        (([dict objectForKey:@"id"]) && ([[self.currentFolder.objectIds lastObject] isEqualToString:[dict objectForKey:@"id"]])))
+        (([dict objectForKey:@"id"]) && ([[self.currentFolder.objectIds lastObject] isEqual:[dict objectForKey:@"id"]])))
     {
         if ([[dict objectForKey:@"success"] boolValue])
         {
@@ -2975,6 +2983,13 @@
                     
                     fileItem.fileDate = [formatter stringFromDate:mdate];
                 }
+                
+                /* DownloadURL */
+                if ([element objectForKey:@"url"])
+                {
+                    fileItem.downloadUrl = [element objectForKey:@"url"];
+                }
+                
                 [self.filesArray addObject:fileItem];
             }
             
@@ -3057,12 +3072,16 @@
 
 - (void)CMDeleteProgress:(NSDictionary *)dict
 {
+    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
     float progress = [[dict objectForKey:@"progress"] floatValue];
     if (progress != 0)
     {
-        MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
         hud.mode = MBProgressHUDModeAnnularDeterminate;
         hud.progress = progress;
+    }
+    if ([dict objectForKey:@"info"])
+    {
+        hud.detailsLabelText = [dict objectForKey:@"info"];
     }
 }
 
@@ -3157,12 +3176,16 @@
 
 - (void)CMMoveProgress:(NSDictionary *)dict
 {
+    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
     float progress = [[dict objectForKey:@"progress"] floatValue];
     if (progress != 0)
     {
-        MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
         hud.mode = MBProgressHUDModeAnnularDeterminate;
         hud.progress = progress;
+    }
+    if ([dict objectForKey:@"info"])
+    {
+        hud.detailsLabelText = [dict objectForKey:@"info"];
     }
 }
 
@@ -3537,6 +3560,11 @@
                 fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[[filesList objectAtIndex:i] objectForKey:@"id"]];
             }
             
+            /* DownloadURL */
+            if ([[filesList objectAtIndex:i] objectForKey:@"url"])
+            {
+                fileItem.downloadUrl = [[filesList objectAtIndex:i] objectForKey:@"url"];
+            }
             [self.filteredFilesArray addObject:fileItem];
         }
         
@@ -3550,6 +3578,21 @@
     }
     MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
     [hud hide:YES];
+}
+
+- (void)CMShareProgress:(NSDictionary *)dict
+{
+    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
+    float progress = [[dict objectForKey:@"progress"] floatValue];
+    if (progress != 0)
+    {
+        hud.mode = MBProgressHUDModeAnnularDeterminate;
+        hud.progress = progress;
+    }
+    if ([dict objectForKey:@"info"])
+    {
+        hud.detailsLabelText = [dict objectForKey:@"info"];
+    }
 }
 
 - (void)CMShareFinished:(NSDictionary *)dict

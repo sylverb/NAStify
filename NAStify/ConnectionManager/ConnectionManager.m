@@ -22,6 +22,7 @@
 #import "CMQnap.h"
 #import "CMSamba.h"
 #import "CMUPnP.h"
+#import "CMGoogleDrive.h"
 
 @implementation ConnectionManager
 
@@ -92,6 +93,11 @@
             case SERVER_TYPE_BOX:
             {
                 cmPlugin = [[CMBox alloc] init];
+                break;
+            }
+            case SERVER_TYPE_GOOGLEDRIVE:
+            {
+                cmPlugin = [[CMGoogleDrive alloc] init];
                 break;
             }
             default:
@@ -546,6 +552,14 @@
     if ([self.delegate respondsToSelector:@selector(CMSearchFinished:)])
     {
         [self.delegate CMSearchFinished:dict];
+    }
+}
+
+- (void)CMShareProgress:(NSDictionary *)dict
+{
+    if ([self.delegate respondsToSelector:@selector(CMShareProgress:)])
+    {
+        [self.delegate CMShareProgress:dict];
     }
 }
 
