@@ -69,6 +69,14 @@
                                                attributes:nil
                                                     error:NULL];
 
+    // Create Cache folder (used for file preview)
+    NSString *cachePath = [containerURL.path stringByAppendingString:@"/Cache/"];
+    
+    [[NSFileManager defaultManager] createDirectoryAtPath:cachePath
+                              withIntermediateDirectories:YES
+                                               attributes:nil
+                                                    error:NULL];
+
     // Init views
     FileItem *rootFolder = [[FileItem alloc] init];
     rootFolder.isDir = YES;

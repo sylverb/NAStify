@@ -32,6 +32,13 @@
 #import <iAd/iAd.h>
 #import "GADInterstitial.h"
 
+typedef enum
+{
+    DOWNLOAD_ACTION_DOWNLOAD,
+    DOWNLOAD_ACTION_SUBTITLE,
+    DOWNLOAD_ACTION_PREVIEW,
+} DOWNLOAD_ACTION;
+
 @interface FileBrowserViewController : UIViewController <CMDelegate, UITableViewDataSource, UITableViewDelegate, UIActionSheetDelegate, UIAlertViewDelegate, UITextFieldDelegate, MoveFileViewDelegate, UploadBrowserViewControllerDelegate, ShareViewDelegate, CameraRollSyncViewDelegate, UIDocumentInteractionControllerDelegate, ReaderViewControllerDelegate, MWPhotoBrowserDelegate, MBProgressHUDDelegate, SortItemsViewController, UISearchBarDelegate, UISearchDisplayDelegate, UINavigationBarDelegate, GCControllerDelegate, GADInterstitialDelegate>
 {
     CustomSearchDisplayController	*searchDisplayController;
@@ -70,11 +77,12 @@
 @property(nonatomic, strong) UITableView *multipleSelectionTableView;
 @property(nonatomic, strong) NSMutableIndexSet *selectedIndexes;
 
-/* Subtitle downloading handling */
+/* Downloading handling */
 @property(nonatomic, strong) NetworkConnection *videoNetworkConnection;
+@property(nonatomic) DOWNLOAD_ACTION downloadAction;
+@property(nonatomic, strong) FileItem *sourceFileItem;
+@property(nonatomic, strong) NSString *dlFilePath;
 @property(nonatomic, strong) NSString *videoUrl;
-@property(nonatomic, strong) NSString *subtitlePath;
-
 
 /* UIBarButtonItems for multiple selection */
 @property(nonatomic, strong) UIBarButtonItem *deleteFilesButtonItem;
@@ -95,6 +103,7 @@
 
 /* Long press sheet handling */
 @property(nonatomic, strong) UIActionSheet *itemActionSheet;
+@property(nonatomic) NSInteger previewButtonIndex;
 @property(nonatomic) NSInteger ejectButtonIndex;
 @property(nonatomic) NSInteger renameButtonIndex;
 @property(nonatomic) NSInteger moveCopyButtonIndex;
