@@ -610,11 +610,25 @@
 		D562AC2D197D86D400C2322A /* ftp_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D562AC2A197D86D400C2322A /* ftp_small.png */; };
 		D562AC2E197D86D400C2322A /* ftps_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D562AC2B197D86D400C2322A /* ftps_small.png */; };
 		D562AC2F197D86D400C2322A /* sftp_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D562AC2C197D86D400C2322A /* sftp_small.png */; };
+		D56506DA1A431AC6000EC977 /* owncloud_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506D71A431AC6000EC977 /* owncloud_small.png */; };
+		D56506DB1A431AC6000EC977 /* owncloud_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506D71A431AC6000EC977 /* owncloud_small.png */; };
+		D56506DC1A431AC6000EC977 /* owncloud_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506D81A431AC6000EC977 /* owncloud_small@2x.png */; };
+		D56506DD1A431AC6000EC977 /* owncloud_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506D81A431AC6000EC977 /* owncloud_small@2x.png */; };
+		D56506DE1A431AC6000EC977 /* owncloud_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506D91A431AC6000EC977 /* owncloud_small@3x.png */; };
+		D56506DF1A431AC6000EC977 /* owncloud_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506D91A431AC6000EC977 /* owncloud_small@3x.png */; };
+		D56506FB1A431DD0000EC977 /* owncloud@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506F61A431DD0000EC977 /* owncloud@2x~ipad.png */; };
+		D56506FC1A431DD0000EC977 /* owncloud@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506F71A431DD0000EC977 /* owncloud@2x~iphone.png */; };
+		D56506FE1A431DD0000EC977 /* owncloud~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506F91A431DD0000EC977 /* owncloud~ipad.png */; };
+		D56506FF1A431DD0000EC977 /* owncloud~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506FA1A431DD0000EC977 /* owncloud~iphone.png */; };
+		D56507011A4321C0000EC977 /* owncloud@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56507001A4321C0000EC977 /* owncloud@3x.png */; };
 		D569B17D1982F7C0007C0AC5 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D569B17C1982F7C0007C0AC5 /* ShareViewController.m */; };
 		D57254CD18AD75BD0088A6C9 /* UploadBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */; };
 		D57C95AD18F9577F00617FB6 /* UIDeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = D57C95AC18F9577F00617FB6 /* UIDeviceHardware.m */; };
 		D57CCF381A3E12E300D9E6A9 /* libownCloudiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D57CCF201A3E124C00D9E6A9 /* libownCloudiOS.a */; };
 		D57CCF3B1A3E12F500D9E6A9 /* libownCloudiOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D57CCF201A3E124C00D9E6A9 /* libownCloudiOS.a */; };
+		D57CCF3F1A3E17B200D9E6A9 /* CMOwnCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = D57CCF3E1A3E17B200D9E6A9 /* CMOwnCloud.m */; };
+		D57CCF401A3E17B200D9E6A9 /* CMOwnCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = D57CCF3E1A3E17B200D9E6A9 /* CMOwnCloud.m */; };
+		D57CCF441A3E331200D9E6A9 /* ServerSettingsOwnCloudViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D57CCF431A3E331200D9E6A9 /* ServerSettingsOwnCloudViewController.m */; };
 		D58EE84718DAD20F00E89437 /* UIPopoverController+iPhone.m in Sources */ = {isa = PBXBuildFile; fileRef = D58EE84618DAD20F00E89437 /* UIPopoverController+iPhone.m */; };
 		D595AF87185EEABE00AE8037 /* ServerSettingsSambaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */; };
 		D597AA6018C2A5FC006FA582 /* ServerSettingsDropboxViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D597AA5F18C2A5FC006FA582 /* ServerSettingsDropboxViewController.m */; };
@@ -994,7 +1008,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8043173BE96E05C5E19B102D;
+			remoteGlobalIDString = 0CC6D08929BF59D1482BBCC8;
 			remoteInfo = Pods;
 		};
 		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
@@ -1113,7 +1127,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8043173BE96E05C5E19B102D;
+			remoteGlobalIDString = 0CC6D08929BF59D1482BBCC8;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -1538,6 +1552,14 @@
 		D562AC2A197D86D400C2322A /* ftp_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ftp_small.png; sourceTree = "<group>"; };
 		D562AC2B197D86D400C2322A /* ftps_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ftps_small.png; sourceTree = "<group>"; };
 		D562AC2C197D86D400C2322A /* sftp_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sftp_small.png; sourceTree = "<group>"; };
+		D56506D71A431AC6000EC977 /* owncloud_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = owncloud_small.png; sourceTree = "<group>"; };
+		D56506D81A431AC6000EC977 /* owncloud_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "owncloud_small@2x.png"; sourceTree = "<group>"; };
+		D56506D91A431AC6000EC977 /* owncloud_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "owncloud_small@3x.png"; sourceTree = "<group>"; };
+		D56506F61A431DD0000EC977 /* owncloud@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "owncloud@2x~ipad.png"; sourceTree = "<group>"; };
+		D56506F71A431DD0000EC977 /* owncloud@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "owncloud@2x~iphone.png"; sourceTree = "<group>"; };
+		D56506F91A431DD0000EC977 /* owncloud~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "owncloud~ipad.png"; sourceTree = "<group>"; };
+		D56506FA1A431DD0000EC977 /* owncloud~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "owncloud~iphone.png"; sourceTree = "<group>"; };
+		D56507001A4321C0000EC977 /* owncloud@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "owncloud@3x.png"; sourceTree = "<group>"; };
 		D569B17B1982F7C0007C0AC5 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareViewController.h; path = FileBrowser/ShareViewController.h; sourceTree = "<group>"; };
 		D569B17C1982F7C0007C0AC5 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareViewController.m; path = FileBrowser/ShareViewController.m; sourceTree = "<group>"; };
 		D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadBrowserViewController.m; path = FileBrowser/UploadBrowserViewController.m; sourceTree = "<group>"; };
@@ -1545,6 +1567,10 @@
 		D57C95AB18F9577F00617FB6 /* UIDeviceHardware.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIDeviceHardware.h; sourceTree = "<group>"; };
 		D57C95AC18F9577F00617FB6 /* UIDeviceHardware.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIDeviceHardware.m; sourceTree = "<group>"; };
 		D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "ownCloud iOS library.xcodeproj"; path = "NAStify/External/ownCloud-ios-library/OCCommunicationLib/ownCloud iOS library.xcodeproj"; sourceTree = "<group>"; };
+		D57CCF3D1A3E17B200D9E6A9 /* CMOwnCloud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMOwnCloud.h; sourceTree = "<group>"; };
+		D57CCF3E1A3E17B200D9E6A9 /* CMOwnCloud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMOwnCloud.m; sourceTree = "<group>"; };
+		D57CCF421A3E331200D9E6A9 /* ServerSettingsOwnCloudViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerSettingsOwnCloudViewController.h; path = ServersSettings/ServerSettingsOwnCloudViewController.h; sourceTree = "<group>"; };
+		D57CCF431A3E331200D9E6A9 /* ServerSettingsOwnCloudViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerSettingsOwnCloudViewController.m; path = ServersSettings/ServerSettingsOwnCloudViewController.m; sourceTree = "<group>"; };
 		D58EE84518DAD20F00E89437 /* UIPopoverController+iPhone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIPopoverController+iPhone.h"; sourceTree = "<group>"; };
 		D58EE84618DAD20F00E89437 /* UIPopoverController+iPhone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIPopoverController+iPhone.m"; sourceTree = "<group>"; };
 		D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerSettingsSambaViewController.m; path = ServersSettings/ServerSettingsSambaViewController.m; sourceTree = "<group>"; };
@@ -2386,6 +2412,24 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D57CCF3C1A3E17B200D9E6A9 /* OwnCloud */ = {
+			isa = PBXGroup;
+			children = (
+				D57CCF3D1A3E17B200D9E6A9 /* CMOwnCloud.h */,
+				D57CCF3E1A3E17B200D9E6A9 /* CMOwnCloud.m */,
+			);
+			path = OwnCloud;
+			sourceTree = "<group>";
+		};
+		D57CCF411A3E32F200D9E6A9 /* OwnCloud */ = {
+			isa = PBXGroup;
+			children = (
+				D57CCF421A3E331200D9E6A9 /* ServerSettingsOwnCloudViewController.h */,
+				D57CCF431A3E331200D9E6A9 /* ServerSettingsOwnCloudViewController.m */,
+			);
+			name = OwnCloud;
+			sourceTree = "<group>";
+		};
 		D5B07CAF190F871800882988 /* ChromeCast */ = {
 			isa = PBXGroup;
 			children = (
@@ -2718,6 +2762,7 @@
 				D5D3CC5019A92AB90083EA08 /* Box */,
 				D54236A91A3590F1008AC52A /* DropBox */,
 				D5D059F61A31A7CA00461226 /* GoogleDrive */,
+				D57CCF411A3E32F200D9E6A9 /* OwnCloud */,
 				F901F7EE15D7CA060059428E /* UserAccount.h */,
 				F901F7EF15D7CA060059428E /* UserAccount.m */,
 				F901F7F015D7CA060059428E /* ServersListViewController.h */,
@@ -3089,6 +3134,7 @@
 				F9345CAC15DC6321004035A9 /* FTP */,
 				D5D059D71A31A37800461226 /* GoogleDrive */,
 				F9115D2815DA9047004259D3 /* Local */,
+				D57CCF3C1A3E17B200D9E6A9 /* OwnCloud */,
 				F97B1C101632BD4400E3FF7C /* QNAP */,
 				F98D897E181F8AD80053D5CF /* Samba */,
 				F9401E3B15F5347400AF40B2 /* Synology */,
@@ -3652,6 +3698,14 @@
 				D53D93B41A0E65CA00E6D6B6 /* local-storage.png */,
 				D5E474891A0110FC00A02A1A /* local-storage@2x.png */,
 				D5E4748A1A0110FC00A02A1A /* local-storage@3x.png */,
+				D56506D71A431AC6000EC977 /* owncloud_small.png */,
+				D56506D81A431AC6000EC977 /* owncloud_small@2x.png */,
+				D56506D91A431AC6000EC977 /* owncloud_small@3x.png */,
+				D56506F91A431DD0000EC977 /* owncloud~ipad.png */,
+				D56506FA1A431DD0000EC977 /* owncloud~iphone.png */,
+				D56506F61A431DD0000EC977 /* owncloud@2x~ipad.png */,
+				D56506F71A431DD0000EC977 /* owncloud@2x~iphone.png */,
+				D56507001A4321C0000EC977 /* owncloud@3x.png */,
 				F98D898A1820EAE30053D5CF /* qnap_small.png */,
 				F98D898B1820EAE30053D5CF /* qnap_small@2x.png */,
 				D53D93991A0E4CFC00E6D6B6 /* qnap_small@3x.png */,
@@ -4422,6 +4476,7 @@
 				D5316AB41A17B04B00364CA7 /* m2ts@2x.png in Resources */,
 				D5316AB51A17B04B00364CA7 /* m2ts@3x.png in Resources */,
 				D5316AB61A17B04B00364CA7 /* m4a.png in Resources */,
+				D56506DF1A431AC6000EC977 /* owncloud_small@3x.png in Resources */,
 				D5316AB71A17B04B00364CA7 /* m4a@2x.png in Resources */,
 				D5316AB81A17B04B00364CA7 /* m4a@3x.png in Resources */,
 				D5316AB91A17B04B00364CA7 /* m4v.png in Resources */,
@@ -4472,6 +4527,7 @@
 				D5316AE61A17B04B00364CA7 /* oga.png in Resources */,
 				D5316AE71A17B04B00364CA7 /* oga@2x.png in Resources */,
 				D5316AE81A17B04B00364CA7 /* oga@3x.png in Resources */,
+				D56506DB1A431AC6000EC977 /* owncloud_small.png in Resources */,
 				D5316AE91A17B04B00364CA7 /* ogg.png in Resources */,
 				D5316AEA1A17B04B00364CA7 /* ogg@2x.png in Resources */,
 				D5316AEB1A17B04B00364CA7 /* ogg@3x.png in Resources */,
@@ -4522,6 +4578,7 @@
 				D5316B181A17B04B00364CA7 /* txt@3x.png in Resources */,
 				D5316B191A17B04B00364CA7 /* unknown.png in Resources */,
 				D5316B1A1A17B04B00364CA7 /* unknown@2x.png in Resources */,
+				D56506DD1A431AC6000EC977 /* owncloud_small@2x.png in Resources */,
 				D5316B1B1A17B04B00364CA7 /* unknown@3x.png in Resources */,
 				D5316B1C1A17B04B00364CA7 /* vob.png in Resources */,
 				D5316B1D1A17B04B00364CA7 /* vob@2x.png in Resources */,
@@ -4570,6 +4627,7 @@
 				D53D93B61A0E65CA00E6D6B6 /* box~iphone.png in Resources */,
 				D5D3CC5D19AD300A0083EA08 /* box_small@2x.png in Resources */,
 				D53D93701A0E1E0500E6D6B6 /* xls.png in Resources */,
+				D56506FF1A431DD0000EC977 /* owncloud~iphone.png in Resources */,
 				D53D936A1A0E1E0500E6D6B6 /* wav.png in Resources */,
 				D53D92FA1A0E1E0500E6D6B6 /* crw.png in Resources */,
 				D5316A171A15546D00364CA7 /* webdav@3x.png in Resources */,
@@ -4596,12 +4654,14 @@
 				D530331219E33110004F7147 /* rar@2x.png in Resources */,
 				D53D93461A0E1E0500E6D6B6 /* ogg.png in Resources */,
 				D5551C121901827B00652A08 /* videoEffectsIcon@2x.png in Resources */,
+				D56506DE1A431AC6000EC977 /* owncloud_small@3x.png in Resources */,
 				D530330919E33110004F7147 /* ps@3x.png in Resources */,
 				D53D93481A0E1E0500E6D6B6 /* opus.png in Resources */,
 				D53D93321A0E1E0500E6D6B6 /* mp3.png in Resources */,
 				D53D935C1A0E1E0500E6D6B6 /* rm.png in Resources */,
 				D530332B19E33110004F7147 /* zip@3x.png in Resources */,
 				D53032D819E33110004F7147 /* jpg@2x.png in Resources */,
+				D56507011A4321C0000EC977 /* owncloud@3x.png in Resources */,
 				D530331B19E33110004F7147 /* ts@3x.png in Resources */,
 				D53D93561A0E1E0500E6D6B6 /* raf.png in Resources */,
 				D53D93951A0E45BF00E6D6B6 /* synology_small@3x.png in Resources */,
@@ -4711,6 +4771,7 @@
 				D53D93961A0E45BF00E6D6B6 /* synology@3x.png in Resources */,
 				D530329319E33110004F7147 /* 7z@3x.png in Resources */,
 				D53D93061A0E1E0500E6D6B6 /* dts.png in Resources */,
+				D56506FB1A431DD0000EC977 /* owncloud@2x~ipad.png in Resources */,
 				D53032A919E33110004F7147 /* asf@3x.png in Resources */,
 				D53D93C41A0E6EB400E6D6B6 /* box@2x~iphone.png in Resources */,
 				D562AC2E197D86D400C2322A /* ftps_small.png in Resources */,
@@ -4732,6 +4793,7 @@
 				D53032FF19E33110004F7147 /* ogg@3x.png in Resources */,
 				D53D93CF1A12053C00E6D6B6 /* dropbox~iphone.png in Resources */,
 				D53D93581A0E1E0500E6D6B6 /* ram.png in Resources */,
+				D56506FC1A431DD0000EC977 /* owncloud@2x~iphone.png in Resources */,
 				F9694D9815D883E80040F5D9 /* webdav_small.png in Resources */,
 				D53032C119E33110004F7147 /* dtshd@3x.png in Resources */,
 				D530329B19E33110004F7147 /* acm@3x.png in Resources */,
@@ -4749,6 +4811,7 @@
 				D53D93141A0E1E0500E6D6B6 /* flv.png in Resources */,
 				D5CD858E1A140EA000438F15 /* ftp-ftps-sftp~iphone.png in Resources */,
 				D53D935E1A0E1E0500E6D6B6 /* rtf.png in Resources */,
+				D56506DC1A431AC6000EC977 /* owncloud_small@2x.png in Resources */,
 				F93EEA3015E2C8BF0082BA3B /* ipad@2x.png in Resources */,
 				D530332719E33110004F7147 /* wmv@3x.png in Resources */,
 				F99CB7B815F7FA2F0011F91F /* Reader-Button-H@2x.png in Resources */,
@@ -4838,6 +4901,7 @@
 				D53032FD19E33110004F7147 /* oga@3x.png in Resources */,
 				D5CD855D1A120DFF00438F15 /* dropbox_small@3x.png in Resources */,
 				D530332419E33110004F7147 /* wma@2x.png in Resources */,
+				D56506DA1A431AC6000EC977 /* owncloud_small.png in Resources */,
 				D53032B619E33110004F7147 /* dcr@2x.png in Resources */,
 				D530329F19E33110004F7147 /* aifc@3x.png in Resources */,
 				D53D93021A0E1E0500E6D6B6 /* dng.png in Resources */,
@@ -4847,6 +4911,7 @@
 				D53032FC19E33110004F7147 /* oga@2x.png in Resources */,
 				D53D93B91A0E65CA00E6D6B6 /* freebox@2x~iphone.png in Resources */,
 				D5D308AF190157EE0087F4C6 /* VLCMovieViewController~iphone.xib in Resources */,
+				D56506FE1A431DD0000EC977 /* owncloud~ipad.png in Resources */,
 				D53D939F1A0E5B1C00E6D6B6 /* synology@2x~iphone.png in Resources */,
 				D53032E219E33110004F7147 /* mlp@2x.png in Resources */,
 				D54236CA1A3655C8008AC52A /* googledrive~ipad.png in Resources */,
@@ -4971,6 +5036,7 @@
 				D5E473D71A00F66400A02A1A /* NSStringAdditions.m in Sources */,
 				D5E473D81A00F66D00A02A1A /* NSMutableArrayAdditions.m in Sources */,
 				D5E473D91A00F67F00A02A1A /* NSDataAdditions.m in Sources */,
+				D57CCF401A3E17B200D9E6A9 /* CMOwnCloud.m in Sources */,
 				D53D92891A0DBECE00E6D6B6 /* CustomSearchDisplayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -5092,6 +5158,7 @@
 				F99CB73E15F770A30011F91F /* unpack.cpp in Sources */,
 				F98D8981181F8AD80053D5CF /* CMSamba.m in Sources */,
 				F99CB74415F770A30011F91F /* volume.cpp in Sources */,
+				D57CCF441A3E331200D9E6A9 /* ServerSettingsOwnCloudViewController.m in Sources */,
 				D5D3066F190105840087F4C6 /* VLCExternalDisplayController.m in Sources */,
 				F98D89841820E5200053D5CF /* ServerSettingsFreeboxRevViewController.m in Sources */,
 				F99CB7EE15F7FB5F0011F91F /* CGPDFDocument.m in Sources */,
@@ -5173,6 +5240,7 @@
 				F943568D15FD54F800307556 /* XzEnc.c in Sources */,
 				F943568E15FD54F800307556 /* XzIn.c in Sources */,
 				D501D73019FFEBD30032AACD /* UIImage+GIF.m in Sources */,
+				D57CCF3F1A3E17B200D9E6A9 /* CMOwnCloud.m in Sources */,
 				F967FFE715FEA3400062ADFB /* FileInp7zInfo.m in Sources */,
 				F967FFE815FEA3400062ADFB /* P7zException.m in Sources */,
 				F967FFE915FEA3400062ADFB /* P7zFile.m in Sources */,
@@ -5277,6 +5345,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
 					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
 					"$(inherited)",
 				);
@@ -5329,6 +5398,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				HEADER_SEARCH_PATHS = (
+					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
 					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
 					"$(inherited)",
 				);
@@ -5446,6 +5516,7 @@
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos/include",
 					"\"$(BUILT_PRODUCTS_DIR)\"/**",
 					"$(inherited)",
+					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
 				);
 				INFOPLIST_FILE = "NAStify/NAStify-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -5499,6 +5570,7 @@
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos/include",
 					"\"$(BUILT_PRODUCTS_DIR)\"/**",
 					"$(inherited)",
+					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
 				);
 				INFOPLIST_FILE = "NAStify/NAStify-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

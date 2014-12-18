@@ -13,6 +13,7 @@
 #import "ServerSettingsBoxViewController.h"
 #import "ServerSettingsGoogleDriveViewController.h"
 #import "ServerSettingsDropboxViewController.h"
+#import "ServerSettingsOwnCloudViewController.h"
 #import "ServerSettingsSambaViewController.h"
 #import "ServerSettingsSynologyViewController.h"
 #import "UserAccount.h"
@@ -362,6 +363,15 @@
                         [[ServerSettingsGoogleDriveViewController alloc] initWithStyle:UITableViewStyleGrouped
                                                                             andAccount:account
                                                                               andIndex:indexPath.row];
+                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
+                        [self.navigationController pushViewController:svc animated:YES];
+                        break;
+                    }
+                    case SERVER_TYPE_OWNCLOUD:
+                    {
+                        ServerSettingsOwnCloudViewController *svc = [[ServerSettingsOwnCloudViewController alloc] initWithStyle:UITableViewStyleGrouped
+                                                                                                                     andAccount:account
+                                                                                                                       andIndex:indexPath.row];
                         svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
                         [self.navigationController pushViewController:svc animated:YES];
                         break;

@@ -15,6 +15,7 @@
 #import "ServerSettingsDropboxViewController.h"
 #import "ServerSettingsSambaViewController.h"
 #import "ServerSettingsSynologyViewController.h"
+#import "ServerSettingsOwnCloudViewController.h"
 
 #import "ServerTypeCell.h"
 
@@ -28,10 +29,11 @@
 #define ROW_INDEX_FREEBOX       5
 #define ROW_INDEX_BOX           6
 #define ROW_INDEX_GOOGLEDRIVE   7
+#define ROW_INDEX_OWNCLOUD      8
 #define ROW_INDEX_SAMBA         99
 
 // Update this when adding new server types !!!
-#define NUMBER_OF_ROWS      ROW_INDEX_GOOGLEDRIVE + 1
+#define NUMBER_OF_ROWS      ROW_INDEX_OWNCLOUD + 1
 
 - (void)viewDidLoad
 {
@@ -135,6 +137,11 @@
             cell.serverType = SERVER_TYPE_GOOGLEDRIVE;
             break;
         }
+        case ROW_INDEX_OWNCLOUD:
+        {
+            cell.serverType = SERVER_TYPE_OWNCLOUD;
+            break;
+        }
         default:
             break;
     }
@@ -217,6 +224,16 @@
                                                                 andAccount:nil
                                                                   andIndex:-1];
             svc.userAccount.serverType = SERVER_TYPE_GOOGLEDRIVE;
+            [self.navigationController pushViewController:svc animated:YES];
+            break;
+        }
+        case ROW_INDEX_OWNCLOUD:
+        {
+            ServerSettingsOwnCloudViewController *svc =
+            [[ServerSettingsOwnCloudViewController alloc] initWithStyle:UITableViewStyleGrouped
+                                                             andAccount:nil
+                                                               andIndex:-1];
+            svc.userAccount.serverType = SERVER_TYPE_OWNCLOUD;
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }

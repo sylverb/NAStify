@@ -15,14 +15,15 @@
 #import "CMLocal.h"
 #import "CMBox.h"
 #import "CMDropbox.h"
-#import "CMWebDav.h"
-#import "CMFtp.h"
-#import "CMSynology.h"
 #import "CMFreeboxRev.h"
+#import "CMFtp.h"
+#import "CMGoogleDrive.h"
+#import "CMOwnCloud.h"
 #import "CMQnap.h"
 #import "CMSamba.h"
+#import "CMSynology.h"
 #import "CMUPnP.h"
-#import "CMGoogleDrive.h"
+#import "CMWebDav.h"
 
 @implementation ConnectionManager
 
@@ -71,6 +72,11 @@
             case SERVER_TYPE_FREEBOX_REVOLUTION:
             {
                 cmPlugin = [[CMFreeboxRev alloc] init];
+                break;
+            }
+            case SERVER_TYPE_OWNCLOUD:
+            {
+                cmPlugin = [[CMOwnCloud alloc] init];
                 break;
             }
             case SERVER_TYPE_QNAP:
