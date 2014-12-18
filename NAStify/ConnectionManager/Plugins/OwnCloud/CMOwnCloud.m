@@ -426,11 +426,6 @@ static file_ctx UploadProgressObserverContext;
             {
                 [self deleteNextFile];
             }
-            else
-            {
-                // End the network activity spinner
-                [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-            }
         }
 
     };
@@ -461,6 +456,9 @@ static file_ctx UploadProgressObserverContext;
 
 - (void)cancelDeleteTask
 {
+    // End the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
     self.deleteCancel = YES;
 }
 #endif
@@ -578,11 +576,6 @@ static file_ctx UploadProgressObserverContext;
             {
                 [self moveNextFile];
             }
-            else
-            {
-                // End the network activity spinner
-                [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-            }
         }
     };
     
@@ -626,6 +619,9 @@ static file_ctx UploadProgressObserverContext;
 
 - (void)cancelMoveTask
 {
+    // End the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+    
     self.moveCancel = YES;
 }
 #endif
