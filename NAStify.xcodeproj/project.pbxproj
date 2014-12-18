@@ -1008,7 +1008,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 0CC6D08929BF59D1482BBCC8;
+			remoteGlobalIDString = 1CE92937FE65EEED55C118A7;
 			remoteInfo = Pods;
 		};
 		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
@@ -1127,7 +1127,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 0CC6D08929BF59D1482BBCC8;
+			remoteGlobalIDString = 1CE92937FE65EEED55C118A7;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -2394,6 +2394,69 @@
 			path = en.lproj;
 			sourceTree = "<group>";
 		};
+		D565070A1A436CC7000EC977 /* Synology */ = {
+			isa = PBXGroup;
+			children = (
+				F98D89821820E5200053D5CF /* ServerSettingsFreeboxRevViewController.h */,
+				F98D89831820E5200053D5CF /* ServerSettingsFreeboxRevViewController.m */,
+				D54EBF451950290A008AC4BB /* ServerSettingsSynologyViewController.h */,
+				D54EBF461950290A008AC4BB /* ServerSettingsSynologyViewController.m */,
+			);
+			name = Synology;
+			sourceTree = "<group>";
+		};
+		D56507211A436CEB000EC977 /* FTP */ = {
+			isa = PBXGroup;
+			children = (
+				D54EBF481954A7A5008AC4BB /* ServerSettingsFtpViewController.h */,
+				D54EBF491954A7A5008AC4BB /* ServerSettingsFtpViewController.m */,
+			);
+			name = FTP;
+			sourceTree = "<group>";
+		};
+		D56507221A436CFD000EC977 /* Freebox */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Freebox;
+			sourceTree = "<group>";
+		};
+		D56507231A436D34000EC977 /* WebDav */ = {
+			isa = PBXGroup;
+			children = (
+				F901F7EC15D7CA060059428E /* ServerSettingsWebDavViewController.h */,
+				F901F7ED15D7CA060059428E /* ServerSettingsWebDavViewController.m */,
+			);
+			name = WebDav;
+			sourceTree = "<group>";
+		};
+		D56507241A436D51000EC977 /* Samba */ = {
+			isa = PBXGroup;
+			children = (
+				D595AF86185EEABE00AE8037 /* ServerSettingsSambaViewController.h */,
+				D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */,
+			);
+			name = Samba;
+			sourceTree = "<group>";
+		};
+		D56507251A436DCE000EC977 /* Upload */ = {
+			isa = PBXGroup;
+			children = (
+				D57254CC18AD75BD0088A6C9 /* UploadBrowserViewController.h */,
+				D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */,
+			);
+			name = Upload;
+			sourceTree = "<group>";
+		};
+		D56507261A436E00000EC977 /* Folder */ = {
+			isa = PBXGroup;
+			children = (
+				F9401E5B15F53B0D00AF40B2 /* FolderBrowserViewController.h */,
+				F9401E5C15F53B0D00AF40B2 /* FolderBrowserViewController.m */,
+			);
+			name = Folder;
+			sourceTree = "<group>";
+		};
 		D569B17A1982F78E007C0AC5 /* Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -2761,8 +2824,13 @@
 			children = (
 				D5D3CC5019A92AB90083EA08 /* Box */,
 				D54236A91A3590F1008AC52A /* DropBox */,
+				D56507221A436CFD000EC977 /* Freebox */,
+				D56507211A436CEB000EC977 /* FTP */,
 				D5D059F61A31A7CA00461226 /* GoogleDrive */,
 				D57CCF411A3E32F200D9E6A9 /* OwnCloud */,
+				D56507241A436D51000EC977 /* Samba */,
+				D565070A1A436CC7000EC977 /* Synology */,
+				D56507231A436D34000EC977 /* WebDav */,
 				F901F7EE15D7CA060059428E /* UserAccount.h */,
 				F901F7EF15D7CA060059428E /* UserAccount.m */,
 				F901F7F015D7CA060059428E /* ServersListViewController.h */,
@@ -2773,16 +2841,6 @@
 				F901F7E915D7CA060059428E /* ServerTypeCell.m */,
 				F901F7EA15D7CA060059428E /* ServerTypeViewController.h */,
 				F901F7EB15D7CA060059428E /* ServerTypeViewController.m */,
-				F98D89821820E5200053D5CF /* ServerSettingsFreeboxRevViewController.h */,
-				F98D89831820E5200053D5CF /* ServerSettingsFreeboxRevViewController.m */,
-				D54EBF481954A7A5008AC4BB /* ServerSettingsFtpViewController.h */,
-				D54EBF491954A7A5008AC4BB /* ServerSettingsFtpViewController.m */,
-				D595AF86185EEABE00AE8037 /* ServerSettingsSambaViewController.h */,
-				D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */,
-				D54EBF451950290A008AC4BB /* ServerSettingsSynologyViewController.h */,
-				D54EBF461950290A008AC4BB /* ServerSettingsSynologyViewController.m */,
-				F901F7EC15D7CA060059428E /* ServerSettingsWebDavViewController.h */,
-				F901F7ED15D7CA060059428E /* ServerSettingsWebDavViewController.m */,
 			);
 			name = ServersSettings;
 			sourceTree = "<group>";
@@ -2887,14 +2945,12 @@
 				F99CB74C15F7E73E0011F91F /* Compress */,
 				F99CB74E15F7E7690011F91F /* CopyMove */,
 				F99CB74D15F7E74E0011F91F /* Extract */,
+				D56507261A436E00000EC977 /* Folder */,
 				D569B17A1982F78E007C0AC5 /* Share */,
 				F943558815FCE96B00307556 /* SortItems */,
-				F9401E5B15F53B0D00AF40B2 /* FolderBrowserViewController.h */,
-				F9401E5C15F53B0D00AF40B2 /* FolderBrowserViewController.m */,
+				D56507251A436DCE000EC977 /* Upload */,
 				F9401E5D15F53B0D00AF40B2 /* TableSelectViewController.h */,
 				F9401E5E15F53B0D00AF40B2 /* TableSelectViewController.m */,
-				D57254CC18AD75BD0088A6C9 /* UploadBrowserViewController.h */,
-				D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */,
 			);
 			name = FileBrowser;
 			sourceTree = "<group>";

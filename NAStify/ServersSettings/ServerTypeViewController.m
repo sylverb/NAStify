@@ -21,19 +21,19 @@
 
 @implementation ServerTypeViewController
 
-#define ROW_INDEX_DROPBOX       0
-#define ROW_INDEX_WEBDAV        1
-#define ROW_INDEX_FTP           2
-#define ROW_INDEX_SYNOLOGY      3
-#define ROW_INDEX_QNAP          4
-#define ROW_INDEX_FREEBOX       5
-#define ROW_INDEX_BOX           6
-#define ROW_INDEX_GOOGLEDRIVE   7
-#define ROW_INDEX_OWNCLOUD      8
+#define ROW_INDEX_BOX           0
+#define ROW_INDEX_DROPBOX       1
+#define ROW_INDEX_FREEBOX       2
+#define ROW_INDEX_FTP           3
+#define ROW_INDEX_GOOGLEDRIVE   4
+#define ROW_INDEX_OWNCLOUD      5
+#define ROW_INDEX_QNAP          6
+#define ROW_INDEX_SYNOLOGY      7
+#define ROW_INDEX_WEBDAV        8
 #define ROW_INDEX_SAMBA         99
 
 // Update this when adding new server types !!!
-#define NUMBER_OF_ROWS      ROW_INDEX_OWNCLOUD + 1
+#define NUMBER_OF_ROWS      ROW_INDEX_WEBDAV + 1
 
 - (void)viewDidLoad
 {
