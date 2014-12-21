@@ -179,7 +179,7 @@
         }
         case SETTINGS_ABOUT_SECTION_INDEX:
         {
-            numberOfRows = 1;
+            numberOfRows = 2;
             break;
         }
         default:
@@ -692,16 +692,37 @@
         }
         case SETTINGS_ABOUT_SECTION_INDEX:
         {
-            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-            if (cell == nil)
+            switch (indexPath.row)
             {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                              reuseIdentifier:CellIdentifier];
+                case 0:
+                {
+                    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:CellIdentifier];
+                    }
+                    
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    cell.textLabel.textColor = [UIColor blackColor];
+                    cell.textLabel.text = @"About NAStify";
+                    break;
+                }
+                case 1:
+                {
+                    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:CellIdentifier];
+                    }
+                    
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    cell.textLabel.textColor = [UIColor blackColor];
+                    cell.textLabel.text = @"Report a bug/Feature request";
+                    break;
+                }
             }
-            
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.textLabel.textColor = [UIColor blackColor];
-            cell.textLabel.text = @"About NAStify";
             
             break;
         }
@@ -936,9 +957,20 @@
         }
         case SETTINGS_ABOUT_SECTION_INDEX:
         {
-            AboutViewController *viewController = [[AboutViewController alloc] init];
-            [self.navigationController pushViewController:viewController animated:YES];
-            break;
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    AboutViewController *viewController = [[AboutViewController alloc] init];
+                    [self.navigationController pushViewController:viewController animated:YES];
+                    break;
+                }
+                case 1:
+                {
+                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://forum.codeisalie.com/viewforum.php?f=8"]];
+                    break;
+                }
+            }
         }
         default:
             break;
