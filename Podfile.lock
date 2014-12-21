@@ -55,7 +55,7 @@ PODS:
   - XMLDictionary (1.4)
 
 DEPENDENCIES:
-  - AFNetworking (= 2.5.0)
+  - AFNetworking (from `https://github.com/AFNetworking/AFNetworking.git`, commit `0e6f9be`)
   - box-ios-sdk-v2 (from `https://github.com/box/box-ios-sdk-v2.git`, commit `76272c9`)
   - CocoaHTTPServer (= 2.3)
   - DACircularProgress (from `https://github.com/danielamitay/DACircularProgress.git`, commit `ccc7a2e`)
@@ -72,6 +72,9 @@ DEPENDENCIES:
   - XMLDictionary (= 1.4)
 
 EXTERNAL SOURCES:
+  AFNetworking:
+    :commit: 0e6f9be
+    :git: https://github.com/AFNetworking/AFNetworking.git
   box-ios-sdk-v2:
     :commit: 76272c9
     :git: https://github.com/box/box-ios-sdk-v2.git
@@ -89,7 +92,7 @@ EXTERNAL SOURCES:
     :git: https://github.com/fkuehne/upnpx.git
 
 SPEC CHECKSUMS:
-  AFNetworking: 0f54cb5d16ce38c1b76948faffb8d5fb705021c7
+  AFNetworking: 4c9d0041306f20098bedc239a6ff13cd58440943
   box-ios-sdk-v2: c06d3009266dc2c5c27bbb3882f1e5cf1f3c72cb
   CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
   CocoaHTTPServer: 217df4cba4e48803db2480f97b805aaad2230dd1

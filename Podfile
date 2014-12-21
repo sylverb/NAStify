@@ -1,6 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-pod 'AFNetworking', '2.5.0'
+#pod 'AFNetworking', '2.5.0'
+pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking.git', :commit => '0e6f9be'
 pod 'box-ios-sdk-v2', :git => 'https://github.com/box/box-ios-sdk-v2.git', :commit => '76272c9'
 pod 'CocoaHTTPServer', '2.3'
 pod 'DACircularProgress', :git => 'https://github.com/danielamitay/DACircularProgress.git', :commit => 'ccc7a2e'
