@@ -44,6 +44,7 @@ PODS:
   - gtm-http-fetcher (1.0.141)
   - gtm-oauth2 (1.0.125):
     - gtm-http-fetcher (~> 1.0.141)
+  - iRate (1.11.3)
   - ISO8601DateFormatter (0.7)
   - LTHPasscodeViewController (3.3.3)
   - MBProgressHUD (0.9)
@@ -61,6 +62,7 @@ DEPENDENCIES:
   - DACircularProgress (from `https://github.com/danielamitay/DACircularProgress.git`, commit `ccc7a2e`)
   - ELCImagePickerController (from `https://github.com/B-Sides/ELCImagePickerController.git`, commit `b57e2f3`)
   - Google-API-Client/Drive (= 1.0.418)
+  - iRate (= 1.11.3)
   - ISO8601DateFormatter (= 0.7)
   - LTHPasscodeViewController (= 3.3.3)
   - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD.git`, commit `fc1903f`)
@@ -102,6 +104,7 @@ SPEC CHECKSUMS:
   Google-API-Client: ff0d197a1fa20a5feb2d9c38bdf0bcdcd1ec3889
   gtm-http-fetcher: 81c529957d3ab67726898d1c1d62f98b2ed18ff5
   gtm-oauth2: 3f97d22a6066a80df0b1f878c1ce41176472daad
+  iRate: 5e1978bac8b3f3f0296dbeccc0dd7b50e6e50657
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   LTHPasscodeViewController: 8387a22d59ed648e3c23d8db265eaae110850975
   MBProgressHUD: 85f9608e8473269aba4f6603958bb8bafcb60388

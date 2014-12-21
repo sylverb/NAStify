@@ -1,5 +1,6 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
+pod 'iRate', '1.11.3'
 #pod 'AFNetworking', '2.5.0'
 pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking.git', :commit => '0e6f9be'
 pod 'box-ios-sdk-v2', :git => 'https://github.com/box/box-ios-sdk-v2.git', :commit => '76272c9'

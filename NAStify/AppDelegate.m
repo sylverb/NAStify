@@ -11,11 +11,18 @@
 #import "FileBrowserViewController.h"
 #import "SettingsViewController.h"
 #import "LTHPasscodeViewController.h"
+#import "iRate.h"
 
 @implementation AppDelegate
 
 + (void)initialize
 {
+    // iRate init
+    [iRate sharedInstance].daysUntilPrompt = 5;
+    [iRate sharedInstance].usesUntilPrompt = 15;
+    [iRate sharedInstance].useAllAvailableLanguages = NO;
+    [iRate sharedInstance].appStoreID = 917241569;
+
     // Set default values
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
     
