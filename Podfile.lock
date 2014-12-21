@@ -57,7 +57,7 @@ PODS:
 
 DEPENDENCIES:
   - AFNetworking (from `https://github.com/AFNetworking/AFNetworking.git`, commit `0e6f9be`)
-  - box-ios-sdk-v2 (from `https://github.com/box/box-ios-sdk-v2.git`, commit `76272c9`)
+  - box-ios-sdk-v2 (from `https://github.com/box/box-ios-sdk-v2.git`, commit `5b9af5c`)
   - CocoaHTTPServer (= 2.3)
   - DACircularProgress (from `https://github.com/danielamitay/DACircularProgress.git`, commit `ccc7a2e`)
   - ELCImagePickerController (from `https://github.com/B-Sides/ELCImagePickerController.git`, commit `b57e2f3`)
@@ -78,7 +78,7 @@ EXTERNAL SOURCES:
     :commit: 0e6f9be
     :git: https://github.com/AFNetworking/AFNetworking.git
   box-ios-sdk-v2:
-    :commit: 76272c9
+    :commit: 5b9af5c
     :git: https://github.com/box/box-ios-sdk-v2.git
   DACircularProgress:
     :commit: ccc7a2e
