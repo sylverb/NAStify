@@ -20,8 +20,8 @@
 @property(nonatomic, weak)   id <CMDelegate> delegate;
 
 @property(nonatomic, strong) OCCommunication* ocCommunication;
-@property(nonatomic, strong) NSURLSessionDownloadTask *downloadTask;
-@property(nonatomic, strong) NSURLSessionUploadTask *uploadTask;
+@property(nonatomic, strong) NSOperation *downloadOperation;
+@property(nonatomic, strong) NSOperation *uploadOperation;
 
 /* File deleting management */
 #ifndef APP_EXTENSION

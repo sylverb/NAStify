@@ -1,5 +1,5 @@
 //
-//  CMUPnP.m
+//  CMOwnCloud.m
 //  NAStify
 //
 //  Created by Sylver Bruneau.
@@ -12,13 +12,6 @@
 #import "OCFrameworkConstants.h"
 #import "OCFileDto.h"
 #import "OCErrorMsg.h"
-
-typedef struct {
-    long long file_size; /* size of the handled file in bytes */
-} file_ctx;
-
-static file_ctx DownloadProgressObserverContext;
-static file_ctx UploadProgressObserverContext;
 
 @implementation CMOwnCloud
 
@@ -717,9 +710,9 @@ static file_ctx UploadProgressObserverContext;
 
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName
 {
-    NSProgress *progress = nil;
+    __weak typeof(self) weakSelf = self;
     
-    void (^successBlock)(NSURLResponse *, NSURL *) = ^(NSURLResponse *response, NSURL *filePath) {
+    void (^successBlock)(NSHTTPURLResponse *, NSString *) = ^(NSHTTPURLResponse *response, NSString *redirectedServer) {
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
         
@@ -730,98 +723,55 @@ static file_ctx UploadProgressObserverContext;
         });
     };
     
-    void (^failureBlock)(NSURLResponse *, NSError *) = ^(NSURLResponse *response, NSError *error) {
-        switch (error.code)
+    void (^failureBlock)(NSHTTPURLResponse *, NSError *) = ^(NSHTTPURLResponse *response, NSError *error) {
+        if (error.code != kCFURLErrorCancelled)
         {
-            case kCFURLErrorUserCancelledAuthentication:
+            NSString *errorMessage = [self stringForStatusCode:response.statusCode];
+            if (errorMessage == nil)
             {
-                //Download cancelled
-                break;
+                errorMessage = [error localizedDescription];
             }
-            default:
-            {
-                NSString *errorMessage = [self stringForStatusCode:((NSHTTPURLResponse *)response).statusCode];
-                if (errorMessage == nil)
-                {
-                    errorMessage = [error localizedDescription];
-                }
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate CMDownloadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                       [NSNumber numberWithBool:NO],@"success",
-                                                       errorMessage,@"error",
-                                                       nil]];
-                });
-                break;
-            }
+            
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMDownloadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [NSNumber numberWithBool:NO],@"success",
+                                                   errorMessage,@"error",
+                                                   nil]];
+            });
         }
+        else
+        {
+            // Delete partially downloaded file
+            [[NSFileManager defaultManager] removeItemAtPath:localName error:NULL];
+        }
+    };
+    
+    void (^progressBlock)(NSUInteger, long long, long long) = ^(NSUInteger bytesRead,long long totalBytesRead, long long totalBytesExpectedToRead) {
+        float progress = (float)totalBytesRead / [file.fileSizeNumber floatValue];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.delegate CMDownloadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [NSNumber numberWithLongLong:totalBytesRead],@"downloadedBytes",
+                                                   file.fileSizeNumber,@"totalBytes",
+                                                   [NSNumber numberWithFloat:progress],@"progress",
+                                                   nil]];
+        });
+    };
+
+    void (^handlerBgExpBlock)(void) = ^(void) {
+        [self.downloadOperation cancel];
     };
     
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-    
-    self.downloadTask = [self.ocCommunication downloadFileSession:[self createUrlWithPath:file.path]
-                                                        toDestiny:localName
-                                                  defaultPriority:YES
-                                                  onCommunication:self.ocCommunication
-                                                     withProgress:&progress
-                                                   successRequest:successBlock
-                                                   failureRequest:failureBlock];
-    
-    // Observe fractionCompleted using KVO
-    DownloadProgressObserverContext.file_size = [file.fileSizeNumber longLongValue];
-    [progress addObserver:self
-               forKeyPath:@"fractionCompleted"
-                  options:NSKeyValueObservingOptionNew
-                  context:&DownloadProgressObserverContext];
-    
-}
 
-//Method to catch the progress notifications with callbacks
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if (context == &DownloadProgressObserverContext)
-    {
-        //FIXME: progress incorrect
-        file_ctx *ctx = (file_ctx *)context;
-
-        if ([keyPath isEqualToString:@"fractionCompleted"] && [object isKindOfClass:[NSProgress class]]) {
-            NSProgress *progress = (NSProgress *)object;
-            
-            long long downloaded = ctx->file_size * progress.fractionCompleted;
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate CMDownloadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                   [NSNumber numberWithLongLong:downloaded],@"downloadedBytes",
-                                                   [NSNumber numberWithLongLong:ctx->file_size],@"totalBytes",
-                                                   [NSNumber numberWithDouble:progress.fractionCompleted],@"progress",
-                                                   nil]];
-            });
-        }
-    }
-    else if (context == &UploadProgressObserverContext)
-    {
-        file_ctx *ctx = (file_ctx *)context;
-        if ([keyPath isEqualToString:@"fractionCompleted"] && [object isKindOfClass:[NSProgress class]]) {
-            NSProgress *progress = (NSProgress *)object;
-            
-            long long uploaded = ctx->file_size * progress.fractionCompleted;
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate CMUploadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                 [NSNumber numberWithLongLong:uploaded],@"uploadedBytes",
-                                                 [NSNumber numberWithLongLong:ctx->file_size],@"totalBytes",
-                                                 [NSNumber numberWithDouble:progress.fractionCompleted],@"progress",
-                                                 nil]];
-            });
-        }
-    }
-    else
-    {
-        [super observeValueForKeyPath:keyPath
-                             ofObject:object
-                               change:change
-                              context:context];
-    }
+    self.downloadOperation = [self.ocCommunication downloadFile:[self createUrlWithPath:file.path]
+                                                      toDestiny:localName
+                                                 withLIFOSystem:NO
+                                                onCommunication:self.ocCommunication
+                                               progressDownload:progressBlock
+                                                 successRequest:successBlock
+                                                 failureRequest:failureBlock
+             shouldExecuteAsBackgroundTaskWithExpirationHandler:handlerBgExpBlock];
 }
 
 - (void)cancelDownloadTask
@@ -829,29 +779,29 @@ static file_ctx UploadProgressObserverContext;
     // End the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
     
-    [self.downloadTask cancel];
+    [self.downloadOperation cancel];
 }
 
 #pragma mark - upload management
 
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
 {
-    NSProgress *progress = nil;
+    __weak typeof(self) weakSelf = self;
     
     void (^successBlock)(NSURLResponse *, NSString *) = ^(NSURLResponse *response, NSString *redirectedServer) {
         // End the network activity spinner
-        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:weakSelf];
         
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                             [NSNumber numberWithBool:YES],@"success",
-                                             nil]];
+            [weakSelf.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:YES],@"success",
+                                                 nil]];
         });
     };
-    
-    void (^failureBlock)(NSURLResponse *, NSString *, NSError *) = ^(NSURLResponse *response, NSString *redirectedServer, NSError *error) {
+
+    void (^failureBlock)(NSHTTPURLResponse *, NSString *, NSError *) = ^(NSHTTPURLResponse *response, NSString *redirectedServer, NSError *error) {
         // End the network activity spinner
-        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:weakSelf];
         
         if (error.code != kCFURLErrorCancelled)
         {
@@ -882,23 +832,32 @@ static file_ctx UploadProgressObserverContext;
         });
     };
 
+    void (^handlerBgExpBlock)(void) = ^(void) {
+        [self.uploadOperation cancel];
+    };
+    
+    void (^progressBlock)(NSUInteger, long long, long long) = ^(NSUInteger bytesWrote,long long totalBytesWrote, long long totalBytesExpectedToWrote) {
+        float progress = (float)totalBytesWrote / [file.fileSizeNumber floatValue];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.delegate CMUploadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithLongLong:totalBytesWrote],@"uploadedBytes",
+                                                 [NSNumber numberWithLongLong:totalBytesExpectedToWrote],@"totalBytes",
+                                                 [NSNumber numberWithFloat:progress],@"progress",
+                                                 nil]];
+        });
+    };
+    
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
     
-    self.uploadTask = [self.ocCommunication uploadFileSession:file.fullPath
-                                                    toDestiny:[self createUrlWithPath:[NSString stringWithFormat:@"%@/%@",destFolder.path,file.name]]
-                                              onCommunication:self.ocCommunication
-                                                 withProgress:&progress
-                                               successRequest:successBlock
-                                               failureRequest:failureBlock
-                                         failureBeforeRequest:errorBeforeBlock];
-    
-    // Observe fractionCompleted using KVO
-    UploadProgressObserverContext.file_size = [file.fileSizeNumber longLongValue];
-    [progress addObserver:self
-               forKeyPath:@"fractionCompleted"
-                  options:NSKeyValueObservingOptionNew
-                  context:&UploadProgressObserverContext];
+    self.uploadOperation = [self.ocCommunication uploadFile:file.fullPath
+                                toDestiny:[self createUrlWithPath:[NSString stringWithFormat:@"%@/%@",destFolder.path,file.name]]
+                          onCommunication:self.ocCommunication
+                           progressUpload:progressBlock
+                           successRequest:successBlock
+                           failureRequest:failureBlock
+                     failureBeforeRequest:errorBeforeBlock
+shouldExecuteAsBackgroundTaskWithExpirationHandler:handlerBgExpBlock];
 }
 
 - (void)cancelUploadTask
@@ -906,7 +865,7 @@ static file_ctx UploadProgressObserverContext;
     // End the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
     
-    [self.uploadTask cancel];
+    [self.uploadOperation cancel];
 }
 
 #pragma mark - url management
