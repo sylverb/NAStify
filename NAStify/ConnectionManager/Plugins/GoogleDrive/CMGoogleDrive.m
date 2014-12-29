@@ -250,7 +250,6 @@
     });
     
     [self deleteNextFile];
-
 }
 
 - (void)deleteNextFile
@@ -277,7 +276,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMDeleteProgress:[NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithFloat:(float)self.deleteFileIndex/(float)self.deleteFilesArray.count],@"progress",
-                                               [NSString stringWithFormat:@"%lu/%lu done",self.deleteFileIndex,(unsigned long)self.deleteFilesArray.count],@"info",
+                                               [NSString stringWithFormat:@"%lu/%lu done",(long)self.deleteFileIndex,(long)self.deleteFilesArray.count],@"info",
                                                nil]];
             });
             
@@ -438,7 +437,7 @@
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.delegate CMMoveProgress:[NSDictionary dictionaryWithObjectsAndKeys:
                                                        [NSNumber numberWithFloat:(float)self.moveFileIndex/(float)self.moveFilesArray.count],@"progress",
-                                                       [NSString stringWithFormat:@"%lu/%lu done",self.moveFileIndex,(unsigned long)self.moveFilesArray.count],@"info",
+                                                       [NSString stringWithFormat:@"%lu/%lu done",(long)self.moveFileIndex,(long)self.moveFilesArray.count],@"info",
                                                        nil]];
                     });
                     
@@ -558,7 +557,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMCopyProgress:[NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithFloat:(float)self.cpyFileIndex/(float)self.cpyFilesArray.count],@"progress",
-                                               [NSString stringWithFormat:@"%lu/%lu done",self.cpyFileIndex,(unsigned long)self.cpyFilesArray.count],@"info",
+                                               [NSString stringWithFormat:@"%lu/%lu done",(long)self.cpyFileIndex,(long)self.cpyFilesArray.count],@"info",
                                                nil]];
             });
             
@@ -612,7 +611,6 @@
     self.fetcher.downloadPath = localName;
     [self.fetcher setReceivedDataBlock:^(NSData *data) {
         float progress = weakSelf.fetcher.downloadedLength / [file.fileSizeNumber floatValue];
-        // Do something with progress
         dispatch_async(dispatch_get_main_queue(), ^{
             [weakSelf.delegate CMDownloadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
                                                    [NSNumber numberWithFloat:progress],@"progress",

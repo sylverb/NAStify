@@ -307,9 +307,11 @@
 
 - (void)cancelButtonAction
 {
-    // Delete account from keychain
-    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:self.userAccount.uuid];
-
+    if (self.accountIndex == -1)
+    {
+        // Delete account from keychain
+        [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:self.userAccount.uuid];
+    }
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
