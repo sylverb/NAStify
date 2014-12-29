@@ -216,10 +216,12 @@
 }
 
 - (LiveDownloadOperation *) downloadFromPath:(NSString *)path
+                             destinationPath:(NSString *)destinationPath
                                     delegate:(id <LiveDownloadOperationDelegate>)delegate
                                    userState:(id)userState
 {
-    LiveDownloadOperationCore *operation = [[[LiveDownloadOperationCore alloc] initWithPath:path 
+    LiveDownloadOperationCore *operation = [[[LiveDownloadOperationCore alloc] initWithPath:path
+                                                                            destinationPath:destinationPath
                                                                                    delegate:delegate
                                                                                   userState:userState 
                                                                                  liveClient:self]

@@ -297,12 +297,12 @@
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
     
     self.downloadOperation = [self.liveClient downloadFromPath:[[file.objectIds lastObject] stringByAppendingString:@"/content"]
+                                               destinationPath:localName
                                                       delegate:self
                                                      userState:@"downloadFile"];
 }
 
 - (void) liveDownloadOperationProgressed:(LiveOperationProgress *)progress
-                                    data:(NSData *)receivedData
                                operation:(LiveDownloadOperation *)operation
 {
     dispatch_async(dispatch_get_main_queue(), ^{
@@ -628,10 +628,8 @@
     
     else if ([operation.userState isEqual:@"downloadFile"])
     {
-        // Write data to file
-        // FIXME: this is not a good way to do as it's not working for huge files ...
-        [self.downloadOperation.data writeToFile:self.destPath atomically:YES];
         self.downloadOperation = nil;
+        self.destPath = nil;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate CMDownloadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithBool:YES],@"success",
@@ -806,6 +804,9 @@
                                                    nil]];
             });
         }
+        // Delete partially downloaded file
+        [[NSFileManager defaultManager] removeItemAtPath:self.destPath error:NULL];
+        self.destPath = nil;
     }
     else if ([operation.userState isEqual:@"uploadFile"])
     {
