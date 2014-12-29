@@ -18,6 +18,7 @@
 #import "CMFreeboxRev.h"
 #import "CMFtp.h"
 #import "CMGoogleDrive.h"
+#import "CMOneDrive.h"
 #import "CMOwnCloud.h"
 #import "CMQnap.h"
 #import "CMSamba.h"
@@ -72,6 +73,11 @@
             case SERVER_TYPE_FREEBOX_REVOLUTION:
             {
                 cmPlugin = [[CMFreeboxRev alloc] init];
+                break;
+            }
+            case SERVER_TYPE_ONEDRIVE:
+            {
+                cmPlugin = [[CMOneDrive alloc] init];
                 break;
             }
             case SERVER_TYPE_OWNCLOUD:

@@ -24,11 +24,11 @@ typedef enum _SERVER_TYPE
     SERVER_TYPE_BOX,                // Box ( https://github.com/box/box-ios-sdk-v2 )
     SERVER_TYPE_GOOGLEDRIVE,        // Google drive ( https://code.google.com/p/google-api-objectivec-client/ )
     SERVER_TYPE_OWNCLOUD,           // Own Cloud ( https://github.com/owncloud/ios-library )
-//    SERVER_TYPE_CLOUDDRIVE,         // Amazon cloud drive ( https://github.com/aws/aws-sdk-ios )
+    SERVER_TYPE_ONEDRIVE,           // Microsoft OneDrive ( https://github.com/liveservices/LiveSDK-for-iOS )
+//    SERVER_TYPE_CLOUDDRIVE,         // Amazon cloud drive ( https://developer.amazon.com/public/apis/experience/cloud-drive )
 //    SERVER_TYPE_AMAZONS3            // Amazon S3 ( https://github.com/aws/aws-sdk-ios )
 //    SERVER_TYPE_ICLOUD,             // Apple iCloud ( https://developer.apple.com/icloud/index.html )
-//    SERVER_TYPE_ONEDRIVE,           // Microsoft OneDrive ( https://github.com/liveservices/LiveSDK-for-iOS )
-//    SERVER_TYPE_MEGA,               // Mega ( C++ SDK available from account)
+//    SERVER_TYPE_MEGA,               // Mega ( https://github.com/meganz/sdk )
 //    SERVER_TYPE_KUAIPAN,
 //    SERVER_TYPE_BAIDU,              // Baidu ( http://developer.baidu.com/en/ )
 //    SERVER_TYPE_THECUS,

@@ -15,6 +15,7 @@
 #import "ServerSettingsDropboxViewController.h"
 #import "ServerSettingsSambaViewController.h"
 #import "ServerSettingsSynologyViewController.h"
+#import "ServerSettingsOneDriveViewController.h"
 #import "ServerSettingsOwnCloudViewController.h"
 
 #import "ServerTypeCell.h"
@@ -26,10 +27,11 @@
 #define ROW_INDEX_FREEBOX       2
 #define ROW_INDEX_FTP           3
 #define ROW_INDEX_GOOGLEDRIVE   4
-#define ROW_INDEX_OWNCLOUD      5
-#define ROW_INDEX_QNAP          6
-#define ROW_INDEX_SYNOLOGY      7
-#define ROW_INDEX_WEBDAV        8
+#define ROW_INDEX_ONEDRIVE      5
+#define ROW_INDEX_OWNCLOUD      6
+#define ROW_INDEX_QNAP          7
+#define ROW_INDEX_SYNOLOGY      8
+#define ROW_INDEX_WEBDAV        9
 #define ROW_INDEX_SAMBA         99
 
 // Update this when adding new server types !!!
@@ -137,6 +139,11 @@
             cell.serverType = SERVER_TYPE_GOOGLEDRIVE;
             break;
         }
+        case ROW_INDEX_ONEDRIVE:
+        {
+            cell.serverType = SERVER_TYPE_ONEDRIVE;
+            break;
+        }
         case ROW_INDEX_OWNCLOUD:
         {
             cell.serverType = SERVER_TYPE_OWNCLOUD;
@@ -224,6 +231,16 @@
                                                                 andAccount:nil
                                                                   andIndex:-1];
             svc.userAccount.serverType = SERVER_TYPE_GOOGLEDRIVE;
+            [self.navigationController pushViewController:svc animated:YES];
+            break;
+        }
+        case ROW_INDEX_ONEDRIVE:
+        {
+            ServerSettingsOneDriveViewController *svc =
+            [[ServerSettingsOneDriveViewController alloc] initWithStyle:UITableViewStyleGrouped
+                                                             andAccount:nil
+                                                               andIndex:-1];
+            svc.userAccount.serverType = SERVER_TYPE_ONEDRIVE;
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }

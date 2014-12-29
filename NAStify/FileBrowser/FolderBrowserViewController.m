@@ -172,7 +172,14 @@
             }
 
             fileItem.isDir = YES;
-
+            
+            // This is used to replace the default root ID with the one retrieved here
+            if ([element objectForKey:@"rootId"])
+            {
+                self.currentFolder.objectIds = [NSArray arrayWithObject:[element objectForKey:@"rootId"]];
+                fileItem.objectIds = [NSArray arrayWithObject:[element objectForKey:@"rootId"]];
+            }
+            
             if ([element objectForKey:@"id"])
             {
                 fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[element objectForKey:@"id"]];

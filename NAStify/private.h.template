@@ -25,3 +25,6 @@
 // GoogleDrive
 #define GOOGLEDRIVE_CLIENT_ID               @"CLIENT_ID"
 #define GOOGLEDRIVE_CLIENT_SECRET           @"CLIENT_SECRET"
+
+// Microsoft OneDrive
+#define ONEDRIVE_CLIENT_ID                  @"CLIENT_ID"

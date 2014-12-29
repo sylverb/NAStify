@@ -185,7 +185,7 @@
                 {
                     fileItem.fileSize = nil;
                     fileItem.fileSizeNumber = nil;
-                    fileItem.owner = nil;
+                    fileItem.owner = [[filesList objectAtIndex:i] objectForKey:@"owner"];
                     if ([[filesList objectAtIndex:i] objectForKey:@"isejectable"])
                     {
                         fileItem.isEjectable = [[[filesList objectAtIndex:i] objectForKey:@"isejectable"] boolValue];

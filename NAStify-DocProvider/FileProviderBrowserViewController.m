@@ -641,6 +641,13 @@
                     fileItem.fullPath = fileItem.path;
                 }
                 
+                // This is used to replace the default root ID with the one retrieved here
+                if ([element objectForKey:@"rootId"])
+                {
+                    self.currentFolder.objectIds = [NSArray arrayWithObject:[element objectForKey:@"rootId"]];
+                    fileItem.objectIds = [NSArray arrayWithObject:[element objectForKey:@"rootId"]];
+                }
+                
                 if ([element objectForKey:@"id"])
                 {
                     fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[element objectForKey:@"id"]];
@@ -659,7 +666,7 @@
                 {
                     fileItem.fileSize = nil;
                     fileItem.fileSizeNumber = nil;
-                    fileItem.owner = nil;
+                    fileItem.owner = [element objectForKey:@"owner"];
                     if ([element objectForKey:@"isejectable"])
                     {
                         fileItem.isEjectable = [[element objectForKey:@"isejectable"] boolValue];
@@ -832,7 +839,7 @@
             {
                 fileItem.fileSize = nil;
                 fileItem.fileSizeNumber = nil;
-                fileItem.owner = nil;
+                fileItem.owner = [[filesList objectAtIndex:i] objectForKey:@"owner"];
                 if ([[filesList objectAtIndex:i] objectForKey:@"isejectable"])
                 {
                     fileItem.isEjectable = [[[filesList objectAtIndex:i] objectForKey:@"isejectable"] boolValue];
