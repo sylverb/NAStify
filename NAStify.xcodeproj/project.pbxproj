@@ -683,6 +683,138 @@
 		D56507E21A4A0392000EC977 /* LiveOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507AF1A4A0392000EC977 /* LiveOperation.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D56507E31A4A0392000EC977 /* LiveOperationProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507B21A4A0392000EC977 /* LiveOperationProgress.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D56507E41A4A0392000EC977 /* LiveOperationProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507B21A4A0392000EC977 /* LiveOperationProgress.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		D565081D1A51D7D0000EC977 /* MEGAAccountDetails.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507E81A51D7D0000EC977 /* MEGAAccountDetails.mm */; };
+		D565081E1A51D7D0000EC977 /* MEGAAccountDetails.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507E81A51D7D0000EC977 /* MEGAAccountDetails.mm */; };
+		D565081F1A51D7D0000EC977 /* MEGAError.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507EB1A51D7D0000EC977 /* MEGAError.mm */; };
+		D56508201A51D7D0000EC977 /* MEGAError.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507EB1A51D7D0000EC977 /* MEGAError.mm */; };
+		D56508211A51D7D0000EC977 /* MEGANode.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507EF1A51D7D0000EC977 /* MEGANode.mm */; };
+		D56508221A51D7D0000EC977 /* MEGANode.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507EF1A51D7D0000EC977 /* MEGANode.mm */; };
+		D56508231A51D7D0000EC977 /* MEGANodeList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507F11A51D7D0000EC977 /* MEGANodeList.mm */; };
+		D56508241A51D7D0000EC977 /* MEGANodeList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507F11A51D7D0000EC977 /* MEGANodeList.mm */; };
+		D56508251A51D7D0000EC977 /* MEGAPricing.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507F31A51D7D0000EC977 /* MEGAPricing.mm */; };
+		D56508261A51D7D0000EC977 /* MEGAPricing.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507F31A51D7D0000EC977 /* MEGAPricing.mm */; };
+		D56508271A51D7D0000EC977 /* MEGARequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507F51A51D7D0000EC977 /* MEGARequest.mm */; };
+		D56508281A51D7D0000EC977 /* MEGARequest.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507F51A51D7D0000EC977 /* MEGARequest.mm */; };
+		D56508291A51D7D0000EC977 /* MEGASdk.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507F81A51D7D0000EC977 /* MEGASdk.mm */; };
+		D565082A1A51D7D0000EC977 /* MEGASdk.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507F81A51D7D0000EC977 /* MEGASdk.mm */; };
+		D565082B1A51D7D0000EC977 /* MEGAShare.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507FA1A51D7D0000EC977 /* MEGAShare.mm */; };
+		D565082C1A51D7D0000EC977 /* MEGAShare.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507FA1A51D7D0000EC977 /* MEGAShare.mm */; };
+		D565082D1A51D7D0000EC977 /* MEGAShareList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507FC1A51D7D0000EC977 /* MEGAShareList.mm */; };
+		D565082E1A51D7D0000EC977 /* MEGAShareList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507FC1A51D7D0000EC977 /* MEGAShareList.mm */; };
+		D565082F1A51D7D0000EC977 /* MEGATransfer.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507FE1A51D7D0000EC977 /* MEGATransfer.mm */; };
+		D56508301A51D7D0000EC977 /* MEGATransfer.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56507FE1A51D7D0000EC977 /* MEGATransfer.mm */; };
+		D56508311A51D7D0000EC977 /* MEGATransferList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56508011A51D7D0000EC977 /* MEGATransferList.mm */; };
+		D56508321A51D7D0000EC977 /* MEGATransferList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56508011A51D7D0000EC977 /* MEGATransferList.mm */; };
+		D56508331A51D7D0000EC977 /* MEGAUser.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56508031A51D7D0000EC977 /* MEGAUser.mm */; };
+		D56508341A51D7D0000EC977 /* MEGAUser.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56508031A51D7D0000EC977 /* MEGAUser.mm */; };
+		D56508351A51D7D0000EC977 /* MEGAUserList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56508051A51D7D0000EC977 /* MEGAUserList.mm */; };
+		D56508361A51D7D0000EC977 /* MEGAUserList.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56508051A51D7D0000EC977 /* MEGAUserList.mm */; };
+		D56508371A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56508081A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm */; };
+		D56508381A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56508081A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm */; };
+		D56508391A51D7D0000EC977 /* DelegateMEGAListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = D565080A1A51D7D0000EC977 /* DelegateMEGAListener.mm */; };
+		D565083A1A51D7D0000EC977 /* DelegateMEGAListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = D565080A1A51D7D0000EC977 /* DelegateMEGAListener.mm */; };
+		D565083B1A51D7D0000EC977 /* DelegateMEGALoggerListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = D565080C1A51D7D0000EC977 /* DelegateMEGALoggerListener.mm */; };
+		D565083C1A51D7D0000EC977 /* DelegateMEGALoggerListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = D565080C1A51D7D0000EC977 /* DelegateMEGALoggerListener.mm */; };
+		D565083D1A51D7D0000EC977 /* DelegateMEGARequestListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = D565080E1A51D7D0000EC977 /* DelegateMEGARequestListener.mm */; };
+		D565083E1A51D7D0000EC977 /* DelegateMEGARequestListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = D565080E1A51D7D0000EC977 /* DelegateMEGARequestListener.mm */; };
+		D565083F1A51D7D0000EC977 /* DelegateMEGATransferListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56508101A51D7D0000EC977 /* DelegateMEGATransferListener.mm */; };
+		D56508401A51D7D0000EC977 /* DelegateMEGATransferListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = D56508101A51D7D0000EC977 /* DelegateMEGATransferListener.mm */; };
+		D56508961A51D8E5000EC977 /* utf8proc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508911A51D8E5000EC977 /* utf8proc.cpp */; };
+		D56508971A51D8E5000EC977 /* utf8proc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508911A51D8E5000EC977 /* utf8proc.cpp */; };
+		D56508D61A51DA25000EC977 /* attrmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A01A51DA25000EC977 /* attrmap.cpp */; };
+		D56508D71A51DA25000EC977 /* attrmap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A01A51DA25000EC977 /* attrmap.cpp */; };
+		D56508D81A51DA25000EC977 /* backofftimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A11A51DA25000EC977 /* backofftimer.cpp */; };
+		D56508D91A51DA25000EC977 /* backofftimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A11A51DA25000EC977 /* backofftimer.cpp */; };
+		D56508DA1A51DA25000EC977 /* base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A21A51DA25000EC977 /* base64.cpp */; };
+		D56508DB1A51DA25000EC977 /* base64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A21A51DA25000EC977 /* base64.cpp */; };
+		D56508DC1A51DA25000EC977 /* command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A31A51DA25000EC977 /* command.cpp */; };
+		D56508DD1A51DA25000EC977 /* command.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A31A51DA25000EC977 /* command.cpp */; };
+		D56508DE1A51DA25000EC977 /* commands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A41A51DA25000EC977 /* commands.cpp */; };
+		D56508DF1A51DA25000EC977 /* commands.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A41A51DA25000EC977 /* commands.cpp */; };
+		D56508E01A51DA25000EC977 /* cryptopp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A61A51DA25000EC977 /* cryptopp.cpp */; };
+		D56508E11A51DA25000EC977 /* cryptopp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A61A51DA25000EC977 /* cryptopp.cpp */; };
+		D56508E21A51DA25000EC977 /* sodium.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A71A51DA25000EC977 /* sodium.cpp */; };
+		D56508E31A51DA25000EC977 /* sodium.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508A71A51DA25000EC977 /* sodium.cpp */; };
+		D56508E61A51DA25000EC977 /* sqlite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AA1A51DA25000EC977 /* sqlite.cpp */; };
+		D56508E71A51DA25000EC977 /* sqlite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AA1A51DA25000EC977 /* sqlite.cpp */; };
+		D56508E81A51DA25000EC977 /* db.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AB1A51DA25000EC977 /* db.cpp */; };
+		D56508E91A51DA25000EC977 /* db.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AB1A51DA25000EC977 /* db.cpp */; };
+		D56508EA1A51DA25000EC977 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AC1A51DA25000EC977 /* file.cpp */; };
+		D56508EB1A51DA25000EC977 /* file.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AC1A51DA25000EC977 /* file.cpp */; };
+		D56508EC1A51DA25000EC977 /* fileattributefetch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AD1A51DA25000EC977 /* fileattributefetch.cpp */; };
+		D56508ED1A51DA25000EC977 /* fileattributefetch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AD1A51DA25000EC977 /* fileattributefetch.cpp */; };
+		D56508EE1A51DA25000EC977 /* filefingerprint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AE1A51DA25000EC977 /* filefingerprint.cpp */; };
+		D56508EF1A51DA25000EC977 /* filefingerprint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AE1A51DA25000EC977 /* filefingerprint.cpp */; };
+		D56508F01A51DA25000EC977 /* filesystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AF1A51DA25000EC977 /* filesystem.cpp */; };
+		D56508F11A51DA25000EC977 /* filesystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508AF1A51DA25000EC977 /* filesystem.cpp */; };
+		D56508F21A51DA25000EC977 /* external.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B11A51DA25000EC977 /* external.cpp */; };
+		D56508F31A51DA25000EC977 /* external.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B11A51DA25000EC977 /* external.cpp */; };
+		D56508F61A51DA25000EC977 /* GfxProcCG.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B31A51DA25000EC977 /* GfxProcCG.cpp */; };
+		D56508F71A51DA25000EC977 /* GfxProcCG.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B31A51DA25000EC977 /* GfxProcCG.cpp */; };
+		D56508FA1A51DA25000EC977 /* gfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B51A51DA25000EC977 /* gfx.cpp */; };
+		D56508FB1A51DA25000EC977 /* gfx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B51A51DA25000EC977 /* gfx.cpp */; };
+		D56508FC1A51DA25000EC977 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B61A51DA25000EC977 /* http.cpp */; };
+		D56508FD1A51DA25000EC977 /* http.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B61A51DA25000EC977 /* http.cpp */; };
+		D56509001A51DA25000EC977 /* json.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B81A51DA25000EC977 /* json.cpp */; };
+		D56509011A51DA25000EC977 /* json.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B81A51DA25000EC977 /* json.cpp */; };
+		D56509021A51DA25000EC977 /* logging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B91A51DA25000EC977 /* logging.cpp */; };
+		D56509031A51DA25000EC977 /* logging.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508B91A51DA25000EC977 /* logging.cpp */; };
+		D56509041A51DA25000EC977 /* megaapi_impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508BA1A51DA25000EC977 /* megaapi_impl.cpp */; };
+		D56509051A51DA25000EC977 /* megaapi_impl.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508BA1A51DA25000EC977 /* megaapi_impl.cpp */; };
+		D56509061A51DA25000EC977 /* megaapi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508BB1A51DA25000EC977 /* megaapi.cpp */; };
+		D56509071A51DA25000EC977 /* megaapi.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508BB1A51DA25000EC977 /* megaapi.cpp */; };
+		D56509081A51DA25000EC977 /* megaclient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508BC1A51DA25000EC977 /* megaclient.cpp */; };
+		D56509091A51DA25000EC977 /* megaclient.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508BC1A51DA25000EC977 /* megaclient.cpp */; };
+		D565090A1A51DA25000EC977 /* node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508BD1A51DA25000EC977 /* node.cpp */; };
+		D565090B1A51DA25000EC977 /* node.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508BD1A51DA25000EC977 /* node.cpp */; };
+		D565090C1A51DA25000EC977 /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508BF1A51DA25000EC977 /* console.cpp */; };
+		D565090D1A51DA25000EC977 /* console.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508BF1A51DA25000EC977 /* console.cpp */; };
+		D565090E1A51DA25000EC977 /* consolewaiter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C01A51DA25000EC977 /* consolewaiter.cpp */; };
+		D565090F1A51DA25000EC977 /* consolewaiter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C01A51DA25000EC977 /* consolewaiter.cpp */; };
+		D56509101A51DA25000EC977 /* fs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C11A51DA25000EC977 /* fs.cpp */; };
+		D56509111A51DA25000EC977 /* fs.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C11A51DA25000EC977 /* fs.cpp */; };
+		D56509121A51DA25000EC977 /* net.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C21A51DA25000EC977 /* net.cpp */; };
+		D56509131A51DA25000EC977 /* net.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C21A51DA25000EC977 /* net.cpp */; };
+		D56509141A51DA25000EC977 /* waiter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C31A51DA25000EC977 /* waiter.cpp */; };
+		D56509151A51DA25000EC977 /* waiter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C31A51DA25000EC977 /* waiter.cpp */; };
+		D56509161A51DA25000EC977 /* proxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C41A51DA25000EC977 /* proxy.cpp */; };
+		D56509171A51DA25000EC977 /* proxy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C41A51DA25000EC977 /* proxy.cpp */; };
+		D56509181A51DA25000EC977 /* pubkeyaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C51A51DA25000EC977 /* pubkeyaction.cpp */; };
+		D56509191A51DA25000EC977 /* pubkeyaction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C51A51DA25000EC977 /* pubkeyaction.cpp */; };
+		D565091A1A51DA25000EC977 /* request.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C61A51DA25000EC977 /* request.cpp */; };
+		D565091B1A51DA25000EC977 /* request.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C61A51DA25000EC977 /* request.cpp */; };
+		D565091C1A51DA25000EC977 /* serialize64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C71A51DA25000EC977 /* serialize64.cpp */; };
+		D565091D1A51DA25000EC977 /* serialize64.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C71A51DA25000EC977 /* serialize64.cpp */; };
+		D565091E1A51DA25000EC977 /* share.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C81A51DA25000EC977 /* share.cpp */; };
+		D565091F1A51DA25000EC977 /* share.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C81A51DA25000EC977 /* share.cpp */; };
+		D56509201A51DA25000EC977 /* sharenodekeys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C91A51DA25000EC977 /* sharenodekeys.cpp */; };
+		D56509211A51DA25000EC977 /* sharenodekeys.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508C91A51DA25000EC977 /* sharenodekeys.cpp */; };
+		D56509221A51DA25000EC977 /* sync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508CA1A51DA25000EC977 /* sync.cpp */; };
+		D56509231A51DA25000EC977 /* sync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508CA1A51DA25000EC977 /* sync.cpp */; };
+		D56509261A51DA25000EC977 /* posixthread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508CD1A51DA25000EC977 /* posixthread.cpp */; };
+		D56509271A51DA25000EC977 /* posixthread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508CD1A51DA25000EC977 /* posixthread.cpp */; };
+		D565092C1A51DA25000EC977 /* transfer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D01A51DA25000EC977 /* transfer.cpp */; };
+		D565092D1A51DA25000EC977 /* transfer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D01A51DA25000EC977 /* transfer.cpp */; };
+		D565092E1A51DA25000EC977 /* transferslot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D11A51DA25000EC977 /* transferslot.cpp */; };
+		D565092F1A51DA25000EC977 /* transferslot.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D11A51DA25000EC977 /* transferslot.cpp */; };
+		D56509301A51DA25000EC977 /* treeproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D21A51DA25000EC977 /* treeproc.cpp */; };
+		D56509311A51DA25000EC977 /* treeproc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D21A51DA25000EC977 /* treeproc.cpp */; };
+		D56509321A51DA25000EC977 /* user.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D31A51DA25000EC977 /* user.cpp */; };
+		D56509331A51DA25000EC977 /* user.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D31A51DA25000EC977 /* user.cpp */; };
+		D56509341A51DA25000EC977 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D41A51DA25000EC977 /* utils.cpp */; };
+		D56509351A51DA25000EC977 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D41A51DA25000EC977 /* utils.cpp */; };
+		D56509361A51DA25000EC977 /* waiterbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D51A51DA25000EC977 /* waiterbase.cpp */; };
+		D56509371A51DA25000EC977 /* waiterbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D56508D51A51DA25000EC977 /* waiterbase.cpp */; };
+		D56509391A51DB24000EC977 /* libcryptopp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D56509381A51DB24000EC977 /* libcryptopp.a */; };
+		D565093B1A51DB41000EC977 /* libcares.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D565093A1A51DB41000EC977 /* libcares.a */; };
+		D565093C1A51DC2E000EC977 /* libcryptopp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D56509381A51DB24000EC977 /* libcryptopp.a */; };
+		D565093D1A51DC4C000EC977 /* libcares.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D565093A1A51DB41000EC977 /* libcares.a */; };
+		D565093F1A52AADC000EC977 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D546FCF919FE5D2F00125E62 /* libc++.dylib */; };
+		D56509401A52AAF4000EC977 /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F9E706D615DF0DB100275445 /* libz.dylib */; };
+		D56509411A52AB0A000EC977 /* libresolv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D5AC93271870F06F00D190FA /* libresolv.dylib */; };
+		D56509421A52AB1F000EC977 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F975486915F6DA1A00E9D1E1 /* libsqlite3.dylib */; };
+		D56509431A52AB5A000EC977 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F99CB80615F7FC7D0011F91F /* ImageIO.framework */; };
+		D56509441A52AB6C000EC977 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F94DB58A16123F980097C51C /* MobileCoreServices.framework */; };
 		D569B17D1982F7C0007C0AC5 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D569B17C1982F7C0007C0AC5 /* ShareViewController.m */; };
 		D57254CD18AD75BD0088A6C9 /* UploadBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */; };
 		D57C95AD18F9577F00617FB6 /* UIDeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = D57C95AC18F9577F00617FB6 /* UIDeviceHardware.m */; };
@@ -824,7 +956,6 @@
 		F9085DA815E1250100A030FF /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9085DA615E1250100A030FF /* libssl.a */; };
 		F9085E1115E1586900A030FF /* libneon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F9085E1015E1586900A030FF /* libneon.a */; };
 		F90C6C2E160685C200153186 /* CMFreeboxRev.m in Sources */ = {isa = PBXBuildFile; fileRef = F90C6C2D160685C200153186 /* CMFreeboxRev.m */; };
-		F90C71E515F6DCBA0015885F /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F90C71E415F6DCBA0015885F /* libstdc++.6.dylib */; };
 		F90D725115FD5BB100ABD5C2 /* Ppmd7Dec.c in Sources */ = {isa = PBXBuildFile; fileRef = F943561615FD54F800307556 /* Ppmd7Dec.c */; settings = {COMPILER_FLAGS = "-D_LZMA_UINT32_IS_ULONG -D_7ZIP_ST"; }; };
 		F9115D3015DA9047004259D3 /* CMWebDav.m in Sources */ = {isa = PBXBuildFile; fileRef = F9115D2D15DA9047004259D3 /* CMWebDav.m */; };
 		F9115D3315DB02BD004259D3 /* CustomTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9115D3215DB02BD004259D3 /* CustomTabBarController.m */; };
@@ -1697,6 +1828,171 @@
 		D56507B21A4A0392000EC977 /* LiveOperationProgress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LiveOperationProgress.m; sourceTree = "<group>"; };
 		D56507B31A4A0392000EC977 /* LiveUploadOperationDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveUploadOperationDelegate.h; sourceTree = "<group>"; };
 		D56507B41A4A0392000EC977 /* LiveUploadOverwriteOption.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LiveUploadOverwriteOption.h; sourceTree = "<group>"; };
+		D56507E71A51D7D0000EC977 /* MEGAAccountDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGAAccountDetails.h; path = "External/mega-sdk/bindings/ios/MEGAAccountDetails.h"; sourceTree = "<group>"; };
+		D56507E81A51D7D0000EC977 /* MEGAAccountDetails.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGAAccountDetails.mm; path = "External/mega-sdk/bindings/ios/MEGAAccountDetails.mm"; sourceTree = "<group>"; };
+		D56507E91A51D7D0000EC977 /* MEGADelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGADelegate.h; path = "External/mega-sdk/bindings/ios/MEGADelegate.h"; sourceTree = "<group>"; };
+		D56507EA1A51D7D0000EC977 /* MEGAError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGAError.h; path = "External/mega-sdk/bindings/ios/MEGAError.h"; sourceTree = "<group>"; };
+		D56507EB1A51D7D0000EC977 /* MEGAError.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGAError.mm; path = "External/mega-sdk/bindings/ios/MEGAError.mm"; sourceTree = "<group>"; };
+		D56507EC1A51D7D0000EC977 /* MEGAGlobalDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGAGlobalDelegate.h; path = "External/mega-sdk/bindings/ios/MEGAGlobalDelegate.h"; sourceTree = "<group>"; };
+		D56507ED1A51D7D0000EC977 /* MEGALoggerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGALoggerDelegate.h; path = "External/mega-sdk/bindings/ios/MEGALoggerDelegate.h"; sourceTree = "<group>"; };
+		D56507EE1A51D7D0000EC977 /* MEGANode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGANode.h; path = "External/mega-sdk/bindings/ios/MEGANode.h"; sourceTree = "<group>"; };
+		D56507EF1A51D7D0000EC977 /* MEGANode.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGANode.mm; path = "External/mega-sdk/bindings/ios/MEGANode.mm"; sourceTree = "<group>"; };
+		D56507F01A51D7D0000EC977 /* MEGANodeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGANodeList.h; path = "External/mega-sdk/bindings/ios/MEGANodeList.h"; sourceTree = "<group>"; };
+		D56507F11A51D7D0000EC977 /* MEGANodeList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGANodeList.mm; path = "External/mega-sdk/bindings/ios/MEGANodeList.mm"; sourceTree = "<group>"; };
+		D56507F21A51D7D0000EC977 /* MEGAPricing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGAPricing.h; path = "External/mega-sdk/bindings/ios/MEGAPricing.h"; sourceTree = "<group>"; };
+		D56507F31A51D7D0000EC977 /* MEGAPricing.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGAPricing.mm; path = "External/mega-sdk/bindings/ios/MEGAPricing.mm"; sourceTree = "<group>"; };
+		D56507F41A51D7D0000EC977 /* MEGARequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGARequest.h; path = "External/mega-sdk/bindings/ios/MEGARequest.h"; sourceTree = "<group>"; };
+		D56507F51A51D7D0000EC977 /* MEGARequest.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGARequest.mm; path = "External/mega-sdk/bindings/ios/MEGARequest.mm"; sourceTree = "<group>"; };
+		D56507F61A51D7D0000EC977 /* MEGARequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGARequestDelegate.h; path = "External/mega-sdk/bindings/ios/MEGARequestDelegate.h"; sourceTree = "<group>"; };
+		D56507F71A51D7D0000EC977 /* MEGASdk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGASdk.h; path = "External/mega-sdk/bindings/ios/MEGASdk.h"; sourceTree = "<group>"; };
+		D56507F81A51D7D0000EC977 /* MEGASdk.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGASdk.mm; path = "External/mega-sdk/bindings/ios/MEGASdk.mm"; sourceTree = "<group>"; };
+		D56507F91A51D7D0000EC977 /* MEGAShare.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGAShare.h; path = "External/mega-sdk/bindings/ios/MEGAShare.h"; sourceTree = "<group>"; };
+		D56507FA1A51D7D0000EC977 /* MEGAShare.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGAShare.mm; path = "External/mega-sdk/bindings/ios/MEGAShare.mm"; sourceTree = "<group>"; };
+		D56507FB1A51D7D0000EC977 /* MEGAShareList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGAShareList.h; path = "External/mega-sdk/bindings/ios/MEGAShareList.h"; sourceTree = "<group>"; };
+		D56507FC1A51D7D0000EC977 /* MEGAShareList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGAShareList.mm; path = "External/mega-sdk/bindings/ios/MEGAShareList.mm"; sourceTree = "<group>"; };
+		D56507FD1A51D7D0000EC977 /* MEGATransfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGATransfer.h; path = "External/mega-sdk/bindings/ios/MEGATransfer.h"; sourceTree = "<group>"; };
+		D56507FE1A51D7D0000EC977 /* MEGATransfer.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGATransfer.mm; path = "External/mega-sdk/bindings/ios/MEGATransfer.mm"; sourceTree = "<group>"; };
+		D56507FF1A51D7D0000EC977 /* MEGATransferDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGATransferDelegate.h; path = "External/mega-sdk/bindings/ios/MEGATransferDelegate.h"; sourceTree = "<group>"; };
+		D56508001A51D7D0000EC977 /* MEGATransferList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGATransferList.h; path = "External/mega-sdk/bindings/ios/MEGATransferList.h"; sourceTree = "<group>"; };
+		D56508011A51D7D0000EC977 /* MEGATransferList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGATransferList.mm; path = "External/mega-sdk/bindings/ios/MEGATransferList.mm"; sourceTree = "<group>"; };
+		D56508021A51D7D0000EC977 /* MEGAUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGAUser.h; path = "External/mega-sdk/bindings/ios/MEGAUser.h"; sourceTree = "<group>"; };
+		D56508031A51D7D0000EC977 /* MEGAUser.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGAUser.mm; path = "External/mega-sdk/bindings/ios/MEGAUser.mm"; sourceTree = "<group>"; };
+		D56508041A51D7D0000EC977 /* MEGAUserList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MEGAUserList.h; path = "External/mega-sdk/bindings/ios/MEGAUserList.h"; sourceTree = "<group>"; };
+		D56508051A51D7D0000EC977 /* MEGAUserList.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = MEGAUserList.mm; path = "External/mega-sdk/bindings/ios/MEGAUserList.mm"; sourceTree = "<group>"; };
+		D56508071A51D7D0000EC977 /* DelegateMEGAGlobalListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateMEGAGlobalListener.h; sourceTree = "<group>"; };
+		D56508081A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DelegateMEGAGlobalListener.mm; sourceTree = "<group>"; };
+		D56508091A51D7D0000EC977 /* DelegateMEGAListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateMEGAListener.h; sourceTree = "<group>"; };
+		D565080A1A51D7D0000EC977 /* DelegateMEGAListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DelegateMEGAListener.mm; sourceTree = "<group>"; };
+		D565080B1A51D7D0000EC977 /* DelegateMEGALoggerListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateMEGALoggerListener.h; sourceTree = "<group>"; };
+		D565080C1A51D7D0000EC977 /* DelegateMEGALoggerListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DelegateMEGALoggerListener.mm; sourceTree = "<group>"; };
+		D565080D1A51D7D0000EC977 /* DelegateMEGARequestListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateMEGARequestListener.h; sourceTree = "<group>"; };
+		D565080E1A51D7D0000EC977 /* DelegateMEGARequestListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DelegateMEGARequestListener.mm; sourceTree = "<group>"; };
+		D565080F1A51D7D0000EC977 /* DelegateMEGATransferListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DelegateMEGATransferListener.h; sourceTree = "<group>"; };
+		D56508101A51D7D0000EC977 /* DelegateMEGATransferListener.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DelegateMEGATransferListener.mm; sourceTree = "<group>"; };
+		D56508111A51D7D0000EC977 /* MEGAError+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGAError+init.h"; sourceTree = "<group>"; };
+		D56508121A51D7D0000EC977 /* MEGANode+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGANode+init.h"; sourceTree = "<group>"; };
+		D56508131A51D7D0000EC977 /* MEGANodeList+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGANodeList+init.h"; sourceTree = "<group>"; };
+		D56508141A51D7D0000EC977 /* MEGAPricing+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGAPricing+init.h"; sourceTree = "<group>"; };
+		D56508151A51D7D0000EC977 /* MEGARequest+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGARequest+init.h"; sourceTree = "<group>"; };
+		D56508161A51D7D0000EC977 /* MegaSDK+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MegaSDK+init.h"; sourceTree = "<group>"; };
+		D56508171A51D7D0000EC977 /* MEGAShare+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGAShare+init.h"; sourceTree = "<group>"; };
+		D56508181A51D7D0000EC977 /* MEGAShareList+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGAShareList+init.h"; sourceTree = "<group>"; };
+		D56508191A51D7D0000EC977 /* MEGATransfer+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGATransfer+init.h"; sourceTree = "<group>"; };
+		D565081A1A51D7D0000EC977 /* MEGATransferList+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGATransferList+init.h"; sourceTree = "<group>"; };
+		D565081B1A51D7D0000EC977 /* MEGAUser+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGAUser+init.h"; sourceTree = "<group>"; };
+		D565081C1A51D7D0000EC977 /* MEGAUserList+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGAUserList+init.h"; sourceTree = "<group>"; };
+		D56508451A51D8AA000EC977 /* account.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = account.h; sourceTree = "<group>"; };
+		D56508461A51D8AA000EC977 /* attrmap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = attrmap.h; sourceTree = "<group>"; };
+		D56508471A51D8AA000EC977 /* backofftimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = backofftimer.h; sourceTree = "<group>"; };
+		D56508481A51D8AA000EC977 /* base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base64.h; sourceTree = "<group>"; };
+		D56508491A51D8AA000EC977 /* command.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = command.h; sourceTree = "<group>"; };
+		D565084A1A51D8AA000EC977 /* config-android.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "config-android.h"; sourceTree = "<group>"; };
+		D565084B1A51D8AA000EC977 /* console.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = console.h; sourceTree = "<group>"; };
+		D565084D1A51D8AA000EC977 /* cryptopp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cryptopp.h; sourceTree = "<group>"; };
+		D565084E1A51D8AA000EC977 /* sodium.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sodium.h; sourceTree = "<group>"; };
+		D56508501A51D8AA000EC977 /* bdb.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bdb.h; sourceTree = "<group>"; };
+		D56508511A51D8AA000EC977 /* sqlite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sqlite.h; sourceTree = "<group>"; };
+		D56508521A51D8AA000EC977 /* db.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = db.h; sourceTree = "<group>"; };
+		D56508531A51D8AA000EC977 /* file.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = file.h; sourceTree = "<group>"; };
+		D56508541A51D8AA000EC977 /* fileattributefetch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = fileattributefetch.h; sourceTree = "<group>"; };
+		D56508551A51D8AA000EC977 /* filefingerprint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filefingerprint.h; sourceTree = "<group>"; };
+		D56508561A51D8AA000EC977 /* filesystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = filesystem.h; sourceTree = "<group>"; };
+		D56508581A51D8AA000EC977 /* external.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = external.h; sourceTree = "<group>"; };
+		D56508591A51D8AA000EC977 /* freeimage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = freeimage.h; sourceTree = "<group>"; };
+		D565085A1A51D8AA000EC977 /* GfxProcCG.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GfxProcCG.h; sourceTree = "<group>"; };
+		D565085B1A51D8AA000EC977 /* qt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qt.h; sourceTree = "<group>"; };
+		D565085C1A51D8AA000EC977 /* gfx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gfx.h; sourceTree = "<group>"; };
+		D565085D1A51D8AA000EC977 /* http.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = http.h; sourceTree = "<group>"; };
+		D565085E1A51D8AA000EC977 /* json.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = json.h; sourceTree = "<group>"; };
+		D565085F1A51D8AA000EC977 /* logging.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = logging.h; sourceTree = "<group>"; };
+		D56508601A51D8AA000EC977 /* megaapp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megaapp.h; sourceTree = "<group>"; };
+		D56508611A51D8AA000EC977 /* megaclient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megaclient.h; sourceTree = "<group>"; };
+		D56508621A51D8AA000EC977 /* node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = node.h; sourceTree = "<group>"; };
+		D56508641A51D8AA000EC977 /* megaconsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megaconsole.h; sourceTree = "<group>"; };
+		D56508651A51D8AA000EC977 /* megaconsolewaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megaconsolewaiter.h; sourceTree = "<group>"; };
+		D56508661A51D8AA000EC977 /* megafs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megafs.h; sourceTree = "<group>"; };
+		D56508671A51D8AA000EC977 /* meganet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = meganet.h; sourceTree = "<group>"; };
+		D56508681A51D8AA000EC977 /* megasys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megasys.h; sourceTree = "<group>"; };
+		D56508691A51D8AA000EC977 /* megawaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megawaiter.h; sourceTree = "<group>"; };
+		D565086A1A51D8AA000EC977 /* proxy.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = proxy.h; sourceTree = "<group>"; };
+		D565086B1A51D8AA000EC977 /* pubkeyaction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pubkeyaction.h; sourceTree = "<group>"; };
+		D565086C1A51D8AA000EC977 /* request.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = request.h; sourceTree = "<group>"; };
+		D565086D1A51D8AA000EC977 /* serialize64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = serialize64.h; sourceTree = "<group>"; };
+		D565086E1A51D8AA000EC977 /* share.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = share.h; sourceTree = "<group>"; };
+		D565086F1A51D8AA000EC977 /* sharenodekeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sharenodekeys.h; sourceTree = "<group>"; };
+		D56508701A51D8AA000EC977 /* sync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = sync.h; sourceTree = "<group>"; };
+		D56508721A51D8AA000EC977 /* cppthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cppthread.h; sourceTree = "<group>"; };
+		D56508731A51D8AA000EC977 /* posixthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = posixthread.h; sourceTree = "<group>"; };
+		D56508741A51D8AA000EC977 /* qtthread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = qtthread.h; sourceTree = "<group>"; };
+		D56508751A51D8AA000EC977 /* win32thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = win32thread.h; sourceTree = "<group>"; };
+		D56508761A51D8AA000EC977 /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
+		D56508771A51D8AA000EC977 /* transfer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transfer.h; sourceTree = "<group>"; };
+		D56508781A51D8AA000EC977 /* transferslot.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = transferslot.h; sourceTree = "<group>"; };
+		D56508791A51D8AA000EC977 /* treeproc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = treeproc.h; sourceTree = "<group>"; };
+		D565087A1A51D8AA000EC977 /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		D565087B1A51D8AA000EC977 /* user.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = user.h; sourceTree = "<group>"; };
+		D565087C1A51D8AA000EC977 /* utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utils.h; sourceTree = "<group>"; };
+		D565087D1A51D8AA000EC977 /* waiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = waiter.h; sourceTree = "<group>"; };
+		D565087F1A51D8AA000EC977 /* megaconsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megaconsole.h; sourceTree = "<group>"; };
+		D56508801A51D8AB000EC977 /* megaconsolewaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megaconsolewaiter.h; sourceTree = "<group>"; };
+		D56508811A51D8AB000EC977 /* megafs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megafs.h; sourceTree = "<group>"; };
+		D56508821A51D8AB000EC977 /* meganet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = meganet.h; sourceTree = "<group>"; };
+		D56508831A51D8AB000EC977 /* megasys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megasys.h; sourceTree = "<group>"; };
+		D56508841A51D8AB000EC977 /* megawaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megawaiter.h; sourceTree = "<group>"; };
+		D56508861A51D8AB000EC977 /* megaconsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megaconsole.h; sourceTree = "<group>"; };
+		D56508871A51D8AB000EC977 /* megaconsolewaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megaconsolewaiter.h; sourceTree = "<group>"; };
+		D56508881A51D8AB000EC977 /* megafs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megafs.h; sourceTree = "<group>"; };
+		D56508891A51D8AB000EC977 /* meganet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = meganet.h; sourceTree = "<group>"; };
+		D565088A1A51D8AB000EC977 /* megasys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megasys.h; sourceTree = "<group>"; };
+		D565088B1A51D8AB000EC977 /* megawaiter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = megawaiter.h; sourceTree = "<group>"; };
+		D565088C1A51D8AB000EC977 /* mega.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mega.h; path = "External/mega-sdk/include/mega.h"; sourceTree = "<group>"; };
+		D565088D1A51D8AB000EC977 /* megaapi_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = megaapi_impl.h; path = "External/mega-sdk/include/megaapi_impl.h"; sourceTree = "<group>"; };
+		D565088E1A51D8AB000EC977 /* megaapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = megaapi.h; path = "External/mega-sdk/include/megaapi.h"; sourceTree = "<group>"; };
+		D56508911A51D8E5000EC977 /* utf8proc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utf8proc.cpp; sourceTree = "<group>"; };
+		D56508A01A51DA25000EC977 /* attrmap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = attrmap.cpp; path = "External/mega-sdk/src/attrmap.cpp"; sourceTree = "<group>"; };
+		D56508A11A51DA25000EC977 /* backofftimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = backofftimer.cpp; path = "External/mega-sdk/src/backofftimer.cpp"; sourceTree = "<group>"; };
+		D56508A21A51DA25000EC977 /* base64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = base64.cpp; path = "External/mega-sdk/src/base64.cpp"; sourceTree = "<group>"; };
+		D56508A31A51DA25000EC977 /* command.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = command.cpp; path = "External/mega-sdk/src/command.cpp"; sourceTree = "<group>"; };
+		D56508A41A51DA25000EC977 /* commands.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = commands.cpp; path = "External/mega-sdk/src/commands.cpp"; sourceTree = "<group>"; };
+		D56508A61A51DA25000EC977 /* cryptopp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cryptopp.cpp; sourceTree = "<group>"; };
+		D56508A71A51DA25000EC977 /* sodium.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sodium.cpp; sourceTree = "<group>"; };
+		D56508AA1A51DA25000EC977 /* sqlite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sqlite.cpp; sourceTree = "<group>"; };
+		D56508AB1A51DA25000EC977 /* db.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = db.cpp; path = "External/mega-sdk/src/db.cpp"; sourceTree = "<group>"; };
+		D56508AC1A51DA25000EC977 /* file.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = file.cpp; path = "External/mega-sdk/src/file.cpp"; sourceTree = "<group>"; };
+		D56508AD1A51DA25000EC977 /* fileattributefetch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = fileattributefetch.cpp; path = "External/mega-sdk/src/fileattributefetch.cpp"; sourceTree = "<group>"; };
+		D56508AE1A51DA25000EC977 /* filefingerprint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filefingerprint.cpp; path = "External/mega-sdk/src/filefingerprint.cpp"; sourceTree = "<group>"; };
+		D56508AF1A51DA25000EC977 /* filesystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = filesystem.cpp; path = "External/mega-sdk/src/filesystem.cpp"; sourceTree = "<group>"; };
+		D56508B11A51DA25000EC977 /* external.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = external.cpp; sourceTree = "<group>"; };
+		D56508B31A51DA25000EC977 /* GfxProcCG.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GfxProcCG.cpp; sourceTree = "<group>"; };
+		D56508B51A51DA25000EC977 /* gfx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = gfx.cpp; path = "External/mega-sdk/src/gfx.cpp"; sourceTree = "<group>"; };
+		D56508B61A51DA25000EC977 /* http.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = http.cpp; path = "External/mega-sdk/src/http.cpp"; sourceTree = "<group>"; };
+		D56508B81A51DA25000EC977 /* json.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = json.cpp; path = "External/mega-sdk/src/json.cpp"; sourceTree = "<group>"; };
+		D56508B91A51DA25000EC977 /* logging.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = logging.cpp; path = "External/mega-sdk/src/logging.cpp"; sourceTree = "<group>"; };
+		D56508BA1A51DA25000EC977 /* megaapi_impl.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = megaapi_impl.cpp; path = "External/mega-sdk/src/megaapi_impl.cpp"; sourceTree = "<group>"; };
+		D56508BB1A51DA25000EC977 /* megaapi.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = megaapi.cpp; path = "External/mega-sdk/src/megaapi.cpp"; sourceTree = "<group>"; };
+		D56508BC1A51DA25000EC977 /* megaclient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = megaclient.cpp; path = "External/mega-sdk/src/megaclient.cpp"; sourceTree = "<group>"; };
+		D56508BD1A51DA25000EC977 /* node.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = node.cpp; path = "External/mega-sdk/src/node.cpp"; sourceTree = "<group>"; };
+		D56508BF1A51DA25000EC977 /* console.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = console.cpp; sourceTree = "<group>"; };
+		D56508C01A51DA25000EC977 /* consolewaiter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = consolewaiter.cpp; sourceTree = "<group>"; };
+		D56508C11A51DA25000EC977 /* fs.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = fs.cpp; sourceTree = "<group>"; };
+		D56508C21A51DA25000EC977 /* net.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = net.cpp; sourceTree = "<group>"; };
+		D56508C31A51DA25000EC977 /* waiter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = waiter.cpp; sourceTree = "<group>"; };
+		D56508C41A51DA25000EC977 /* proxy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = proxy.cpp; path = "External/mega-sdk/src/proxy.cpp"; sourceTree = "<group>"; };
+		D56508C51A51DA25000EC977 /* pubkeyaction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pubkeyaction.cpp; path = "External/mega-sdk/src/pubkeyaction.cpp"; sourceTree = "<group>"; };
+		D56508C61A51DA25000EC977 /* request.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = request.cpp; path = "External/mega-sdk/src/request.cpp"; sourceTree = "<group>"; };
+		D56508C71A51DA25000EC977 /* serialize64.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = serialize64.cpp; path = "External/mega-sdk/src/serialize64.cpp"; sourceTree = "<group>"; };
+		D56508C81A51DA25000EC977 /* share.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = share.cpp; path = "External/mega-sdk/src/share.cpp"; sourceTree = "<group>"; };
+		D56508C91A51DA25000EC977 /* sharenodekeys.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sharenodekeys.cpp; path = "External/mega-sdk/src/sharenodekeys.cpp"; sourceTree = "<group>"; };
+		D56508CA1A51DA25000EC977 /* sync.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = sync.cpp; path = "External/mega-sdk/src/sync.cpp"; sourceTree = "<group>"; };
+		D56508CD1A51DA25000EC977 /* posixthread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = posixthread.cpp; sourceTree = "<group>"; };
+		D56508D01A51DA25000EC977 /* transfer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transfer.cpp; path = "External/mega-sdk/src/transfer.cpp"; sourceTree = "<group>"; };
+		D56508D11A51DA25000EC977 /* transferslot.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = transferslot.cpp; path = "External/mega-sdk/src/transferslot.cpp"; sourceTree = "<group>"; };
+		D56508D21A51DA25000EC977 /* treeproc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = treeproc.cpp; path = "External/mega-sdk/src/treeproc.cpp"; sourceTree = "<group>"; };
+		D56508D31A51DA25000EC977 /* user.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = user.cpp; path = "External/mega-sdk/src/user.cpp"; sourceTree = "<group>"; };
+		D56508D41A51DA25000EC977 /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = utils.cpp; path = "External/mega-sdk/src/utils.cpp"; sourceTree = "<group>"; };
+		D56508D51A51DA25000EC977 /* waiterbase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = waiterbase.cpp; path = "External/mega-sdk/src/waiterbase.cpp"; sourceTree = "<group>"; };
+		D56509381A51DB24000EC977 /* libcryptopp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcryptopp.a; path = external/cryptopp/lib/libcryptopp.a; sourceTree = "<group>"; };
+		D565093A1A51DB41000EC977 /* libcares.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcares.a; path = external/cares/lib/libcares.a; sourceTree = "<group>"; };
 		D569B17B1982F7C0007C0AC5 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareViewController.h; path = FileBrowser/ShareViewController.h; sourceTree = "<group>"; };
 		D569B17C1982F7C0007C0AC5 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareViewController.m; path = FileBrowser/ShareViewController.m; sourceTree = "<group>"; };
 		D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadBrowserViewController.m; path = FileBrowser/UploadBrowserViewController.m; sourceTree = "<group>"; };
@@ -1991,7 +2287,6 @@
 		F90C6C2C160685C200153186 /* CMFreeboxRev.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMFreeboxRev.h; sourceTree = "<group>"; };
 		F90C6C2D160685C200153186 /* CMFreeboxRev.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMFreeboxRev.m; sourceTree = "<group>"; };
 		F90C6C30160690AB00153186 /* libMobileVLCKit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libMobileVLCKit.a; path = external/vlc/lib/libMobileVLCKit.a; sourceTree = SOURCE_ROOT; };
-		F90C71E415F6DCBA0015885F /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		F9115D2915DA9047004259D3 /* CMLocal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMLocal.h; sourceTree = "<group>"; };
 		F9115D2C15DA9047004259D3 /* CMWebDav.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMWebDav.h; sourceTree = "<group>"; };
 		F9115D2D15DA9047004259D3 /* CMWebDav.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMWebDav.m; sourceTree = "<group>"; };
@@ -2336,6 +2631,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D56509441A52AB6C000EC977 /* MobileCoreServices.framework in Frameworks */,
+				D56509431A52AB5A000EC977 /* ImageIO.framework in Frameworks */,
+				D56509421A52AB1F000EC977 /* libsqlite3.dylib in Frameworks */,
+				D56509411A52AB0A000EC977 /* libresolv.dylib in Frameworks */,
+				D56509401A52AAF4000EC977 /* libz.dylib in Frameworks */,
+				D565093F1A52AADC000EC977 /* libc++.dylib in Frameworks */,
+				D565093B1A51DB41000EC977 /* libcares.a in Frameworks */,
+				D56509391A51DB24000EC977 /* libcryptopp.a in Frameworks */,
 				D57CCF3B1A3E12F500D9E6A9 /* libownCloudiOS.a in Frameworks */,
 				D5E473D41A00F4C200A02A1A /* libSDropboxSDK.a in Frameworks */,
 				D5E473D01A00E76800A02A1A /* libiconv.2.dylib in Frameworks */,
@@ -2352,6 +2655,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D565093D1A51DC4C000EC977 /* libcares.a in Frameworks */,
+				D565093C1A51DC2E000EC977 /* libcryptopp.a in Frameworks */,
 				D57CCF381A3E12E300D9E6A9 /* libownCloudiOS.a in Frameworks */,
 				D5E473D51A00F4E500A02A1A /* libSDropboxSDK.a in Frameworks */,
 				D546FCFA19FE5D2F00125E62 /* libc++.dylib in Frameworks */,
@@ -2373,7 +2678,6 @@
 				D551BB4618A4588B00AB26A6 /* AssetsLibrary.framework in Frameworks */,
 				D5AC93281870F06F00D190FA /* libresolv.dylib in Frameworks */,
 				F94DB58B16123F980097C51C /* MobileCoreServices.framework in Frameworks */,
-				F90C71E515F6DCBA0015885F /* libstdc++.6.dylib in Frameworks */,
 				F975486A15F6DA1B00E9D1E1 /* libsqlite3.dylib in Frameworks */,
 				F9E706D815DF0DE000275445 /* libxml2.dylib in Frameworks */,
 				F9E706D715DF0DB100275445 /* libz.dylib in Frameworks */,
@@ -2710,6 +3014,336 @@
 			path = "External/LiveSDK-for-iOS/src/LiveSDK/Library/Public";
 			sourceTree = "<group>";
 		};
+		D56507E61A51D767000EC977 /* MegaSDK */ = {
+			isa = PBXGroup;
+			children = (
+				D56508411A51D7D6000EC977 /* bindings */,
+				D56508421A51D846000EC977 /* sdk */,
+			);
+			name = MegaSDK;
+			sourceTree = "<group>";
+		};
+		D56508061A51D7D0000EC977 /* Private */ = {
+			isa = PBXGroup;
+			children = (
+				D56508071A51D7D0000EC977 /* DelegateMEGAGlobalListener.h */,
+				D56508081A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm */,
+				D56508091A51D7D0000EC977 /* DelegateMEGAListener.h */,
+				D565080A1A51D7D0000EC977 /* DelegateMEGAListener.mm */,
+				D565080B1A51D7D0000EC977 /* DelegateMEGALoggerListener.h */,
+				D565080C1A51D7D0000EC977 /* DelegateMEGALoggerListener.mm */,
+				D565080D1A51D7D0000EC977 /* DelegateMEGARequestListener.h */,
+				D565080E1A51D7D0000EC977 /* DelegateMEGARequestListener.mm */,
+				D565080F1A51D7D0000EC977 /* DelegateMEGATransferListener.h */,
+				D56508101A51D7D0000EC977 /* DelegateMEGATransferListener.mm */,
+				D56508111A51D7D0000EC977 /* MEGAError+init.h */,
+				D56508121A51D7D0000EC977 /* MEGANode+init.h */,
+				D56508131A51D7D0000EC977 /* MEGANodeList+init.h */,
+				D56508141A51D7D0000EC977 /* MEGAPricing+init.h */,
+				D56508151A51D7D0000EC977 /* MEGARequest+init.h */,
+				D56508161A51D7D0000EC977 /* MegaSDK+init.h */,
+				D56508171A51D7D0000EC977 /* MEGAShare+init.h */,
+				D56508181A51D7D0000EC977 /* MEGAShareList+init.h */,
+				D56508191A51D7D0000EC977 /* MEGATransfer+init.h */,
+				D565081A1A51D7D0000EC977 /* MEGATransferList+init.h */,
+				D565081B1A51D7D0000EC977 /* MEGAUser+init.h */,
+				D565081C1A51D7D0000EC977 /* MEGAUserList+init.h */,
+			);
+			name = Private;
+			path = "External/mega-sdk/bindings/ios/Private";
+			sourceTree = "<group>";
+		};
+		D56508411A51D7D6000EC977 /* bindings */ = {
+			isa = PBXGroup;
+			children = (
+				D56508061A51D7D0000EC977 /* Private */,
+				D56507E71A51D7D0000EC977 /* MEGAAccountDetails.h */,
+				D56507E81A51D7D0000EC977 /* MEGAAccountDetails.mm */,
+				D56507E91A51D7D0000EC977 /* MEGADelegate.h */,
+				D56507EA1A51D7D0000EC977 /* MEGAError.h */,
+				D56507EB1A51D7D0000EC977 /* MEGAError.mm */,
+				D56507EC1A51D7D0000EC977 /* MEGAGlobalDelegate.h */,
+				D56507ED1A51D7D0000EC977 /* MEGALoggerDelegate.h */,
+				D56507EE1A51D7D0000EC977 /* MEGANode.h */,
+				D56507EF1A51D7D0000EC977 /* MEGANode.mm */,
+				D56507F01A51D7D0000EC977 /* MEGANodeList.h */,
+				D56507F11A51D7D0000EC977 /* MEGANodeList.mm */,
+				D56507F21A51D7D0000EC977 /* MEGAPricing.h */,
+				D56507F31A51D7D0000EC977 /* MEGAPricing.mm */,
+				D56507F41A51D7D0000EC977 /* MEGARequest.h */,
+				D56507F51A51D7D0000EC977 /* MEGARequest.mm */,
+				D56507F61A51D7D0000EC977 /* MEGARequestDelegate.h */,
+				D56507F71A51D7D0000EC977 /* MEGASdk.h */,
+				D56507F81A51D7D0000EC977 /* MEGASdk.mm */,
+				D56507F91A51D7D0000EC977 /* MEGAShare.h */,
+				D56507FA1A51D7D0000EC977 /* MEGAShare.mm */,
+				D56507FB1A51D7D0000EC977 /* MEGAShareList.h */,
+				D56507FC1A51D7D0000EC977 /* MEGAShareList.mm */,
+				D56507FD1A51D7D0000EC977 /* MEGATransfer.h */,
+				D56507FE1A51D7D0000EC977 /* MEGATransfer.mm */,
+				D56507FF1A51D7D0000EC977 /* MEGATransferDelegate.h */,
+				D56508001A51D7D0000EC977 /* MEGATransferList.h */,
+				D56508011A51D7D0000EC977 /* MEGATransferList.mm */,
+				D56508021A51D7D0000EC977 /* MEGAUser.h */,
+				D56508031A51D7D0000EC977 /* MEGAUser.mm */,
+				D56508041A51D7D0000EC977 /* MEGAUserList.h */,
+				D56508051A51D7D0000EC977 /* MEGAUserList.mm */,
+			);
+			name = bindings;
+			sourceTree = "<group>";
+		};
+		D56508421A51D846000EC977 /* sdk */ = {
+			isa = PBXGroup;
+			children = (
+				D56508431A51D891000EC977 /* include */,
+				D565089A1A51D8F8000EC977 /* third_party */,
+				D56508A51A51DA25000EC977 /* crypto */,
+				D56508A81A51DA25000EC977 /* db */,
+				D56508B01A51DA25000EC977 /* gfx */,
+				D56508BE1A51DA25000EC977 /* posix */,
+				D56508CB1A51DA25000EC977 /* thread */,
+				D56508A01A51DA25000EC977 /* attrmap.cpp */,
+				D56508A11A51DA25000EC977 /* backofftimer.cpp */,
+				D56508A21A51DA25000EC977 /* base64.cpp */,
+				D56508A31A51DA25000EC977 /* command.cpp */,
+				D56508A41A51DA25000EC977 /* commands.cpp */,
+				D56508AB1A51DA25000EC977 /* db.cpp */,
+				D56508AC1A51DA25000EC977 /* file.cpp */,
+				D56508AD1A51DA25000EC977 /* fileattributefetch.cpp */,
+				D56508AE1A51DA25000EC977 /* filefingerprint.cpp */,
+				D56508AF1A51DA25000EC977 /* filesystem.cpp */,
+				D56508B51A51DA25000EC977 /* gfx.cpp */,
+				D56508B61A51DA25000EC977 /* http.cpp */,
+				D56508B81A51DA25000EC977 /* json.cpp */,
+				D56508B91A51DA25000EC977 /* logging.cpp */,
+				D56508BA1A51DA25000EC977 /* megaapi_impl.cpp */,
+				D56508BB1A51DA25000EC977 /* megaapi.cpp */,
+				D56508BC1A51DA25000EC977 /* megaclient.cpp */,
+				D56508BD1A51DA25000EC977 /* node.cpp */,
+				D56508C41A51DA25000EC977 /* proxy.cpp */,
+				D56508C51A51DA25000EC977 /* pubkeyaction.cpp */,
+				D56508C61A51DA25000EC977 /* request.cpp */,
+				D56508C71A51DA25000EC977 /* serialize64.cpp */,
+				D56508C81A51DA25000EC977 /* share.cpp */,
+				D56508C91A51DA25000EC977 /* sharenodekeys.cpp */,
+				D56508CA1A51DA25000EC977 /* sync.cpp */,
+				D56508D01A51DA25000EC977 /* transfer.cpp */,
+				D56508D11A51DA25000EC977 /* transferslot.cpp */,
+				D56508D21A51DA25000EC977 /* treeproc.cpp */,
+				D56508D31A51DA25000EC977 /* user.cpp */,
+				D56508D41A51DA25000EC977 /* utils.cpp */,
+				D56508D51A51DA25000EC977 /* waiterbase.cpp */,
+			);
+			name = sdk;
+			sourceTree = "<group>";
+		};
+		D56508431A51D891000EC977 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				D56508441A51D8AA000EC977 /* mega */,
+				D565088C1A51D8AB000EC977 /* mega.h */,
+				D565088E1A51D8AB000EC977 /* megaapi.h */,
+				D565088D1A51D8AB000EC977 /* megaapi_impl.h */,
+			);
+			name = include;
+			sourceTree = "<group>";
+		};
+		D56508441A51D8AA000EC977 /* mega */ = {
+			isa = PBXGroup;
+			children = (
+				D56508451A51D8AA000EC977 /* account.h */,
+				D56508461A51D8AA000EC977 /* attrmap.h */,
+				D56508471A51D8AA000EC977 /* backofftimer.h */,
+				D56508481A51D8AA000EC977 /* base64.h */,
+				D56508491A51D8AA000EC977 /* command.h */,
+				D565084A1A51D8AA000EC977 /* config-android.h */,
+				D565084B1A51D8AA000EC977 /* console.h */,
+				D565084C1A51D8AA000EC977 /* crypto */,
+				D565084F1A51D8AA000EC977 /* db */,
+				D56508521A51D8AA000EC977 /* db.h */,
+				D56508531A51D8AA000EC977 /* file.h */,
+				D56508541A51D8AA000EC977 /* fileattributefetch.h */,
+				D56508551A51D8AA000EC977 /* filefingerprint.h */,
+				D56508561A51D8AA000EC977 /* filesystem.h */,
+				D56508571A51D8AA000EC977 /* gfx */,
+				D565085C1A51D8AA000EC977 /* gfx.h */,
+				D565085D1A51D8AA000EC977 /* http.h */,
+				D565085E1A51D8AA000EC977 /* json.h */,
+				D565085F1A51D8AA000EC977 /* logging.h */,
+				D56508601A51D8AA000EC977 /* megaapp.h */,
+				D56508611A51D8AA000EC977 /* megaclient.h */,
+				D56508621A51D8AA000EC977 /* node.h */,
+				D56508631A51D8AA000EC977 /* posix */,
+				D565086A1A51D8AA000EC977 /* proxy.h */,
+				D565086B1A51D8AA000EC977 /* pubkeyaction.h */,
+				D565086C1A51D8AA000EC977 /* request.h */,
+				D565086D1A51D8AA000EC977 /* serialize64.h */,
+				D565086E1A51D8AA000EC977 /* share.h */,
+				D565086F1A51D8AA000EC977 /* sharenodekeys.h */,
+				D56508701A51D8AA000EC977 /* sync.h */,
+				D56508711A51D8AA000EC977 /* thread */,
+				D56508761A51D8AA000EC977 /* thread.h */,
+				D56508771A51D8AA000EC977 /* transfer.h */,
+				D56508781A51D8AA000EC977 /* transferslot.h */,
+				D56508791A51D8AA000EC977 /* treeproc.h */,
+				D565087A1A51D8AA000EC977 /* types.h */,
+				D565087B1A51D8AA000EC977 /* user.h */,
+				D565087C1A51D8AA000EC977 /* utils.h */,
+				D565087D1A51D8AA000EC977 /* waiter.h */,
+				D565087E1A51D8AA000EC977 /* win32 */,
+				D56508851A51D8AB000EC977 /* wp8 */,
+			);
+			name = mega;
+			path = "External/mega-sdk/include/mega";
+			sourceTree = "<group>";
+		};
+		D565084C1A51D8AA000EC977 /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				D565084D1A51D8AA000EC977 /* cryptopp.h */,
+				D565084E1A51D8AA000EC977 /* sodium.h */,
+			);
+			path = crypto;
+			sourceTree = "<group>";
+		};
+		D565084F1A51D8AA000EC977 /* db */ = {
+			isa = PBXGroup;
+			children = (
+				D56508501A51D8AA000EC977 /* bdb.h */,
+				D56508511A51D8AA000EC977 /* sqlite.h */,
+			);
+			path = db;
+			sourceTree = "<group>";
+		};
+		D56508571A51D8AA000EC977 /* gfx */ = {
+			isa = PBXGroup;
+			children = (
+				D56508581A51D8AA000EC977 /* external.h */,
+				D56508591A51D8AA000EC977 /* freeimage.h */,
+				D565085A1A51D8AA000EC977 /* GfxProcCG.h */,
+				D565085B1A51D8AA000EC977 /* qt.h */,
+			);
+			path = gfx;
+			sourceTree = "<group>";
+		};
+		D56508631A51D8AA000EC977 /* posix */ = {
+			isa = PBXGroup;
+			children = (
+				D56508641A51D8AA000EC977 /* megaconsole.h */,
+				D56508651A51D8AA000EC977 /* megaconsolewaiter.h */,
+				D56508661A51D8AA000EC977 /* megafs.h */,
+				D56508671A51D8AA000EC977 /* meganet.h */,
+				D56508681A51D8AA000EC977 /* megasys.h */,
+				D56508691A51D8AA000EC977 /* megawaiter.h */,
+			);
+			path = posix;
+			sourceTree = "<group>";
+		};
+		D56508711A51D8AA000EC977 /* thread */ = {
+			isa = PBXGroup;
+			children = (
+				D56508721A51D8AA000EC977 /* cppthread.h */,
+				D56508731A51D8AA000EC977 /* posixthread.h */,
+				D56508741A51D8AA000EC977 /* qtthread.h */,
+				D56508751A51D8AA000EC977 /* win32thread.h */,
+			);
+			path = thread;
+			sourceTree = "<group>";
+		};
+		D565087E1A51D8AA000EC977 /* win32 */ = {
+			isa = PBXGroup;
+			children = (
+				D565087F1A51D8AA000EC977 /* megaconsole.h */,
+				D56508801A51D8AB000EC977 /* megaconsolewaiter.h */,
+				D56508811A51D8AB000EC977 /* megafs.h */,
+				D56508821A51D8AB000EC977 /* meganet.h */,
+				D56508831A51D8AB000EC977 /* megasys.h */,
+				D56508841A51D8AB000EC977 /* megawaiter.h */,
+			);
+			path = win32;
+			sourceTree = "<group>";
+		};
+		D56508851A51D8AB000EC977 /* wp8 */ = {
+			isa = PBXGroup;
+			children = (
+				D56508861A51D8AB000EC977 /* megaconsole.h */,
+				D56508871A51D8AB000EC977 /* megaconsolewaiter.h */,
+				D56508881A51D8AB000EC977 /* megafs.h */,
+				D56508891A51D8AB000EC977 /* meganet.h */,
+				D565088A1A51D8AB000EC977 /* megasys.h */,
+				D565088B1A51D8AB000EC977 /* megawaiter.h */,
+			);
+			path = wp8;
+			sourceTree = "<group>";
+		};
+		D565088F1A51D8E5000EC977 /* utf8proc */ = {
+			isa = PBXGroup;
+			children = (
+				D56508911A51D8E5000EC977 /* utf8proc.cpp */,
+			);
+			name = utf8proc;
+			path = "External/mega-sdk/third_party/utf8proc";
+			sourceTree = "<group>";
+		};
+		D565089A1A51D8F8000EC977 /* third_party */ = {
+			isa = PBXGroup;
+			children = (
+				D565088F1A51D8E5000EC977 /* utf8proc */,
+			);
+			name = third_party;
+			sourceTree = "<group>";
+		};
+		D56508A51A51DA25000EC977 /* crypto */ = {
+			isa = PBXGroup;
+			children = (
+				D56508A61A51DA25000EC977 /* cryptopp.cpp */,
+				D56508A71A51DA25000EC977 /* sodium.cpp */,
+			);
+			name = crypto;
+			path = "External/mega-sdk/src/crypto";
+			sourceTree = "<group>";
+		};
+		D56508A81A51DA25000EC977 /* db */ = {
+			isa = PBXGroup;
+			children = (
+				D56508AA1A51DA25000EC977 /* sqlite.cpp */,
+			);
+			name = db;
+			path = "External/mega-sdk/src/db";
+			sourceTree = "<group>";
+		};
+		D56508B01A51DA25000EC977 /* gfx */ = {
+			isa = PBXGroup;
+			children = (
+				D56508B31A51DA25000EC977 /* GfxProcCG.cpp */,
+				D56508B11A51DA25000EC977 /* external.cpp */,
+			);
+			name = gfx;
+			path = "External/mega-sdk/src/gfx";
+			sourceTree = "<group>";
+		};
+		D56508BE1A51DA25000EC977 /* posix */ = {
+			isa = PBXGroup;
+			children = (
+				D56508BF1A51DA25000EC977 /* console.cpp */,
+				D56508C01A51DA25000EC977 /* consolewaiter.cpp */,
+				D56508C11A51DA25000EC977 /* fs.cpp */,
+				D56508C21A51DA25000EC977 /* net.cpp */,
+				D56508C31A51DA25000EC977 /* waiter.cpp */,
+			);
+			name = posix;
+			path = "External/mega-sdk/src/posix";
+			sourceTree = "<group>";
+		};
+		D56508CB1A51DA25000EC977 /* thread */ = {
+			isa = PBXGroup;
+			children = (
+				D56508CD1A51DA25000EC977 /* posixthread.cpp */,
+			);
+			name = thread;
+			path = "External/mega-sdk/src/thread";
+			sourceTree = "<group>";
+		};
 		D569B17A1982F78E007C0AC5 /* Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -2994,45 +3628,46 @@
 		F901F7A815D7C7C50059428E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D546FCF919FE5D2F00125E62 /* libc++.dylib */,
-				D53030EB19DA979C004F7147 /* MediaAccessibility.framework */,
+				D5D306FD19014C3F0087F4C6 /* Accelerate.framework */,
+				D5D3CCBE19B7BA110083EA08 /* AdSupport.framework */,
+				D551BB4518A4588B00AB26A6 /* AssetsLibrary.framework */,
+				F901F83E15D8616D0059428E /* AudioToolbox.framework */,
+				F901F84015D861760059428E /* AVFoundation.framework */,
+				F901F85215D8636A0059428E /* CFNetwork.framework */,
+				D5D3CCBA19B7B8F20083EA08 /* CoreAudio.framework */,
+				D5D306FB19014BF20087F4C6 /* CoreData.framework */,
+				F901F7AD15D7C7C50059428E /* CoreGraphics.framework */,
+				D5D3CCBC19B7B9340083EA08 /* CoreTelephony.framework */,
+				D5D30701190153700087F4C6 /* CoreText.framework */,
 				D5AFBAED19CF64AA001C14CC /* EventKitUI.framework */,
 				D5AFBAEB19CF647C001C14CC /* EventKit.framework */,
-				D5AFBAE919CB9EC8001C14CC /* StoreKit.framework */,
-				D5D3CCC719B854770083EA08 /* iAd.framework */,
-				D5D3CCBE19B7BA110083EA08 /* AdSupport.framework */,
-				D5D3CCBC19B7B9340083EA08 /* CoreTelephony.framework */,
-				D5D3CCBA19B7B8F20083EA08 /* CoreAudio.framework */,
+				F901F7AB15D7C7C50059428E /* Foundation.framework */,
 				D5B07CAC190F823000882988 /* GoogleCast.framework */,
-				D5D30701190153700087F4C6 /* CoreText.framework */,
-				D5D306FF1901532F0087F4C6 /* libMobileVLCKit.a */,
-				D5D306FD19014C3F0087F4C6 /* Accelerate.framework */,
-				D5D306FB19014BF20087F4C6 /* CoreData.framework */,
-				D551BB4518A4588B00AB26A6 /* AssetsLibrary.framework */,
-				D5AC93271870F06F00D190FA /* libresolv.dylib */,
+				D5D3CCC719B854770083EA08 /* iAd.framework */,
+				F99CB80615F7FC7D0011F91F /* ImageIO.framework */,
+				D53030EB19DA979C004F7147 /* MediaAccessibility.framework */,
+				F901F85015D862020059428E /* MediaPlayer.framework */,
+				F99CB81115F800EB0011F91F /* MessageUI.framework */,
+				F94DB58A16123F980097C51C /* MobileCoreServices.framework */,
+				F901F85415D863860059428E /* OpenGLES.framework */,
+				F901F85615D863980059428E /* QuartzCore.framework */,
+				F99CB81715F8086A0011F91F /* QuickLook.framework */,
+				F9E706D415DF0D8F00275445 /* Security.framework */,
+				D5AFBAE919CB9EC8001C14CC /* StoreKit.framework */,
+				F9DEFAFC175B04D800048AB2 /* SystemConfiguration.framework */,
+				F901F7A915D7C7C50059428E /* UIKit.framework */,
 				F901F85A15D863D10059428E /* libbz2.dylib */,
-				F975486915F6DA1A00E9D1E1 /* libsqlite3.dylib */,
+				D565093A1A51DB41000EC977 /* libcares.a */,
+				D56509381A51DB24000EC977 /* libcryptopp.a */,
+				D546FCF919FE5D2F00125E62 /* libc++.dylib */,
 				F97661BE1603BE2700581863 /* libiconv.2.dylib */,
+				D5D306FF1901532F0087F4C6 /* libMobileVLCKit.a */,
+				E5830BD314AC90F99906CD41 /* libPods.a */,
+				D5AC93271870F06F00D190FA /* libresolv.dylib */,
 				F901F85815D863BA0059428E /* libstdc++.dylib */,
-				F90C71E415F6DCBA0015885F /* libstdc++.6.dylib */,
+				F975486915F6DA1A00E9D1E1 /* libsqlite3.dylib */,
 				F947B03C15DEC6AE002A6C1D /* libxml2.dylib */,
 				F9E706D615DF0DB100275445 /* libz.dylib */,
-				F9DEFAFC175B04D800048AB2 /* SystemConfiguration.framework */,
-				F94DB58A16123F980097C51C /* MobileCoreServices.framework */,
-				F99CB80615F7FC7D0011F91F /* ImageIO.framework */,
-				F9E706D415DF0D8F00275445 /* Security.framework */,
-				F901F85615D863980059428E /* QuartzCore.framework */,
-				F901F85415D863860059428E /* OpenGLES.framework */,
-				F99CB81715F8086A0011F91F /* QuickLook.framework */,
-				F901F85215D8636A0059428E /* CFNetwork.framework */,
-				F99CB81115F800EB0011F91F /* MessageUI.framework */,
-				F901F85015D862020059428E /* MediaPlayer.framework */,
-				F901F84015D861760059428E /* AVFoundation.framework */,
-				F901F83E15D8616D0059428E /* AudioToolbox.framework */,
-				F901F7A915D7C7C50059428E /* UIKit.framework */,
-				F901F7AB15D7C7C50059428E /* Foundation.framework */,
-				F901F7AD15D7C7C50059428E /* CoreGraphics.framework */,
-				E5830BD314AC90F99906CD41 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -3102,6 +3737,7 @@
 		F901F7C515D7C9460059428E /* External */ = {
 			isa = PBXGroup;
 			children = (
+				D56507E61A51D767000EC977 /* MegaSDK */,
 				D56507781A4A0338000EC977 /* LiveSDK */,
 				D501D70919FFEBD30032AACD /* SDWebImage */,
 				D501D6D819FFEB7F0032AACD /* MWPhotoBrowser */,
@@ -5355,20 +5991,43 @@
 			buildActionMask = 2147483647;
 			files = (
 				D56507631A47577E000EC977 /* CMOneDrive.m in Sources */,
+				D565082C1A51D7D0000EC977 /* MEGAShare.mm in Sources */,
+				D56508341A51D7D0000EC977 /* MEGAUser.mm in Sources */,
 				D5E473D31A00E79900A02A1A /* ftpparse.c in Sources */,
+				D56509231A51DA25000EC977 /* sync.cpp in Sources */,
 				D5E473D11A00E78200A02A1A /* FileBrowserCell.m in Sources */,
+				D56508261A51D7D0000EC977 /* MEGAPricing.mm in Sources */,
+				D565092F1A51DA25000EC977 /* transferslot.cpp in Sources */,
 				D53D92881A0DBE9000E6D6B6 /* FileBrowserSearchCell.m in Sources */,
+				D56509071A51DA25000EC977 /* megaapi.cpp in Sources */,
+				D565083E1A51D7D0000EC977 /* DelegateMEGARequestListener.mm in Sources */,
+				D56508301A51D7D0000EC977 /* MEGATransfer.mm in Sources */,
+				D56508F11A51DA25000EC977 /* filesystem.cpp in Sources */,
+				D56508201A51D7D0000EC977 /* MEGAError.mm in Sources */,
+				D56509131A51DA25000EC977 /* net.cpp in Sources */,
+				D56508D91A51DA25000EC977 /* backofftimer.cpp in Sources */,
+				D565090B1A51DA25000EC977 /* node.cpp in Sources */,
 				D56507D61A4A0392000EC977 /* LiveOperationCore.m in Sources */,
+				D565090D1A51DA25000EC977 /* console.cpp in Sources */,
+				D56508FB1A51DA25000EC977 /* gfx.cpp in Sources */,
+				D56508401A51D7D0000EC977 /* DelegateMEGATransferListener.mm in Sources */,
 				D5E473D21A00E79300A02A1A /* FileItem.m in Sources */,
 				D5E473CF1A00E74000A02A1A /* SBNetworkActivityIndicator.m in Sources */,
 				D56507C41A4A0392000EC977 /* UrlHelper.m in Sources */,
 				D56507E41A4A0392000EC977 /* LiveOperationProgress.m in Sources */,
+				D56508971A51D8E5000EC977 /* utf8proc.cpp in Sources */,
+				D56508D71A51DA25000EC977 /* attrmap.cpp in Sources */,
 				D5E4737C1A0045A800A02A1A /* FileProviderViewController.m in Sources */,
+				D56509051A51DA25000EC977 /* megaapi_impl.cpp in Sources */,
+				D56509191A51DA25000EC977 /* pubkeyaction.cpp in Sources */,
+				D56509091A51DA25000EC977 /* megaclient.cpp in Sources */,
+				D56508E91A51DA25000EC977 /* db.cpp in Sources */,
 				D5E4737B1A0045A800A02A1A /* FileProviderBrowserViewController.m in Sources */,
 				D56507C61A4A0392000EC977 /* LiveAuthDialog.m in Sources */,
 				D56507E21A4A0392000EC977 /* LiveOperation.m in Sources */,
 				D56507E01A4A0392000EC977 /* LiveDownloadOperation.m in Sources */,
 				D5E4734E1A00446E00A02A1A /* DocumentPickerViewController.m in Sources */,
+				D56508E71A51DA25000EC977 /* sqlite.cpp in Sources */,
 				D5E4738C1A00C70600A02A1A /* ServerCell.m in Sources */,
 				D5E4738D1A00C70C00A02A1A /* UserAccount.m in Sources */,
 				D56507B81A4A0392000EC977 /* JsonWriter.m in Sources */,
@@ -5376,34 +6035,72 @@
 				D5E4738E1A00C71900A02A1A /* ConnectionManager.m in Sources */,
 				D56507B61A4A0392000EC977 /* JsonParser.m in Sources */,
 				D56507D41A4A0392000EC977 /* LiveDownloadOperationCore.m in Sources */,
+				D56508DB1A51DA25000EC977 /* base64.cpp in Sources */,
+				D56509151A51DA25000EC977 /* waiter.cpp in Sources */,
+				D56508ED1A51DA25000EC977 /* fileattributefetch.cpp in Sources */,
 				D5E4738F1A00C72000A02A1A /* NetworkConnection.m in Sources */,
 				D56507CC1A4A0392000EC977 /* LiveAuthRefreshRequest.m in Sources */,
+				D56508EF1A51DA25000EC977 /* filefingerprint.cpp in Sources */,
 				D5E473901A00C72B00A02A1A /* CMBox.m in Sources */,
+				D56508DD1A51DA25000EC977 /* command.cpp in Sources */,
 				D56507C21A4A0392000EC977 /* StringHelper.m in Sources */,
 				D5E473911A00C73200A02A1A /* CMSamba.m in Sources */,
 				D5E473921A00C73700A02A1A /* CMQnap.m in Sources */,
+				D56508E31A51DA25000EC977 /* sodium.cpp in Sources */,
+				D56509111A51DA25000EC977 /* fs.cpp in Sources */,
 				D56507D81A4A0392000EC977 /* LiveUploadOperationCore.m in Sources */,
+				D565090F1A51DA25000EC977 /* consolewaiter.cpp in Sources */,
+				D565091D1A51DA25000EC977 /* serialize64.cpp in Sources */,
+				D56509171A51DA25000EC977 /* proxy.cpp in Sources */,
 				D5E473931A00C73B00A02A1A /* CMFreeboxRev.m in Sources */,
 				D56507BC1A4A0392000EC977 /* LiveAuthHelper.m in Sources */,
+				D56508281A51D7D0000EC977 /* MEGARequest.mm in Sources */,
 				D56507D01A4A0392000EC977 /* LiveAuthStorage.m in Sources */,
 				D54236D11A36572F008AC52A /* CMGoogleDrive.m in Sources */,
+				D56508F71A51DA25000EC977 /* GfxProcCG.cpp in Sources */,
+				D565082A1A51D7D0000EC977 /* MEGASdk.mm in Sources */,
 				D56507D21A4A0392000EC977 /* LiveConnectClientCore.m in Sources */,
+				D56508241A51D7D0000EC977 /* MEGANodeList.mm in Sources */,
+				D565091F1A51DA25000EC977 /* share.cpp in Sources */,
 				D56507BA1A4A0392000EC977 /* LiveApiHelper.m in Sources */,
+				D56508321A51D7D0000EC977 /* MEGATransferList.mm in Sources */,
+				D56508DF1A51DA25000EC977 /* commands.cpp in Sources */,
 				D5E473941A00C74100A02A1A /* CMLocal.m in Sources */,
 				D5E473951A00C74900A02A1A /* CMDropbox.m in Sources */,
 				D5E473961A00C74F00A02A1A /* CMSynology.m in Sources */,
+				D56509031A51DA25000EC977 /* logging.cpp in Sources */,
+				D565092D1A51DA25000EC977 /* transfer.cpp in Sources */,
+				D56509271A51DA25000EC977 /* posixthread.cpp in Sources */,
 				D5E473971A00C75300A02A1A /* CMFtp.m in Sources */,
+				D565081E1A51D7D0000EC977 /* MEGAAccountDetails.mm in Sources */,
+				D56508381A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm in Sources */,
 				D5E473981A00C75E00A02A1A /* CMWebDav.m in Sources */,
+				D56509311A51DA25000EC977 /* treeproc.cpp in Sources */,
+				D565082E1A51D7D0000EC977 /* MEGAShareList.mm in Sources */,
+				D565083C1A51D7D0000EC977 /* DelegateMEGALoggerListener.mm in Sources */,
+				D56508361A51D7D0000EC977 /* MEGAUserList.mm in Sources */,
 				D56507CE1A4A0392000EC977 /* LiveAuthRequest.m in Sources */,
+				D56509371A51DA25000EC977 /* waiterbase.cpp in Sources */,
+				D565083A1A51D7D0000EC977 /* DelegateMEGAListener.mm in Sources */,
 				D56507BE1A4A0392000EC977 /* LiveConnectionHelper.m in Sources */,
 				D56507C01A4A0392000EC977 /* StreamReader.m in Sources */,
+				D56509211A51DA25000EC977 /* sharenodekeys.cpp in Sources */,
 				D5E473D61A00F65F00A02A1A /* NSNumberAdditions.m in Sources */,
 				D5E473D71A00F66400A02A1A /* NSStringAdditions.m in Sources */,
 				D5E473D81A00F66D00A02A1A /* NSMutableArrayAdditions.m in Sources */,
+				D56508EB1A51DA25000EC977 /* file.cpp in Sources */,
 				D5E473D91A00F67F00A02A1A /* NSDataAdditions.m in Sources */,
+				D56508221A51D7D0000EC977 /* MEGANode.mm in Sources */,
+				D56509011A51DA25000EC977 /* json.cpp in Sources */,
 				D56507DE1A4A0392000EC977 /* LiveConnectSession.m in Sources */,
+				D56508FD1A51DA25000EC977 /* http.cpp in Sources */,
+				D56508F31A51DA25000EC977 /* external.cpp in Sources */,
 				D57CCF401A3E17B200D9E6A9 /* CMOwnCloud.m in Sources */,
+				D565091B1A51DA25000EC977 /* request.cpp in Sources */,
 				D53D92891A0DBECE00E6D6B6 /* CustomSearchDisplayController.m in Sources */,
+				D56509331A51DA25000EC977 /* user.cpp in Sources */,
+				D56508E11A51DA25000EC977 /* cryptopp.cpp in Sources */,
+				D56509351A51DA25000EC977 /* utils.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -5411,6 +6108,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D565091A1A51DA25000EC977 /* request.cpp in Sources */,
 				F901F7B615D7C7C50059428E /* main.m in Sources */,
 				F901F7BA15D7C7C50059428E /* AppDelegate.m in Sources */,
 				F901F7F215D7CA060059428E /* ServerCell.m in Sources */,
@@ -5434,6 +6132,7 @@
 				F901F83A15D85ED20059428E /* CustomMoviePlayerViewController.m in Sources */,
 				F9115D3015DA9047004259D3 /* CMWebDav.m in Sources */,
 				D501D72719FFEBD30032AACD /* NSData+ImageContentType.m in Sources */,
+				D56509261A51DA25000EC977 /* posixthread.cpp in Sources */,
 				F9115D3315DB02BD004259D3 /* CustomTabBarController.m in Sources */,
 				F9345C5815DC0BB8004035A9 /* SwitchCell.m in Sources */,
 				D5D3CC5319A92ADA0083EA08 /* BoxAuthorizationNavigationController.m in Sources */,
@@ -5441,34 +6140,46 @@
 				F98A292715DD9425004D4DFC /* MoveFileViewController.m in Sources */,
 				F9E707C315DF2AA000275445 /* ftpparse.c in Sources */,
 				D5D30673190106080087F4C6 /* VLCFrostedGlasView.m in Sources */,
+				D565083B1A51D7D0000EC977 /* DelegateMEGALoggerListener.mm in Sources */,
 				D56507B71A4A0392000EC977 /* JsonWriter.m in Sources */,
 				F9E775C415E42CCD0002C1BA /* CustomNavigationController.m in Sources */,
 				D5D30670190105840087F4C6 /* VLCMovieViewController.m in Sources */,
 				D5D306771901097D0087F4C6 /* UIDevice+SpeedCategory.m in Sources */,
+				D56508EC1A51DA25000EC977 /* fileattributefetch.cpp in Sources */,
 				F9401DF215F5345E00AF40B2 /* SBNetworkActivityIndicator.m in Sources */,
+				D56508351A51D7D0000EC977 /* MEGAUserList.mm in Sources */,
 				F9401E3E15F5347400AF40B2 /* CMSynology.m in Sources */,
 				F9401E5F15F53B0D00AF40B2 /* CompressViewController.m in Sources */,
 				F9401E6015F53B0D00AF40B2 /* ExtractViewController.m in Sources */,
 				F9401E6115F53B0D00AF40B2 /* FolderBrowserViewController.m in Sources */,
 				F9401E6215F53B0D00AF40B2 /* TableSelectViewController.m in Sources */,
 				D501D73219FFEBD30032AACD /* UIImageView+HighlightedWebCache.m in Sources */,
+				D565091E1A51DA25000EC977 /* share.cpp in Sources */,
 				F9401E6715F53B3100AF40B2 /* AltTextCell.m in Sources */,
 				F9401E6815F53B3100AF40B2 /* TextButtonCell.m in Sources */,
+				D565082B1A51D7D0000EC977 /* MEGAShare.mm in Sources */,
 				F975485315F6AA5100E9D1E1 /* FileInRarInfo.m in Sources */,
+				D56509121A51DA25000EC977 /* net.cpp in Sources */,
 				F975485415F6AA5100E9D1E1 /* RarException.m in Sources */,
 				F975485515F6AA5100E9D1E1 /* RarFile.mm in Sources */,
 				D54236D41A365884008AC52A /* ServerSettingsGoogleDriveViewController.m in Sources */,
 				D501D6F519FFEB7F0032AACD /* MWZoomingScrollView.m in Sources */,
+				D56508251A51D7D0000EC977 /* MEGAPricing.mm in Sources */,
 				F975485815F6AB8400E9D1E1 /* CMLocal.m in Sources */,
 				F99CB70115F770A30011F91F /* archive.cpp in Sources */,
 				D56507BF1A4A0392000EC977 /* StreamReader.m in Sources */,
 				D501D6F319FFEB7F0032AACD /* MWTapDetectingImageView.m in Sources */,
 				F99CB70215F770A30011F91F /* arcread.cpp in Sources */,
+				D56508FC1A51DA25000EC977 /* http.cpp in Sources */,
+				D56509081A51DA25000EC977 /* megaclient.cpp in Sources */,
 				F99CB70415F770A30011F91F /* cmddata.cpp in Sources */,
+				D56509321A51DA25000EC977 /* user.cpp in Sources */,
 				F99CB70615F770A30011F91F /* consio.cpp in Sources */,
 				D56507CD1A4A0392000EC977 /* LiveAuthRequest.m in Sources */,
 				F99CB70715F770A30011F91F /* crc.cpp in Sources */,
 				D56507CF1A4A0392000EC977 /* LiveAuthStorage.m in Sources */,
+				D56508961A51D8E5000EC977 /* utf8proc.cpp in Sources */,
+				D56508391A51D7D0000EC977 /* DelegateMEGAListener.mm in Sources */,
 				F99CB70815F770A30011F91F /* crypt.cpp in Sources */,
 				D501D72819FFEBD30032AACD /* SDImageCache.m in Sources */,
 				F99CB70915F770A30011F91F /* dll.cpp in Sources */,
@@ -5476,9 +6187,11 @@
 				F99CB70D15F770A30011F91F /* errhnd.cpp in Sources */,
 				F99CB70E15F770A30011F91F /* extinfo.cpp in Sources */,
 				D54EBF4A1954A7A5008AC4BB /* ServerSettingsFtpViewController.m in Sources */,
+				D565090E1A51DA25000EC977 /* consolewaiter.cpp in Sources */,
 				F99CB70F15F770A30011F91F /* extract.cpp in Sources */,
 				D58EE84718DAD20F00E89437 /* UIPopoverController+iPhone.m in Sources */,
 				F99CB71015F770A30011F91F /* filcreat.cpp in Sources */,
+				D56508E61A51DA25000EC977 /* sqlite.cpp in Sources */,
 				F99CB71115F770A30011F91F /* file.cpp in Sources */,
 				D54236D01A36572F008AC52A /* CMGoogleDrive.m in Sources */,
 				F99CB71215F770A30011F91F /* filefn.cpp in Sources */,
@@ -5486,6 +6199,7 @@
 				F99CB71415F770A30011F91F /* find.cpp in Sources */,
 				D56507CB1A4A0392000EC977 /* LiveAuthRefreshRequest.m in Sources */,
 				F99CB71515F770A30011F91F /* getbits.cpp in Sources */,
+				D56508D81A51DA25000EC977 /* backofftimer.cpp in Sources */,
 				D57254CD18AD75BD0088A6C9 /* UploadBrowserViewController.m in Sources */,
 				F99CB71615F770A30011F91F /* global.cpp in Sources */,
 				D56507C31A4A0392000EC977 /* UrlHelper.m in Sources */,
@@ -5495,26 +6209,33 @@
 				F99CB72315F770A30011F91F /* options.cpp in Sources */,
 				D5D302DB18FDE4EE0087F4C6 /* SettingsViewController.m in Sources */,
 				D56507DF1A4A0392000EC977 /* LiveDownloadOperation.m in Sources */,
+				D56508EE1A51DA25000EC977 /* filefingerprint.cpp in Sources */,
 				F99CB72515F770A30011F91F /* pathfn.cpp in Sources */,
 				D56507C11A4A0392000EC977 /* StringHelper.m in Sources */,
 				F99CB72615F770A30011F91F /* rar.cpp in Sources */,
 				F99CB72815F770A30011F91F /* rarvm.cpp in Sources */,
 				D501D73119FFEBD30032AACD /* UIImage+MultiFormat.m in Sources */,
 				D57C95AD18F9577F00617FB6 /* UIDeviceHardware.m in Sources */,
+				D565083F1A51D7D0000EC977 /* DelegateMEGATransferListener.mm in Sources */,
 				D5AFBAF319D02097001C14CC /* AboutViewController.m in Sources */,
 				F99CB72A15F770A30011F91F /* rawread.cpp in Sources */,
 				F99CB72B15F770A30011F91F /* rdwrfn.cpp in Sources */,
 				F99CB72D15F770A30011F91F /* recvol.cpp in Sources */,
 				D501D6F019FFEB7F0032AACD /* MWGridViewController.m in Sources */,
+				D56509361A51DA25000EC977 /* waiterbase.cpp in Sources */,
 				D5D3067A19010A830087F4C6 /* VLCThumbnailsCache.m in Sources */,
+				D565081D1A51D7D0000EC977 /* MEGAAccountDetails.mm in Sources */,
 				D5D3CB7B19952DF70083EA08 /* CameraRollSyncViewController.m in Sources */,
 				D501D6EF19FFEB7F0032AACD /* MWGridCell.m in Sources */,
 				F99CB72E15F770A30011F91F /* resource.cpp in Sources */,
+				D565082F1A51D7D0000EC977 /* MEGATransfer.mm in Sources */,
 				D56507D11A4A0392000EC977 /* LiveConnectClientCore.m in Sources */,
 				D501D72A19FFEBD30032AACD /* SDWebImageDecoder.m in Sources */,
 				F99CB72F15F770A30011F91F /* rijndael.cpp in Sources */,
 				F99CB73015F770A30011F91F /* rs.cpp in Sources */,
+				D56508271A51D7D0000EC977 /* MEGARequest.mm in Sources */,
 				F99CB73115F770A30011F91F /* savepos.cpp in Sources */,
+				D56509201A51DA25000EC977 /* sharenodekeys.cpp in Sources */,
 				F99CB73215F770A30011F91F /* scantree.cpp in Sources */,
 				D56507D31A4A0392000EC977 /* LiveDownloadOperationCore.m in Sources */,
 				D5D3CC4F19A8F5A50083EA08 /* ServerSettingsBoxViewController.m in Sources */,
@@ -5524,13 +6245,19 @@
 				F99CB73515F770A30011F91F /* smallfn.cpp in Sources */,
 				F99CB73615F770A30011F91F /* strfn.cpp in Sources */,
 				D501D72C19FFEBD30032AACD /* SDWebImageDownloaderOperation.m in Sources */,
+				D565092C1A51DA25000EC977 /* transfer.cpp in Sources */,
 				F99CB73715F770A30011F91F /* strlist.cpp in Sources */,
 				F99CB73915F770A30011F91F /* system.cpp in Sources */,
+				D56509301A51DA25000EC977 /* treeproc.cpp in Sources */,
 				F99CB73A15F770A30011F91F /* timefn.cpp in Sources */,
 				F99CB73B15F770A30011F91F /* ulinks.cpp in Sources */,
+				D56508DA1A51DA25000EC977 /* base64.cpp in Sources */,
 				D595AF87185EEABE00AE8037 /* ServerSettingsSambaViewController.m in Sources */,
+				D56508311A51D7D0000EC977 /* MEGATransferList.mm in Sources */,
+				D565090A1A51DA25000EC977 /* node.cpp in Sources */,
 				D54EBF471950290A008AC4BB /* ServerSettingsSynologyViewController.m in Sources */,
 				F99CB73C15F770A30011F91F /* unicode.cpp in Sources */,
+				D56508F01A51DA25000EC977 /* filesystem.cpp in Sources */,
 				D501D6EE19FFEB7F0032AACD /* MWCaptionView.m in Sources */,
 				D56507D51A4A0392000EC977 /* LiveOperationCore.m in Sources */,
 				F99CB73E15F770A30011F91F /* unpack.cpp in Sources */,
@@ -5539,25 +6266,34 @@
 				D57CCF441A3E331200D9E6A9 /* ServerSettingsOwnCloudViewController.m in Sources */,
 				D5D3066F190105840087F4C6 /* VLCExternalDisplayController.m in Sources */,
 				F98D89841820E5200053D5CF /* ServerSettingsFreeboxRevViewController.m in Sources */,
+				D56509101A51DA25000EC977 /* fs.cpp in Sources */,
+				D56509221A51DA25000EC977 /* sync.cpp in Sources */,
 				F99CB7EE15F7FB5F0011F91F /* CGPDFDocument.m in Sources */,
 				D56507DD1A4A0392000EC977 /* LiveConnectSession.m in Sources */,
 				F99CB7EF15F7FB5F0011F91F /* ReaderConstants.m in Sources */,
 				F99CB7F015F7FB5F0011F91F /* ReaderContentPage.m in Sources */,
+				D56508231A51D7D0000EC977 /* MEGANodeList.mm in Sources */,
 				F99CB7F115F7FB5F0011F91F /* ReaderContentTile.m in Sources */,
 				F99CB7F215F7FB5F0011F91F /* ReaderContentView.m in Sources */,
 				F99CB7F315F7FB5F0011F91F /* ReaderDocument.m in Sources */,
+				D56509341A51DA25000EC977 /* utils.cpp in Sources */,
 				F99CB7F415F7FB5F0011F91F /* ReaderMainPagebar.m in Sources */,
 				F98D89A51820F7290053D5CF /* NSDataAdditions.m in Sources */,
 				F99CB7F515F7FB5F0011F91F /* ReaderMainToolbar.m in Sources */,
+				D56508FA1A51DA25000EC977 /* gfx.cpp in Sources */,
 				F99CB7F615F7FB5F0011F91F /* ReaderThumbCache.m in Sources */,
 				F99CB7F715F7FB5F0011F91F /* ReaderThumbFetch.m in Sources */,
 				D5D308C219015CCB0087F4C6 /* VLCSlider.m in Sources */,
+				D56508E01A51DA25000EC977 /* cryptopp.cpp in Sources */,
 				D501D6F219FFEB7F0032AACD /* MWPhotoBrowser.m in Sources */,
 				D5D30684190111B00087F4C6 /* UIImage+Blur.m in Sources */,
 				F99CB7F815F7FB5F0011F91F /* ReaderThumbQueue.m in Sources */,
+				D56508EA1A51DA25000EC977 /* file.cpp in Sources */,
+				D56509001A51DA25000EC977 /* json.cpp in Sources */,
 				F99CB7F915F7FB5F0011F91F /* ReaderThumbRender.m in Sources */,
 				F99CB7FA15F7FB5F0011F91F /* ReaderThumbRequest.m in Sources */,
 				F99CB7FB15F7FB5F0011F91F /* ReaderThumbsView.m in Sources */,
+				D56508D61A51DA25000EC977 /* attrmap.cpp in Sources */,
 				F99CB7FC15F7FB5F0011F91F /* ReaderThumbView.m in Sources */,
 				F99CB7FD15F7FB5F0011F91F /* ReaderViewController.m in Sources */,
 				F99CB7FE15F7FB5F0011F91F /* ThumbsMainToolbar.m in Sources */,
@@ -5576,17 +6312,29 @@
 				F943564C15FD54F800307556 /* 7zCrcOpt.c in Sources */,
 				D569B17D1982F7C0007C0AC5 /* ShareViewController.m in Sources */,
 				F943564D15FD54F800307556 /* 7zDec.c in Sources */,
+				D565083D1A51D7D0000EC977 /* DelegateMEGARequestListener.mm in Sources */,
 				D54042FF197C44E000A902DA /* VlcSettingsViewController.m in Sources */,
 				F943564E15FD54F800307556 /* 7zFile.c in Sources */,
 				F943564F15FD54F800307556 /* 7zIn.c in Sources */,
 				D56507BD1A4A0392000EC977 /* LiveConnectionHelper.m in Sources */,
+				D56508E81A51DA25000EC977 /* db.cpp in Sources */,
+				D56508371A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm in Sources */,
+				D565082D1A51D7D0000EC977 /* MEGAShareList.mm in Sources */,
 				F943565015FD54F800307556 /* 7zStream.c in Sources */,
+				D56508F21A51DA25000EC977 /* external.cpp in Sources */,
+				D565092E1A51DA25000EC977 /* transferslot.cpp in Sources */,
 				F943565115FD54F800307556 /* Aes.c in Sources */,
 				D597AA6018C2A5FC006FA582 /* ServerSettingsDropboxViewController.m in Sources */,
 				F943565215FD54F800307556 /* AesOpt.c in Sources */,
+				D56508291A51D7D0000EC977 /* MEGASdk.mm in Sources */,
 				F943565315FD54F800307556 /* Alloc.c in Sources */,
+				D56509041A51DA25000EC977 /* megaapi_impl.cpp in Sources */,
+				D56508F61A51DA25000EC977 /* GfxProcCG.cpp in Sources */,
+				D56509021A51DA25000EC977 /* logging.cpp in Sources */,
 				F943565815FD54F800307556 /* Bcj2.c in Sources */,
+				D56509181A51DA25000EC977 /* pubkeyaction.cpp in Sources */,
 				D565075F1A473F75000EC977 /* CMOneDrive.m in Sources */,
+				D56508E21A51DA25000EC977 /* sodium.cpp in Sources */,
 				F943565915FD54F800307556 /* Bra.c in Sources */,
 				F943565A15FD54F800307556 /* Bra86.c in Sources */,
 				F943565B15FD54F800307556 /* BraIA64.c in Sources */,
@@ -5594,6 +6342,7 @@
 				F943565D15FD54F800307556 /* CpuArch.c in Sources */,
 				F943565E15FD54F800307556 /* Delta.c in Sources */,
 				D5D3CB7E19A5D3020083EA08 /* ALAssetsGroupAdditions.m in Sources */,
+				D56508331A51D7D0000EC977 /* MEGAUser.mm in Sources */,
 				F943565F15FD54F800307556 /* HuffEnc.c in Sources */,
 				D501D6F119FFEB7F0032AACD /* MWPhoto.m in Sources */,
 				F943566015FD54F800307556 /* LzFind.c in Sources */,
@@ -5602,6 +6351,7 @@
 				F943566415FD54F800307556 /* Lzma86Dec.c in Sources */,
 				D56507BB1A4A0392000EC977 /* LiveAuthHelper.m in Sources */,
 				F943566515FD54F800307556 /* Lzma86Enc.c in Sources */,
+				D56508DE1A51DA25000EC977 /* commands.cpp in Sources */,
 				F943566615FD54F800307556 /* LzmaDec.c in Sources */,
 				D5D3CC4C19A8F5040083EA08 /* CMBox.m in Sources */,
 				F943566715FD54F800307556 /* LzmaEnc.c in Sources */,
@@ -5612,6 +6362,7 @@
 				D501D72F19FFEBD30032AACD /* UIButton+WebCache.m in Sources */,
 				D56507D71A4A0392000EC977 /* LiveUploadOperationCore.m in Sources */,
 				F943566C15FD54F800307556 /* Ppmd7Enc.c in Sources */,
+				D56508211A51D7D0000EC977 /* MEGANode.mm in Sources */,
 				F943566D15FD54F800307556 /* Ppmd8.c in Sources */,
 				D56507DB1A4A0392000EC977 /* LiveConnectClient.m in Sources */,
 				F943566E15FD54F800307556 /* Ppmd8Dec.c in Sources */,
@@ -5627,21 +6378,28 @@
 				F943568C15FD54F800307556 /* XzDec.c in Sources */,
 				F943568D15FD54F800307556 /* XzEnc.c in Sources */,
 				F943568E15FD54F800307556 /* XzIn.c in Sources */,
+				D56509161A51DA25000EC977 /* proxy.cpp in Sources */,
 				D501D73019FFEBD30032AACD /* UIImage+GIF.m in Sources */,
 				D57CCF3F1A3E17B200D9E6A9 /* CMOwnCloud.m in Sources */,
 				F967FFE715FEA3400062ADFB /* FileInp7zInfo.m in Sources */,
+				D56509141A51DA25000EC977 /* waiter.cpp in Sources */,
 				F967FFE815FEA3400062ADFB /* P7zException.m in Sources */,
 				F967FFE915FEA3400062ADFB /* P7zFile.m in Sources */,
 				F91245E41604E8ED00D9AFA9 /* NSMutableArrayAdditions.m in Sources */,
 				D56507B91A4A0392000EC977 /* LiveApiHelper.m in Sources */,
 				F91245E51604E8ED00D9AFA9 /* NSNumberAdditions.m in Sources */,
+				D56509061A51DA25000EC977 /* megaapi.cpp in Sources */,
 				F91245E61604E8ED00D9AFA9 /* NSStringAdditions.m in Sources */,
+				D565091C1A51DA25000EC977 /* serialize64.cpp in Sources */,
 				D54EBF4D195E39B5008AC4BB /* TextViewCell.m in Sources */,
 				D501D72B19FFEBD30032AACD /* SDWebImageDownloader.m in Sources */,
 				D5B07CBB1910784000882988 /* GoogleCastController.m in Sources */,
 				F9BF24D31605139A001F5BAF /* CMDropbox.m in Sources */,
+				D565090C1A51DA25000EC977 /* console.cpp in Sources */,
 				F90C6C2E160685C200153186 /* CMFreeboxRev.m in Sources */,
 				F9B40250162771B200FB8C98 /* FileBrowserSearchCell.m in Sources */,
+				D56508DC1A51DA25000EC977 /* command.cpp in Sources */,
+				D565081F1A51D7D0000EC977 /* MEGAError.mm in Sources */,
 				F97B1C0E162BA68400E3FF7C /* CustomSearchDisplayController.m in Sources */,
 				D5D3043A18FF443D0087F4C6 /* CMUPnP.m in Sources */,
 				F97B1C131632BD4500E3FF7C /* CMQnap.m in Sources */,
@@ -5712,6 +6470,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 513D370EB7021CE537F92518 /* Pods.debug.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -5727,16 +6486,25 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREFIX_HEADER = "NAStify-DocProvider/NAStify-DocProvider-Prefix.pch";
-				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					_DARWIN_C_SOURCE,
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
 					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
-					"$(inherited)",
+					"${SRCROOT}/NAStify/External/mega-sdk/third_party/utf8proc",
+					"$(SRCROOT)/external/cares/include/cares",
+					"$(SRCROOT)/external/cryptopp/include",
+					"${SRCROOT}/external/curl/lib/include",
+					"${SRCROOT}/external/openssl/lib/include",
 				);
 				INFOPLIST_FILE = "NAStify-DocProvider/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -5751,6 +6519,8 @@
 					"$(PROJECT_DIR)/external/libssh2/lib",
 					"$(PROJECT_DIR)/external/neon/lib",
 					"$(PROJECT_DIR)/external/openssl/lib",
+					"$(PROJECT_DIR)/external/cryptopp/lib",
+					"$(PROJECT_DIR)/external/cares/lib",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_CFLAGS = "$(inherited)";
@@ -5758,6 +6528,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include/** ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
 			};
 			name = Debug;
 		};
@@ -5765,6 +6536,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = A6953849EB9283B9A860C597 /* Pods.release.xcconfig */;
 			buildSettings = {
+				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
@@ -5781,15 +6553,25 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREFIX_HEADER = "NAStify-DocProvider/NAStify-DocProvider-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					_DARWIN_C_SOURCE,
+				);
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
 					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
-					"$(inherited)",
+					"${SRCROOT}/NAStify/External/mega-sdk/third_party/utf8proc",
+					"$(SRCROOT)/external/cares/include/cares",
+					"$(SRCROOT)/external/cryptopp/include",
+					"${SRCROOT}/external/curl/lib/include",
+					"${SRCROOT}/external/openssl/lib/include",
 				);
 				INFOPLIST_FILE = "NAStify-DocProvider/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
@@ -5804,6 +6586,8 @@
 					"$(PROJECT_DIR)/external/libssh2/lib",
 					"$(PROJECT_DIR)/external/neon/lib",
 					"$(PROJECT_DIR)/external/openssl/lib",
+					"$(PROJECT_DIR)/external/cryptopp/lib",
+					"$(PROJECT_DIR)/external/cares/lib",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = (
@@ -5814,6 +6598,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include/** ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
 			};
 			name = Release;
 		};
@@ -5884,6 +6669,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_ENTITLEMENTS = NAStify/NAStify.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -5897,15 +6683,24 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					_DARWIN_C_SOURCE,
+				);
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
-					"$(SRCROOT)/external/curl/lib/include",
 					"${SDKROOT}/usr/include/libxml2",
 					"$(SRCROOT)/external/MediaLibraryKit/build/Release-iphoneos/include",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos/include",
 					"\"$(BUILT_PRODUCTS_DIR)\"/**",
-					"$(inherited)",
 					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
+					"${SRCROOT}/NAStify/External/mega-sdk/third_party/utf8proc",
+					"$(SRCROOT)/external/cryptopp/include",
+					"$(SRCROOT)/external/curl/lib/include",
+					"$(SRCROOT)/external/cares/include/cares",
+					"${SRCROOT}/external/openssl/lib/include",
 				);
 				INFOPLIST_FILE = "NAStify/NAStify-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -5920,13 +6715,15 @@
 					"$(SRCROOT)/external/VLCKit/build/Release-iphoneos/",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos",
 					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
+					"$(PROJECT_DIR)/external/cryptopp/lib",
+					"$(PROJECT_DIR)/external/cares/lib",
 				);
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "";
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include/** ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -5938,6 +6735,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_ENTITLEMENTS = NAStify/NAStify.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -5951,15 +6749,24 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					_DARWIN_C_SOURCE,
+				);
 				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
-					"$(SRCROOT)/external/curl/lib/include",
 					"${SDKROOT}/usr/include/libxml2",
 					"$(SRCROOT)/external/MediaLibraryKit/build/Release-iphoneos/include",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos/include",
 					"\"$(BUILT_PRODUCTS_DIR)\"/**",
-					"$(inherited)",
 					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
+					"${SRCROOT}/NAStify/External/mega-sdk/third_party/utf8proc",
+					"$(SRCROOT)/external/cryptopp/include",
+					"$(SRCROOT)/external/curl/lib/include",
+					"$(SRCROOT)/external/cares/include/cares",
+					"${SRCROOT}/external/openssl/lib/include",
 				);
 				INFOPLIST_FILE = "NAStify/NAStify-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -5974,6 +6781,8 @@
 					"$(SRCROOT)/external/VLCKit/build/Release-iphoneos/",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos",
 					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
+					"$(PROJECT_DIR)/external/cryptopp/lib",
+					"$(PROJECT_DIR)/external/cares/lib",
 				);
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",
@@ -5983,7 +6792,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "";
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include/** ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

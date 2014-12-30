@@ -29,33 +29,39 @@ buildxcodeproj()
                IPHONEOS_DEPLOYMENT_TARGET=${SDK_MIN} > ${out}
 }
 
-#pushd openssl
-#./build.sh
-#popd
-#pushd libssh2
-#./build.sh
-#popd
-#pushd libidn
-#./build.sh
-#popd
-#pushd curl
-#./build.sh
-#popd
-#pushd neon
-#./build.sh
-#popd
-#pushd libRaw
-#./build.sh
-#popd
-#pushd samba
-#rake
-#popd
-#git clone git://git.videolan.org/vlc-bindings/VLCKit.git
-#pushd VLCKit
-#./buildMobileVLCKit.sh
-#popd
-git clone git://git.videolan.org/MediaLibraryKit.git
-pushd MediaLibraryKit
-ln -s ../VLCKit/MobileVLCKit MobileVLCKit
-buildxcodeproj MediaLibraryKit
+pushd openssl
+./build.sh
 popd
+pushd libssh2
+./build.sh
+popd
+pushd libidn
+./build.sh
+popd
+pushd curl
+./build.sh
+popd
+pushd cryptopp
+./build.sh
+popd
+pushd cares
+./build.sh
+popd
+pushd neon
+./build.sh
+popd
+pushd libRaw
+./build.sh
+popd
+pushd samba
+rake
+popd
+git clone git://git.videolan.org/vlc-bindings/VLCKit.git
+pushd VLCKit
+./buildMobileVLCKit.sh
+popd
+#git clone git://git.videolan.org/MediaLibraryKit.git
+#pushd MediaLibraryKit
+#ln -s ../VLCKit/MobileVLCKit MobileVLCKit
+#buildxcodeproj MediaLibraryKit
+#popd
