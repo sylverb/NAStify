@@ -173,7 +173,7 @@
             {
                 case 0:
                 {
-                    cell = [tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
                     if (cell == nil)
                     {
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault

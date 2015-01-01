@@ -159,7 +159,7 @@
             {
                 case 0:
                 {
-                    cell = [tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
                     if (cell == nil)
                     {
                         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
@@ -169,7 +169,7 @@
                     
                     if (self.isAuthorized)
                     {
-                        cell.textLabel.text = [NSString stringWithFormat:NSLocalizedString(@"Disconnect %@",nil),self.currentAuth.userEmail];
+                        cell.textLabel.text = NSLocalizedString(@"Disconnect",nil);
                     }
                     else
                     {
@@ -199,6 +199,26 @@
             title = NSLocalizedString(@"GoogleDrive account",nil);
             break;
         }
+    }
+    return title;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section
+{
+    NSString *title = nil;
+    switch (section)
+    {
+        case 1:
+        {
+            if (self.isAuthorized)
+            {
+                title = [NSString stringWithFormat:NSLocalizedString(@"Account: %@",nil),self.currentAuth.userEmail];
+            }
+            break;
+        }
+            
+        default:
+            break;
     }
     return title;
 }
