@@ -397,9 +397,7 @@
                          CMSupportedFeaturesMaskUploadCancel   |
                          CMSupportedFeaturesMaskVLCPlayer      |
                          CMSupportedFeaturesMaskQTPlayer       |
-                         CMSupportedFeaturesMaskGoogleCast     |
-                         CMSupportedFeaturesMaskFileDownload   |
-                         CMSupportedFeaturesMaskDownloadCancel;
+                         CMSupportedFeaturesMaskGoogleCast;
     return features;
 }
 
@@ -415,8 +413,26 @@
         NSDictionary *result = operation.result;
         NSArray *filesArray = [result objectForKey:@"data"];
         NSMutableArray *filesOutputArray = nil;
+        /* Send root id if needed */
+        if ([self.path isEqual:@"/"])
+        {
+            NSString *parentId;
+            if (filesArray.count > 0)
+            {
+                NSDictionary *firstFile = [filesArray firstObject];
+                parentId = [firstFile objectForKey:@"parent_id"];
+            }
+            else
+            {
+                parentId = @"me/skydrive";
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMRootObject:[NSDictionary dictionaryWithObject:parentId forKey:@"rootId"]];
+            });
+        }
+
         /* Build dictionary with items */
-        filesOutputArray = [NSMutableArray arrayWithCapacity:[filesOutputArray count]];
+        filesOutputArray = [NSMutableArray arrayWithCapacity:[filesArray count]];
         for (NSDictionary *file in filesArray)
         {
             {
@@ -438,10 +454,6 @@
                                                  [NSNumber numberWithBool:YES],@"writeaccess",
                                                  [NSNumber numberWithLong:[date timeIntervalSince1970]],@"date",
                                                  nil];
-                if ([self.path isEqual:@"/"])
-                {
-                    [dictItem setObject:[file objectForKey:@"parent_id"] forKey:@"rootId"];
-                }
                 if ([[file objectForKey:@"from"] objectForKey:@"name"])
                 {
                     [dictItem setObject:[[file objectForKey:@"from"] objectForKey:@"name"] forKey:@"owner"];
