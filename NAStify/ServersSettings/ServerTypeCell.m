@@ -74,6 +74,11 @@
             self.serverTypeImage.image = [UIImage imageNamed:@"googledrive.png"];
             break;
         }
+        case SERVER_TYPE_MEGA:
+        {
+            self.serverTypeImage.image = [UIImage imageNamed:@"mega.png"];
+            break;
+        }
         case SERVER_TYPE_ONEDRIVE:
         {
             self.serverTypeImage.image = [UIImage imageNamed:@"onedrive.png"];

@@ -257,6 +257,15 @@
 
 }
 
+- (void)CMRootObject:(NSDictionary *)dict
+{
+    // This is used to replace the default root ID with the one retrieved here
+    if ([dict objectForKey:@"rootId"])
+    {
+        self.currentFolder.objectIds = [NSArray arrayWithObject:[dict objectForKey:@"rootId"]];
+    }
+}
+
 #pragma mark - UIAlertViewDelegate functions
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

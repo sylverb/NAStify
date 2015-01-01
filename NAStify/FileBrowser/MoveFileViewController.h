@@ -35,7 +35,7 @@
 @property(nonatomic, strong) UIBarButtonItem *mvButtonItem;
 @property(nonatomic, strong) UIBarButtonItem *cpButtonItem;
 
-- (void)CMFilesList:(NSDictionary *)dict;
+- (void)CMRootObject:(NSDictionary *)dict;
 - (void)CMCreateFolder:(NSDictionary *)dict;
 
 @end

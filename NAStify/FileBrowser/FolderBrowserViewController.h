@@ -26,6 +26,7 @@
 - (id)initWithPath:(FileItem *)folder;
 
 - (void)CMFilesList:(NSDictionary *)dict;
+- (void)CMRootObject:(NSDictionary *)dict;
 - (void)CMCreateFolder:(NSDictionary *)dict;
 
 @end

@@ -71,6 +71,7 @@
 - (void)CMLogout:(NSDictionary *)dict;
 - (void)CMRequestOTP:(NSNotification *)notification;
 - (void)CMFilesList:(NSDictionary *)dict;
+- (void)CMRootObject:(NSDictionary *)dict;
 - (void)CMSpaceInfo:(NSNotification*)notification;
 - (void)CMDownloadProgress:(NSNotification *)notification;
 - (void)CMDownloadFinished:(NSNotification *)notification;

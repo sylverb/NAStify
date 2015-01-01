@@ -131,6 +131,7 @@ typedef enum
 - (void)CMLogout:(NSDictionary *)dict;
 - (void)CMRequestOTP:(NSNotification *)notification;
 - (void)CMFilesList:(NSDictionary *)dict;
+- (void)CMRootObject:(NSDictionary *)dict;
 - (void)CMSpaceInfo:(NSNotification*)notification;
 - (void)CMRename:(NSNotification*)notification;
 - (void)CMDeleteFinished:(NSNotification*)notification;

@@ -33,3 +33,9 @@ external/neon/lib
 external/openssl/openssl-*
 external/openssl/bin
 external/openssl/lib
+external/cryptopp/*.zip
+external/cryptopp/include
+external/cryptopp/lib
+external/cares/*.tar.gz
+external/cares/include
+external/cares/lib

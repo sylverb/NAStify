@@ -55,4 +55,10 @@ typedef enum {
 /* Progress views */
 @property(nonatomic, strong) MBProgressHUD *progressHUD;
 
+/* CMDelegate protocol */
+- (void)CMFilesList:(NSDictionary *)dict;
+- (void)CMRootObject:(NSDictionary *)dict;
+- (void)CMUploadProgress:(NSDictionary *)dict;
+- (void)CMUploadFinished:(NSDictionary *)dict;
+
 @end

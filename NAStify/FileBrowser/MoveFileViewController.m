@@ -282,6 +282,15 @@
 	[self.tableView reloadData];
 }
 
+- (void)CMRootObject:(NSDictionary *)dict
+{
+    // This is used to replace the default root ID with the one retrieved here
+    if ([dict objectForKey:@"rootId"])
+    {
+        self.currentFolder.objectIds = [NSArray arrayWithObject:[dict objectForKey:@"rootId"]];
+    }
+}
+
 - (void)CMCreateFolder:(NSDictionary *)dict
 {
 	if ([[dict objectForKey:@"success"] boolValue])

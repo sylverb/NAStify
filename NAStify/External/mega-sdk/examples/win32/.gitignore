@@ -1,7 +1,0 @@
-3rdparty
-*.sdf
-*.opensdf
-*.user
-*.suo
-*.pdb
-/ipch

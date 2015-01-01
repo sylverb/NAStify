@@ -46,6 +46,7 @@ typedef enum _SHARING_VALIDITY_UNIT
 
 @protocol CMDelegate<NSObject>
 - (void)CMFilesList:(NSDictionary *)dict;
+- (void)CMRootObject:(NSDictionary *)dict;
 @optional
 - (void)CMLogin:(NSDictionary *)dict;
 - (void)CMLogout:(NSDictionary *)dict;
@@ -123,6 +124,8 @@ typedef enum _SHARING_VALIDITY_UNIT
 - (void)cancelDownloadTask;
 - (void)cancelUploadTask;
 - (void)cancelSearchTask;
+
+- (BOOL)pluginRespondsToSelector:(SEL)aSelector;
 @end
 
 @interface ConnectionManager : NSObject <CM,CMDelegate> {
@@ -131,6 +134,8 @@ typedef enum _SHARING_VALIDITY_UNIT
 
 @property(nonatomic,strong) UserAccount *userAccount;
 @property(nonatomic,weak) id <CMDelegate> delegate;
+
+- (BOOL)pluginRespondsToSelector:(SEL)aSelector;
 
 - (void)listForPath:(FileItem *)folder;
 - (NSArray *)serverInfo;
@@ -295,5 +300,6 @@ typedef NS_OPTIONS(NSUInteger, CMSupportedSharingMask) {
 - (void)CMUploadFinished:(NSDictionary *)dict;
 - (void)CMAction:(NSDictionary *)dict;
 - (void)CMConnectionError:(NSDictionary *)dict;
+- (void)CMRootObject:(NSDictionary *)dict;
 
 @end

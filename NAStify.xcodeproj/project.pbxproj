@@ -654,9 +654,6 @@
 		D56507C51A4A0392000EC977 /* LiveAuthDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = D565078D1A4A0392000EC977 /* LiveAuthDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D56507C61A4A0392000EC977 /* LiveAuthDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = D565078D1A4A0392000EC977 /* LiveAuthDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D56507C71A4A0392000EC977 /* LiveAuthDialog_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D565078E1A4A0392000EC977 /* LiveAuthDialog_iPad.xib */; };
-		D56507C81A4A0392000EC977 /* LiveAuthDialog_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D565078E1A4A0392000EC977 /* LiveAuthDialog_iPad.xib */; };
-		D56507C91A4A0392000EC977 /* LiveAuthDialog_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D565078F1A4A0392000EC977 /* LiveAuthDialog_iPhone.xib */; };
-		D56507CA1A4A0392000EC977 /* LiveAuthDialog_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D565078F1A4A0392000EC977 /* LiveAuthDialog_iPhone.xib */; };
 		D56507CB1A4A0392000EC977 /* LiveAuthRefreshRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507921A4A0392000EC977 /* LiveAuthRefreshRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D56507CC1A4A0392000EC977 /* LiveAuthRefreshRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507921A4A0392000EC977 /* LiveAuthRefreshRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D56507CD1A4A0392000EC977 /* LiveAuthRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507941A4A0392000EC977 /* LiveAuthRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -672,7 +669,6 @@
 		D56507D71A4A0392000EC977 /* LiveUploadOperationCore.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507A11A4A0392000EC977 /* LiveUploadOperationCore.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D56507D81A4A0392000EC977 /* LiveUploadOperationCore.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507A11A4A0392000EC977 /* LiveUploadOperationCore.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D56507D91A4A0392000EC977 /* backArrow_black.png in Resources */ = {isa = PBXBuildFile; fileRef = D56507A31A4A0392000EC977 /* backArrow_black.png */; };
-		D56507DA1A4A0392000EC977 /* backArrow_black.png in Resources */ = {isa = PBXBuildFile; fileRef = D56507A31A4A0392000EC977 /* backArrow_black.png */; };
 		D56507DB1A4A0392000EC977 /* LiveConnectClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507A71A4A0392000EC977 /* LiveConnectClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D56507DC1A4A0392000EC977 /* LiveConnectClient.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507A71A4A0392000EC977 /* LiveConnectClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		D56507DD1A4A0392000EC977 /* LiveConnectSession.m in Sources */ = {isa = PBXBuildFile; fileRef = D56507A91A4A0392000EC977 /* LiveConnectSession.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -815,6 +811,21 @@
 		D56509421A52AB1F000EC977 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = F975486915F6DA1A00E9D1E1 /* libsqlite3.dylib */; };
 		D56509431A52AB5A000EC977 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F99CB80615F7FC7D0011F91F /* ImageIO.framework */; };
 		D56509441A52AB6C000EC977 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F94DB58A16123F980097C51C /* MobileCoreServices.framework */; };
+		D56509481A52B759000EC977 /* ServerSettingsMegaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D56509471A52B759000EC977 /* ServerSettingsMegaViewController.m */; };
+		D565094C1A52B82E000EC977 /* CMMega.m in Sources */ = {isa = PBXBuildFile; fileRef = D565094B1A52B82E000EC977 /* CMMega.m */; };
+		D565094D1A52B82E000EC977 /* CMMega.m in Sources */ = {isa = PBXBuildFile; fileRef = D565094B1A52B82E000EC977 /* CMMega.m */; };
+		D565094F1A52F4DF000EC977 /* LiveAuthDialog_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D565094E1A52F4DF000EC977 /* LiveAuthDialog_iPhone.xib */; };
+		D56509531A536F6C000EC977 /* mega_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D56509501A536F6C000EC977 /* mega_small.png */; };
+		D56509541A536F6C000EC977 /* mega_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D56509501A536F6C000EC977 /* mega_small.png */; };
+		D56509551A536F6C000EC977 /* mega_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56509511A536F6C000EC977 /* mega_small@2x.png */; };
+		D56509561A536F6C000EC977 /* mega_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56509511A536F6C000EC977 /* mega_small@2x.png */; };
+		D56509571A536F6C000EC977 /* mega_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56509521A536F6C000EC977 /* mega_small@3x.png */; };
+		D56509581A536F6C000EC977 /* mega_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56509521A536F6C000EC977 /* mega_small@3x.png */; };
+		D565095A1A543DD6000EC977 /* mega@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D56509591A543DD6000EC977 /* mega@2x~iphone.png */; };
+		D565095F1A543FD5000EC977 /* mega@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D565095B1A543FD5000EC977 /* mega@2x~ipad.png */; };
+		D56509601A543FD5000EC977 /* mega@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D565095C1A543FD5000EC977 /* mega@3x.png */; };
+		D56509611A543FD5000EC977 /* mega~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D565095D1A543FD5000EC977 /* mega~ipad.png */; };
+		D56509621A543FD5000EC977 /* mega~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D565095E1A543FD5000EC977 /* mega~iphone.png */; };
 		D569B17D1982F7C0007C0AC5 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D569B17C1982F7C0007C0AC5 /* ShareViewController.m */; };
 		D57254CD18AD75BD0088A6C9 /* UploadBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */; };
 		D57C95AD18F9577F00617FB6 /* UIDeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = D57C95AC18F9577F00617FB6 /* UIDeviceHardware.m */; };
@@ -1993,6 +2004,19 @@
 		D56508D51A51DA25000EC977 /* waiterbase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = waiterbase.cpp; path = "External/mega-sdk/src/waiterbase.cpp"; sourceTree = "<group>"; };
 		D56509381A51DB24000EC977 /* libcryptopp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcryptopp.a; path = external/cryptopp/lib/libcryptopp.a; sourceTree = "<group>"; };
 		D565093A1A51DB41000EC977 /* libcares.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcares.a; path = external/cares/lib/libcares.a; sourceTree = "<group>"; };
+		D56509461A52B759000EC977 /* ServerSettingsMegaViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerSettingsMegaViewController.h; path = ServersSettings/ServerSettingsMegaViewController.h; sourceTree = "<group>"; };
+		D56509471A52B759000EC977 /* ServerSettingsMegaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerSettingsMegaViewController.m; path = ServersSettings/ServerSettingsMegaViewController.m; sourceTree = "<group>"; };
+		D565094A1A52B82E000EC977 /* CMMega.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CMMega.h; path = Mega/CMMega.h; sourceTree = "<group>"; };
+		D565094B1A52B82E000EC977 /* CMMega.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMMega.m; path = Mega/CMMega.m; sourceTree = "<group>"; };
+		D565094E1A52F4DF000EC977 /* LiveAuthDialog_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LiveAuthDialog_iPhone.xib; path = "NAStify/External/LiveSDK-for-iOS/src/LiveSDK/Library/Internal/LiveAuthDialog_iPhone.xib"; sourceTree = "<group>"; };
+		D56509501A536F6C000EC977 /* mega_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mega_small.png; sourceTree = "<group>"; };
+		D56509511A536F6C000EC977 /* mega_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega_small@2x.png"; sourceTree = "<group>"; };
+		D56509521A536F6C000EC977 /* mega_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega_small@3x.png"; sourceTree = "<group>"; };
+		D56509591A543DD6000EC977 /* mega@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega@2x~iphone.png"; sourceTree = "<group>"; };
+		D565095B1A543FD5000EC977 /* mega@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega@2x~ipad.png"; sourceTree = "<group>"; };
+		D565095C1A543FD5000EC977 /* mega@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega@3x.png"; sourceTree = "<group>"; };
+		D565095D1A543FD5000EC977 /* mega~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega~ipad.png"; sourceTree = "<group>"; };
+		D565095E1A543FD5000EC977 /* mega~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega~iphone.png"; sourceTree = "<group>"; };
 		D569B17B1982F7C0007C0AC5 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareViewController.h; path = FileBrowser/ShareViewController.h; sourceTree = "<group>"; };
 		D569B17C1982F7C0007C0AC5 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareViewController.m; path = FileBrowser/ShareViewController.m; sourceTree = "<group>"; };
 		D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadBrowserViewController.m; path = FileBrowser/UploadBrowserViewController.m; sourceTree = "<group>"; };
@@ -3344,6 +3368,24 @@
 			path = "External/mega-sdk/src/thread";
 			sourceTree = "<group>";
 		};
+		D56509451A52B683000EC977 /* Mega */ = {
+			isa = PBXGroup;
+			children = (
+				D56509461A52B759000EC977 /* ServerSettingsMegaViewController.h */,
+				D56509471A52B759000EC977 /* ServerSettingsMegaViewController.m */,
+			);
+			name = Mega;
+			sourceTree = "<group>";
+		};
+		D56509491A52B816000EC977 /* Mega */ = {
+			isa = PBXGroup;
+			children = (
+				D565094A1A52B82E000EC977 /* CMMega.h */,
+				D565094B1A52B82E000EC977 /* CMMega.m */,
+			);
+			name = Mega;
+			sourceTree = "<group>";
+		};
 		D569B17A1982F78E007C0AC5 /* Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -3605,6 +3647,7 @@
 		F901F79A15D7C7C50059428E = {
 			isa = PBXGroup;
 			children = (
+				D565094E1A52F4DF000EC977 /* LiveAuthDialog_iPhone.xib */,
 				D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */,
 				D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */,
 				D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */,
@@ -3715,6 +3758,7 @@
 				D56507221A436CFD000EC977 /* Freebox */,
 				D56507211A436CEB000EC977 /* FTP */,
 				D5D059F61A31A7CA00461226 /* GoogleDrive */,
+				D56509451A52B683000EC977 /* Mega */,
 				D56507601A475712000EC977 /* OneDrive */,
 				D57CCF411A3E32F200D9E6A9 /* OwnCloud */,
 				D56507241A436D51000EC977 /* Samba */,
@@ -4081,6 +4125,7 @@
 				F9345CAC15DC6321004035A9 /* FTP */,
 				D5D059D71A31A37800461226 /* GoogleDrive */,
 				F9115D2815DA9047004259D3 /* Local */,
+				D56509491A52B816000EC977 /* Mega */,
 				D565075C1A473F75000EC977 /* OneDrive */,
 				D57CCF3C1A3E17B200D9E6A9 /* OwnCloud */,
 				F97B1C101632BD4400E3FF7C /* QNAP */,
@@ -4646,6 +4691,14 @@
 				D53D93B41A0E65CA00E6D6B6 /* local-storage.png */,
 				D5E474891A0110FC00A02A1A /* local-storage@2x.png */,
 				D5E4748A1A0110FC00A02A1A /* local-storage@3x.png */,
+				D56509501A536F6C000EC977 /* mega_small.png */,
+				D56509511A536F6C000EC977 /* mega_small@2x.png */,
+				D56509521A536F6C000EC977 /* mega_small@3x.png */,
+				D565095D1A543FD5000EC977 /* mega~ipad.png */,
+				D565095E1A543FD5000EC977 /* mega~iphone.png */,
+				D565095B1A543FD5000EC977 /* mega@2x~ipad.png */,
+				D56509591A543DD6000EC977 /* mega@2x~iphone.png */,
+				D565095C1A543FD5000EC977 /* mega@3x.png */,
 				D56507651A475FEB000EC977 /* onedrive_small.png */,
 				D56507661A475FEB000EC977 /* onedrive_small@2x.png */,
 				D56507671A475FEB000EC977 /* onedrive_small@3x.png */,
@@ -5360,6 +5413,7 @@
 				D5316A631A17B04A00364CA7 /* amr@2x.png in Resources */,
 				D5316A641A17B04A00364CA7 /* amr@3x.png in Resources */,
 				D5316A651A17B04A00364CA7 /* ape.png in Resources */,
+				D56509541A536F6C000EC977 /* mega_small.png in Resources */,
 				D5316A661A17B04A00364CA7 /* ape@2x.png in Resources */,
 				D5316A671A17B04A00364CA7 /* ape@3x.png in Resources */,
 				D5316A681A17B04A00364CA7 /* asf.png in Resources */,
@@ -5368,7 +5422,6 @@
 				D5316A6B1A17B04A00364CA7 /* at3.png in Resources */,
 				D5316A6C1A17B04A00364CA7 /* at3@2x.png in Resources */,
 				D5316A6D1A17B04A00364CA7 /* at3@3x.png in Resources */,
-				D56507C81A4A0392000EC977 /* LiveAuthDialog_iPad.xib in Resources */,
 				D5316A6E1A17B04A00364CA7 /* avi.png in Resources */,
 				D5316A6F1A17B04A00364CA7 /* avi@2x.png in Resources */,
 				D5316A701A17B04A00364CA7 /* avi@3x.png in Resources */,
@@ -5448,6 +5501,7 @@
 				D5316AB81A17B04B00364CA7 /* m4a@3x.png in Resources */,
 				D5316AB91A17B04B00364CA7 /* m4v.png in Resources */,
 				D5316ABA1A17B04B00364CA7 /* m4v@2x.png in Resources */,
+				D56509561A536F6C000EC977 /* mega_small@2x.png in Resources */,
 				D5316ABB1A17B04B00364CA7 /* m4v@3x.png in Resources */,
 				D5316ABC1A17B04B00364CA7 /* mkv.png in Resources */,
 				D5316ABD1A17B04B00364CA7 /* mkv@2x.png in Resources */,
@@ -5463,7 +5517,6 @@
 				D5316AC71A17B04B00364CA7 /* mp1@3x.png in Resources */,
 				D5316AC81A17B04B00364CA7 /* mp2.png in Resources */,
 				D5316AC91A17B04B00364CA7 /* mp2@2x.png in Resources */,
-				D56507DA1A4A0392000EC977 /* backArrow_black.png in Resources */,
 				D5316ACA1A17B04B00364CA7 /* mp2@3x.png in Resources */,
 				D5316ACB1A17B04B00364CA7 /* mp3.png in Resources */,
 				D5316ACC1A17B04B00364CA7 /* mp3@2x.png in Resources */,
@@ -5478,6 +5531,7 @@
 				D5316AD51A17B04B00364CA7 /* mpeg@2x.png in Resources */,
 				D5316AD61A17B04B00364CA7 /* mpeg@3x.png in Resources */,
 				D5316AD71A17B04B00364CA7 /* mpg.png in Resources */,
+				D56509581A536F6C000EC977 /* mega_small@3x.png in Resources */,
 				D5316AD81A17B04B00364CA7 /* mpg@2x.png in Resources */,
 				D5316AD91A17B04B00364CA7 /* mpg@3x.png in Resources */,
 				D5316ADA1A17B04B00364CA7 /* mpga.png in Resources */,
@@ -5535,7 +5589,6 @@
 				D5316B0D1A17B04B00364CA7 /* rtf.png in Resources */,
 				D5316B0E1A17B04B00364CA7 /* rtf@2x.png in Resources */,
 				D5316B0F1A17B04B00364CA7 /* rtf@3x.png in Resources */,
-				D56507CA1A4A0392000EC977 /* LiveAuthDialog_iPhone.xib in Resources */,
 				D5316B101A17B04B00364CA7 /* spx.png in Resources */,
 				D5316B111A17B04B00364CA7 /* spx@2x.png in Resources */,
 				D5316B121A17B04B00364CA7 /* spx@3x.png in Resources */,
@@ -5601,6 +5654,7 @@
 				D53D936A1A0E1E0500E6D6B6 /* wav.png in Resources */,
 				D53D92FA1A0E1E0500E6D6B6 /* crw.png in Resources */,
 				D5316A171A15546D00364CA7 /* webdav@3x.png in Resources */,
+				D56509551A536F6C000EC977 /* mega_small@2x.png in Resources */,
 				D530331619E33110004F7147 /* rtf@2x.png in Resources */,
 				D56507D91A4A0392000EC977 /* backArrow_black.png in Resources */,
 				D53D93041A0E1E0500E6D6B6 /* doc.png in Resources */,
@@ -5624,11 +5678,13 @@
 				D53032B719E33110004F7147 /* dcr@3x.png in Resources */,
 				D530331219E33110004F7147 /* rar@2x.png in Resources */,
 				D53D93461A0E1E0500E6D6B6 /* ogg.png in Resources */,
+				D56509601A543FD5000EC977 /* mega@3x.png in Resources */,
 				D5551C121901827B00652A08 /* videoEffectsIcon@2x.png in Resources */,
 				D56506DE1A431AC6000EC977 /* owncloud_small@3x.png in Resources */,
 				D530330919E33110004F7147 /* ps@3x.png in Resources */,
 				D53D93481A0E1E0500E6D6B6 /* opus.png in Resources */,
 				D53D93321A0E1E0500E6D6B6 /* mp3.png in Resources */,
+				D56509621A543FD5000EC977 /* mega~iphone.png in Resources */,
 				D53D935C1A0E1E0500E6D6B6 /* rm.png in Resources */,
 				D530332B19E33110004F7147 /* zip@3x.png in Resources */,
 				D53032D819E33110004F7147 /* jpg@2x.png in Resources */,
@@ -5659,6 +5715,7 @@
 				D53032BE19E33110004F7147 /* dts@2x.png in Resources */,
 				D53D930A1A0E1E0500E6D6B6 /* dv.png in Resources */,
 				D56507741A475FFB000EC977 /* onedrive@2x~iphone.png in Resources */,
+				D56509531A536F6C000EC977 /* mega_small.png in Resources */,
 				D53D93181A0E1E0500E6D6B6 /* fpix.png in Resources */,
 				D530332919E33110004F7147 /* xls@3x.png in Resources */,
 				D53D93681A0E1E0500E6D6B6 /* vob.png in Resources */,
@@ -5685,7 +5742,6 @@
 				D53D93501A0E1E0500E6D6B6 /* ps.png in Resources */,
 				D53D93281A0E1E0500E6D6B6 /* mkv.png in Resources */,
 				D53032AE19E33110004F7147 /* bmp@2x.png in Resources */,
-				D56507C91A4A0392000EC977 /* LiveAuthDialog_iPhone.xib in Resources */,
 				D530313819DD30C4004F7147 /* setup@3x.png in Resources */,
 				D530329E19E33110004F7147 /* aifc@2x.png in Resources */,
 				D53D92DC1A0E1E0500E6D6B6 /* aa3.png in Resources */,
@@ -5791,6 +5847,7 @@
 				D53D935E1A0E1E0500E6D6B6 /* rtf.png in Resources */,
 				D56506DC1A431AC6000EC977 /* owncloud_small@2x.png in Resources */,
 				F93EEA3015E2C8BF0082BA3B /* ipad@2x.png in Resources */,
+				D565095A1A543DD6000EC977 /* mega@2x~iphone.png in Resources */,
 				D530332719E33110004F7147 /* wmv@3x.png in Resources */,
 				F99CB7B815F7FA2F0011F91F /* Reader-Button-H@2x.png in Resources */,
 				D53032D419E33110004F7147 /* gif@2x.png in Resources */,
@@ -5845,14 +5902,17 @@
 				D5551BFE1901827B00652A08 /* forwardIcon@2x.png in Resources */,
 				D53D932E1A0E1E0500E6D6B6 /* mp1.png in Resources */,
 				D53032C219E33110004F7147 /* dv@2x.png in Resources */,
+				D56509611A543FD5000EC977 /* mega~ipad.png in Resources */,
 				F98D89991820EAE30053D5CF /* qnap_small.png in Resources */,
 				D53D93B71A0E65CA00E6D6B6 /* freebox_small@3x.png in Resources */,
 				F98D89941820EAE30053D5CF /* freebox_small.png in Resources */,
 				D530332019E33110004F7147 /* vob@2x.png in Resources */,
 				D54236C41A3655C8008AC52A /* googledrive@2x~ipad.png in Resources */,
+				D565094F1A52F4DF000EC977 /* LiveAuthDialog_iPhone.xib in Resources */,
 				D56507C71A4A0392000EC977 /* LiveAuthDialog_iPad.xib in Resources */,
 				D5551C101901827B00652A08 /* subtitleIcon@2x.png in Resources */,
 				D530330119E33110004F7147 /* opus@3x.png in Resources */,
+				D56509571A536F6C000EC977 /* mega_small@3x.png in Resources */,
 				D546FCFD19FE5F9900125E62 /* MediaLibrary.mom in Resources */,
 				D54236C81A3655C8008AC52A /* googledrive@3x.png in Resources */,
 				D53032A019E33110004F7147 /* al@2x.png in Resources */,
@@ -5909,6 +5969,7 @@
 				D5D302D718FD49730087F4C6 /* setup@2x.png in Resources */,
 				D53032C319E33110004F7147 /* dv@3x.png in Resources */,
 				D53D93721A0E1E0500E6D6B6 /* zip.png in Resources */,
+				D565095F1A543FD5000EC977 /* mega@2x~ipad.png in Resources */,
 				D5CD858B1A140EA000438F15 /* ftp-ftps-sftp@2x~iphone.png in Resources */,
 				D5551C0A1901827B00652A08 /* repeatOne@2x.png in Resources */,
 				D530329819E33110004F7147 /* ac3@2x.png in Resources */,
@@ -6051,6 +6112,7 @@
 				D56507D81A4A0392000EC977 /* LiveUploadOperationCore.m in Sources */,
 				D565090F1A51DA25000EC977 /* consolewaiter.cpp in Sources */,
 				D565091D1A51DA25000EC977 /* serialize64.cpp in Sources */,
+				D565094D1A52B82E000EC977 /* CMMega.m in Sources */,
 				D56509171A51DA25000EC977 /* proxy.cpp in Sources */,
 				D5E473931A00C73B00A02A1A /* CMFreeboxRev.m in Sources */,
 				D56507BC1A4A0392000EC977 /* LiveAuthHelper.m in Sources */,
@@ -6306,10 +6368,12 @@
 				F943559215FD1DAD00307556 /* SegCtrlCell.m in Sources */,
 				F943564815FD54F800307556 /* 7zAlloc.c in Sources */,
 				D56507E11A4A0392000EC977 /* LiveOperation.m in Sources */,
+				D56509481A52B759000EC977 /* ServerSettingsMegaViewController.m in Sources */,
 				F943564915FD54F800307556 /* 7zBuf.c in Sources */,
 				F943564A15FD54F800307556 /* 7zBuf2.c in Sources */,
 				F943564B15FD54F800307556 /* 7zCrc.c in Sources */,
 				F943564C15FD54F800307556 /* 7zCrcOpt.c in Sources */,
+				D565094C1A52B82E000EC977 /* CMMega.m in Sources */,
 				D569B17D1982F7C0007C0AC5 /* ShareViewController.m in Sources */,
 				F943564D15FD54F800307556 /* 7zDec.c in Sources */,
 				D565083D1A51D7D0000EC977 /* DelegateMEGARequestListener.mm in Sources */,
@@ -6507,7 +6571,7 @@
 					"${SRCROOT}/external/openssl/lib/include",
 				);
 				INFOPLIST_FILE = "NAStify-DocProvider/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6528,7 +6592,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include/** ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
 			};
 			name = Debug;
 		};
@@ -6574,7 +6638,7 @@
 					"${SRCROOT}/external/openssl/lib/include",
 				);
 				INFOPLIST_FILE = "NAStify-DocProvider/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -6598,7 +6662,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
-				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include/** ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
 			};
 			name = Release;
 		};
@@ -6673,13 +6737,10 @@
 				CODE_SIGN_ENTITLEMENTS = NAStify/NAStify.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEAD_CODE_STRIPPING = NO;
+				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)",
-					"\"$(SRCROOT)/NAStify/External\"",
 					"$(PROJECT_DIR)/NAStify/External/GoogleCastFramework",
-					"$(PROJECT_DIR)/NAStify/External",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
@@ -6689,13 +6750,10 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
-					"${SDKROOT}/usr/include/libxml2",
-					"$(SRCROOT)/external/MediaLibraryKit/build/Release-iphoneos/include",
-					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos/include",
-					"\"$(BUILT_PRODUCTS_DIR)\"/**",
 					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
+					"$(SRCROOT)/external/MediaLibraryKit/build/Release-iphoneos/include",
+					"$(SRCROOT)/external/VLCKit/build/Release-iphoneos/include",
+					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
 					"${SRCROOT}/NAStify/External/mega-sdk/third_party/utf8proc",
 					"$(SRCROOT)/external/cryptopp/include",
 					"$(SRCROOT)/external/curl/lib/include",
@@ -6723,7 +6781,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include/** ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -6739,13 +6797,10 @@
 				CODE_SIGN_ENTITLEMENTS = NAStify/NAStify.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEAD_CODE_STRIPPING = NO;
+				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(SRCROOT)",
-					"\"$(SRCROOT)/NAStify/External\"",
 					"$(PROJECT_DIR)/NAStify/External/GoogleCastFramework",
-					"$(PROJECT_DIR)/NAStify/External",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
@@ -6755,13 +6810,10 @@
 				);
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
-					"${SDKROOT}/usr/include/libxml2",
-					"$(SRCROOT)/external/MediaLibraryKit/build/Release-iphoneos/include",
-					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos/include",
-					"\"$(BUILT_PRODUCTS_DIR)\"/**",
 					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
+					"$(SRCROOT)/external/MediaLibraryKit/build/Release-iphoneos/include",
+					"$(SRCROOT)/external/VLCKit/build/Release-iphoneos/include",
+					"${SRCROOT}/NAStify/External/DropboxSDK/Classes",
 					"${SRCROOT}/NAStify/External/mega-sdk/third_party/utf8proc",
 					"$(SRCROOT)/external/cryptopp/include",
 					"$(SRCROOT)/external/curl/lib/include",
@@ -6792,7 +6844,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include/** ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

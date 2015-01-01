@@ -23,6 +23,7 @@
 @property(nonatomic, strong) id<UploadBrowserViewControllerDelegate> delegate;
 
 - (void)CMFilesList:(NSDictionary *)dict;
+- (void)CMRootObject:(NSDictionary *)dict;
 
 @end
 

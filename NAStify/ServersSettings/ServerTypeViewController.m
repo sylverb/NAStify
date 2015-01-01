@@ -15,6 +15,7 @@
 #import "ServerSettingsDropboxViewController.h"
 #import "ServerSettingsSambaViewController.h"
 #import "ServerSettingsSynologyViewController.h"
+#import "ServerSettingsMegaViewController.h"
 #import "ServerSettingsOneDriveViewController.h"
 #import "ServerSettingsOwnCloudViewController.h"
 
@@ -27,11 +28,12 @@
 #define ROW_INDEX_FREEBOX       2
 #define ROW_INDEX_FTP           3
 #define ROW_INDEX_GOOGLEDRIVE   4
-#define ROW_INDEX_ONEDRIVE      5
-#define ROW_INDEX_OWNCLOUD      6
-#define ROW_INDEX_QNAP          7
-#define ROW_INDEX_SYNOLOGY      8
-#define ROW_INDEX_WEBDAV        9
+#define ROW_INDEX_MEGA          5
+#define ROW_INDEX_ONEDRIVE      6
+#define ROW_INDEX_OWNCLOUD      7
+#define ROW_INDEX_QNAP          8
+#define ROW_INDEX_SYNOLOGY      9
+#define ROW_INDEX_WEBDAV        10
 #define ROW_INDEX_SAMBA         99
 
 // Update this when adding new server types !!!
@@ -139,6 +141,11 @@
             cell.serverType = SERVER_TYPE_GOOGLEDRIVE;
             break;
         }
+        case ROW_INDEX_MEGA:
+        {
+            cell.serverType = SERVER_TYPE_MEGA;
+            break;
+        }
         case ROW_INDEX_ONEDRIVE:
         {
             cell.serverType = SERVER_TYPE_ONEDRIVE;
@@ -231,6 +238,16 @@
                                                                 andAccount:nil
                                                                   andIndex:-1];
             svc.userAccount.serverType = SERVER_TYPE_GOOGLEDRIVE;
+            [self.navigationController pushViewController:svc animated:YES];
+            break;
+        }
+        case ROW_INDEX_MEGA:
+        {
+            ServerSettingsMegaViewController *svc =
+            [[ServerSettingsMegaViewController alloc] initWithStyle:UITableViewStyleGrouped
+                                                         andAccount:nil
+                                                           andIndex:-1];
+            svc.userAccount.serverType = SERVER_TYPE_MEGA;
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }

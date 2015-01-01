@@ -28,3 +28,6 @@
 
 // Microsoft OneDrive
 #define ONEDRIVE_CLIENT_ID                  @"CLIENT_ID"
+
+// Mega.co.nz
+#define MEGA_KEY                            @"CLIENT_KEY"

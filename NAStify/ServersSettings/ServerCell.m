@@ -117,6 +117,11 @@
             self.fileTypeImage.image = [UIImage imageNamed:@"googledrive_small.png"];
             break;
         }
+        case SERVER_TYPE_MEGA:
+        {
+            self.fileTypeImage.image = [UIImage imageNamed:@"mega_small.png"];
+            break;
+        }
         case SERVER_TYPE_ONEDRIVE:
         {
             self.fileTypeImage.image = [UIImage imageNamed:@"onedrive_small.png"];

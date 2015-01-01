@@ -566,13 +566,6 @@
                 fileItem.fullPath = fileItem.path;
             }
             
-            // This is used to replace the default root ID with the one retrieved here
-            if ([element objectForKey:@"rootId"])
-            {
-                self.currentFolder.objectIds = [NSArray arrayWithObject:[element objectForKey:@"rootId"]];
-                fileItem.objectIds = [NSArray arrayWithObject:[element objectForKey:@"rootId"]];
-            }
-            
             if ([element objectForKey:@"id"])
             {
                 fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[element objectForKey:@"id"]];
@@ -638,6 +631,15 @@
                                               cancelButtonTitle:nil
                                               otherButtonTitles:NSLocalizedString(@"OK",nil),nil];
         [alert show];
+    }
+}
+
+- (void)CMRootObject:(NSDictionary *)dict
+{
+    // This is used to replace the default root ID with the one retrieved here
+    if ([dict objectForKey:@"rootId"])
+    {
+        self.currentFolder.objectIds = [NSArray arrayWithObject:[dict objectForKey:@"rootId"]];
     }
 }
 

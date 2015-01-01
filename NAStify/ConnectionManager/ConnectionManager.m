@@ -18,6 +18,7 @@
 #import "CMFreeboxRev.h"
 #import "CMFtp.h"
 #import "CMGoogleDrive.h"
+#import "CMMega.h"
 #import "CMOneDrive.h"
 #import "CMOwnCloud.h"
 #import "CMQnap.h"
@@ -75,6 +76,11 @@
                 cmPlugin = [[CMFreeboxRev alloc] init];
                 break;
             }
+            case SERVER_TYPE_MEGA:
+            {
+                cmPlugin = [[CMMega alloc] init];
+                break;
+            }
             case SERVER_TYPE_ONEDRIVE:
             {
                 cmPlugin = [[CMOneDrive alloc] init];
@@ -122,6 +128,16 @@
         cmPlugin.delegate = self;
     }
     return cmPlugin;
+}
+
+- (BOOL)pluginRespondsToSelector:(SEL)aSelector
+{
+    BOOL responds = NO;
+    if ([[self idCM] respondsToSelector:aSelector])
+    {
+        responds = YES;
+    }
+    return responds;
 }
 
 - (void)listForPath:(FileItem *)folder
@@ -429,6 +445,11 @@
 - (void)CMFilesList:(NSDictionary *)dict
 {
     [self.delegate CMFilesList:dict];
+}
+
+- (void)CMRootObject:(NSDictionary *)dict
+{
+    [self.delegate CMRootObject:dict];
 }
 
 - (void)CMLogin:(NSDictionary *)dict

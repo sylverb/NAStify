@@ -1776,107 +1776,112 @@
         case FILETYPE_QT_VIDEO:
         case FILETYPE_QT_AUDIO:
         {
-            NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-            self.videoNetworkConnection = [self.connectionManager urlForVideo:fileItem];
-            
-            BOOL useExternalPlayer = NO;
-            if (([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeExternal) &&
-                (self.videoNetworkConnection.urlType != URLTYPE_LOCAL))
+            if (([self.connectionManager pluginRespondsToSelector:@selector(urlForFile:)]) ||
+                ([self.connectionManager pluginRespondsToSelector:@selector(urlForVideo:)]))
             {
-                useExternalPlayer = YES;
-            }
-            
-            if (useExternalPlayer)
-            {
-                NSString *stringURL = [self.videoNetworkConnection.url absoluteString];
-                BOOL *playerFound = NO;
-                switch ([[defaults objectForKey:kNASTifySettingExternalPlayerType] integerValue])
+                NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+                self.videoNetworkConnection = [self.connectionManager urlForVideo:fileItem];
+                
+                BOOL useExternalPlayer = NO;
+                if (([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeExternal) &&
+                    (self.videoNetworkConnection.urlType != URLTYPE_LOCAL))
                 {
-                    case kNASTifySettingExternalPlayerTypeVlc:
-                    {
-                        playerFound = YES;
-                        stringURL = [NSString stringWithFormat:@"vlc://%@",stringURL];
-                        break;
-                    }
-                    case kNASTifySettingExternalPlayerTypeAceplayer:
-                    {
-                        playerFound = YES;
-                        stringURL = [NSString stringWithFormat:@"aceplayer://%@",stringURL];
-                        break;
-                    }
-                    case kNASTifySettingExternalPlayerTypeGplayer:
-                    {
-                        playerFound = YES;
-                        stringURL = [NSString stringWithFormat:@"gplayer://%@",stringURL];
-                        break;
-                    }
-                    case kNASTifySettingExternalPlayerTypeOplayer:
-                    {
-                        playerFound = YES;
-                        stringURL = [NSString stringWithFormat:@"oplayer://%@",stringURL];
-                        break;
-                    }
-                    case kNASTifySettingExternalPlayerTypeGoodplayer:
-                    {
-                        playerFound = YES;
-                        stringURL = [NSString stringWithFormat:@"goodplayer://%@",stringURL];
-                        break;
-                    }
-                    default:
-                    {
-                        break;
-                    }
+                    useExternalPlayer = YES;
                 }
-                NSURL *url = [NSURL URLWithString:stringURL];
-                if ((playerFound) && ([[UIApplication sharedApplication] canOpenURL:url]))
+                
+                if (useExternalPlayer)
                 {
-                    itemHandled = YES;
-                    [[UIApplication sharedApplication] openURL:url];
-                }
-            }
-            else
-            {
-                if ((ServerSupportsFeature(GoogleCast) && _gcController.deviceManager && _gcController.deviceManager.isConnected) ||
-                    (([[defaults objectForKey:kNASTifySettingInternalPlayer] integerValue] == kNASTifySettingInternalPlayerTypeVLCOnly) && (ServerSupportsFeature(VLCPlayer))))
-                {
-                    // If GoogleCast connected, use VLC player
-                    itemHandled = YES;
-                    if (![self getSubtitleFileForMedia:fileItem])
+                    NSString *stringURL = [self.videoNetworkConnection.url absoluteString];
+                    BOOL *playerFound = NO;
+                    switch ([[defaults objectForKey:kNASTifySettingExternalPlayerType] integerValue])
                     {
-                        VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
-                        
-                        movieViewController.url = self.videoNetworkConnection.url;
-                        
-                        UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
-                        navCon.modalPresentationStyle = UIModalPresentationFullScreen;
-                        [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                        case kNASTifySettingExternalPlayerTypeVlc:
+                        {
+                            playerFound = YES;
+                            stringURL = [NSString stringWithFormat:@"vlc://%@",stringURL];
+                            break;
+                        }
+                        case kNASTifySettingExternalPlayerTypeAceplayer:
+                        {
+                            playerFound = YES;
+                            stringURL = [NSString stringWithFormat:@"aceplayer://%@",stringURL];
+                            break;
+                        }
+                        case kNASTifySettingExternalPlayerTypeGplayer:
+                        {
+                            playerFound = YES;
+                            stringURL = [NSString stringWithFormat:@"gplayer://%@",stringURL];
+                            break;
+                        }
+                        case kNASTifySettingExternalPlayerTypeOplayer:
+                        {
+                            playerFound = YES;
+                            stringURL = [NSString stringWithFormat:@"oplayer://%@",stringURL];
+                            break;
+                        }
+                        case kNASTifySettingExternalPlayerTypeGoodplayer:
+                        {
+                            playerFound = YES;
+                            stringURL = [NSString stringWithFormat:@"goodplayer://%@",stringURL];
+                            break;
+                        }
+                        default:
+                        {
+                            break;
+                        }
                     }
-                }
-                else if (ServerSupportsFeature(QTPlayer))
-                {
-                    itemHandled = YES;
-                    // Internal player can handle this media
-                    CustomMoviePlayerViewController *mp = [[CustomMoviePlayerViewController alloc] initWithContentURL:self.videoNetworkConnection.url];
-                    mp.allowsAirPlay = ServerSupportsFeature(AirPlay);
-                    if (mp)
+                    NSURL *url = [NSURL URLWithString:stringURL];
+                    if ((playerFound) && ([[UIApplication sharedApplication] canOpenURL:url]))
                     {
-                        [self presentViewController:mp animated:YES completion:nil];
-                        [mp startPlaying];
+                        itemHandled = YES;
+                        [[UIApplication sharedApplication] openURL:url];
                     }
+                    
                 }
-                else if (ServerSupportsFeature(VLCPlayer))
+                else
                 {
-                    itemHandled = YES;
-                    // Fallback to VLC media player
-                    if (![self getSubtitleFileForMedia:fileItem])
+                    if ((ServerSupportsFeature(GoogleCast) && _gcController.deviceManager && _gcController.deviceManager.isConnected) ||
+                        (([[defaults objectForKey:kNASTifySettingInternalPlayer] integerValue] == kNASTifySettingInternalPlayerTypeVLCOnly) && (ServerSupportsFeature(VLCPlayer))))
                     {
-                        VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
-                        
-                        movieViewController.url = self.videoNetworkConnection.url;
-                        
-                        UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
-                        navCon.modalPresentationStyle = UIModalPresentationFullScreen;
-                        [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                        // If GoogleCast connected, use VLC player
+                        itemHandled = YES;
+                        if (![self getSubtitleFileForMedia:fileItem])
+                        {
+                            VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
+                            
+                            movieViewController.url = self.videoNetworkConnection.url;
+                            
+                            UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                            navCon.modalPresentationStyle = UIModalPresentationFullScreen;
+                            [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                        }
+                    }
+                    else if (ServerSupportsFeature(QTPlayer))
+                    {
+                        itemHandled = YES;
+                        // Internal player can handle this media
+                        CustomMoviePlayerViewController *mp = [[CustomMoviePlayerViewController alloc] initWithContentURL:self.videoNetworkConnection.url];
+                        mp.allowsAirPlay = ServerSupportsFeature(AirPlay);
+                        if (mp)
+                        {
+                            [self presentViewController:mp animated:YES completion:nil];
+                            [mp startPlaying];
+                        }
+                    }
+                    else if (ServerSupportsFeature(VLCPlayer))
+                    {
+                        itemHandled = YES;
+                        // Fallback to VLC media player
+                        if (![self getSubtitleFileForMedia:fileItem])
+                        {
+                            VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
+                            
+                            movieViewController.url = self.videoNetworkConnection.url;
+                            
+                            UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                            navCon.modalPresentationStyle = UIModalPresentationFullScreen;
+                            [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                        }
                     }
                 }
             }
@@ -1885,75 +1890,79 @@
         case FILETYPE_VLC_VIDEO:
         case FILETYPE_VLC_AUDIO:
         {
-            NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-            self.videoNetworkConnection = [self.connectionManager urlForVideo:fileItem];
-            BOOL useExternalPlayer = NO;
-            if (([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeExternal) &&
-                (self.videoNetworkConnection.urlType != URLTYPE_LOCAL))
+            if (([self.connectionManager pluginRespondsToSelector:@selector(urlForFile:)]) ||
+                ([self.connectionManager pluginRespondsToSelector:@selector(urlForVideo:)]))
             {
-                useExternalPlayer = YES;
-            }
-            
-            if (useExternalPlayer)
-            {
-                NSString *stringURL = [self.videoNetworkConnection.url absoluteString];
-                BOOL *playerFound = NO;
-                switch ([[defaults objectForKey:kNASTifySettingExternalPlayerType] integerValue])
+                NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+                self.videoNetworkConnection = [self.connectionManager urlForVideo:fileItem];
+                BOOL useExternalPlayer = NO;
+                if (([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeExternal) &&
+                    (self.videoNetworkConnection.urlType != URLTYPE_LOCAL))
                 {
-                    case kNASTifySettingExternalPlayerTypeVlc:
+                    useExternalPlayer = YES;
+                }
+                
+                if (useExternalPlayer)
+                {
+                    NSString *stringURL = [self.videoNetworkConnection.url absoluteString];
+                    BOOL *playerFound = NO;
+                    switch ([[defaults objectForKey:kNASTifySettingExternalPlayerType] integerValue])
                     {
-                        playerFound = YES;
-                        stringURL = [NSString stringWithFormat:@"vlc://%@",stringURL];
-                        break;
+                        case kNASTifySettingExternalPlayerTypeVlc:
+                        {
+                            playerFound = YES;
+                            stringURL = [NSString stringWithFormat:@"vlc://%@",stringURL];
+                            break;
+                        }
+                        case kNASTifySettingExternalPlayerTypeAceplayer:
+                        {
+                            playerFound = YES;
+                            stringURL = [NSString stringWithFormat:@"aceplayer://%@",stringURL];
+                            break;
+                        }
+                        case kNASTifySettingExternalPlayerTypeGplayer:
+                        {
+                            playerFound = YES;
+                            stringURL = [NSString stringWithFormat:@"gplayer://%@",stringURL];
+                            break;
+                        }
+                        case kNASTifySettingExternalPlayerTypeOplayer:
+                        {
+                            playerFound = YES;
+                            stringURL = [NSString stringWithFormat:@"oplayer://%@",stringURL];
+                            break;
+                        }
+                        case kNASTifySettingExternalPlayerTypeGoodplayer:
+                        {
+                            playerFound = YES;
+                            stringURL = [NSString stringWithFormat:@"goodplayer://%@",stringURL];
+                            break;
+                        }
+                        default:
+                        {
+                            break;
+                        }
                     }
-                    case kNASTifySettingExternalPlayerTypeAceplayer:
+                    NSURL *url = [NSURL URLWithString:stringURL];
+                    if ((playerFound) && ([[UIApplication sharedApplication] canOpenURL:url]))
                     {
-                        playerFound = YES;
-                        stringURL = [NSString stringWithFormat:@"aceplayer://%@",stringURL];
-                        break;
-                    }
-                    case kNASTifySettingExternalPlayerTypeGplayer:
-                    {
-                        playerFound = YES;
-                        stringURL = [NSString stringWithFormat:@"gplayer://%@",stringURL];
-                        break;
-                    }
-                    case kNASTifySettingExternalPlayerTypeOplayer:
-                    {
-                        playerFound = YES;
-                        stringURL = [NSString stringWithFormat:@"oplayer://%@",stringURL];
-                        break;
-                    }
-                    case kNASTifySettingExternalPlayerTypeGoodplayer:
-                    {
-                        playerFound = YES;
-                        stringURL = [NSString stringWithFormat:@"goodplayer://%@",stringURL];
-                        break;
-                    }
-                    default:
-                    {
-                        break;
+                        itemHandled = YES;
+                        [[UIApplication sharedApplication] openURL:url];
                     }
                 }
-                NSURL *url = [NSURL URLWithString:stringURL];
-                if ((playerFound) && ([[UIApplication sharedApplication] canOpenURL:url]))
+                else if (ServerSupportsFeature(VLCPlayer))
                 {
                     itemHandled = YES;
-                    [[UIApplication sharedApplication] openURL:url];
-                }
-            }
-            else if (ServerSupportsFeature(VLCPlayer))
-            {
-                itemHandled = YES;
-                if (![self getSubtitleFileForMedia:fileItem])
-                {
-                    VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
-                    
-                    movieViewController.url = self.videoNetworkConnection.url;
-                    
-                    UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
-                    navCon.modalPresentationStyle = UIModalPresentationFullScreen;
-                    [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                    if (![self getSubtitleFileForMedia:fileItem])
+                    {
+                        VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
+                        
+                        movieViewController.url = self.videoNetworkConnection.url;
+                        
+                        UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                        navCon.modalPresentationStyle = UIModalPresentationFullScreen;
+                        [self.navigationController presentViewController:navCon animated:YES completion:nil];
+                    }
                 }
             }
             break;
@@ -2003,48 +2012,51 @@
         }
         case FILETYPE_PHOTO:
         {
-            itemHandled = YES;
-            // View all photos in list
-            self.photos = [NSMutableArray array];
-            
-            NSMutableArray *sourceArray = nil;
-            if (self.searchDisplayController.active)
+            if ([self.connectionManager pluginRespondsToSelector:@selector(urlForFile:)])
             {
-                sourceArray = self.filteredFilesArray;
-            }
-            else
-            {
-                sourceArray = self.filesArray;
-            }
-            
-            NSInteger photoIndex = 0;
-            NSInteger index = 0;
-            for (FileItem *file in sourceArray)
-            {
-                if (file == fileItem)
+                itemHandled = YES;
+                // View all photos in list
+                self.photos = [NSMutableArray array];
+                
+                NSMutableArray *sourceArray = nil;
+                if (self.searchDisplayController.active)
                 {
-                    photoIndex = index;
+                    sourceArray = self.filteredFilesArray;
                 }
-                if ([file fileType] == FILETYPE_PHOTO)
+                else
                 {
-                    [self.photos addObject:file];
-                    index++;
+                    sourceArray = self.filesArray;
                 }
+                
+                NSInteger photoIndex = 0;
+                NSInteger index = 0;
+                for (FileItem *file in sourceArray)
+                {
+                    if (file == fileItem)
+                    {
+                        photoIndex = index;
+                    }
+                    if ([file fileType] == FILETYPE_PHOTO)
+                    {
+                        [self.photos addObject:file];
+                        index++;
+                    }
+                }
+                
+                // Create & present browser
+                MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
+                // Set options
+                browser.displayNavArrows = YES;
+                browser.displayActionButton = YES;
+                
+                [browser setCurrentPhotoIndex:photoIndex];
+                
+                // Present navigation controller
+                UINavigationController *navControler = [[UINavigationController alloc] initWithRootViewController:browser];
+                [self.navigationController presentViewController:navControler
+                                                        animated:YES
+                                                      completion:nil];
             }
-            
-            // Create & present browser
-            MWPhotoBrowser *browser = [[MWPhotoBrowser alloc] initWithDelegate:self];
-            // Set options
-            browser.displayNavArrows = YES;
-            browser.displayActionButton = YES;
-            
-            [browser setCurrentPhotoIndex:photoIndex];
-            
-            // Present navigation controller
-            UINavigationController *navControler = [[UINavigationController alloc] initWithRootViewController:browser];
-            [self.navigationController presentViewController:navControler
-                                                    animated:YES
-                                                  completion:nil];
             break;
         }
         case FILETYPE_UNKNOWN:
@@ -3100,13 +3112,6 @@
                     fileItem.fullPath = fileItem.path;
                 }
                 
-                // This is used to replace the default root ID with the one retrieved here
-                if ([element objectForKey:@"rootId"])
-                {
-                    self.currentFolder.objectIds = [NSArray arrayWithObject:[element objectForKey:@"rootId"]];
-                    fileItem.objectIds = [NSArray arrayWithObject:[element objectForKey:@"rootId"]];
-                }
-                
                 if ([element objectForKey:@"id"])
                 {
                     fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[element objectForKey:@"id"]];
@@ -3205,6 +3210,15 @@
             alert.tag = TAG_ALERT_DO_NOTHING;
             [alert show];
         }
+    }
+}
+
+- (void)CMRootObject:(NSDictionary *)dict
+{
+    // This is used to replace the default root ID with the one retrieved here
+    if ([dict objectForKey:@"rootId"])
+    {
+        self.currentFolder.objectIds = [NSArray arrayWithObject:[dict objectForKey:@"rootId"]];
     }
 }
 
