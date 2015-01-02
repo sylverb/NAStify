@@ -68,15 +68,22 @@ export CFLAGS="-Os -arch ${ARCH} -pipe -no-cpp-precomp -isysroot ${BUILD_SDKROOT
 export CPPFLAGS="${CFLAGS} -I${BUILD_SDKROOT}/usr/include"
 export CXXFLAGS="${CPPFLAGS}"
 
+BUILDDIR="${CURRENTPATH}/c-ares-${CARES_VERSION}/build-ios-${PLATFORM}/${ARCH}"
+PREFIX="${CURRENTPATH}/c-ares-${CARES_VERSION}/install-ios-${PLATFORM}/${ARCH}"
+
+mkdir -p ${BUILDDIR}
+pushd ${BUILDDIR}
+
 if [ "${ARCH}" == "arm64" ]; then
-./configure --host=aarch64-apple-darwin --enable-static --disable-shared
+${CURRENTPATH}/c-ares-${CARES_VERSION}/configure --host=aarch64-apple-darwin --enable-static --disable-shared --prefix="${PREFIX}"
 else
-./configure --host=${ARCH}-apple-darwin --enable-static --disable-shared
+${CURRENTPATH}/c-ares-${CARES_VERSION}/configure --host=${ARCH}-apple-darwin --enable-static --disable-shared --prefix="${PREFIX}"
 fi
 
 make
 cp -f .libs/libcares.a ${CURRENTPATH}/bin/${PLATFORM}${SDKVERSION}-${ARCH}.sdk/
-make clean
+make install
+popd
 
 done
 
@@ -84,11 +91,10 @@ popd
 mkdir lib || true
 lipo -create ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-i386.sdk/libcares.a ${CURRENTPATH}/bin/iPhoneSimulator${SDKVERSION}-x86_64.sdk/libcares.a  ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7.sdk/libcares.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-armv7s.sdk/libcares.a ${CURRENTPATH}/bin/iPhoneOS${SDKVERSION}-arm64.sdk/libcares.a -output ${CURRENTPATH}/lib/libcares.a
 mkdir -p include/cares || true
-cp -f c-ares-${CARES_VERSION}/ares.h c-ares-${CARES_VERSION}/ares_build.h c-ares-${CARES_VERSION}/ares_dns.h c-ares-${CARES_VERSION}/ares_rules.h c-ares-${CARES_VERSION}/ares_version.h include/cares/
+cp -f c-ares-${CARES_VERSION}/ares.h c-ares-${CARES_VERSION}/build-ios-${PLATFORM}/${ARCH}/ares_build.h c-ares-${CARES_VERSION}/ares_dns.h c-ares-${CARES_VERSION}/ares_rules.h c-ares-${CARES_VERSION}/ares_version.h include/cares/
 sed -i '' $'s/\#define CARES_SIZEOF_LONG 8/\#ifdef __LP64__\\\n\#define CARES_SIZEOF_LONG 8\\\n#else\\\n\#define CARES_SIZEOF_LONG 4\\\n\#endif/' include/cares/ares_build.h
 
 
-rm -rf c-ares-${CARES_VERSION}
 rm -rf bin
 
 echo "Done."

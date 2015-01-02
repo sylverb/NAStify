@@ -195,6 +195,9 @@ ${CURLROOT}/configure \
     --disable-manual \
     --disable-file > ${out}
 
+#    --enable-ares="${CURLROOT}/../../cares/c-ares-${CARES_VERSION}/install-ios-iPhone${PLATFORM}/${ARCH}"
+
+
 CORE_COUNT=`sysctl -n machdep.cpu.core_count`
 let MAKE_JOBS=$CORE_COUNT+1
 
