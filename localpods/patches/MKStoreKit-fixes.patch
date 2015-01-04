@@ -1,0 +1,84 @@
+diff -Nur A/Pods/MKStoreKit/MKStoreKit.h B/Pods/MKStoreKit/MKStoreKit.h
+--- A/Pods/MKStoreKit/MKStoreKit.h	2015-01-04 00:47:56.000000000 +0100
++++ B/Pods/MKStoreKit/MKStoreKit.h	2015-01-04 00:43:52.000000000 +0100
+@@ -55,6 +55,10 @@
+  */
+ extern NSString *const kMKStoreKitProductPurchasedNotification;
+ /*!
++ *  @abstract This notification is posted when MKStoreKit fails to purchase of a product
++ */
++extern NSString *const kMKStoreKitProductPurchaseFailedNotification;
++/*!
+  *  @abstract This notification is posted when MKStoreKit completes restoring purchases
+  */
+ extern NSString *const kMKStoreKitRestoredPurchasesNotification;
+diff -Nur A/Pods/MKStoreKit/MKStoreKit.m B/Pods/MKStoreKit/MKStoreKit.m
+--- A/Pods/MKStoreKit/MKStoreKit.m	2015-01-04 00:47:56.000000000 +0100
++++ B/Pods/MKStoreKit/MKStoreKit.m	2015-01-04 00:43:52.000000000 +0100
+@@ -41,6 +41,7 @@
+ @import StoreKit;
+ NSString *const kMKStoreKitProductsAvailableNotification = @"com.mugunthkumar.mkstorekit.productsavailable";
+ NSString *const kMKStoreKitProductPurchasedNotification = @"com.mugunthkumar.mkstorekit.productspurchased";
++NSString *const kMKStoreKitProductPurchaseFailedNotification = @"com.mugunthkumar.mkstorekit.purchasefailed";
+ NSString *const kMKStoreKitRestoredPurchasesNotification = @"com.mugunthkumar.mkstorekit.restoredpurchases";
+ NSString *const kMKStoreKitRestoringPurchasesFailedNotification = @"com.mugunthkumar.mkstorekit.failedrestoringpurchases";
+ NSString *const kMKStoreKitSubscriptionExpiredNotification = @"com.mugunthkumar.mkstorekit.subscriptionexpired";
+@@ -120,9 +121,9 @@
+ 
+ -(NSString*) purchaseRecordFilePath {
+   
+-  NSString *documentDirectory = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,
+-                                                                    NSUserDomainMask, YES).firstObject;
+-  return [documentDirectory stringByAppendingPathComponent:@"purchaserecord.plist"];
++  NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
++
++  return [containerURL.path stringByAppendingPathComponent:@"purchaserecord.plist"];
+ }
+ 
+ -(void) restorePurchaseRecord {
+@@ -221,7 +222,7 @@
+ 
+ - (void)paymentQueue:(SKPaymentQueue *)queue restoreCompletedTransactionsFailedWithError:(NSError *)error {
+   
+-  [[NSNotificationCenter defaultCenter] postNotificationName:kMKStoreKitRestoredPurchasesNotification
++  [[NSNotificationCenter defaultCenter] postNotificationName:kMKStoreKitRestoringPurchasesFailedNotification
+                                                       object:error];
+ }
+ 
+@@ -392,7 +393,7 @@
+         
+       case SKPaymentTransactionStateFailed:
+         NSLog(@"Transaction Failed with error: %@", transaction.error);
+-        [queue finishTransaction:transaction];
++        [self failedTransaction:transaction fromQueue:queue];
+         break;
+         
+       case SKPaymentTransactionStatePurchased:
+@@ -415,8 +416,8 @@
+           NSNumber *currentConsumableCount = self.purchaseRecord[consumableId];
+           consumableCount = @([consumableCount doubleValue] + [currentConsumableCount doubleValue]);
+           self.purchaseRecord[consumableId] = consumableCount;
+-          [self savePurchaseRecord];
+         }
++        [self savePurchaseRecord];
+         [[NSNotificationCenter defaultCenter] postNotificationName:kMKStoreKitProductPurchasedNotification
+                                                             object:transaction.payment.productIdentifier];
+       }
+@@ -426,9 +427,14 @@
+ }
+ 
+ - (void) failedTransaction: (SKPaymentTransaction *)transaction {
+-  
+-  NSLog(@"Transaction Failed with error: %@", transaction.error);
+-  [[SKPaymentQueue defaultQueue] finishTransaction:transaction];
++    [self failedTransaction:transaction fromQueue:[SKPaymentQueue defaultQueue]];
++}
++
++- (void) failedTransaction:(SKPaymentTransaction *)transaction fromQueue:(SKPaymentQueue *)queue {
++    NSLog(@"Transaction Failed with error: %@", transaction.error);
++    [queue finishTransaction:transaction];
++    [[NSNotificationCenter defaultCenter] postNotificationName:kMKStoreKitProductPurchaseFailedNotification
++                                                        object:transaction];
+ }
+ 
+ @end

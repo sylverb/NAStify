@@ -7,6 +7,7 @@
 //
 
 #import "UserAccount.h"
+#import "MKStoreKit.h"
 
 @implementation UserAccount
 
@@ -91,17 +92,83 @@
 
 - (BOOL)shouldShowAds
 {
+    if ([[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads"])
+    {
+        return FALSE;
+    }
     BOOL showAds = TRUE;
     switch (self.serverType)
     {
+        case SERVER_TYPE_BOX:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_box"];
+            break;
+        }
+        case SERVER_TYPE_DROPBOX:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_dropbox"];
+            break;
+        }
+        case SERVER_TYPE_FREEBOX_REVOLUTION:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_freebox"];
+            break;
+        }
+        case SERVER_TYPE_FTP:
+        case SERVER_TYPE_SFTP:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_ftp"];
+            break;
+        }
+        case SERVER_TYPE_GOOGLEDRIVE:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_googledrive"];
+            break;
+        }
         case SERVER_TYPE_LOCAL:
         {
             showAds = FALSE;
             break;
         }
-            
-        default:
+        case SERVER_TYPE_MEGA:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_mega"];
             break;
+        }
+        case SERVER_TYPE_ONEDRIVE:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_onedrive"];
+            break;
+        }
+        case SERVER_TYPE_OWNCLOUD:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_owncloud"];
+            break;
+        }
+        case SERVER_TYPE_QNAP:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_qnap"];
+            break;
+        }
+        case SERVER_TYPE_SYNOLOGY:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_synology"];
+            break;
+        }
+        case SERVER_TYPE_UPNP:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_upnp"];
+            break;
+        }
+        case SERVER_TYPE_WEBDAV:
+        {
+            showAds = ![[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads_webdav"];
+            break;
+        }
+        default:
+        {
+            break;
+        }
     }
     return showAds;
 }

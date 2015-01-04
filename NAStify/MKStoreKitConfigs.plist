@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Others</key>
+	<array>
+		<string>com.sylver.NAStify.no_ads</string>
+		<string>com.sylver.NAStify.no_ads_box</string>
+		<string>com.sylver.NAStify.no_ads_dropbox</string>
+		<string>com.sylver.NAStify.no_ads_freebox</string>
+		<string>com.sylver.NAStify.no_ads_ftp</string>
+		<string>com.sylver.NAStify.no_ads_googledrive</string>
+		<string>com.sylver.NAStify.no_ads_mega</string>
+		<string>com.sylver.NAStify.no_ads_onedrive</string>
+		<string>com.sylver.NAStify.no_ads_owncloud</string>
+		<string>com.sylver.NAStify.no_ads_qnap</string>
+		<string>com.sylver.NAStify.no_ads_synology</string>
+		<string>com.sylver.NAStify.no_ads_upnp</string>
+		<string>com.sylver.NAStify.no_ads_webdav</string>
+	</array>
+</dict>
+</plist>

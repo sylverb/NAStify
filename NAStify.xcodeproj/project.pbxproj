@@ -31,6 +31,8 @@
 		D501D73219FFEBD30032AACD /* UIImageView+HighlightedWebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D501D72219FFEBD30032AACD /* UIImageView+HighlightedWebCache.m */; };
 		D501D73319FFEBD30032AACD /* UIImageView+WebCache.m in Sources */ = {isa = PBXBuildFile; fileRef = D501D72419FFEBD30032AACD /* UIImageView+WebCache.m */; };
 		D501D73419FFEBD30032AACD /* UIView+WebCacheOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = D501D72619FFEBD30032AACD /* UIView+WebCacheOperation.m */; };
+		D51660D91A56ACEB008C347E /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = D51660D81A56ACEB008C347E /* MKStoreKitConfigs.plist */; };
+		D51660F61A56B127008C347E /* SKProduct+priceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = D51660F51A56B127008C347E /* SKProduct+priceAsString.m */; };
 		D51D0FCC19D1DFE80001ECF8 /* Reader-Export@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D51D0FCA19D1DFE80001ECF8 /* Reader-Export@2x.png */; };
 		D53030EC19DA979C004F7147 /* MediaAccessibility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D53030EB19DA979C004F7147 /* MediaAccessibility.framework */; };
 		D530313819DD30C4004F7147 /* setup@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530313719DD30C4004F7147 /* setup@3x.png */; };
@@ -1194,6 +1196,20 @@
 			remoteGlobalIDString = 2C3CF050ACB49C5DF4DDA7D3;
 			remoteInfo = "Pods-SSKeychain";
 		};
+		D51660F21A56ACEC008C347E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 73B24750E218587108C52EAA;
+			remoteInfo = "Pods-MKStoreKit";
+		};
+		D516611A1A58A2C2008C347E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 52160DA1CF0F0B3184962679;
+			remoteInfo = "Pods-MAConfirmButton";
+		};
 		D546FCA219FD3F4100125E62 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
@@ -1212,7 +1228,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 673F32F5EE0CB87BB3813E92;
+			remoteGlobalIDString = 89A5FD7FF612EBB1852FCD08;
 			remoteInfo = Pods;
 		};
 		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
@@ -1338,7 +1354,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 673F32F5EE0CB87BB3813E92;
+			remoteGlobalIDString = 89A5FD7FF612EBB1852FCD08;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -1444,6 +1460,10 @@
 		D501D72419FFEBD30032AACD /* UIImageView+WebCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+WebCache.m"; sourceTree = "<group>"; };
 		D501D72519FFEBD30032AACD /* UIView+WebCacheOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+WebCacheOperation.h"; sourceTree = "<group>"; };
 		D501D72619FFEBD30032AACD /* UIView+WebCacheOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+WebCacheOperation.m"; sourceTree = "<group>"; };
+		D51660D81A56ACEB008C347E /* MKStoreKitConfigs.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = MKStoreKitConfigs.plist; sourceTree = "<group>"; };
+		D51660F41A56B127008C347E /* SKProduct+priceAsString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SKProduct+priceAsString.h"; sourceTree = "<group>"; };
+		D51660F51A56B127008C347E /* SKProduct+priceAsString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+priceAsString.m"; sourceTree = "<group>"; };
+		D51660F71A574DD0008C347E /* MEGAAccountDetails+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGAAccountDetails+init.h"; sourceTree = "<group>"; };
 		D51D0FCA19D1DFE80001ECF8 /* Reader-Export@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Reader-Export@2x.png"; sourceTree = "<group>"; };
 		D53030EB19DA979C004F7147 /* MediaAccessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaAccessibility.framework; path = System/Library/Frameworks/MediaAccessibility.framework; sourceTree = SDKROOT; };
 		D530313719DD30C4004F7147 /* setup@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setup@3x.png"; sourceTree = "<group>"; };
@@ -2837,7 +2857,9 @@
 				D5D059F11A31A37800461226 /* libPods-Google-API-Client.a */,
 				D501D64819FE85270032AACD /* libPods-ISO8601DateFormatter.a */,
 				D546FCEB19FE4DA900125E62 /* libPods-LTHPasscodeViewController.a */,
+				D516611B1A58A2C2008C347E /* libPods-MAConfirmButton.a */,
 				D501D69019FF9D860032AACD /* libPods-MBProgressHUD.a */,
+				D51660F31A56ACEC008C347E /* libPods-MKStoreKit.a */,
 				D501D6A619FFA8090032AACD /* libPods-OBSlider.a */,
 				D501D65919FE862D0032AACD /* libPods-PSTCollectionView.a */,
 				D501D6A819FFA8090032AACD /* libPods-SSKeychain.a */,
@@ -3060,6 +3082,7 @@
 				D565080E1A51D7D0000EC977 /* DelegateMEGARequestListener.mm */,
 				D565080F1A51D7D0000EC977 /* DelegateMEGATransferListener.h */,
 				D56508101A51D7D0000EC977 /* DelegateMEGATransferListener.mm */,
+				D51660F71A574DD0008C347E /* MEGAAccountDetails+init.h */,
 				D56508111A51D7D0000EC977 /* MEGAError+init.h */,
 				D56508121A51D7D0000EC977 /* MEGANode+init.h */,
 				D56508131A51D7D0000EC977 /* MEGANodeList+init.h */,
@@ -3742,6 +3765,7 @@
 			isa = PBXGroup;
 			children = (
 				D5A0625319D4C46B006D395D /* Entitlements.plist */,
+				D51660D81A56ACEB008C347E /* MKStoreKitConfigs.plist */,
 				F901F7B115D7C7C50059428E /* NAStify-Info.plist */,
 				F901F7B215D7C7C50059428E /* InfoPlist.strings */,
 				F901F7B515D7C7C50059428E /* main.m */,
@@ -3843,6 +3867,8 @@
 		F901F81415D7EA040059428E /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				D51660F41A56B127008C347E /* SKProduct+priceAsString.h */,
+				D51660F51A56B127008C347E /* SKProduct+priceAsString.m */,
 				D5D3CB7C19A5D3020083EA08 /* ALAssetsGroupAdditions.h */,
 				D5D3CB7D19A5D3020083EA08 /* ALAssetsGroupAdditions.m */,
 				D5D30682190111B00087F4C6 /* UIImage+Blur.h */,
@@ -5202,6 +5228,20 @@
 			remoteRef = D501D6A719FFA8090032AACD /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D51660F31A56ACEC008C347E /* libPods-MKStoreKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-MKStoreKit.a";
+			remoteRef = D51660F21A56ACEC008C347E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D516611B1A58A2C2008C347E /* libPods-MAConfirmButton.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libPods-MAConfirmButton.a";
+			remoteRef = D516611A1A58A2C2008C347E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		D546FCA319FD3F4100125E62 /* libPods.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -5960,6 +6000,7 @@
 				D530330E19E33110004F7147 /* raf@2x.png in Resources */,
 				D530329A19E33110004F7147 /* acm@2x.png in Resources */,
 				D530331419E33110004F7147 /* rm@2x.png in Resources */,
+				D51660D91A56ACEB008C347E /* MKStoreKitConfigs.plist in Resources */,
 				D53D93B51A0E65CA00E6D6B6 /* box~ipad.png in Resources */,
 				D5D308AE190157EE0087F4C6 /* VLCMovieViewController~ipad.xib in Resources */,
 				D53D93C21A0E6EB400E6D6B6 /* box_small@3x.png in Resources */,
@@ -6380,6 +6421,7 @@
 				D54042FF197C44E000A902DA /* VlcSettingsViewController.m in Sources */,
 				F943564E15FD54F800307556 /* 7zFile.c in Sources */,
 				F943564F15FD54F800307556 /* 7zIn.c in Sources */,
+				D51660F61A56B127008C347E /* SKProduct+priceAsString.m in Sources */,
 				D56507BD1A4A0392000EC977 /* LiveConnectionHelper.m in Sources */,
 				D56508E81A51DA25000EC977 /* db.cpp in Sources */,
 				D56508371A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm in Sources */,

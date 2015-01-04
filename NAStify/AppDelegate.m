@@ -12,6 +12,7 @@
 #import "SettingsViewController.h"
 #import "LTHPasscodeViewController.h"
 #import "iRate.h"
+#import "MKStoreKit.h"
 
 @implementation AppDelegate
 
@@ -40,6 +41,13 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    // In-App purchase management
+#ifdef TEST_INAPP_PURCHASE
+    NSURL *tmpcontainerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
+    [[NSFileManager defaultManager] removeItemAtPath:[tmpcontainerURL.path stringByAppendingPathComponent:@"purchaserecord.plist"] error:NULL];
+#endif
+    [[MKStoreKit sharedKit] startProductRequest];
+    
     // Dropbox init
     NSString* appKey = DROPBOX_APPKEY;
 	NSString* appSecret = DROPBOX_APPSECRET;

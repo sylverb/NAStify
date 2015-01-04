@@ -10,6 +10,10 @@
 #import "VlcSettingsViewController.h"
 #import "TableSelectViewController.h"
 
+// In APP Purchase
+#import <StoreKit/StoreKit.h>
+#import "MKStoreKit.h"
+
 // GoogleCast support
 #import "GoogleCastController.h"
 

@@ -1,5 +1,7 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
+pod 'MAConfirmButton', :git => 'https://github.com/gizmosachin/MAConfirmButton.git', :commit => '23ce343'
+pod 'MKStoreKit', :head
 pod 'iRate', '1.11.3'
 #pod 'AFNetworking', '2.5.0'
 pod 'AFNetworking', :git => 'https://github.com/AFNetworking/AFNetworking.git', :commit => '0e6f9be'
@@ -33,6 +35,10 @@ post_install do |installer|
     %x(patch -Np1 < localpods/patches/LTHPasscodeViewController-app-extension.patch)
     puts 'Patching LTHPasscodeViewController to add saving of TouchID use preference'
     %x(patch -Np1 < localpods/patches/LTHPasscodeViewController-touchid-save.patch)
+    puts 'Patching MKStoreKit to fix various issues'
+    %x(patch -Np1 < localpods/patches/MKStoreKit-fixes.patch)
+    puts 'Patching MAConfirmationButton to add dynamic enable method'
+    %x(patch -Np1 < localpods/patches/MAConfirmationButton-add-dynamic-enable.patch)
 #    puts 'Patching SDWebImage to add RAW images decoding (using libRaw)'
 #    %x(patch -Np1 < localpods/patches/SDWebImage-add-libRaw-use.patch)
 #    puts 'Patching MWPhotoBrowser to enable cookies usage and invalid certificates'

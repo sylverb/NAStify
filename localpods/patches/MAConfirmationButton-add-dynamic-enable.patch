@@ -1,0 +1,32 @@
+diff -Nur A/Pods/MAConfirmButton/Source/MAConfirmButton.h B/Pods/MAConfirmButton/Source/MAConfirmButton.h
+--- A/Pods/MAConfirmButton/Source/MAConfirmButton.h	2015-01-04 00:47:51.000000000 +0100
++++ B/Pods/MAConfirmButton/Source/MAConfirmButton.h	2015-01-04 00:44:42.000000000 +0100
+@@ -28,6 +28,7 @@
+ + (MAConfirmButton *)buttonWithDisabledTitle:(NSString *)disabledString;
+ - (id)initWithTitle:(NSString *)titleString confirm:(NSString *)confirmString;
+ - (id)initWithDisabledTitle:(NSString *)disabledString;
++- (void)enableWithTitle:(NSString *)titleString confirm:(NSString *)confirmString;
+ - (void)disableWithTitle:(NSString *)disabledString;
+ - (void)setAnchor:(CGPoint)anchor;
+ - (void)setTintColor:(UIColor *)color;
+diff -Nur A/Pods/MAConfirmButton/Source/MAConfirmButton.m B/Pods/MAConfirmButton/Source/MAConfirmButton.m
+--- A/Pods/MAConfirmButton/Source/MAConfirmButton.m	2015-01-04 00:47:51.000000000 +0100
++++ B/Pods/MAConfirmButton/Source/MAConfirmButton.m	2015-01-04 00:44:42.000000000 +0100
+@@ -235,6 +235,17 @@
+     [self toggle];	
+ }
+ 
++- (void)enableWithTitle:(NSString *)titleString confirm:(NSString *)confirmString {
++    self.title = titleString;
++    self.confirm = confirmString;
++    self.tint = kNormalColor;
++    confirmed = NO;
++    self.selected = NO;
++    self.disabled = nil;
++    self.userInteractionEnabled = YES;
++    [self toggle];
++}
++
+ - (void)setAnchor:(CGPoint)anchor {
+     // Top-right point of the view (MUST BE SET LAST)
+     CGRect rect = self.frame;

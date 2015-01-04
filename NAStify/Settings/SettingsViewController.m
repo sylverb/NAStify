@@ -14,14 +14,18 @@
 #import "LTHPasscodeViewController.h"
 #import <LocalAuthentication/LocalAuthentication.h>
 #import "AboutViewController.h"
+#import "SKProduct+priceAsString.h"
+#import "MAConfirmButton.h"
+#import "SBNetworkActivityIndicator.h"
 
-#define SETTINGS_FILEBROWSER_SECTION_INDEX 0
-#define SETTINGS_MEDIA_PLAYER_TYPE_SECTION_INDEX 1
-#define SETTINGS_MEDIA_PLAYER_INTERNAL_SECTION_INDEX 2
-#define SETTINGS_MEDIA_PLAYER_EXTERNAL_SECTION_INDEX 3
-#define SETTINGS_PASSCODE_SECTION_INDEX 4
-#define SETTINGS_GCAST_SECTION_INDEX 5
-#define SETTINGS_ABOUT_SECTION_INDEX 6
+#define SETTINGS_PURCHASE_SECTION_INDEX 0
+#define SETTINGS_FILEBROWSER_SECTION_INDEX 1
+#define SETTINGS_MEDIA_PLAYER_TYPE_SECTION_INDEX 2
+#define SETTINGS_MEDIA_PLAYER_INTERNAL_SECTION_INDEX 3
+#define SETTINGS_MEDIA_PLAYER_EXTERNAL_SECTION_INDEX 4
+#define SETTINGS_PASSCODE_SECTION_INDEX 5
+#define SETTINGS_GCAST_SECTION_INDEX 6
+#define SETTINGS_ABOUT_SECTION_INDEX 7
 
 #define TAG_BROWSER_GCAST       0
 #define TAG_MEDIA_PLAYER        1
@@ -99,6 +103,87 @@
             self.isTouchIDPresent = YES;
         }
     }
+    
+    // In-App purchase management
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductsAvailableNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      // End the network activity spinner
+                                                      [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+                                                      for (SKProduct *product in [[MKStoreKit sharedKit] availableProducts])
+                                                      {
+                                                          NSLog(@"Title: %@\nDescription: %@\nPrice: %@\n",product.localizedTitle,product.localizedDescription,[product priceAsString]);
+                                                          dispatch_async(dispatch_get_main_queue(), ^{
+                                                              [self.tableView reloadData];
+                                                          });
+                                                      }
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchasedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      // End the network activity spinner
+                                                      [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+                                                      NSLog(@"Purchased/Subscribed to product with id: %@", [note object]);
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          [self.tableView reloadData];
+                                                      });
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitProductPurchaseFailedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      // End the network activity spinner
+                                                      [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+                                                      
+                                                      SKPaymentTransaction *transaction = (SKPaymentTransaction *)note.object;
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Error", nil)
+                                                                                      message:transaction.error.localizedDescription
+                                                                                     delegate:nil
+                                                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                                            otherButtonTitles: nil] show];
+                                                          
+                                                          [self.tableView reloadData];
+                                                      });
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoredPurchasesNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      // End the network activity spinner
+                                                      [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+                                                      NSLog(@"Restored Purchases");
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Info", nil)
+                                                                                      message:NSLocalizedString(@"Purchase(s) restored", nil)
+                                                                                     delegate:nil
+                                                                            cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                                                            otherButtonTitles: nil] show];
+                                                          
+                                                          [self.tableView reloadData];
+                                                      });
+                                                  }];
+    
+    [[NSNotificationCenter defaultCenter] addObserverForName:kMKStoreKitRestoringPurchasesFailedNotification
+                                                      object:nil
+                                                       queue:[[NSOperationQueue alloc] init]
+                                                  usingBlock:^(NSNotification *note) {
+                                                      // End the network activity spinner
+                                                      [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+                                                      NSLog(@"Failed restoring purchases with error: %@", [note object]);
+                                                      dispatch_async(dispatch_get_main_queue(), ^{
+                                                          [self.tableView reloadData];
+                                                      });
+                                                  }];
 }
 
 - (void)didReceiveMemoryWarning
@@ -119,7 +204,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 7;
+    return 8;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -182,6 +267,20 @@
             numberOfRows = 2;
             break;
         }
+        case SETTINGS_PURCHASE_SECTION_INDEX:
+        {
+            if ([MKStoreKit sharedKit].availableProducts.count > 0)
+            {
+                if ([[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads"])
+                {
+                    numberOfRows = 2;
+                }
+                else
+                {
+                    numberOfRows = [MKStoreKit sharedKit].availableProducts.count + 1;
+                }
+            }
+        }
         default:
         {
             break;
@@ -241,6 +340,14 @@
             title = NSLocalizedString(@"About",nil);
             break;
         }
+        case SETTINGS_PURCHASE_SECTION_INDEX:
+        {
+            if ([MKStoreKit sharedKit].availableProducts.count > 0)
+            {
+                title = NSLocalizedString(@"In-App Purchase", nil);
+            }
+            break;
+        }
     }
     return title;
 }
@@ -252,6 +359,7 @@
 	static NSString *SwitchCellIdentifier = @"SwitchCell";
     static NSString *SegmentedControllerCell1Identifier = @"SegmentedControllerCell1";
     static NSString *SegmentedControllerCell2Identifier = @"SegmentedControllerCell2";
+    static NSString *PurchaseCellIdentifier = @"PurchaseCell";
     UITableViewCell *cell = nil;
     
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
@@ -726,12 +834,132 @@
             
             break;
         }
+        case SETTINGS_PURCHASE_SECTION_INDEX:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:CellIdentifier];
+                    }
+                    
+                    cell.accessoryType = UITableViewCellAccessoryDetailButton;
+                    cell.textLabel.textColor = [UIColor blackColor];
+                    cell.textLabel.text = NSLocalizedString(@"Restore purchases", nil);
+                    break;
+                }
+                default:
+                {
+                    SKProduct *product = [[MKStoreKit sharedKit].availableProducts objectAtIndex:indexPath.row - 1];
+                    
+                    cell = [tableView dequeueReusableCellWithIdentifier:PurchaseCellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:PurchaseCellIdentifier];
+                        
+                        MAConfirmButton *defaultButton = nil;
+                        
+                        if ([[MKStoreKit sharedKit] isProductPurchased:product.productIdentifier])
+                        {
+                            defaultButton = [MAConfirmButton buttonWithDisabledTitle:NSLocalizedString(@"Confirmed",nil)];
+                        }
+                        else
+                        {
+                            defaultButton = [MAConfirmButton buttonWithTitle:product.priceAsString
+                                                                     confirm:NSLocalizedString(@"Buy now",nil)];
+                        }
+                        [defaultButton setAnchor:CGPointMake(270, 10)];
+                        [defaultButton addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
+                        defaultButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+
+                        defaultButton.tag = indexPath.row - 1;
+                        [cell addSubview:defaultButton];
+                    }
+                    else
+                    {
+                        MAConfirmButton *defaultButton = nil;
+                        NSArray *subviews = [cell subviews];
+                        for (UIView *subview in subviews)
+                        {
+                            if ([subview isKindOfClass:[MAConfirmButton class]])
+                            {
+                                defaultButton = (MAConfirmButton *)subview;
+                                break;
+                            }
+                            
+                        }
+                        if ([[MKStoreKit sharedKit] isProductPurchased:product.productIdentifier])
+                        {
+                            [defaultButton disableWithTitle:NSLocalizedString(@"Confirmed",nil)];
+                            defaultButton = [MAConfirmButton buttonWithDisabledTitle:NSLocalizedString(@"Confirmed",nil)];
+                        }
+                        else
+                        {
+                            [defaultButton enableWithTitle:product.priceAsString
+                                                   confirm:NSLocalizedString(@"Buy now",nil)];
+                        }
+                    }
+                    
+                    cell.textLabel.textColor = [UIColor blackColor];
+                    if ([[MKStoreKit sharedKit] isProductPurchased:product.productIdentifier])
+                    {
+                        cell.accessoryType = UITableViewCellAccessoryNone;
+                    }
+                    else
+                    {
+                        cell.accessoryType = UITableViewCellAccessoryDetailButton;
+                    }
+                    cell.textLabel.text = product.localizedTitle;
+
+                    break;
+                }
+            }
+            break;
+        }
         default:
         {
             break;
         }
     }
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section)
+    {
+        case SETTINGS_PURCHASE_SECTION_INDEX:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Info", nil)
+                                                message:NSLocalizedString(@"Restore previous purchases", nil)
+                                               delegate:nil
+                                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                      otherButtonTitles: nil] show];
+                    break;
+                }
+                default:
+                {
+                    SKProduct *product = [[MKStoreKit sharedKit].availableProducts objectAtIndex:indexPath.row - 1];
+                    [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Info", nil)
+                                                message:product.localizedDescription
+                                               delegate:nil
+                                      cancelButtonTitle:NSLocalizedString(@"OK", nil)
+                                      otherButtonTitles: nil] show];
+                    break;
+                }
+            }
+            break;
+        }
+    }
 }
 
 /*
@@ -971,6 +1199,22 @@
                     break;
                 }
             }
+            break;
+        }
+        case SETTINGS_PURCHASE_SECTION_INDEX:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    // Start the network activity spinner
+                    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+                    [[MKStoreKit sharedKit] restorePurchases];
+                    break;
+                }
+            }
+            break;
         }
         default:
             break;
@@ -1075,6 +1319,21 @@
             [_gcController connectToDevice];
         }
     }
+}
+
+#pragma mark - MAConfirmButton action button
+
+- (void)confirmAction:(id)sender
+{
+    MAConfirmButton *button = (MAConfirmButton *)sender;
+    [button disableWithTitle:NSLocalizedString(@"Processing", nil)];
+    
+    SKProduct *product = [[MKStoreKit sharedKit].availableProducts objectAtIndex:button.tag];
+    
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [[MKStoreKit sharedKit] initiatePaymentRequestForProductWithIdentifier:product.productIdentifier];
 }
 
 #pragma mark - Memory management

@@ -23,7 +23,7 @@ PODS:
   - box-ios-sdk-v2 (1.2.2):
     - box-ios-sdk-v2/no-arc (= 1.2.2)
   - box-ios-sdk-v2/no-arc (1.2.2)
-  - CocoaAsyncSocket (7.3.5)
+  - CocoaAsyncSocket (7.4.1)
   - CocoaHTTPServer (2.3):
     - CocoaAsyncSocket
     - CocoaLumberjack
@@ -47,7 +47,9 @@ PODS:
   - iRate (1.11.3)
   - ISO8601DateFormatter (0.7)
   - LTHPasscodeViewController (3.3.3)
+  - MAConfirmButton (2.0)
   - MBProgressHUD (0.9)
+  - MKStoreKit (4.99)
   - objective-zip (0.8.3)
   - OBSlider (1.1.0)
   - PSTCollectionView (1.2.3)
@@ -65,7 +67,9 @@ DEPENDENCIES:
   - iRate (= 1.11.3)
   - ISO8601DateFormatter (= 0.7)
   - LTHPasscodeViewController (= 3.3.3)
+  - MAConfirmButton (from `https://github.com/gizmosachin/MAConfirmButton.git`, commit `23ce343`)
   - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD.git`, commit `fc1903f`)
+  - MKStoreKit (HEAD)
   - objective-zip (= 0.8.3)
   - OBSlider (= 1.1.0)
   - PSTCollectionView (= 1.2.3)
@@ -86,6 +90,9 @@ EXTERNAL SOURCES:
   ELCImagePickerController:
     :commit: b57e2f3
     :git: https://github.com/B-Sides/ELCImagePickerController.git
+  MAConfirmButton:
+    :commit: 23ce343
+    :git: https://github.com/gizmosachin/MAConfirmButton.git
   MBProgressHUD:
     :commit: fc1903f
     :git: https://github.com/jdg/MBProgressHUD.git
@@ -96,18 +103,20 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: 4c9d0041306f20098bedc239a6ff13cd58440943
   box-ios-sdk-v2: c06d3009266dc2c5c27bbb3882f1e5cf1f3c72cb
-  CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
+  CocoaAsyncSocket: b0a1a89e7ea4c1c0ea4ec83f57d55117d3cdae06
   CocoaHTTPServer: 217df4cba4e48803db2480f97b805aaad2230dd1
   CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
   DACircularProgress: 659d6fd11b5fc099c13ba9350239d9dca324916a
   ELCImagePickerController: 1baf64fadfe088550c16f82225469e4dfad917e2
   Google-API-Client: ff0d197a1fa20a5feb2d9c38bdf0bcdcd1ec3889
-  gtm-http-fetcher: 81c529957d3ab67726898d1c1d62f98b2ed18ff5
+  gtm-http-fetcher: 6d4617e7d343b6e4c082b777541c334eb6f5d81e
   gtm-oauth2: 3f97d22a6066a80df0b1f878c1ce41176472daad
   iRate: 5e1978bac8b3f3f0296dbeccc0dd7b50e6e50657
   ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
   LTHPasscodeViewController: 8387a22d59ed648e3c23d8db265eaae110850975
+  MAConfirmButton: 1400cef9aee5ffc104bc4ea8cb72ab7039dd0823
   MBProgressHUD: 85f9608e8473269aba4f6603958bb8bafcb60388
+  MKStoreKit: b3974582d36f1410eb4d1174728f45909a367b86
   objective-zip: 5d3c6d7c5f9f7638c840c011e9e33485b5caa43c
   OBSlider: 3536461f3dd47dfcbd0972c5aafb88aa7081fb79
   PSTCollectionView: d9f466e4554cc83260ca9bde7beb27f308e8fd76
