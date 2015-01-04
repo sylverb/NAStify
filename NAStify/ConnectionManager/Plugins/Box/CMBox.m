@@ -23,8 +23,6 @@
     NSArray *serverInfo = [NSArray arrayWithObjects:
                            NSLocalizedString(@"Server Type : Box.net",nil),
                            [NSString stringWithFormat:NSLocalizedString(@"User's Name : %@",nil),self.userName],
-                           [NSString stringWithFormat:NSLocalizedString(@"accessToken : %@",nil),[BoxSDK sharedSDK].OAuth2Session.accessToken],
-                           [NSString stringWithFormat:NSLocalizedString(@"refreshToken : %@",nil),[BoxSDK sharedSDK].OAuth2Session.refreshToken],
                            nil];
     return serverInfo;
 }
