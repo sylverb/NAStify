@@ -3830,7 +3830,10 @@
 	if ([[dict objectForKey:@"success"] boolValue])
     {
         // Show menu to share link(s)
-        NSArray *objectsToShare = [NSArray arrayWithObject:[dict objectForKey:@"shares"]];
+        NSMutableString *shares = [dict objectForKey:@"shares"];
+        [shares appendString:NSLocalizedString(@"\r\nShared using NAStify for iPhone/iPad http://nastify.codeisalie.com\r\n",nil)];
+
+        NSArray *objectsToShare = [NSArray arrayWithObject:shares];
         
         UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare
                                                                                              applicationActivities:nil];

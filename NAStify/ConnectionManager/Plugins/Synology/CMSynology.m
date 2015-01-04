@@ -5621,16 +5621,8 @@
             NSMutableArray *idArray = [NSMutableArray array];
             for (NSDictionary *share in shares)
             {
-                [shareString appendFormat:@"%@ : %@",[[share objectForKey:@"path"] lastPathComponent], [share objectForKey:@"url"]];
+                [shareString appendFormat:@"%@ : %@\r\n",[[share objectForKey:@"path"] lastPathComponent], [share objectForKey:@"url"]];
                 [idArray addObject:[share objectForKey:@"id"]];
-                if (share != [shares lastObject])
-                {
-                    [shareString appendString:@"\r\n"];
-                }
-                else
-                {
-                    [shareString appendString:NSLocalizedString(@"\r\nShared using NAStify\r\n",nil)];
-                }
             }
             if (password.length != 0)
             {

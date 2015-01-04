@@ -2317,7 +2317,6 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
                         
                         [shareString appendFormat:NSLocalizedString(@"Links are valid until %@\r\n",nil),[formatter stringFromDate:expireDate]];
                     }
-                    [shareString appendString:NSLocalizedString(@"\r\nShared using NAStify\r\n",nil)];
 
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.delegate CMShareFinished:[NSDictionary dictionaryWithObjectsAndKeys:

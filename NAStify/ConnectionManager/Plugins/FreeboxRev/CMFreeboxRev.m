@@ -1917,7 +1917,6 @@
         }
         else
         {
-            [self.sharedLinks appendString:NSLocalizedString(@"Shared using NAStify\r\n",nil)];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMShareFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                 [NSNumber numberWithBool:YES],@"success",
@@ -1954,7 +1953,6 @@
         }
         else
         {
-            [self.sharedLinks appendString:NSLocalizedString(@"Shared using NAStify\r\n",nil)];
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMShareFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                 [NSNumber numberWithBool:YES],@"success",
