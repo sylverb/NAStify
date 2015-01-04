@@ -66,10 +66,7 @@
 
 - (void)spaceInfoAtPath:(FileItem *)folder
 {
-    // Implementation is incomplete in binding
-#if 0
     [self.megaSDK getAccountDetailsWithDelegate:self];
-#endif
 }
 
 #pragma mark - Folder creation management
@@ -398,20 +395,17 @@
         }
         case MEGARequestTypeAccountDetails:
         {
-            // Incomplete implementation in binding : request.megaAcountDetails returns nil
-#if 0
             if (error.type == MEGAErrorTypeApiOk)
             {
-                long long freeSpace = [request.megaAcountDetails.storageMax longLongValue] - [request.megaAcountDetails.storageUsed longLongValue];
+                long long freeSpace = [request.megaAccountDetails.storageMax longLongValue] - [request.megaAccountDetails.storageUsed longLongValue];
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.delegate CMSpaceInfo:[NSDictionary dictionaryWithObjectsAndKeys:
                                                 [NSNumber numberWithBool:YES],@"success",
-                                                request.megaAcountDetails.storageMax,@"totalspace",
+                                                request.megaAccountDetails.storageMax,@"totalspace",
                                                 [NSNumber numberWithLongLong:freeSpace],@"freespace",
                                                 nil]];
                 });
             }
-#endif
             break;
         }
         case MEGARequestTypeCreateFolder:
