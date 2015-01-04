@@ -19,13 +19,13 @@
 #import "SBNetworkActivityIndicator.h"
 
 #define SETTINGS_PURCHASE_SECTION_INDEX 0
-#define SETTINGS_FILEBROWSER_SECTION_INDEX 1
-#define SETTINGS_MEDIA_PLAYER_TYPE_SECTION_INDEX 2
-#define SETTINGS_MEDIA_PLAYER_INTERNAL_SECTION_INDEX 3
-#define SETTINGS_MEDIA_PLAYER_EXTERNAL_SECTION_INDEX 4
-#define SETTINGS_PASSCODE_SECTION_INDEX 5
-#define SETTINGS_GCAST_SECTION_INDEX 6
-#define SETTINGS_ABOUT_SECTION_INDEX 7
+#define SETTINGS_ABOUT_SECTION_INDEX 1
+#define SETTINGS_FILEBROWSER_SECTION_INDEX 2
+#define SETTINGS_MEDIA_PLAYER_TYPE_SECTION_INDEX 3
+#define SETTINGS_MEDIA_PLAYER_INTERNAL_SECTION_INDEX 4
+#define SETTINGS_MEDIA_PLAYER_EXTERNAL_SECTION_INDEX 5
+#define SETTINGS_PASSCODE_SECTION_INDEX 6
+#define SETTINGS_GCAST_SECTION_INDEX 7
 
 #define TAG_BROWSER_GCAST       0
 #define TAG_MEDIA_PLAYER        1
@@ -264,7 +264,7 @@
         }
         case SETTINGS_ABOUT_SECTION_INDEX:
         {
-            numberOfRows = 2;
+            numberOfRows = 3;
             break;
         }
         case SETTINGS_PURCHASE_SECTION_INDEX:
@@ -825,9 +825,23 @@
                                                       reuseIdentifier:CellIdentifier];
                     }
                     
-                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    cell.accessoryType = UITableViewCellAccessoryNone;
                     cell.textLabel.textColor = [UIColor blackColor];
                     cell.textLabel.text = @"Report a bug/Feature request";
+                    break;
+                }
+                case 2:
+                {
+                    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:CellIdentifier];
+                    }
+                    
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.textColor = [UIColor blackColor];
+                    cell.textLabel.text = @"Tell your friends about NAStify";
                     break;
                 }
             }
@@ -1196,6 +1210,29 @@
                 case 1:
                 {
                     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"http://forum.codeisalie.com/viewforum.php?f=8"]];
+                    break;
+                }
+                case 2:
+                {
+                    NSArray *objectsToShare = [NSArray arrayWithObject:NSLocalizedString(@"Hey,\ryou should really have a look at this great file management app/media player for iPhone/iPad : http://nastify.codeisalie.com", nil)];
+                    
+                    UIActivityViewController *activityViewController = [[UIActivityViewController alloc] initWithActivityItems:objectsToShare
+                                                                                                         applicationActivities:nil];
+                    
+                    NSArray *excludeActivities = [NSArray arrayWithObjects:
+                                                  UIActivityTypePrint,
+                                                  UIActivityTypeAssignToContact,
+                                                  UIActivityTypeSaveToCameraRoll,
+                                                  UIActivityTypeAddToReadingList,
+                                                  UIActivityTypePostToFlickr,
+                                                  UIActivityTypePostToVimeo,
+                                                  nil];
+                    
+                    activityViewController.excludedActivityTypes = excludeActivities;
+                    
+                    [self presentViewController:activityViewController
+                                       animated:YES
+                                     completion:nil];
                     break;
                 }
             }
