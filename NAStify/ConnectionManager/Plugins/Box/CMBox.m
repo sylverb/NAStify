@@ -1057,7 +1057,7 @@
         NSString *errorMsg;
         switch (error.code)
         {
-            case BoxSDKAPIErrorBadRequest:
+            case BoxSDKAPIErrorForbidden:
             {
                 errorMsg = NSLocalizedString(@"Shared link expiration is available to items owned by paid users only.",nil);
                 break;
