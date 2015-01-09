@@ -1051,9 +1051,9 @@
 
 #pragma mark - supported features
 
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path
+- (long long)supportedFeaturesAtPath:(NSString *)path
 {
-    NSInteger features = CMSupportedFeaturesMaskFileDelete     |
+    long long features = CMSupportedFeaturesMaskFileDelete     |
                          CMSupportedFeaturesMaskFolderDelete   |
                          CMSupportedFeaturesMaskFolderCreate   |
                          CMSupportedFeaturesMaskFileRename     |

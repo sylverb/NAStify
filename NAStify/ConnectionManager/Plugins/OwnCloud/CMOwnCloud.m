@@ -882,9 +882,9 @@ shouldExecuteAsBackgroundTaskWithExpirationHandler:handlerBgExpBlock];
 
 #pragma mark - supported features
 
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path
+- (long long)supportedFeaturesAtPath:(NSString *)path
 {
-    NSInteger features = CMSupportedFeaturesMaskFolderCreate   |
+    long long features = CMSupportedFeaturesMaskFolderCreate   |
                          CMSupportedFeaturesMaskFileDelete     |
                          CMSupportedFeaturesMaskFolderDelete   |
                          CMSupportedFeaturesMaskDeleteCancel   |

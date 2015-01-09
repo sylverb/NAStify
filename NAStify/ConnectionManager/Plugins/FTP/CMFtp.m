@@ -2007,9 +2007,9 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
 
 #pragma mark - Supported features
 
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path
+- (long long)supportedFeaturesAtPath:(NSString *)path
 {
-    NSInteger features = CMSupportedFeaturesMaskFileDelete      |
+    long long features = CMSupportedFeaturesMaskFileDelete      |
                          CMSupportedFeaturesMaskFolderDelete    |
                          CMSupportedFeaturesMaskDeleteCancel    |
                          CMSupportedFeaturesMaskFolderCreate    |

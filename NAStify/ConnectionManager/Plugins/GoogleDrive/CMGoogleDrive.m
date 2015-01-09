@@ -949,7 +949,7 @@
 
 #pragma mark - supported features
 
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path
+- (long long)supportedFeaturesAtPath:(NSString *)path
 {
     return (CMSupportedFeaturesMaskFileDelete      |
             CMSupportedFeaturesMaskFolderDelete    |

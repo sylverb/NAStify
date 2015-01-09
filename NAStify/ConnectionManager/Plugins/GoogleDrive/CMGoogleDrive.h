@@ -93,7 +93,7 @@
 #endif
 
 /* Server features */
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path;
+- (long long)supportedFeaturesAtPath:(NSString *)path;
 #ifndef APP_EXTENSION
 - (NSInteger)supportedSharingFeatures;
 #endif

@@ -2356,9 +2356,9 @@
 
 #pragma mark - supported features
 
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path
+- (long long)supportedFeaturesAtPath:(NSString *)path
 {
-    NSInteger features = CMSupportedFeaturesNone;
+    long long features = CMSupportedFeaturesNone;
     if (![path isEqualToString:@"/"])
     {
         features = CMSupportedFeaturesMaskFileDelete      |

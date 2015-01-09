@@ -97,6 +97,6 @@
 - (NetworkConnection *)urlForFile:(FileItem *)file;
 
 /* Server features */
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path;
+- (long long)supportedFeaturesAtPath:(NSString *)path;
 
 @end

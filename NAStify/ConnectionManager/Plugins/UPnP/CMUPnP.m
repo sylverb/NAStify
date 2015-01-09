@@ -274,9 +274,9 @@
 
 #pragma mark - supported features
 
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path
+- (long long)supportedFeaturesAtPath:(NSString *)path
 {
-    NSInteger features = CMSupportedFeaturesMaskVLCPlayer      |
+    long long features = CMSupportedFeaturesMaskVLCPlayer      |
                          CMSupportedFeaturesMaskQTPlayer       |
                          CMSupportedFeaturesMaskGoogleCast     |
                          CMSupportedFeaturesMaskFileDownload   |

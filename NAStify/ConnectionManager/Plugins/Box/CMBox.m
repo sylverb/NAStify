@@ -1175,7 +1175,6 @@
     }
     
     NetworkConnection *networkConnection = [[NetworkConnection alloc] init];
-    networkConnection.url = [NSURL URLWithString:@"TODO"];
     networkConnection.url = streamableURL;
     networkConnection.urlType = URLTYPE_HTTP;
     
@@ -1185,7 +1184,7 @@
 
 #pragma mark - supported features
 
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path
+- (long long)supportedFeaturesAtPath:(NSString *)path
 {
     return (CMSupportedFeaturesMaskFileDelete      |
             CMSupportedFeaturesMaskFolderDelete    |

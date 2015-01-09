@@ -614,9 +614,9 @@ static NSError * mkKxSMBError(KxSMBError error, NSString *format, ...)
 }
 
 /* Server features */
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path
+- (long long)supportedFeaturesAtPath:(NSString *)path
 {
-    NSInteger features = (
+    long long features = (
                           CMSupportedFeaturesMaskFileDelete      |
                           CMSupportedFeaturesMaskFolderDelete    |
                           CMSupportedFeaturesMaskFolderCreate    |

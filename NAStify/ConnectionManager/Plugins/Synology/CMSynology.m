@@ -6166,9 +6166,9 @@
 
 #pragma mark - supported features
 
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path
+- (long long)supportedFeaturesAtPath:(NSString *)path
 {
-    NSInteger features = CMSupportedFeaturesNone;
+    long long features = CMSupportedFeaturesNone;
     if (![path isEqualToString:@"/"])
     {
         features = CMSupportedFeaturesMaskFileDelete      |
@@ -6190,7 +6190,7 @@
                    CMSupportedFeaturesMaskDownloadCancel  |
                    CMSupportedFeaturesMaskFileUpload      |
                    CMSupportedFeaturesMaskUploadCancel    |
-                   CMSupportedFeaturesMaskVLCPlayer; // Check why SSL is not working as expected
+                   CMSupportedFeaturesMaskVLCPlayer; //FIXME: Check why SSL is not working as expected
         
         if (dsmVersion >= SYNOLOGY_DSM_4_3)
         {

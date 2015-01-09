@@ -410,7 +410,7 @@
 #pragma mark -
 #pragma mark supported features methods
 
-- (NSInteger)supportedFeaturesAtPath:(NSString *)path
+- (long long)supportedFeaturesAtPath:(NSString *)path
 {
     return [[self idCM] supportedFeaturesAtPath:path];
 }
