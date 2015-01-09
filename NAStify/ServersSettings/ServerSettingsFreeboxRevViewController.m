@@ -245,7 +245,7 @@ typedef enum _SETTINGS_TAG
                     if ([SSKeychain passwordForService:self.userAccount.uuid account:@"token"] == nil)
                     {
                         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Import token",nil)
-                                                                        message:NSLocalizedString(@"Enter token comming from another device",nil)
+                                                                        message:NSLocalizedString(@"Enter token coming from another device",nil)
                                                                        delegate:self
                                                               cancelButtonTitle:NSLocalizedString(@"Cancel",nil)
                                                               otherButtonTitles:NSLocalizedString(@"OK",nil), nil];
