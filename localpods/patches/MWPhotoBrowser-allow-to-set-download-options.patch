@@ -1,0 +1,42 @@
+diff --git a/MWPhotoBrowser/Classes/MWPhoto.h b/MWPhotoBrowser/Classes/MWPhoto.h
+index 7bfd960..dda5622 100644
+--- a/MWPhotoBrowser/Classes/MWPhoto.h
++++ b/MWPhotoBrowser/Classes/MWPhoto.h
+@@ -8,6 +8,7 @@
+ 
+ #import <Foundation/Foundation.h>
+ #import "MWPhotoProtocol.h"
++#import "SDWebImageManager.h"
+ 
+ // This class models a photo/image and it's caption
+ // If you want to handle photos, caching, decompression
+@@ -18,6 +19,8 @@
+ @property (nonatomic, strong) NSString *caption;
+ @property (nonatomic, readonly) UIImage *image;
+ @property (nonatomic, readonly) NSURL *photoURL;
++@property (nonatomic) SDWebImageOptions options;
++
+ @property (nonatomic, readonly) NSString *filePath  __attribute__((deprecated("Use photoURL"))); // Depreciated
+ 
+ + (MWPhoto *)photoWithImage:(UIImage *)image;
+diff --git a/MWPhotoBrowser/Classes/MWPhoto.m b/MWPhotoBrowser/Classes/MWPhoto.m
+index de8201a..9ee4db3 100644
+--- a/MWPhotoBrowser/Classes/MWPhoto.m
++++ b/MWPhotoBrowser/Classes/MWPhoto.m
+@@ -9,7 +9,6 @@
+ #import "MWPhoto.h"
+ #import "MWPhotoBrowser.h"
+ #import "SDWebImageDecoder.h"
+-#import "SDWebImageManager.h"
+ #import "SDWebImageOperation.h"
+ #import <AssetsLibrary/AssetsLibrary.h>
+ 
+@@ -156,7 +155,7 @@
+             @try {
+                 SDWebImageManager *manager = [SDWebImageManager sharedManager];
+                 _webImageOperation = [manager downloadImageWithURL:_photoURL
+-                                                           options:0
++                                                           options:self.options
+                                                           progress:^(NSInteger receivedSize, NSInteger expectedSize) {
+                                                               if (expectedSize > 0) {
+                                                                   float progress = receivedSize / (float)expectedSize;

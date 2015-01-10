@@ -41,6 +41,6 @@ post_install do |installer|
     %x(patch -Np1 < localpods/patches/MAConfirmationButton-add-dynamic-enable.patch)
 #    puts 'Patching SDWebImage to add RAW images decoding (using libRaw)'
 #    %x(patch -Np1 < localpods/patches/SDWebImage-add-libRaw-use.patch)
-#    puts 'Patching MWPhotoBrowser to enable cookies usage and invalid certificates'
-#    %x(patch -Np1 < localpods/patches/MWPhotoBrowser-enable-cookies-and-invalid-certificates.patch)
+#    puts 'Patching MWPhotoBrowser to allow to set SDImage download options'
+#    %x(patch -Np1 < localpods/patches/MWPhotoBrowser-allow-to-set-download-options.patch)
 end

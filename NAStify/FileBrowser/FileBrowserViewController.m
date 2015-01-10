@@ -2488,25 +2488,28 @@
 
 - (MWPhoto *)photoBrowser:(MWPhotoBrowser *)photoBrowser photoAtIndex:(NSUInteger)index
 {
+    MWPhoto *photo = nil;
     if (index < self.photos.count)
     {
         id element = [self.photos objectAtIndex:index];
         if ([element isKindOfClass:[FileItem class]])
         {
             FileItem *file = element;
-            MWPhoto *photo = [MWPhoto photoWithURL:[self.connectionManager urlForFile:file].url];
+            photo = [MWPhoto photoWithURL:[self.connectionManager urlForFile:file].url];
             photo.caption = file.name;
-            
-            return photo;
         }
         else
         {
-            MWPhoto *photo = [MWPhoto photoWithURL:[NSURL fileURLWithPath:element]];
-            
-            return photo;
+            photo = [MWPhoto photoWithURL:[NSURL fileURLWithPath:element]];
+        }
+        
+        photo.options = SDWebImageDownloaderHandleCookies;
+        if (self.userAccount.acceptUntrustedCertificate)
+        {
+            photo.options |= SDWebImageDownloaderAllowInvalidSSLCertificates;
         }
     }
-    return nil;
+    return photo;
 }
 
 #pragma mark - TextFieldDelegate & keyboard related Methods
