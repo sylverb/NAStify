@@ -397,7 +397,8 @@
                          CMSupportedFeaturesMaskUploadCancel   |
                          CMSupportedFeaturesMaskVLCPlayer      |
                          CMSupportedFeaturesMaskQTPlayer       |
-                         CMSupportedFeaturesMaskGoogleCast;
+                         CMSupportedFeaturesMaskGoogleCast     |
+                         CMSupportedFeaturesMaskCacheImage;
     return features;
 }
 

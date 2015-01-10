@@ -1057,7 +1057,8 @@ void status(void *userdata, ne_session_status status,
                           CMSupportedFeaturesMaskFileUpload      |
                           CMSupportedFeaturesMaskVideoSeek       |
                           CMSupportedFeaturesMaskAirPlay         |
-                          CMSupportedFeaturesMaskGoogleCast;
+                          CMSupportedFeaturesMaskGoogleCast      |
+                          CMSupportedFeaturesMaskCacheImage;
     if (trustedCert)
     {
         // For now I didn't find a way to use internal QT player to play

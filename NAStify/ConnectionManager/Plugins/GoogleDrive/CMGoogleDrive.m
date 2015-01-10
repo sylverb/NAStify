@@ -974,8 +974,8 @@
             CMSupportedFeaturesMaskVLCPlayer       |
             CMSupportedFeaturesMaskVideoSeek       |
             CMSupportedFeaturesMaskAirPlay         |
-            CMSupportedFeaturesMaskGoogleCast
-            );
+            CMSupportedFeaturesMaskGoogleCast      |
+            CMSupportedFeaturesMaskCacheImage);
 }
 
 #ifndef APP_EXTENSION

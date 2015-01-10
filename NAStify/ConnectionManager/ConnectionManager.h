@@ -211,6 +211,7 @@ typedef NS_OPTIONS(long long, CMSupportedFeaturesMask) {
     CMSupportedFeaturesMaskGoogleCast       = 0x0000000020000000,
     CMSupportedFeaturesMaskFileShare        = 0x0000000040000000,
     CMSupportedFeaturesMaskFolderShare      = 0x0000000080000000,
+    CMSupportedFeaturesMaskCacheImage       = 0x0000000100000000,
     CMSupportedFeaturesNone = 0,
 };
 

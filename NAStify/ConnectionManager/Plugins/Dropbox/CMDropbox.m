@@ -634,7 +634,8 @@
             CMSupportedFeaturesMaskQTPlayer        |
             CMSupportedFeaturesMaskVideoSeek       |
             CMSupportedFeaturesMaskAirPlay         |
-            CMSupportedFeaturesMaskGoogleCast);
+            CMSupportedFeaturesMaskGoogleCast      |
+            CMSupportedFeaturesMaskCacheImage);
 }
 
 - (NSInteger)supportedSharingFeatures

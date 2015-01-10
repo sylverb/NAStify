@@ -903,7 +903,8 @@ shouldExecuteAsBackgroundTaskWithExpirationHandler:handlerBgExpBlock];
                          CMSupportedFeaturesMaskQTPlayer       |
                          CMSupportedFeaturesMaskGoogleCast     |
                          CMSupportedFeaturesMaskFileDownload   |
-                         CMSupportedFeaturesMaskDownloadCancel;
+                         CMSupportedFeaturesMaskDownloadCancel |
+                         CMSupportedFeaturesMaskCacheImage;
     return features;
 }
 

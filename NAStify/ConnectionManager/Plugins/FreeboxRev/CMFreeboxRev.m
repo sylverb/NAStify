@@ -2392,7 +2392,8 @@
                    CMSupportedFeaturesMaskVLCPlayer       |
                    CMSupportedFeaturesMaskVideoSeek       |
                    CMSupportedFeaturesMaskAirPlay         |
-                   CMSupportedFeaturesMaskGoogleCast;
+                   CMSupportedFeaturesMaskGoogleCast      |
+                   CMSupportedFeaturesMaskCacheImage;
     }
     else
     {

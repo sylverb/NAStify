@@ -2508,6 +2508,10 @@
         {
             photo.options |= SDWebImageDownloaderAllowInvalidSSLCertificates;
         }
+        if (ServerSupportsFeature(CacheImage) == FALSE)
+        {
+            photo.options |= SDWebImageCacheMemoryOnly;
+        }
     }
     return photo;
 }

@@ -2021,7 +2021,8 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
                          CMSupportedFeaturesMaskFileDownload    |
                          CMSupportedFeaturesMaskDownloadCancel  |
                          CMSupportedFeaturesMaskFileUpload      |
-                         CMSupportedFeaturesMaskUploadCancel;
+                         CMSupportedFeaturesMaskUploadCancel    |
+                         CMSupportedFeaturesMaskCacheImage;
     
     if ((self.userAccount.serverType == SERVER_TYPE_FTP) && (self.userAccount.boolSSL == FALSE))
     {
