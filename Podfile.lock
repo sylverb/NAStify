@@ -49,7 +49,7 @@ PODS:
   - LTHPasscodeViewController (3.3.3)
   - MAConfirmButton (2.0)
   - MBProgressHUD (0.9)
-  - MKStoreKit (4.99)
+  - MKStoreKit (HEAD based on 4.99)
   - objective-zip (0.8.3)
   - OBSlider (1.1.0)
   - PSTCollectionView (1.2.3)
@@ -100,6 +100,29 @@ EXTERNAL SOURCES:
     :commit: 8e31bd1
     :git: https://github.com/fkuehne/upnpx.git
 
+CHECKOUT OPTIONS:
+  AFNetworking:
+    :commit: 0e6f9be
+    :git: https://github.com/AFNetworking/AFNetworking.git
+  box-ios-sdk-v2:
+    :commit: 5b9af5c
+    :git: https://github.com/box/box-ios-sdk-v2.git
+  DACircularProgress:
+    :commit: ccc7a2e
+    :git: https://github.com/danielamitay/DACircularProgress.git
+  ELCImagePickerController:
+    :commit: b57e2f3
+    :git: https://github.com/B-Sides/ELCImagePickerController.git
+  MAConfirmButton:
+    :commit: 23ce343
+    :git: https://github.com/gizmosachin/MAConfirmButton.git
+  MBProgressHUD:
+    :commit: fc1903f
+    :git: https://github.com/jdg/MBProgressHUD.git
+  upnpx:
+    :commit: 8e31bd1
+    :git: https://github.com/fkuehne/upnpx.git
+
 SPEC CHECKSUMS:
   AFNetworking: 4c9d0041306f20098bedc239a6ff13cd58440943
   box-ios-sdk-v2: c06d3009266dc2c5c27bbb3882f1e5cf1f3c72cb
@@ -124,4 +147,4 @@ SPEC CHECKSUMS:
   upnpx: e9c5b4ca6fa09224fdf78b1a5e168a2637784506
   XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc
 
-COCOAPODS: 0.35.0.rc1
+COCOAPODS: 0.35.0
