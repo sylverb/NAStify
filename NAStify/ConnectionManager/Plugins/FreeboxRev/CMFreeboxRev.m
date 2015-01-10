@@ -559,7 +559,7 @@
     };
     
     NSData *base64Data = [[folder.path dataUsingEncoding:NSUTF8StringEncoding] base64EncodedDataWithOptions:0];
-    NSString *base64path = [[[NSString alloc] initWithData:base64Data encoding:NSUTF8StringEncoding] encodeString:NSUTF8StringEncoding];
+    NSString *base64path = [[[NSString alloc] initWithData:base64Data encoding:NSUTF8StringEncoding] encodeStringUrl:NSUTF8StringEncoding];
     
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];

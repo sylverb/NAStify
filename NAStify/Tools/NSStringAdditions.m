@@ -121,7 +121,7 @@
 /*
  * Encode string for url
  */
-- (NSString *)encodeString:(NSStringEncoding)encoding
+- (NSString *)encodeStringUrl:(NSStringEncoding)encoding
 {
     return (__bridge_transfer NSString *) CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (__bridge CFStringRef)self,
                                                                 NULL, (__bridge CFStringRef)@":/.?&=;+!@$()~",

@@ -1977,9 +1977,9 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
     }
     
     for (NSString *component in pathArray) {
-        [urlString appendFormat:@"%@/",[component encodeString:NSUTF8StringEncoding]];
+        [urlString appendFormat:@"%@/",[component encodeStringUrl:NSUTF8StringEncoding]];
     }
-    [urlString appendString:[file.name encodeString:NSUTF8StringEncoding]];
+    [urlString appendString:[file.name encodeStringUrl:NSUTF8StringEncoding]];
     
     NetworkConnection *networkConnection = [[NetworkConnection alloc] init];
     networkConnection.url = [NSURL URLWithString:urlString];
@@ -1993,9 +1993,9 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
     NSArray *pathArray = [file.shortPath componentsSeparatedByString:@"/"];
     NSMutableString *urlString = [NSMutableString stringWithFormat:@"%@/",[self createUrlWithCredentials]];
     for (NSString *component in pathArray) {
-        [urlString appendFormat:@"%@/",[component encodeString:NSUTF8StringEncoding]];
+        [urlString appendFormat:@"%@/",[component encodeStringUrl:NSUTF8StringEncoding]];
     }
-    [urlString appendString:[file.name encodeString:NSUTF8StringEncoding]];
+    [urlString appendString:[file.name encodeStringUrl:NSUTF8StringEncoding]];
     
     NetworkConnection *networkConnection = [[NetworkConnection alloc] init];
     networkConnection.url = [NSURL URLWithString:urlString];

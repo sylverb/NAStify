@@ -1022,7 +1022,7 @@ void status(void *userdata, ne_session_status status,
     NSInteger i;
     for (i = 0; i < [pathArray count]; i++)
     {
-        [urlString appendFormat:@"/%@",[[pathArray objectAtIndex:i] encodeString:NSUTF8StringEncoding]];
+        [urlString appendFormat:@"/%@",[[pathArray objectAtIndex:i] encodeStringUrl:NSUTF8StringEncoding]];
     }
     
     NetworkConnection *networkConnection = [[NetworkConnection alloc] init];

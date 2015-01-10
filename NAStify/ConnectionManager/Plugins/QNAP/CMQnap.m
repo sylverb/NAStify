@@ -795,10 +795,10 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     NSMutableArray *mutablePairs = [NSMutableArray array];
     for (FileItem *fileItem in files)
     {
-        [mutablePairs addObject:[NSString stringWithFormat:@"file_name=%@",[fileItem.name encodeString:NSUTF8StringEncoding]]];
+        [mutablePairs addObject:[NSString stringWithFormat:@"file_name=%@",[fileItem.name encodeStringUrl:NSUTF8StringEncoding]]];
     }
     [mutablePairs addObject:[NSString stringWithFormat:@"file_total=%ld",(long)[files count]]];
-    [mutablePairs addObject:[NSString stringWithFormat:@"path=%@",[path encodeString:NSUTF8StringEncoding]]];
+    [mutablePairs addObject:[NSString stringWithFormat:@"path=%@",[path encodeStringUrl:NSUTF8StringEncoding]]];
     
     NSData *httpBody = [[mutablePairs componentsJoinedByString:@"&"] dataUsingEncoding:NSUTF8StringEncoding];
     [request setHTTPBody:httpBody];
@@ -902,11 +902,11 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     NSMutableArray *mutablePairs = [NSMutableArray array];
     for (FileItem *fileItem in files)
     {
-        [mutablePairs addObject:[NSString stringWithFormat:@"source_file=%@",[fileItem.name encodeString:NSUTF8StringEncoding]]];
+        [mutablePairs addObject:[NSString stringWithFormat:@"source_file=%@",[fileItem.name encodeStringUrl:NSUTF8StringEncoding]]];
     }
     [mutablePairs addObject:[NSString stringWithFormat:@"source_total=%ld",(long)[files count]]];
-    [mutablePairs addObject:[NSString stringWithFormat:@"source_path=%@",[path encodeString:NSUTF8StringEncoding]]];
-    [mutablePairs addObject:[NSString stringWithFormat:@"dest_path=%@",[destFolder.path encodeString:NSUTF8StringEncoding]]];
+    [mutablePairs addObject:[NSString stringWithFormat:@"source_path=%@",[path encodeStringUrl:NSUTF8StringEncoding]]];
+    [mutablePairs addObject:[NSString stringWithFormat:@"dest_path=%@",[destFolder.path encodeStringUrl:NSUTF8StringEncoding]]];
     [mutablePairs addObject:[NSString stringWithFormat:@"mode=%@",overwrite?@"0":@"1"]]; // 0 : overwrite / 1 : skip
     
     NSData *httpBody = [[mutablePairs componentsJoinedByString:@"&"] dataUsingEncoding:NSUTF8StringEncoding];
@@ -1127,11 +1127,11 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     NSMutableArray *mutablePairs = [NSMutableArray array];
     for (FileItem *fileItem in files)
     {
-        [mutablePairs addObject:[NSString stringWithFormat:@"source_file=%@",[fileItem.name encodeString:NSUTF8StringEncoding]]];
+        [mutablePairs addObject:[NSString stringWithFormat:@"source_file=%@",[fileItem.name encodeStringUrl:NSUTF8StringEncoding]]];
     }
     [mutablePairs addObject:[NSString stringWithFormat:@"source_total=%ld",(long)[files count]]];
-    [mutablePairs addObject:[NSString stringWithFormat:@"source_path=%@",[path encodeString:NSUTF8StringEncoding]]];
-    [mutablePairs addObject:[NSString stringWithFormat:@"dest_path=%@",[destFolder.path encodeString:NSUTF8StringEncoding]]];
+    [mutablePairs addObject:[NSString stringWithFormat:@"source_path=%@",[path encodeStringUrl:NSUTF8StringEncoding]]];
+    [mutablePairs addObject:[NSString stringWithFormat:@"dest_path=%@",[destFolder.path encodeStringUrl:NSUTF8StringEncoding]]];
     [mutablePairs addObject:[NSString stringWithFormat:@"mode=%@",overwrite?@"0":@"1"]]; // 0 : overwrite / 1 : skip
     
     NSData *httpBody = [[mutablePairs componentsJoinedByString:@"&"] dataUsingEncoding:NSUTF8StringEncoding];
@@ -1783,7 +1783,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     NSMutableArray *mutablePairs = [NSMutableArray array];
     for (FileItem *fileItem in files)
     {
-        [mutablePairs addObject:[NSString stringWithFormat:@"compress_file=%@",fileItem.name]];//[fileItem.name encodeString:NSUTF8StringEncoding]]];
+        [mutablePairs addObject:[NSString stringWithFormat:@"compress_file=%@",fileItem.name]];//[fileItem.name encodeStringUrl:NSUTF8StringEncoding]]];
     }
     NSString *urlparams = [mutablePairs componentsJoinedByString:@"&"];
 
@@ -2112,8 +2112,8 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
 
     [self.manager POST:[self createUrlWithPath:[NSString stringWithFormat:@"cgi-bin/filemanager/utilRequest.cgi?func=search&sid=%@&source_path=%@&keyword=%@",
                                                 sID,
-                                                [folder.path encodeString:NSUTF8StringEncoding],
-                                                [searchString encodeString:NSUTF8StringEncoding]]]
+                                                [folder.path encodeStringUrl:NSUTF8StringEncoding],
+                                                [searchString encodeStringUrl:NSUTF8StringEncoding]]]
             parameters:params
                success:successBlock
                failure:failureBlock];
@@ -2225,7 +2225,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
         [formatter setDateFormat:@"yyyy/MM/dd HH:mm"];
         
         [mutablePairs addObject:@"valid_duration=specific_time"];
-        [mutablePairs addObject:[NSString stringWithFormat:@"datetime=%@",[[formatter stringFromDate:expireDate] encodeString:NSUTF8StringEncoding]]];
+        [mutablePairs addObject:[NSString stringWithFormat:@"datetime=%@",[[formatter stringFromDate:expireDate] encodeStringUrl:NSUTF8StringEncoding]]];
     }
     
     if ((password == nil) || (password.length == 0))
@@ -2236,7 +2236,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     else
     {
         [mutablePairs addObject:@"access_enabled=true"];
-        [mutablePairs addObject:[NSString stringWithFormat:@"access_code=%@",[password encodeString:NSUTF8StringEncoding]]];
+        [mutablePairs addObject:[NSString stringWithFormat:@"access_code=%@",[password encodeStringUrl:NSUTF8StringEncoding]]];
     }
     [mutablePairs addObject:[NSString stringWithFormat:@"sid=%@",sID]];
     
@@ -2401,10 +2401,10 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     
     for (FileItem *fileItem in files)
     {
-        [mutablePairs addObject:[NSString stringWithFormat:@"file_name=%@",[fileItem.name encodeString:NSUTF8StringEncoding]]];
+        [mutablePairs addObject:[NSString stringWithFormat:@"file_name=%@",[fileItem.name encodeStringUrl:NSUTF8StringEncoding]]];
     }
     [mutablePairs addObject:[NSString stringWithFormat:@"file_total=%ld",(long)[files count]]];
-    [mutablePairs addObject:[NSString stringWithFormat:@"path=%@",[path encodeString:NSUTF8StringEncoding]]];
+    [mutablePairs addObject:[NSString stringWithFormat:@"path=%@",[path encodeStringUrl:NSUTF8StringEncoding]]];
     [mutablePairs addObject:@"network_type=internet"];
     [mutablePairs addObject:@"c=1"];
     
@@ -2465,8 +2465,8 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     NSString *filename = [file.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 
     NSString *bodyString = [NSString stringWithFormat:@"isFolder=0&func=download&sid=%@&source_total=1&source_path=%@&source_file=%@",
-                            [sID encodeString:NSUTF8StringEncoding],
-                            [file.shortPath encodeString:NSUTF8StringEncoding],
+                            [sID encodeStringUrl:NSUTF8StringEncoding],
+                            [file.shortPath encodeStringUrl:NSUTF8StringEncoding],
                             filename];
     
     NSURL *url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"cgi-bin/filemanager/utilRequest.cgi/%@",
@@ -2610,7 +2610,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     
     uploadOperation = [self.manager POST:[self createUrlWithPath:[NSString stringWithFormat:@"cgi-bin/filemanager/utilRequest.cgi?func=upload&sid=%@&dest_path=%@&overwrite=%d",
                                                                   sID,
-                                                                  [destFolder.path encodeString:NSUTF8StringEncoding],
+                                                                  [destFolder.path encodeStringUrl:NSUTF8StringEncoding],
                                                                   overwrite?0:1]]
                               parameters:params
                constructingBodyWithBlock:bodyConstructorBlock

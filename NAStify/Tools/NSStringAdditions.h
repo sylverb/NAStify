@@ -30,7 +30,7 @@
 /*
  * Encode string with % and escape for url
  */
-- (NSString *)encodeString:(NSStringEncoding)encoding;
+- (NSString *)encodeStringUrl:(NSStringEncoding)encoding;
 
 /*
  * Get string representation of hexa string (for Synology devices)

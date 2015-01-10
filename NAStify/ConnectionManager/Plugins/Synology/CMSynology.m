@@ -5294,8 +5294,8 @@
     };
     
     NSString *urlPath = [[self createUrl] stringByAppendingFormat:@"webman/modules/FileBrowser/webfm/webUI/file_find.cgi?action=find&location=%@&keyword=%@",
-                         [folder.path encodeString:NSUTF8StringEncoding],
-                         [searchString encodeString:NSUTF8StringEncoding]];
+                         [folder.path encodeStringUrl:NSUTF8StringEncoding],
+                         [searchString encodeStringUrl:NSUTF8StringEncoding]];
     
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
@@ -5737,15 +5737,15 @@
     NSString *urlPath = nil;
     if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
-        urlPath = [NSString stringWithFormat:@"fbdownload/%@?dlink=%@&SynoToken=%@",[filename encodeString:NSUTF8StringEncoding],[file.path hexRepresentation],synoToken];
+        urlPath = [NSString stringWithFormat:@"fbdownload/%@?dlink=%@&SynoToken=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[file.path hexRepresentation],synoToken];
     }
     else if (dsmVersion >= SYNOLOGY_DSM_3_0)
     {
-        urlPath = [NSString stringWithFormat:@"fbdownload/%@?dlink=%@",[filename encodeString:NSUTF8StringEncoding],[file.path hexRepresentation]];
+        urlPath = [NSString stringWithFormat:@"fbdownload/%@?dlink=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[file.path hexRepresentation]];
     }
     else
     {
-        urlPath = [NSString stringWithFormat:@"wfmdownload/%@?dlink=%@",[filename encodeString:NSUTF8StringEncoding],[file.path hexRepresentation]];
+        urlPath = [NSString stringWithFormat:@"wfmdownload/%@?dlink=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[file.path hexRepresentation]];
     }
 
     NSURL *url = [NSURL URLWithString:[self createUrlWithPath:urlPath]];
@@ -5958,7 +5958,7 @@
         
         urlPath = [NSString stringWithFormat:@"webfm/webUI/flash_upload.cgi?session=%@&path=%@&overwrite=%@",
                    session,
-                   [destFolder.path encodeString:NSUTF8StringEncoding],
+                   [destFolder.path encodeStringUrl:NSUTF8StringEncoding],
                    overwrite?@"true":@"false"];
         params = [NSDictionary dictionaryWithObjectsAndKeys:
                   file.name,@"Filename",
@@ -6151,16 +6151,16 @@
     NetworkConnection *networkConnection = [[NetworkConnection alloc] init];
     if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
-        networkConnection.url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"fbdownload/%@?dlink=%@&SynoToken=%@",[filename encodeString:NSUTF8StringEncoding],[file.path hexRepresentation],synoToken]]];
+        networkConnection.url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"fbdownload/%@?dlink=%@&SynoToken=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[file.path hexRepresentation],synoToken]]];
     }
     else if (dsmVersion >= SYNOLOGY_DSM_3_0)
     {
-        networkConnection.url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"fbdownload/%@?dlink=%@",[filename encodeString:NSUTF8StringEncoding],[file.path hexRepresentation]]]];
+        networkConnection.url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"fbdownload/%@?dlink=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[file.path hexRepresentation]]]];
 
     }
     else
     {
-        networkConnection.url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"wfmdownload/%@?dlink=%@",[filename encodeString:NSUTF8StringEncoding],[file.path hexRepresentation]]]];
+        networkConnection.url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"wfmdownload/%@?dlink=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[file.path hexRepresentation]]]];
     }
     networkConnection.urlType = URLTYPE_HTTP;
     
