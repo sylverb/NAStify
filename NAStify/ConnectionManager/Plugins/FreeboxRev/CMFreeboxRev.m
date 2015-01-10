@@ -2028,34 +2028,36 @@
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
         
-        if (!operation.isCancelled)
+        if ([error code] != kCFURLErrorCancelled)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMDownloadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                    [NSNumber numberWithBool:NO],@"success",
                                                    [error description],@"error",
                                                    nil]];
+                
             });
         }
+        // Delete partially downloaded file
+        [[NSFileManager defaultManager] removeItemAtPath:localName error:NULL];
     };
-    
-    
-    // Start the network activity spinner
-    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
     
     NSData *base64Data = [[file.fullPath dataUsingEncoding:NSUTF8StringEncoding] base64EncodedDataWithOptions:0];
     NSString *base64path = [[NSString alloc] initWithData:base64Data encoding:NSUTF8StringEncoding];
-
-    downloadOperation = [self.manager GET:[self createUrlWithPath:[NSString stringWithFormat:@"api/v3/dl/%@?inline=0",base64path]]
-                               parameters:nil
-                                  success:successBlock
-                                  failure:failureBlock];
     
+    NSURL *url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"api/v3/dl/%@",base64path]]];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
+    [request setValue:self.sessionToken forHTTPHeaderField:@"X-Fbx-App-Auth"];
+    
+    downloadOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    
+    // Set destination file
     downloadOperation.outputStream = [NSOutputStream outputStreamToFileAtPath:localName append:NO];
     
     __block long long lastNotifiedProgress = 0;
     [downloadOperation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
-        // Call delegate every 0,5% of progress (to limit the impact on performances)
+        // send a notification every 0,5% of progress (to limit the impact on performances)
         if ((totalBytesRead >= lastNotifiedProgress + totalBytesExpectedToRead/200) || (totalBytesRead == totalBytesExpectedToRead))
         {
             lastNotifiedProgress = totalBytesRead;
@@ -2071,6 +2073,9 @@
     
     [downloadOperation setCompletionBlockWithSuccess:successBlock
                                              failure:failureBlock];
+    
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
     
     [downloadOperation start];
 }

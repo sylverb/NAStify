@@ -5705,7 +5705,7 @@
     void (^successBlock)(AFHTTPRequestOperation *,id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-
+        
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate CMDownloadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithBool:YES],@"success",
@@ -5729,8 +5729,10 @@
                 
             });
         }
+        // Delete partially downloaded file
+        [[NSFileManager defaultManager] removeItemAtPath:localName error:NULL];
     };
-    
+
     NSString *filename = [file.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *urlPath = nil;
     if (dsmVersion >= SYNOLOGY_DSM_4_3)
@@ -5745,16 +5747,13 @@
     {
         urlPath = [NSString stringWithFormat:@"wfmdownload/%@?dlink=%@",[filename encodeString:NSUTF8StringEncoding],[file.path hexRepresentation]];
     }
+
+    NSURL *url = [NSURL URLWithString:[self createUrlWithPath:urlPath]];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
     
-    // Start the network activity spinner
-    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+    downloadOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     
-    downloadOperation = [self.manager GET:[self createUrlWithPath:urlPath]
-                               parameters:nil
-                                  success:successBlock
-                                  failure:failureBlock];
-    
-    // Go to documents folder
+    // Set destination file
     downloadOperation.outputStream = [NSOutputStream outputStreamToFileAtPath:localName append:NO];
     
     __block long long lastNotifiedProgress = 0;
@@ -5774,7 +5773,12 @@
     }];
     
     [downloadOperation setCompletionBlockWithSuccess:successBlock
-                                     failure:failureBlock];
+                                             failure:failureBlock];
+    
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+    
+    [downloadOperation start];
 }
 
 - (void)cancelDownloadTask

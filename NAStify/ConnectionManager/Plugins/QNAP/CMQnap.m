@@ -2448,38 +2448,38 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate CMDownloadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                               [NSNumber numberWithBool:NO],@"success",
-                                               [error description],@"error",
-                                               nil]];
-        });
+        if ([error code] != kCFURLErrorCancelled)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMDownloadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [NSNumber numberWithBool:NO],@"success",
+                                                   [error description],@"error",
+                                                   nil]];
+                
+            });
+        }
+        // Delete partially downloaded file
+        [[NSFileManager defaultManager] removeItemAtPath:localName error:NULL];
     };
     
-    self.manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    // text/html is content types returned by QNAP servers
-    [self.manager.responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:QNAP_ACCEPTABLE_CONTENT_TYPES,nil]];
-
     NSString *filename = [file.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+
+    NSString *bodyString = [NSString stringWithFormat:@"isFolder=0&func=download&sid=%@&source_total=1&source_path=%@&source_file=%@",
+                            [sID encodeString:NSUTF8StringEncoding],
+                            [file.shortPath encodeString:NSUTF8StringEncoding],
+                            filename];
     
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            file.isDir?@"1":@"0",@"isFolder",
-                            @"download",@"func",
-                            sID,@"sid",
-                            @"1",@"source_total",
-                            file.shortPath,@"source_path",
-                            file.name,@"source_file",
-                            nil];
+    NSURL *url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"cgi-bin/filemanager/utilRequest.cgi/%@",
+                                                               filename]]];
     
-    // Start the network activity spinner
-    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
+    [request setHTTPMethod:@"POST"];
+    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+    [request setHTTPBody:[bodyString dataUsingEncoding:NSUTF8StringEncoding]];
     
-    downloadOperation = [self.manager POST:[self createUrlWithPath:[NSString stringWithFormat:@"cgi-bin/filemanager/utilRequest.cgi/%@",
-                                                                    filename]]
-                                parameters:params
-                                   success:successBlock
-                                   failure:failureBlock];
+    downloadOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
     
+    // Set destination file
     downloadOperation.outputStream = [NSOutputStream outputStreamToFileAtPath:localName append:NO];
     
     __block long long lastNotifiedProgress = 0;
@@ -2500,6 +2500,11 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     
     [downloadOperation setCompletionBlockWithSuccess:successBlock
                                              failure:failureBlock];
+    
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+    
+    [downloadOperation start];
 }
 
 - (void)cancelDownloadTask
