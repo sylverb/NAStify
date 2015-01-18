@@ -255,7 +255,8 @@
                                                                               error:NULL];
     for (NSString *file in filesArray)
     {
-        if (![file isEqualToString:@"Inbox"])
+        if (![file isEqualToString:@"Inbox"] &&
+            ![file isEqualToString:@"Connect_SDK_Device_Store.json"])
         {
             importedFiles = YES;
             NSString *filePath = [itunesSharePath stringByAppendingPathComponent:file];

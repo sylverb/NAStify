@@ -816,7 +816,6 @@
 		D56509481A52B759000EC977 /* ServerSettingsMegaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D56509471A52B759000EC977 /* ServerSettingsMegaViewController.m */; };
 		D565094C1A52B82E000EC977 /* CMMega.m in Sources */ = {isa = PBXBuildFile; fileRef = D565094B1A52B82E000EC977 /* CMMega.m */; };
 		D565094D1A52B82E000EC977 /* CMMega.m in Sources */ = {isa = PBXBuildFile; fileRef = D565094B1A52B82E000EC977 /* CMMega.m */; };
-		D565094F1A52F4DF000EC977 /* LiveAuthDialog_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D565094E1A52F4DF000EC977 /* LiveAuthDialog_iPhone.xib */; };
 		D56509531A536F6C000EC977 /* mega_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D56509501A536F6C000EC977 /* mega_small.png */; };
 		D56509541A536F6C000EC977 /* mega_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D56509501A536F6C000EC977 /* mega_small.png */; };
 		D56509551A536F6C000EC977 /* mega_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56509511A536F6C000EC977 /* mega_small@2x.png */; };
@@ -828,6 +827,9 @@
 		D56509601A543FD5000EC977 /* mega@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D565095C1A543FD5000EC977 /* mega@3x.png */; };
 		D56509611A543FD5000EC977 /* mega~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D565095D1A543FD5000EC977 /* mega~ipad.png */; };
 		D56509621A543FD5000EC977 /* mega~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D565095E1A543FD5000EC977 /* mega~iphone.png */; };
+		D56785831A61D11600286B86 /* LiveAuthDialog_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D565078F1A4A0392000EC977 /* LiveAuthDialog_iPhone.xib */; };
+		D56785881A61D49500286B86 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D56785871A61D49500286B86 /* libicucore.dylib */; };
+		D56785971A61DD2C00286B86 /* libConnectSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D56785921A61DD1000286B86 /* libConnectSDK.a */; };
 		D569B17D1982F7C0007C0AC5 /* ShareViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D569B17C1982F7C0007C0AC5 /* ShareViewController.m */; };
 		D57254CD18AD75BD0088A6C9 /* UploadBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */; };
 		D57C95AD18F9577F00617FB6 /* UIDeviceHardware.m in Sources */ = {isa = PBXBuildFile; fileRef = D57C95AC18F9577F00617FB6 /* UIDeviceHardware.m */; };
@@ -1228,7 +1230,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 73E8DC4E65DAD1545AB8AC7D;
+			remoteGlobalIDString = BE9F35A1ECF5DD0B2EFD940E;
 			remoteInfo = Pods;
 		};
 		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
@@ -1294,6 +1296,27 @@
 			remoteGlobalIDString = 1774B52E479B57238A3278BD;
 			remoteInfo = "Pods-iRate";
 		};
+		D56785911A61DD1000286B86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D567858B1A61DD0F00286B86 /* ConnectSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = EA61EB1018FE485B00D75696;
+			remoteInfo = ConnectSDK;
+		};
+		D56785931A61DD1000286B86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D567858B1A61DD0F00286B86 /* ConnectSDK.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4480857A1A12A7BE00E13938;
+			remoteInfo = ConnectSDKTests;
+		};
+		D56785951A61DD2000286B86 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D567858B1A61DD0F00286B86 /* ConnectSDK.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = EA61EB0F18FE485B00D75696;
+			remoteInfo = ConnectSDK;
+		};
 		D57CCF1F1A3E124C00D9E6A9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */;
@@ -1354,7 +1377,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 73E8DC4E65DAD1545AB8AC7D;
+			remoteGlobalIDString = BE9F35A1ECF5DD0B2EFD940E;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -2028,7 +2051,6 @@
 		D56509471A52B759000EC977 /* ServerSettingsMegaViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerSettingsMegaViewController.m; path = ServersSettings/ServerSettingsMegaViewController.m; sourceTree = "<group>"; };
 		D565094A1A52B82E000EC977 /* CMMega.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CMMega.h; path = Mega/CMMega.h; sourceTree = "<group>"; };
 		D565094B1A52B82E000EC977 /* CMMega.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMMega.m; path = Mega/CMMega.m; sourceTree = "<group>"; };
-		D565094E1A52F4DF000EC977 /* LiveAuthDialog_iPhone.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LiveAuthDialog_iPhone.xib; path = "NAStify/External/LiveSDK-for-iOS/src/LiveSDK/Library/Internal/LiveAuthDialog_iPhone.xib"; sourceTree = "<group>"; };
 		D56509501A536F6C000EC977 /* mega_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mega_small.png; sourceTree = "<group>"; };
 		D56509511A536F6C000EC977 /* mega_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega_small@2x.png"; sourceTree = "<group>"; };
 		D56509521A536F6C000EC977 /* mega_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega_small@3x.png"; sourceTree = "<group>"; };
@@ -2037,6 +2059,8 @@
 		D565095C1A543FD5000EC977 /* mega@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega@3x.png"; sourceTree = "<group>"; };
 		D565095D1A543FD5000EC977 /* mega~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega~ipad.png"; sourceTree = "<group>"; };
 		D565095E1A543FD5000EC977 /* mega~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega~iphone.png"; sourceTree = "<group>"; };
+		D56785871A61D49500286B86 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
+		D567858B1A61DD0F00286B86 /* ConnectSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ConnectSDK.xcodeproj; path = "NAStify/External/Connect-SDK-iOS/ConnectSDK.xcodeproj"; sourceTree = "<group>"; };
 		D569B17B1982F7C0007C0AC5 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareViewController.h; path = FileBrowser/ShareViewController.h; sourceTree = "<group>"; };
 		D569B17C1982F7C0007C0AC5 /* ShareViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ShareViewController.m; path = FileBrowser/ShareViewController.m; sourceTree = "<group>"; };
 		D57254CB18AD75BD0088A6C9 /* UploadBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadBrowserViewController.m; path = FileBrowser/UploadBrowserViewController.m; sourceTree = "<group>"; };
@@ -2699,6 +2723,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D56785971A61DD2C00286B86 /* libConnectSDK.a in Frameworks */,
+				D56785881A61D49500286B86 /* libicucore.dylib in Frameworks */,
 				D565093D1A51DC4C000EC977 /* libcares.a in Frameworks */,
 				D565093C1A51DC2E000EC977 /* libcryptopp.a in Frameworks */,
 				D57CCF381A3E12E300D9E6A9 /* libownCloudiOS.a in Frameworks */,
@@ -3409,6 +3435,15 @@
 			name = Mega;
 			sourceTree = "<group>";
 		};
+		D567858C1A61DD0F00286B86 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D56785921A61DD1000286B86 /* libConnectSDK.a */,
+				D56785941A61DD1000286B86 /* ConnectSDKTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D569B17A1982F78E007C0AC5 /* Share */ = {
 			isa = PBXGroup;
 			children = (
@@ -3670,7 +3705,7 @@
 		F901F79A15D7C7C50059428E = {
 			isa = PBXGroup;
 			children = (
-				D565094E1A52F4DF000EC977 /* LiveAuthDialog_iPhone.xib */,
+				D567858B1A61DD0F00286B86 /* ConnectSDK.xcodeproj */,
 				D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */,
 				D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */,
 				D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */,
@@ -3694,6 +3729,7 @@
 		F901F7A815D7C7C50059428E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D56785871A61D49500286B86 /* libicucore.dylib */,
 				D5D306FD19014C3F0087F4C6 /* Accelerate.framework */,
 				D5D3CCBE19B7BA110083EA08 /* AdSupport.framework */,
 				D551BB4518A4588B00AB26A6 /* AssetsLibrary.framework */,
@@ -5104,6 +5140,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				D56785961A61DD2000286B86 /* PBXTargetDependency */,
 				D57CCF371A3E12CF00D9E6A9 /* PBXTargetDependency */,
 				D546FCA719FD3F6400125E62 /* PBXTargetDependency */,
 				D5E473C91A00D74400A02A1A /* PBXTargetDependency */,
@@ -5157,6 +5194,10 @@
 			productRefGroup = F901F7A615D7C7C50059428E /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = D567858C1A61DD0F00286B86 /* Products */;
+					ProjectRef = D567858B1A61DD0F00286B86 /* ConnectSDK.xcodeproj */;
+				},
 				{
 					ProductGroup = D5E473AB1A00D71D00A02A1A /* Products */;
 					ProjectRef = D5E473AA1A00D71D00A02A1A /* DropboxSDK.xcodeproj */;
@@ -5317,6 +5358,20 @@
 			fileType = archive.ar;
 			path = "libPods-iRate.a";
 			remoteRef = D56507541A473E31000EC977 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D56785921A61DD1000286B86 /* libConnectSDK.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libConnectSDK.a;
+			remoteRef = D56785911A61DD1000286B86 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D56785941A61DD1000286B86 /* ConnectSDKTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = ConnectSDKTests.xctest;
+			remoteRef = D56785931A61DD1000286B86 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		D57CCF201A3E124C00D9E6A9 /* libownCloudiOS.a */ = {
@@ -5668,6 +5723,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D53032CF19E33110004F7147 /* folder@3x.png in Resources */,
+				D56785831A61D11600286B86 /* LiveAuthDialog_iPhone.xib in Resources */,
 				F901F7B415D7C7C50059428E /* InfoPlist.strings in Resources */,
 				D5F17F94197490EE00A071AD /* Images.xcassets in Resources */,
 				D53032D719E33110004F7147 /* jpeg@3x.png in Resources */,
@@ -5948,7 +6004,6 @@
 				F98D89941820EAE30053D5CF /* freebox_small.png in Resources */,
 				D530332019E33110004F7147 /* vob@2x.png in Resources */,
 				D54236C41A3655C8008AC52A /* googledrive@2x~ipad.png in Resources */,
-				D565094F1A52F4DF000EC977 /* LiveAuthDialog_iPhone.xib in Resources */,
 				D56507C71A4A0392000EC977 /* LiveAuthDialog_iPad.xib in Resources */,
 				D5551C101901827B00652A08 /* subtitleIcon@2x.png in Resources */,
 				D530330119E33110004F7147 /* opus@3x.png in Resources */,
@@ -6520,6 +6575,11 @@
 			name = Pods;
 			targetProxy = D546FCA619FD3F6400125E62 /* PBXContainerItemProxy */;
 		};
+		D56785961A61DD2000286B86 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = ConnectSDK;
+			targetProxy = D56785951A61DD2000286B86 /* PBXContainerItemProxy */;
+		};
 		D57CCF371A3E12CF00D9E6A9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "ownCloud iOS library";
@@ -6587,8 +6647,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = "NAStify-DocProvider/NAStify_DocProvider.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREFIX_HEADER = "NAStify-DocProvider/NAStify-DocProvider-Prefix.pch";
@@ -6716,8 +6776,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -6779,13 +6839,13 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_ENTITLEMENTS = NAStify/NAStify.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/NAStify/External/GoogleCastFramework",
+					"$(PROJECT_DIR)/NAStify/External/Connect-SDK-iOS/modules/google-cast/",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
@@ -6826,7 +6886,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios $(PROJECT_DIR)/NAStify/External/Connect-SDK-iOS/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -6845,7 +6905,7 @@
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/NAStify/External/GoogleCastFramework",
+					"$(PROJECT_DIR)/NAStify/External/Connect-SDK-iOS/modules/google-cast/",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
@@ -6889,7 +6949,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
+				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios $(PROJECT_DIR)/NAStify/External/Connect-SDK-iOS/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
