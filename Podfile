@@ -16,7 +16,7 @@ pod 'objective-zip', '0.8.3'
 pod 'OBSlider', '1.1.0'
 pod 'PSTCollectionView', '1.2.3'
 pod 'SSKeychain', '1.2.2'
-pod 'upnpx', :git => 'https://github.com/fkuehne/upnpx.git', :commit => '8e31bd1'
+pod 'upnpx', :git => 'https://github.com/fkuehne/upnpx.git', :commit => '769c99c'
 pod 'XMLDictionary', '1.4'
 pod 'Google-API-Client/Drive', '1.0.418'
 # patched SDWebImage is depending on libRaw, need to find a way to include this in CocoaPod
