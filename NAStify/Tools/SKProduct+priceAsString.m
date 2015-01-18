@@ -17,7 +17,15 @@
     [formatter setNumberStyle:NSNumberFormatterCurrencyStyle];
     [formatter setLocale:[self priceLocale]];
     
-    NSString *str = [formatter stringFromNumber:[self price]];
+    NSString *str = nil;
+    if ([[self price] isEqualToNumber:[NSNumber numberWithFloat:0]])
+    {
+        str = NSLocalizedString(@"Free", nil);
+    }
+    else
+    {
+        str = [formatter stringFromNumber:[self price]];
+    }
     return str;
 }
 
