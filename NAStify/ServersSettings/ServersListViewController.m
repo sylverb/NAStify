@@ -16,6 +16,7 @@
 #import "ServerSettingsMegaViewController.h"
 #import "ServerSettingsOneDriveViewController.h"
 #import "ServerSettingsOwnCloudViewController.h"
+#import "ServerSettingsQnapViewController.h"
 #import "ServerSettingsSambaViewController.h"
 #import "ServerSettingsSynologyViewController.h"
 #import "UserAccount.h"
@@ -316,9 +317,9 @@
                     }
                     case SERVER_TYPE_QNAP:
                     {
-                        ServerSettingsWebDavViewController *svc = [[ServerSettingsWebDavViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                                 andAccount:account
-                                                                                                                   andIndex:indexPath.row];
+                        ServerSettingsQnapViewController *svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped
+                                                                                                             andAccount:account
+                                                                                                               andIndex:indexPath.row];
                         svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
                         [self.navigationController pushViewController:svc animated:YES];
                         break;

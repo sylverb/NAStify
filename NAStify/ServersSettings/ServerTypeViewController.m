@@ -18,6 +18,7 @@
 #import "ServerSettingsMegaViewController.h"
 #import "ServerSettingsOneDriveViewController.h"
 #import "ServerSettingsOwnCloudViewController.h"
+#import "ServerSettingsQnapViewController.h"
 
 #import "ServerTypeCell.h"
 
@@ -206,9 +207,9 @@
         }
         case ROW_INDEX_QNAP:
         {
-            ServerSettingsWebDavViewController * svc = [[ServerSettingsWebDavViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                      andAccount:nil
-                                                                                                        andIndex:-1];
+            ServerSettingsQnapViewController * svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped
+                                                                                                  andAccount:nil
+                                                                                                    andIndex:-1];
             svc.userAccount.serverType = SERVER_TYPE_QNAP;
             [self.navigationController pushViewController:svc animated:YES];
             break;
