@@ -260,6 +260,10 @@
             {
                 numberOfRows = 2;
             }
+            else
+            {
+                numberOfRows = 1;
+            }
             break;
         }
         case SETTINGS_ABOUT_SECTION_INDEX:
@@ -1229,6 +1233,13 @@
                                                   nil];
                     
                     activityViewController.excludedActivityTypes = excludeActivities;
+                    
+                    if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
+                    {
+                        activityViewController.popoverPresentationController.sourceView = self.view;
+                        activityViewController.popoverPresentationController.sourceRect = [self.tableView rectForRowAtIndexPath:indexPath];
+                        activityViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp | UIPopoverArrowDirectionDown;
+                    }
                     
                     [self presentViewController:activityViewController
                                        animated:YES

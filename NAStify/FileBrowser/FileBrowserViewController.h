@@ -84,6 +84,9 @@ typedef enum
 @property(nonatomic, strong) NSString *dlFilePath;
 @property(nonatomic, strong) NSString *videoUrl;
 
+/* Sharing handling */
+@property(nonatomic, strong) NSIndexPath *sharedIndexPath;
+
 /* UIBarButtonItems for multiple selection */
 @property(nonatomic, strong) UIBarButtonItem *deleteFilesButtonItem;
 @property(nonatomic, strong) UIBarButtonItem *moveCopyFilesButtonItem;

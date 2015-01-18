@@ -1025,6 +1025,7 @@
     {
         FileItem *fileItem = (FileItem *)([sourceArray objectAtIndex:current_index]);
         [shareFilesList addObject:fileItem];
+        self.sharedIndexPath = [NSIndexPath indexPathForRow:current_index inSection:0];
         
         current_index = [self.selectedIndexes indexGreaterThanIndex: current_index];
     }
@@ -3856,6 +3857,19 @@
         
         activityViewController.excludedActivityTypes = excludeActivities;
         
+        if ([activityViewController respondsToSelector:@selector(popoverPresentationController)])
+        {
+            UITableView *tableView = [self activeTableView];
+            FileBrowserCell *cell = (FileBrowserCell *)[tableView cellForRowAtIndexPath:self.sharedIndexPath];
+
+            CGRect aFrame = [self.multipleSelectionTableView rectForRowAtIndexPath:self.sharedIndexPath];
+            [self.multipleSelectionTableView convertRect:aFrame toView:self.view];
+
+            activityViewController.popoverPresentationController.sourceView = cell.contentView;
+            activityViewController.popoverPresentationController.sourceRect = cell.bounds;
+            activityViewController.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp | UIPopoverArrowDirectionDown;
+        }
+
         [self presentViewController:activityViewController
                            animated:YES
                          completion:nil];
@@ -4137,7 +4151,9 @@
         self.itemActionSheet.destructiveButtonIndex = -1;
     }
     
-    if ((self.userAccount.serverType != SERVER_TYPE_LOCAL) && (fileItem.fileType != FILETYPE_UNKNOWN))
+    if ((self.userAccount.serverType != SERVER_TYPE_LOCAL) &&
+        (fileItem.fileType != FILETYPE_UNKNOWN) &&
+        (!fileItem.isDir))
     {
         self.previewButtonIndex = [self.itemActionSheet addButtonWithTitle:NSLocalizedString(@"Preview",nil)];
     }
