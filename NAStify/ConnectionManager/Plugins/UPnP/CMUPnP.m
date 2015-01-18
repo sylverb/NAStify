@@ -80,12 +80,23 @@
                 MediaServer1ItemObject *mediaItem = (MediaServer1ItemObject *)item;
                 
                 NSString *fileType = [mediaItem.uri pathExtension];
+                NSString *name = nil;
+                
                 // filter out parameters in extension
                 NSRange position = [fileType rangeOfString:@"?"];
                 if (position.location != NSNotFound)
                 {
                     fileType = [fileType substringToIndex:position.location];
                 }
+                if (fileType.length > 0)
+                {
+                    name = [NSString stringWithFormat:@"%@.%@",[mediaItem title],fileType];
+                }
+                else
+                {
+                    name = [mediaItem title];
+                }
+                
                 if ([mediaItem.uri hasPrefix:@"rtsp://"])
                 {
                     fileType = @"rtsp";
@@ -98,7 +109,7 @@
                 // Build entry
                 NSMutableDictionary *dictItem= [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                                 @"0",@"isdir",
-                                                [mediaItem title],@"filename",
+                                                name,@"filename",
                                                 [mediaItem uriCollection],@"id",
                                                 fileType,@"type",
                                                 nil];
