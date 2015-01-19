@@ -187,7 +187,7 @@
         NSString *inboxPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"Inbox"];
         
         NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
-        NSString *incomingPath = [containerURL.path stringByAppendingString:@"/Documents/incoming/"];
+        NSString *incomingPath = [containerURL.path stringByAppendingString:@"/Documents/incoming"];
 
         [[NSFileManager defaultManager] createDirectoryAtPath:incomingPath
                                   withIntermediateDirectories:YES

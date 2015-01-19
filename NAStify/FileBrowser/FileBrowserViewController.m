@@ -823,6 +823,12 @@
         fullPathArray = [NSMutableArray arrayWithArray:[self.currentFolder.fullPath componentsSeparatedByString:@"/"]];
     }
     
+    // If last entry is empty, remove it (happens if the path is containing a slash at the end)
+    if ([[fullPathArray lastObject] isEqual:@""])
+    {
+        [fullPathArray removeLastObject];
+    }
+    
     NSMutableArray *objectIds = nil;
     if (self.currentFolder.objectIds != nil)
     {
@@ -865,7 +871,7 @@
     
     // Push all views
     
-    // The purpose of the CustomNavigationController is to make keyboard diseappear automatically
+    // The purpose of the CustomNavigationController is to make keyboard disappear automatically
     // even with UIModalPresentationFormSheet (not the default behavior)
     CustomNavigationController *moveNavController = [[CustomNavigationController alloc] init];
     moveNavController.modalPresentationStyle = UIModalPresentationFormSheet;
@@ -936,7 +942,7 @@
             archiveName = [[self.currentFolder.path componentsSeparatedByString:@"/"] lastObject];
         }
     }
-    // The purpose of the CustomNavigationController is to make keyboard diseappear automatically
+    // The purpose of the CustomNavigationController is to make keyboard disappear automatically
     // even with UIModalPresentationFormSheet (not the default behavior)
     CompressViewController *compressViewController = [[CompressViewController alloc] init];
     compressViewController.connectionManager = self.connectionManager;
@@ -989,7 +995,7 @@
         [self.selectedIndexes removeAllIndexes];
     }
 
-    // The purpose of the CustomNavigationController is to make keyboard diseappear automatically
+    // The purpose of the CustomNavigationController is to make keyboard disappear automatically
     // even with UIModalPresentationFormSheet (not the default behavior)
     ExtractViewController *extractViewController = [[ExtractViewController alloc] init];
     extractViewController.connectionManager = self.connectionManager;
@@ -1184,7 +1190,7 @@
     }
     else
     {
-        // The purpose of the CustomNavigationController is to make keyboard diseappear automatically
+        // The purpose of the CustomNavigationController is to make keyboard disappear automatically
         // even with UIModalPresentationFormSheet (not the default behavior)
         SortItemsViewController *sortItemsViewController = [[SortItemsViewController alloc] initWithSortingType:self.sortingType];
         sortItemsViewController.delegate = self;
@@ -1770,7 +1776,7 @@
             fileFolder.fullPath = [fileItem.fullPath stringByDeletingLastPathComponent];
             fileFolder.objectIds = [NSArray arrayWithArray:fileFolderIds];
             
-            // The purpose of the CustomNavigationController is to make keyboard diseappear automatically
+            // The purpose of the CustomNavigationController is to make keyboard disappear automatically
             // even with UIModalPresentationFormSheet (not the default behavior)
             ExtractViewController *extractViewController = [[ExtractViewController alloc] init];
             extractViewController.connectionManager = self.connectionManager;
