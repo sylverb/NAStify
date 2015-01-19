@@ -1903,16 +1903,7 @@
             {
                 bool copyRunning = ![[[JSON objectForKey:@"data"] objectForKey:@"finished"] boolValue];
                 float progress = [[[JSON objectForKey:@"data"] objectForKey:@"progress"] floatValue];
-                if (progress == -1.0)
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.delegate CMCopyFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                       [NSNumber numberWithBool:NO],@"success",
-                                                       @"Unknown error",@"error",
-                                                       nil]];
-                    });
-                }
-                else
+                if (progress != -1.0)
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.delegate CMCopyProgress:[NSDictionary dictionaryWithObjectsAndKeys:
