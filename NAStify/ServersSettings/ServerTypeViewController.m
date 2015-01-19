@@ -13,7 +13,9 @@
 #import "ServerSettingsBoxViewController.h"
 #import "ServerSettingsGoogleDriveViewController.h"
 #import "ServerSettingsDropboxViewController.h"
+#ifdef SAMBA
 #import "ServerSettingsSambaViewController.h"
+#endif
 #import "ServerSettingsSynologyViewController.h"
 #import "ServerSettingsMegaViewController.h"
 #import "ServerSettingsOneDriveViewController.h"
@@ -35,10 +37,16 @@
 #define ROW_INDEX_QNAP          8
 #define ROW_INDEX_SYNOLOGY      9
 #define ROW_INDEX_WEBDAV        10
-#define ROW_INDEX_SAMBA         99
+#ifdef SAMBA
+#define ROW_INDEX_SAMBA         11
+#endif
 
 // Update this when adding new server types !!!
+#ifdef SAMBA
+#define NUMBER_OF_ROWS      ROW_INDEX_SAMBA + 1
+#else
 #define NUMBER_OF_ROWS      ROW_INDEX_WEBDAV + 1
+#endif
 
 - (void)viewDidLoad
 {
@@ -127,11 +135,13 @@
             cell.serverType = SERVER_TYPE_DROPBOX;
             break;
         }
+#ifdef SAMBA
         case ROW_INDEX_SAMBA:
         {
             cell.serverType = SERVER_TYPE_SAMBA;
             break;
         }
+#endif
         case ROW_INDEX_BOX:
         {
             cell.serverType = SERVER_TYPE_BOX;
@@ -272,6 +282,7 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
+#ifdef SAMBA
         case ROW_INDEX_SAMBA:
         {
             ServerSettingsSambaViewController * svc = [[ServerSettingsSambaViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -281,6 +292,7 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
+#endif
         default:
             break;
     }

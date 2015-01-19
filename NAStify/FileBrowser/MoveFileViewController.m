@@ -126,7 +126,8 @@
             }
         }
         if (([item.shortPath isEqual:self.currentFolder.path]) ||
-            ([[item.objectIds objectAtIndex:[item.objectIds count]-2] isEqual:[self.currentFolder.objectIds lastObject]]))
+            (([item.objectIds count] >= 2) &&
+             ([[item.objectIds objectAtIndex:[item.objectIds count]-2] isEqual:[self.currentFolder.objectIds lastObject]])))
         {
             canCopyMoveHere = NO;
             break;

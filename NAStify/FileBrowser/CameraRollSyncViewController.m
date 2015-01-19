@@ -570,6 +570,10 @@
             {
                 fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[element objectForKey:@"id"]];
             }
+            else
+            {
+                fileItem.objectIds = self.currentFolder.objectIds;
+            }
             
             fileItem.isCompressed = NO;
             

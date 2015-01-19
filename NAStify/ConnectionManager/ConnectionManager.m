@@ -96,11 +96,13 @@
                 cmPlugin = [[CMQnap alloc] init];
                 break;
             }
-//            case SERVER_TYPE_SAMBA:
-//            {
-//                cmPlugin = [[CMSamba alloc] init];
-//                break;
-//            }
+#ifdef SAMBA
+            case SERVER_TYPE_SAMBA:
+            {
+                cmPlugin = [[CMSamba alloc] init];
+                break;
+            }
+#endif
 #ifndef APP_EXTENSION
             case SERVER_TYPE_UPNP:
             {
@@ -158,7 +160,12 @@
 
 - (NetworkConnection *)urlForFile:(FileItem *)file
 {
-    return [[self idCM] urlForFile:file];
+    NetworkConnection *connection = nil;
+    if ([[self idCM] respondsToSelector:@selector(urlForFile:)])
+    {
+        connection = [[self idCM] urlForFile:file];
+    }
+    return connection;
 }
 
 /* 
@@ -168,14 +175,16 @@
 
 - (NetworkConnection *)urlForVideo:(FileItem *)file
 {
+    NetworkConnection *connection = nil;
     if ([[self idCM] respondsToSelector:@selector(urlForVideo:)])
     {
-        return [[self idCM] urlForVideo:file];
+        connection = [[self idCM] urlForVideo:file];
     }
-    else
+    else if ([[self idCM] respondsToSelector:@selector(urlForFile:)])
     {
-        return [[self idCM] urlForFile:file];
+        connection = [[self idCM] urlForFile:file];
     }
+    return connection;
 }
 
 #pragma mark -
@@ -356,6 +365,14 @@
     if ([[self idCM] respondsToSelector:@selector(uploadLocalFile:toPath:overwrite:serverFiles:)])
     {
         [[self idCM] uploadLocalFile:file toPath:destFolder overwrite:overwrite serverFiles:filesArray];
+    }
+}
+
+- (void)setCredential:(NSString *)user password:(NSString *)password
+{
+    if ([[self idCM] respondsToSelector:@selector(setCredential:password:)])
+    {
+        [[self idCM] setCredential:user password:password];
     }
 }
 
@@ -657,6 +674,14 @@
     if ([self.delegate respondsToSelector:@selector(CMAction:)])
     {
         [self.delegate CMAction:dict];
+    }
+}
+
+- (void)CMCredentialRequest:(NSDictionary *)dict
+{
+    if ([self.delegate respondsToSelector:@selector(CMCredentialRequest:)])
+    {
+        [self.delegate CMCredentialRequest:dict];
     }
 }
 

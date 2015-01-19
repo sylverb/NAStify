@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ServerCell.h"
 #import "DocumentPickerViewController.h"
-
+#ifdef SAMBA
+#import "AFNetworking.h"
+#endif
 @class ConnectionManager;
 
 @interface FileProviderViewController : UITableViewController<UITextFieldDelegate>
@@ -18,5 +20,7 @@
 @property(nonatomic, strong) NSArray *validTypes;
 @property(nonatomic) ProviderMode mode;
 @property(nonatomic, strong) NSURL *fileURL;
-
+#ifdef SAMBA
+@property(nonatomic, strong) AFHTTPRequestOperationManager *manager;
+#endif
 @end

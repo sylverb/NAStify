@@ -145,7 +145,11 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+#ifdef SAMBA
+    return 3;
+#else
     return 2;
+#endif
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
@@ -183,6 +187,16 @@
             }
             break;
         }
+#ifdef SAMBA
+        case 2: // SMB/CIFS
+        {
+            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+            {
+                rows = 1;
+            }
+            break;
+        }
+#endif
         default:
         {
             break;
@@ -203,14 +217,27 @@
         }
         case 1:
         {
-            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+            if ((self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi) &&
+                (_filteredUPNPDevices.count > 0))
             {
                 sectionName = NSLocalizedString(@"UPnP",nil);
             }
             break;
         }
-        default:
+#ifdef SAMBA
+        case 2:
+        {
+            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+            {
+                sectionName = NSLocalizedString(@"Windows Shares (SMB/CIFS)",nil);
+            }
             break;
+        }
+#endif
+        default:
+        {
+            break;
+        }
     }
     return sectionName;
 }
@@ -240,7 +267,7 @@
             cell = serverCell;
             break;
         }
-        case 1:
+        case 1: // UPnP
         {
             ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:UPnPCellIdentifier];
             if (serverCell == nil)
@@ -268,6 +295,27 @@
             cell = serverCell;
             break;
         }
+#ifdef SAMBA
+        case 2: // SMB/CIFS
+        {
+            ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:ServerCellIdentifier];
+            if (serverCell == nil)
+            {
+                serverCell = [[ServerCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                               reuseIdentifier:ServerCellIdentifier];
+            }
+            
+            // Configure the cell...
+            serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
+            serverCell.showsReorderControl = NO;
+            UserAccount *account = [[UserAccount alloc] init];
+            account.serverType = SERVER_TYPE_SAMBA;
+            account.accountName = NSLocalizedString(@"Windows Shares", nil);
+            [serverCell setAccount:account];
+            cell = serverCell;
+            break;
+        }
+#endif
         default:
             break;
     }
@@ -453,6 +501,25 @@
                 }
                 break;
             }
+#ifdef SAMBA
+            case 2: // SMB/CIFS
+            {
+                UserAccount *account = [[UserAccount alloc] init];
+                account.serverType = SERVER_TYPE_SAMBA;
+                
+                FileItem *rootFolder = [[FileItem alloc] init];
+                rootFolder.isDir = YES;
+                rootFolder.path = @"/";
+                rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
+                
+                FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+                fileBrowserViewController.userAccount = account;
+                fileBrowserViewController.currentFolder = rootFolder;
+                
+                [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                break;
+            }
+#endif
             default:
                 break;
         }

@@ -645,7 +645,11 @@
                 {
                     fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[element objectForKey:@"id"]];
                 }
-                
+                else
+                {
+                    fileItem.objectIds = self.currentFolder.objectIds;
+                }
+
                 if ([element objectForKey:@"iscompressed"])
                 {
                     fileItem.isCompressed = [[element objectForKey:@"iscompressed"] boolValue];
@@ -1011,6 +1015,57 @@
     
     MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
     [hud hide:YES];
+}
+
+- (void)CMCredentialRequest:(NSDictionary *)dict
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Authentication",nil)
+                                                                   message:NSLocalizedString(@"Enter login/password",nil)
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                               handler:^(UIAlertAction * action) {
+                                                   UITextField *userField = alert.textFields[0];
+                                                   UITextField *passField = alert.textFields[1];
+                                                   [self.connectionManager setCredential:userField.text
+                                                                                password:passField.text];
+                                                   
+                                                   [self.connectionManager logout];
+                                                   // Login
+                                                   BOOL needToWaitLogin = NO;
+                                                   needToWaitLogin = [self.connectionManager login];
+                                                   
+                                                   // Get file list if possible
+                                                   if (!needToWaitLogin)
+                                                   {
+                                                       [self.connectionManager listForPath:self.currentFolder];
+                                                       [self.connectionManager spaceInfoAtPath:self.currentFolder];
+                                                   }
+                                                   
+                                                   [alert dismissViewControllerAnimated:YES completion:nil];
+                                               }];
+    
+    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                   handler:^(UIAlertAction * action) {
+                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                   }];
+    
+    [alert addAction:ok];
+    [alert addAction:cancel];
+    
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Username";
+        if ([dict objectForKey:@"user"])
+        {
+            textField.text = [dict objectForKey:@"user"];
+        }
+
+    }];
+    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = @"Password";
+        textField.secureTextEntry = YES;
+    }];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 - (void)CMConnectionError:(NSDictionary *)dict

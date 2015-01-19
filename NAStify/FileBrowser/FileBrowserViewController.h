@@ -103,6 +103,7 @@ typedef enum
 @property(nonatomic) NSInteger uploadButtonIndex;
 @property(nonatomic) NSInteger serverInfoButtonIndex;
 @property(nonatomic) NSInteger cameraRollSyncButtonIndex;
+@property(nonatomic) NSInteger connectAsButtonIndex;
 
 /* Long press sheet handling */
 @property(nonatomic, strong) UIActionSheet *itemActionSheet;
@@ -129,7 +130,6 @@ typedef enum
 @property(nonatomic, strong) UIRefreshControl *refreshControl;
 
 /* CMDelegate protocol */
-- (void)CMAction:(NSNotification*)notification;
 - (void)CMLogin:(NSDictionary *)dict;
 - (void)CMLogout:(NSDictionary *)dict;
 - (void)CMRequestOTP:(NSNotification *)notification;
@@ -149,6 +149,8 @@ typedef enum
 - (void)CMSearchFinished:(NSNotification *)notification;
 - (void)CMShareProgress:(NSDictionary *)dict;
 - (void)CMShareFinished:(NSDictionary *)dict;
+- (void)CMAction:(NSNotification*)notification;
+- (void)CMCredentialRequest:(NSDictionary *)dict;
 - (void)CMConnectionError:(NSNotification*)notification;
 
 /* SortingItemsController delegate */

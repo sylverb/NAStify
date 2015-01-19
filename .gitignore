@@ -39,3 +39,6 @@ external/cryptopp/lib
 external/cares/*.tar.gz
 external/cares/include
 external/cares/lib
+external/samba/libs
+external/samba/samba
+external/samba/tmp

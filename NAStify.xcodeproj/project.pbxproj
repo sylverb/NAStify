@@ -941,6 +941,27 @@
 		D5E4748B1A0110FC00A02A1A /* local-storage@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E474891A0110FC00A02A1A /* local-storage@2x.png */; };
 		D5E4748C1A0110FC00A02A1A /* local-storage@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5E4748A1A0110FC00A02A1A /* local-storage@3x.png */; };
 		D5EBAAE51A6C592C00905450 /* ServerSettingsQnapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EBAAE41A6C592C00905450 /* ServerSettingsQnapViewController.m */; };
+		D5EBAAEB1A6C69DB00905450 /* libsmbclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EBAAE61A6C69DB00905450 /* libsmbclient.a */; };
+		D5EBAAEC1A6C69DB00905450 /* libtalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EBAAE71A6C69DB00905450 /* libtalloc.a */; };
+		D5EBAAED1A6C69DB00905450 /* libtdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EBAAE81A6C69DB00905450 /* libtdb.a */; };
+		D5EBAAEE1A6C69DB00905450 /* libtevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EBAAE91A6C69DB00905450 /* libtevent.a */; };
+		D5EBAAEF1A6C69DB00905450 /* libwbclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EBAAEA1A6C69DB00905450 /* libwbclient.a */; };
+		D5EBAAF01A6C69FA00905450 /* libsmbclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EBAAE61A6C69DB00905450 /* libsmbclient.a */; };
+		D5EBAAF11A6C69FA00905450 /* libtalloc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EBAAE71A6C69DB00905450 /* libtalloc.a */; };
+		D5EBAAF21A6C69FA00905450 /* libtdb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EBAAE81A6C69DB00905450 /* libtdb.a */; };
+		D5EBAAF31A6C69FA00905450 /* libtevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EBAAE91A6C69DB00905450 /* libtevent.a */; };
+		D5EBAAF41A6C69FA00905450 /* libwbclient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5EBAAEA1A6C69DB00905450 /* libwbclient.a */; };
+		D5EBAAFA1A6C6AFD00905450 /* samba@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAAF51A6C6AFD00905450 /* samba@2x~ipad.png */; };
+		D5EBAAFB1A6C6AFD00905450 /* samba@2x~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAAF61A6C6AFD00905450 /* samba@2x~iphone.png */; };
+		D5EBAAFC1A6C6AFD00905450 /* samba@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAAF71A6C6AFD00905450 /* samba@3x.png */; };
+		D5EBAAFD1A6C6AFD00905450 /* samba~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAAF81A6C6AFD00905450 /* samba~ipad.png */; };
+		D5EBAAFE1A6C6AFD00905450 /* samba~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAAF91A6C6AFD00905450 /* samba~iphone.png */; };
+		D5EBAB021A6C6B2200905450 /* samba_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAAFF1A6C6B2200905450 /* samba_small.png */; };
+		D5EBAB031A6C6B2200905450 /* samba_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAAFF1A6C6B2200905450 /* samba_small.png */; };
+		D5EBAB041A6C6B2200905450 /* samba_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAB001A6C6B2200905450 /* samba_small@2x.png */; };
+		D5EBAB051A6C6B2200905450 /* samba_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAB001A6C6B2200905450 /* samba_small@2x.png */; };
+		D5EBAB061A6C6B2200905450 /* samba_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAB011A6C6B2200905450 /* samba_small@3x.png */; };
+		D5EBAB071A6C6B2200905450 /* samba_small@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5EBAB011A6C6B2200905450 /* samba_small@3x.png */; };
 		D5F17F921972852D00A071AD /* iTunesArtwork@2x in Resources */ = {isa = PBXBuildFile; fileRef = D5F17F881972852D00A071AD /* iTunesArtwork@2x */; };
 		D5F17F94197490EE00A071AD /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D5F17F93197490EE00A071AD /* Images.xcassets */; };
 		F901F7AA15D7C7C50059428E /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F901F7A915D7C7C50059428E /* UIKit.framework */; };
@@ -2196,6 +2217,19 @@
 		D5E4748A1A0110FC00A02A1A /* local-storage@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "local-storage@3x.png"; sourceTree = "<group>"; };
 		D5EBAAE31A6C592C00905450 /* ServerSettingsQnapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerSettingsQnapViewController.h; path = ServersSettings/ServerSettingsQnapViewController.h; sourceTree = "<group>"; };
 		D5EBAAE41A6C592C00905450 /* ServerSettingsQnapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerSettingsQnapViewController.m; path = ServersSettings/ServerSettingsQnapViewController.m; sourceTree = "<group>"; };
+		D5EBAAE61A6C69DB00905450 /* libsmbclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libsmbclient.a; path = external/samba/libs/libsmbclient.a; sourceTree = "<group>"; };
+		D5EBAAE71A6C69DB00905450 /* libtalloc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtalloc.a; path = external/samba/libs/libtalloc.a; sourceTree = "<group>"; };
+		D5EBAAE81A6C69DB00905450 /* libtdb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtdb.a; path = external/samba/libs/libtdb.a; sourceTree = "<group>"; };
+		D5EBAAE91A6C69DB00905450 /* libtevent.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libtevent.a; path = external/samba/libs/libtevent.a; sourceTree = "<group>"; };
+		D5EBAAEA1A6C69DB00905450 /* libwbclient.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwbclient.a; path = external/samba/libs/libwbclient.a; sourceTree = "<group>"; };
+		D5EBAAF51A6C6AFD00905450 /* samba@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba@2x~ipad.png"; sourceTree = "<group>"; };
+		D5EBAAF61A6C6AFD00905450 /* samba@2x~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba@2x~iphone.png"; sourceTree = "<group>"; };
+		D5EBAAF71A6C6AFD00905450 /* samba@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba@3x.png"; sourceTree = "<group>"; };
+		D5EBAAF81A6C6AFD00905450 /* samba~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba~ipad.png"; sourceTree = "<group>"; };
+		D5EBAAF91A6C6AFD00905450 /* samba~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba~iphone.png"; sourceTree = "<group>"; };
+		D5EBAAFF1A6C6B2200905450 /* samba_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = samba_small.png; sourceTree = "<group>"; };
+		D5EBAB001A6C6B2200905450 /* samba_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba_small@2x.png"; sourceTree = "<group>"; };
+		D5EBAB011A6C6B2200905450 /* samba_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "samba_small@3x.png"; sourceTree = "<group>"; };
 		D5ECEA0C19EAAC1E0026C4D2 /* NAStify.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = NAStify.entitlements; sourceTree = "<group>"; };
 		D5F17F881972852D00A071AD /* iTunesArtwork@2x */ = {isa = PBXFileReference; lastKnownFileType = file; name = "iTunesArtwork@2x"; path = "Icons/iTunesArtwork@2x"; sourceTree = "<group>"; };
 		D5F17F93197490EE00A071AD /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
@@ -2702,6 +2736,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5EBAAF01A6C69FA00905450 /* libsmbclient.a in Frameworks */,
+				D5EBAAF11A6C69FA00905450 /* libtalloc.a in Frameworks */,
+				D5EBAAF21A6C69FA00905450 /* libtdb.a in Frameworks */,
+				D5EBAAF31A6C69FA00905450 /* libtevent.a in Frameworks */,
+				D5EBAAF41A6C69FA00905450 /* libwbclient.a in Frameworks */,
 				D56509441A52AB6C000EC977 /* MobileCoreServices.framework in Frameworks */,
 				D56509431A52AB5A000EC977 /* ImageIO.framework in Frameworks */,
 				D56509421A52AB1F000EC977 /* libsqlite3.dylib in Frameworks */,
@@ -2726,6 +2765,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D5EBAAEB1A6C69DB00905450 /* libsmbclient.a in Frameworks */,
+				D5EBAAEC1A6C69DB00905450 /* libtalloc.a in Frameworks */,
+				D5EBAAED1A6C69DB00905450 /* libtdb.a in Frameworks */,
+				D5EBAAEE1A6C69DB00905450 /* libtevent.a in Frameworks */,
+				D5EBAAEF1A6C69DB00905450 /* libwbclient.a in Frameworks */,
 				D56785971A61DD2C00286B86 /* libConnectSDK.a in Frameworks */,
 				D56785881A61D49500286B86 /* libicucore.dylib in Frameworks */,
 				D565093D1A51DC4C000EC977 /* libcares.a in Frameworks */,
@@ -3741,6 +3785,11 @@
 		F901F7A815D7C7C50059428E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D5EBAAE61A6C69DB00905450 /* libsmbclient.a */,
+				D5EBAAE71A6C69DB00905450 /* libtalloc.a */,
+				D5EBAAE81A6C69DB00905450 /* libtdb.a */,
+				D5EBAAE91A6C69DB00905450 /* libtevent.a */,
+				D5EBAAEA1A6C69DB00905450 /* libwbclient.a */,
 				D56785871A61D49500286B86 /* libicucore.dylib */,
 				D5D306FD19014C3F0087F4C6 /* Accelerate.framework */,
 				D5D3CCBE19B7BA110083EA08 /* AdSupport.framework */,
@@ -4798,6 +4847,14 @@
 				D53D93A41A0E601E00E6D6B6 /* qnap@2x~ipad.png */,
 				D53D93A51A0E601E00E6D6B6 /* qnap@2x~iphone.png */,
 				D53D93971A0E4B4A00E6D6B6 /* qnap@3x.png */,
+				D5EBAAFF1A6C6B2200905450 /* samba_small.png */,
+				D5EBAB001A6C6B2200905450 /* samba_small@2x.png */,
+				D5EBAB011A6C6B2200905450 /* samba_small@3x.png */,
+				D5EBAAF81A6C6AFD00905450 /* samba~ipad.png */,
+				D5EBAAF91A6C6AFD00905450 /* samba~iphone.png */,
+				D5EBAAF51A6C6AFD00905450 /* samba@2x~ipad.png */,
+				D5EBAAF61A6C6AFD00905450 /* samba@2x~iphone.png */,
+				D5EBAAF71A6C6AFD00905450 /* samba@3x.png */,
 				D562AC2C197D86D400C2322A /* sftp_small.png */,
 				D562AC26197D829900C2322A /* sftp_small@2x.png */,
 				D5CD858F1A1412C800438F15 /* sftp_small@3x.png */,
@@ -5581,6 +5638,7 @@
 				D5316A9D1A17B04A00364CA7 /* flac@3x.png in Resources */,
 				D5316A9E1A17B04A00364CA7 /* flv.png in Resources */,
 				D5316A9F1A17B04A00364CA7 /* flv@2x.png in Resources */,
+				D5EBAB051A6C6B2200905450 /* samba_small@2x.png in Resources */,
 				D5316AA01A17B04A00364CA7 /* flv@3x.png in Resources */,
 				D5316AA11A17B04A00364CA7 /* folder.png in Resources */,
 				D5316AA21A17B04A00364CA7 /* folder@2x.png in Resources */,
@@ -5637,6 +5695,7 @@
 				D5316AD31A17B04B00364CA7 /* mpc@3x.png in Resources */,
 				D5316AD41A17B04B00364CA7 /* mpeg.png in Resources */,
 				D5316AD51A17B04B00364CA7 /* mpeg@2x.png in Resources */,
+				D5EBAB071A6C6B2200905450 /* samba_small@3x.png in Resources */,
 				D5316AD61A17B04B00364CA7 /* mpeg@3x.png in Resources */,
 				D5316AD71A17B04B00364CA7 /* mpg.png in Resources */,
 				D56509581A536F6C000EC977 /* mega_small@3x.png in Resources */,
@@ -5655,6 +5714,7 @@
 				D5316AE41A17B04B00364CA7 /* numbers@2x.png in Resources */,
 				D5316AE51A17B04B00364CA7 /* numbers@3x.png in Resources */,
 				D5316AE61A17B04B00364CA7 /* oga.png in Resources */,
+				D5EBAB031A6C6B2200905450 /* samba_small.png in Resources */,
 				D5316AE71A17B04B00364CA7 /* oga@2x.png in Resources */,
 				D5316AE81A17B04B00364CA7 /* oga@3x.png in Resources */,
 				D56506DB1A431AC6000EC977 /* owncloud_small.png in Resources */,
@@ -5770,8 +5830,11 @@
 				D53D932A1A0E1E0500E6D6B6 /* mlp.png in Resources */,
 				D5316A191A15546D00364CA7 /* webdav~ipad.png in Resources */,
 				D530330D19E33110004F7147 /* ra@3x.png in Resources */,
+				D5EBAAFD1A6C6AFD00905450 /* samba~ipad.png in Resources */,
 				D5316A1B1A15546D00364CA7 /* webdav~iphone.png in Resources */,
+				D5EBAAFC1A6C6AFD00905450 /* samba@3x.png in Resources */,
 				D53032EA19E33110004F7147 /* mp3@2x.png in Resources */,
+				D5EBAB041A6C6B2200905450 /* samba_small@2x.png in Resources */,
 				D53D93AA1A0E601E00E6D6B6 /* qnap~ipad.png in Resources */,
 				D53032E919E33110004F7147 /* mp2@3x.png in Resources */,
 				D53D933E1A0E1E0500E6D6B6 /* mpv.png in Resources */,
@@ -5791,12 +5854,14 @@
 				D5551C121901827B00652A08 /* videoEffectsIcon@2x.png in Resources */,
 				D56506DE1A431AC6000EC977 /* owncloud_small@3x.png in Resources */,
 				D530330919E33110004F7147 /* ps@3x.png in Resources */,
+				D5EBAAFE1A6C6AFD00905450 /* samba~iphone.png in Resources */,
 				D53D93481A0E1E0500E6D6B6 /* opus.png in Resources */,
 				D53D93321A0E1E0500E6D6B6 /* mp3.png in Resources */,
 				D56509621A543FD5000EC977 /* mega~iphone.png in Resources */,
 				D53D935C1A0E1E0500E6D6B6 /* rm.png in Resources */,
 				D530332B19E33110004F7147 /* zip@3x.png in Resources */,
 				D53032D819E33110004F7147 /* jpg@2x.png in Resources */,
+				D5EBAB061A6C6B2200905450 /* samba_small@3x.png in Resources */,
 				D56507011A4321C0000EC977 /* owncloud@3x.png in Resources */,
 				D530331B19E33110004F7147 /* ts@3x.png in Resources */,
 				D53D93561A0E1E0500E6D6B6 /* raf.png in Resources */,
@@ -5852,6 +5917,7 @@
 				D53D93281A0E1E0500E6D6B6 /* mkv.png in Resources */,
 				D53032AE19E33110004F7147 /* bmp@2x.png in Resources */,
 				D530313819DD30C4004F7147 /* setup@3x.png in Resources */,
+				D5EBAAFB1A6C6AFD00905450 /* samba@2x~iphone.png in Resources */,
 				D530329E19E33110004F7147 /* aifc@2x.png in Resources */,
 				D53D92DC1A0E1E0500E6D6B6 /* aa3.png in Resources */,
 				D53D92E01A0E1E0500E6D6B6 /* ac3.png in Resources */,
@@ -5969,6 +6035,7 @@
 				D54236CC1A3655C8008AC52A /* googledrive~iphone.png in Resources */,
 				D5CD85941A14149800438F15 /* ftp_small@3x.png in Resources */,
 				D530329119E33110004F7147 /* 3gp@3x.png in Resources */,
+				D5EBAAFA1A6C6AFD00905450 /* samba@2x~ipad.png in Resources */,
 				D53032C519E33110004F7147 /* eject@3x.png in Resources */,
 				F99CB7BA15F7FA2F0011F91F /* Reader-Button-N@2x.png in Resources */,
 				D53D92F41A0E1E0500E6D6B6 /* avi.png in Resources */,
@@ -6048,6 +6115,7 @@
 				D53032FD19E33110004F7147 /* oga@3x.png in Resources */,
 				D56507681A475FEB000EC977 /* onedrive_small.png in Resources */,
 				D5CD855D1A120DFF00438F15 /* dropbox_small@3x.png in Resources */,
+				D5EBAB021A6C6B2200905450 /* samba_small.png in Resources */,
 				D530332419E33110004F7147 /* wma@2x.png in Resources */,
 				D56506DA1A431AC6000EC977 /* owncloud_small.png in Resources */,
 				D53032B619E33110004F7147 /* dcr@2x.png in Resources */,
@@ -6685,6 +6753,7 @@
 					"$(SRCROOT)/external/cryptopp/include",
 					"${SRCROOT}/external/curl/lib/include",
 					"${SRCROOT}/external/openssl/lib/include",
+					"$(SRCROOT)/external/samba/libs",
 				);
 				INFOPLIST_FILE = "NAStify-DocProvider/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -6701,6 +6770,7 @@
 					"$(PROJECT_DIR)/external/openssl/lib",
 					"$(PROJECT_DIR)/external/cryptopp/lib",
 					"$(PROJECT_DIR)/external/cares/lib",
+					"$(PROJECT_DIR)/external/samba/libs",
 				);
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_CFLAGS = "$(inherited)";
@@ -6752,6 +6822,7 @@
 					"$(SRCROOT)/external/cryptopp/include",
 					"${SRCROOT}/external/curl/lib/include",
 					"${SRCROOT}/external/openssl/lib/include",
+					"$(SRCROOT)/external/samba/libs",
 				);
 				INFOPLIST_FILE = "NAStify-DocProvider/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -6768,6 +6839,7 @@
 					"$(PROJECT_DIR)/external/openssl/lib",
 					"$(PROJECT_DIR)/external/cryptopp/lib",
 					"$(PROJECT_DIR)/external/cares/lib",
+					"$(PROJECT_DIR)/external/samba/libs",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				OTHER_CFLAGS = (
@@ -6878,6 +6950,7 @@
 					"$(SRCROOT)/external/curl/lib/include",
 					"$(SRCROOT)/external/cares/include/cares",
 					"${SRCROOT}/external/openssl/lib/include",
+					"$(SRCROOT)/external/samba/libs",
 				);
 				INFOPLIST_FILE = "NAStify/NAStify-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -6894,6 +6967,7 @@
 					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
 					"$(PROJECT_DIR)/external/cryptopp/lib",
 					"$(PROJECT_DIR)/external/cares/lib",
+					"$(PROJECT_DIR)/external/samba/libs",
 				);
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
@@ -6938,6 +7012,7 @@
 					"$(SRCROOT)/external/curl/lib/include",
 					"$(SRCROOT)/external/cares/include/cares",
 					"${SRCROOT}/external/openssl/lib/include",
+					"$(SRCROOT)/external/samba/libs",
 				);
 				INFOPLIST_FILE = "NAStify/NAStify-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -6954,6 +7029,7 @@
 					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
 					"$(PROJECT_DIR)/external/cryptopp/lib",
 					"$(PROJECT_DIR)/external/cares/lib",
+					"$(PROJECT_DIR)/external/samba/libs",
 				);
 				OTHER_CFLAGS = (
 					"-DNS_BLOCK_ASSERTIONS=1",

@@ -132,6 +132,13 @@
             self.fileTypeImage.image = [UIImage imageNamed:@"owncloud_small.png"];
             break;
         }
+#ifdef SAMBA
+        case SERVER_TYPE_SAMBA:
+        {
+            self.fileTypeImage.image = [UIImage imageNamed:@"samba_small.png"];
+            break;
+        }
+#endif
         default:
         {
             self.fileTypeImage.image = nil;
