@@ -19,8 +19,8 @@
 + (void)initialize
 {
     // iRate init
-    [iRate sharedInstance].daysUntilPrompt = 5;
-    [iRate sharedInstance].usesUntilPrompt = 15;
+    [iRate sharedInstance].daysUntilPrompt = 3;
+    [iRate sharedInstance].usesUntilPrompt = 8;
     [iRate sharedInstance].useAllAvailableLanguages = NO;
     [iRate sharedInstance].appStoreID = 917241569;
 
