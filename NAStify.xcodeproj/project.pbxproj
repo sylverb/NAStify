@@ -584,6 +584,7 @@
 		D54236D01A36572F008AC52A /* CMGoogleDrive.m in Sources */ = {isa = PBXBuildFile; fileRef = D54236CF1A36572F008AC52A /* CMGoogleDrive.m */; };
 		D54236D11A36572F008AC52A /* CMGoogleDrive.m in Sources */ = {isa = PBXBuildFile; fileRef = D54236CF1A36572F008AC52A /* CMGoogleDrive.m */; };
 		D54236D41A365884008AC52A /* ServerSettingsGoogleDriveViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54236D31A365884008AC52A /* ServerSettingsGoogleDriveViewController.m */; };
+		D546B8811A704436001AF141 /* PurchaseServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546B8801A704436001AF141 /* PurchaseServerViewController.m */; };
 		D546FCEC19FE4EA400125E62 /* libMediaLibraryKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D306F71901186B0087F4C6 /* libMediaLibraryKit.a */; };
 		D546FCFA19FE5D2F00125E62 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D546FCF919FE5D2F00125E62 /* libc++.dylib */; };
 		D546FCFD19FE5F9900125E62 /* MediaLibrary.mom in Resources */ = {isa = PBXBuildFile; fileRef = D546FCFC19FE5F9900125E62 /* MediaLibrary.mom */; };
@@ -1795,6 +1796,8 @@
 		D54236CF1A36572F008AC52A /* CMGoogleDrive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CMGoogleDrive.m; path = NAStify/ConnectionManager/Plugins/GoogleDrive/CMGoogleDrive.m; sourceTree = SOURCE_ROOT; };
 		D54236D21A365884008AC52A /* ServerSettingsGoogleDriveViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerSettingsGoogleDriveViewController.h; path = ServersSettings/ServerSettingsGoogleDriveViewController.h; sourceTree = "<group>"; };
 		D54236D31A365884008AC52A /* ServerSettingsGoogleDriveViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerSettingsGoogleDriveViewController.m; path = ServersSettings/ServerSettingsGoogleDriveViewController.m; sourceTree = "<group>"; };
+		D546B87F1A704436001AF141 /* PurchaseServerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PurchaseServerViewController.h; path = Settings/PurchaseServerViewController.h; sourceTree = "<group>"; };
+		D546B8801A704436001AF141 /* PurchaseServerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PurchaseServerViewController.m; path = Settings/PurchaseServerViewController.m; sourceTree = "<group>"; };
 		D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		D546FCF919FE5D2F00125E62 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
 		D546FCFC19FE5F9900125E62 /* MediaLibrary.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = MediaLibrary.mom; path = "external/MediaLibraryKit/build/Release-iphoneos/MediaLibrary.mom"; sourceTree = SOURCE_ROOT; };
@@ -3567,12 +3570,14 @@
 		D5D302D818FDE3810087F4C6 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				D5AFBAF119D02097001C14CC /* AboutViewController.h */,
+				D5AFBAF219D02097001C14CC /* AboutViewController.m */,
+				D546B87F1A704436001AF141 /* PurchaseServerViewController.h */,
+				D546B8801A704436001AF141 /* PurchaseServerViewController.m */,
 				D5D302D918FDE4EE0087F4C6 /* SettingsViewController.h */,
 				D5D302DA18FDE4EE0087F4C6 /* SettingsViewController.m */,
 				D54042FD197C44E000A902DA /* VlcSettingsViewController.h */,
 				D54042FE197C44E000A902DA /* VlcSettingsViewController.m */,
-				D5AFBAF119D02097001C14CC /* AboutViewController.h */,
-				D5AFBAF219D02097001C14CC /* AboutViewController.m */,
 			);
 			name = Settings;
 			sourceTree = "<group>";
@@ -6577,6 +6582,7 @@
 				F943565815FD54F800307556 /* Bcj2.c in Sources */,
 				D56509181A51DA25000EC977 /* pubkeyaction.cpp in Sources */,
 				D565075F1A473F75000EC977 /* CMOneDrive.m in Sources */,
+				D546B8811A704436001AF141 /* PurchaseServerViewController.m in Sources */,
 				D56508E21A51DA25000EC977 /* sodium.cpp in Sources */,
 				F943565915FD54F800307556 /* Bra.c in Sources */,
 				F943565A15FD54F800307556 /* Bra86.c in Sources */,

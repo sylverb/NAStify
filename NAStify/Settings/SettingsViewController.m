@@ -17,6 +17,7 @@
 #import "SKProduct+priceAsString.h"
 #import "MAConfirmButton.h"
 #import "SBNetworkActivityIndicator.h"
+#import "PurchaseServerViewController.h"
 
 #define SETTINGS_PURCHASE_SECTION_INDEX 0
 #define SETTINGS_ABOUT_SECTION_INDEX 1
@@ -281,7 +282,7 @@
                 }
                 else
                 {
-                    numberOfRows = [MKStoreKit sharedKit].availableProducts.count + 1;
+                    numberOfRows = 3;
                 }
             }
         }
@@ -348,7 +349,7 @@
         {
             if ([MKStoreKit sharedKit].availableProducts.count > 0)
             {
-                title = NSLocalizedString(@"In-App Purchase", nil);
+                title = NSLocalizedString(@"In-App Purchases", nil);
             }
             break;
         }
@@ -817,7 +818,7 @@
                     
                     cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     cell.textLabel.textColor = [UIColor blackColor];
-                    cell.textLabel.text = @"About NAStify";
+                    cell.textLabel.text = NSLocalizedString(@"About NAStify",nil);
                     break;
                 }
                 case 1:
@@ -831,7 +832,7 @@
                     
                     cell.accessoryType = UITableViewCellAccessoryNone;
                     cell.textLabel.textColor = [UIColor blackColor];
-                    cell.textLabel.text = @"Report a bug/Feature request";
+                    cell.textLabel.text = NSLocalizedString(@"Report a bug/Feature request",nil);
                     break;
                 }
                 case 2:
@@ -845,7 +846,7 @@
                     
                     cell.accessoryType = UITableViewCellAccessoryNone;
                     cell.textLabel.textColor = [UIColor blackColor];
-                    cell.textLabel.text = @"Tell your friends about NAStify";
+                    cell.textLabel.text = NSLocalizedString(@"Tell your friends about NAStify",nil);
                     break;
                 }
             }
@@ -870,9 +871,9 @@
                     cell.textLabel.text = NSLocalizedString(@"Restore purchases", nil);
                     break;
                 }
-                default:
+                case 1:
                 {
-                    SKProduct *product = [[MKStoreKit sharedKit].availableProducts objectAtIndex:indexPath.row - 1];
+                    SKProduct *product = [[MKStoreKit sharedKit].availableProducts objectAtIndex:0]; // com.sylver.NAStify.no_ads
                     
                     cell = [tableView dequeueReusableCellWithIdentifier:PurchaseCellIdentifier];
                     if (cell == nil)
@@ -894,7 +895,7 @@
                         [defaultButton setAnchor:CGPointMake(270, 10)];
                         [defaultButton addTarget:self action:@selector(confirmAction:) forControlEvents:UIControlEventTouchUpInside];
                         defaultButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-
+                        
                         defaultButton.tag = indexPath.row - 1;
                         [cell addSubview:defaultButton];
                     }
@@ -921,6 +922,7 @@
                             [defaultButton enableWithTitle:product.priceAsString
                                                    confirm:NSLocalizedString(@"Buy now",nil)];
                         }
+                        defaultButton.tag = indexPath.row - 1;
                     }
                     
                     cell.textLabel.textColor = [UIColor blackColor];
@@ -933,7 +935,20 @@
                         cell.accessoryType = UITableViewCellAccessoryDetailButton;
                     }
                     cell.textLabel.text = product.localizedTitle;
-
+                    break;
+                }
+                case 2:
+                {
+                    cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:CellIdentifier];
+                    }
+                    
+                    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+                    cell.textLabel.textColor = [UIColor blackColor];
+                    cell.textLabel.text = NSLocalizedString(@"Remove Ads for specific server", nil);
                     break;
                 }
             }
@@ -964,9 +979,9 @@
                                       otherButtonTitles: nil] show];
                     break;
                 }
-                default:
+                case 1:
                 {
-                    SKProduct *product = [[MKStoreKit sharedKit].availableProducts objectAtIndex:indexPath.row - 1];
+                    SKProduct *product = [[MKStoreKit sharedKit].availableProducts objectAtIndex:0];
                     [[[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Info", nil)
                                                 message:product.localizedDescription
                                                delegate:nil
@@ -1259,6 +1274,13 @@
                     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
 
                     [[MKStoreKit sharedKit] restorePurchases];
+                    break;
+                }
+                case 2:
+                {
+                    PurchaseServerViewController *viewController = [[PurchaseServerViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                    [self.navigationController pushViewController:viewController animated:YES];
+
                     break;
                 }
             }
