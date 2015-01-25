@@ -1046,15 +1046,12 @@ void status(void *userdata, ne_session_status status,
 {
     long long features =  CMSupportedFeaturesMaskFileDelete      |
                           CMSupportedFeaturesMaskFolderDelete    |
-                          CMSupportedFeaturesMaskFolderCreate    |
                           CMSupportedFeaturesMaskFileRename      |
                           CMSupportedFeaturesMaskFolderRename    |
                           CMSupportedFeaturesMaskFileMove        |
                           CMSupportedFeaturesMaskFolderMove      |
                           CMSupportedFeaturesMaskFileCopy        |
                           CMSupportedFeaturesMaskFolderCopy      |
-                          CMSupportedFeaturesMaskFileDownload    |
-                          CMSupportedFeaturesMaskFileUpload      |
                           CMSupportedFeaturesMaskVideoSeek       |
                           CMSupportedFeaturesMaskAirPlay         |
                           CMSupportedFeaturesMaskGoogleCast      |

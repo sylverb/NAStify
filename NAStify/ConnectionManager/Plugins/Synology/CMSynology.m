@@ -1307,16 +1307,7 @@
             {
                 bool deleteRunning = ![[[JSON objectForKey:@"data"] objectForKey:@"finished"] boolValue];
                 float progress = [[[JSON objectForKey:@"data"] objectForKey:@"progress"] floatValue];
-                if (progress == -1.0)
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                         [NSNumber numberWithBool:NO],@"success",
-                                                         @"Unknown error",@"error",
-                                                         nil]];
-                    });
-                }
-                else
+                if (progress != -1.0)
                 {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.delegate CMDeleteProgress:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -6168,23 +6159,14 @@
     {
         features = CMSupportedFeaturesMaskFileDelete      |
                    CMSupportedFeaturesMaskFolderDelete    |
-                   CMSupportedFeaturesMaskFolderCreate    |
-                   CMSupportedFeaturesMaskDeleteCancel    |
                    CMSupportedFeaturesMaskFileRename      |
                    CMSupportedFeaturesMaskFolderRename    |
                    CMSupportedFeaturesMaskFileMove        |
-                   CMSupportedFeaturesMaskMoveCancel      |
                    CMSupportedFeaturesMaskFolderMove      |
                    CMSupportedFeaturesMaskFileCopy        |
                    CMSupportedFeaturesMaskFolderCopy      |
-                   CMSupportedFeaturesMaskCopyCancel      |
                    CMSupportedFeaturesMaskExtract         |
                    CMSupportedFeaturesMaskExtractMultiple |
-                   CMSupportedFeaturesMaskExtractCancel   |
-                   CMSupportedFeaturesMaskFileDownload    |
-                   CMSupportedFeaturesMaskDownloadCancel  |
-                   CMSupportedFeaturesMaskFileUpload      |
-                   CMSupportedFeaturesMaskUploadCancel    |
                    CMSupportedFeaturesMaskVLCPlayer; //FIXME: Check why SSL is not working as expected
         
         if (dsmVersion >= SYNOLOGY_DSM_4_3)
@@ -6195,14 +6177,12 @@
 
         if (dsmVersion >= SYNOLOGY_DSM_3_1)
         {
-            features |= CMSupportedFeaturesMaskSearch |
-                        CMSupportedFeaturesMaskSearchCancel;
+            features |= CMSupportedFeaturesMaskSearch;
         }
         
         if (dsmVersion >= SYNOLOGY_DSM_2_3)
         {
-            features |= CMSupportedFeaturesMaskCompress   |
-                        CMSupportedFeaturesMaskCompressCancel;
+            features |= CMSupportedFeaturesMaskCompress;
         }
         
         if ((!self.userAccount.boolSSL) || (!self.userAccount.acceptUntrustedCertificate))

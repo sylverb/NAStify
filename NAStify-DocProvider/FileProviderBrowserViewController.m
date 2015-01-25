@@ -100,14 +100,14 @@
     
     NSMutableArray *buttons = [NSMutableArray arrayWithObjects:flexibleSpaceButtonItem,nil];
 
-    if (ServerSupportsFeature(FileUpload))
+    if ([self.connectionManager pluginRespondsToSelector:@selector(uploadLocalFile:toPath:overwrite:serverFiles:)])
     {
         [buttons addObjectsFromArray:[NSArray arrayWithObjects:
                                       selectButtonItem,
                                       nil]];
     }
 
-    if (ServerSupportsFeature(FolderCreate))
+    if ([self.connectionManager pluginRespondsToSelector:@selector(createFolder:inFolder:)])
     {
         [buttons addObjectsFromArray:[NSArray arrayWithObjects:
                                       flexibleSpaceButtonItem,
@@ -411,7 +411,7 @@
                 // Download file
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                           animated:YES];
-                if (ServerSupportsFeature(UploadCancel))
+                if ([self.connectionManager pluginRespondsToSelector:@selector(cancelUploadTask)])
                 {
                     hud.allowsCancelation = YES;
                     hud.tag = TAG_HUD_DOWNLOAD;
@@ -1196,7 +1196,7 @@
                 
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                           animated:YES];
-                if (ServerSupportsFeature(SearchCancel))
+                if ([self.connectionManager pluginRespondsToSelector:@selector(cancelSearchTask)])
                 {
                     hud.allowsCancelation = YES;
                     hud.tag = TAG_HUD_SEARCH;
@@ -1230,7 +1230,7 @@
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                   animated:YES];
-        if (ServerSupportsFeature(SearchCancel))
+        if ([self.connectionManager pluginRespondsToSelector:@selector(cancelSearchTask)])
         {
             hud.allowsCancelation = YES;
             hud.tag = TAG_HUD_SEARCH;
@@ -1284,7 +1284,7 @@
     // Upload file
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                               animated:YES];
-    if (ServerSupportsFeature(UploadCancel))
+    if ([self.connectionManager pluginRespondsToSelector:@selector(cancelUploadTask)])
     {
         hud.allowsCancelation = YES;
         hud.tag = TAG_HUD_UPLOAD;

@@ -1188,17 +1188,12 @@
 {
     return (CMSupportedFeaturesMaskFileDelete      |
             CMSupportedFeaturesMaskFolderDelete    |
-            CMSupportedFeaturesMaskFolderCreate    |
             CMSupportedFeaturesMaskFileRename      |
             CMSupportedFeaturesMaskFolderRename    |
             CMSupportedFeaturesMaskFileMove        |
             CMSupportedFeaturesMaskFolderMove      |
             CMSupportedFeaturesMaskFileCopy        |
             CMSupportedFeaturesMaskFolderCopy      |
-            CMSupportedFeaturesMaskFileDownload    |
-            CMSupportedFeaturesMaskDownloadCancel  |
-            CMSupportedFeaturesMaskFileUpload      |
-            CMSupportedFeaturesMaskUploadCancel    |
             CMSupportedFeaturesMaskSearch          |
             CMSupportedFeaturesMaskFileShare       |
             CMSupportedFeaturesMaskFolderShare     |

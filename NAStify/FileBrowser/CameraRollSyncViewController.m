@@ -870,7 +870,7 @@
 
         self.hud = [MBProgressHUD showHUDAddedTo:self.view animated:NO];
 
-        if (ServerSupportsFeature(UploadCancel))
+        if ([self.connectionManager pluginRespondsToSelector:@selector(cancelUploadTask)])
         {
             self.hud.allowsCancelation = YES;
             self.hud.tag = TAG_HUD_UPLOAD;

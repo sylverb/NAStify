@@ -60,6 +60,7 @@ static NSError *mkKxSMBError(KxSMBError error, NSString *format, ...);
 - (BOOL)login;
 - (BOOL)logout;
 - (void)listForPath:(FileItem *)folder;
+- (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
 #ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files;
 - (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder;

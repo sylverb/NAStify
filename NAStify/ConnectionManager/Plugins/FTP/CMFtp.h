@@ -40,7 +40,9 @@ struct CurlMemoryStruct {
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
 #ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files;
+- (void)cancelDeleteTask;
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
+- (void)cancelMoveTask;
 - (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder;
 #endif
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName;

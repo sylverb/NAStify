@@ -419,7 +419,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                               animated:YES];
-    if (ServerSupportsFeature(UploadCancel))
+    if ([self.connectionManager pluginRespondsToSelector:@selector(cancelUploadTask)])
     {
         hud.allowsCancelation = YES;
         hud.tag = TAG_HUD_UPLOAD;
@@ -1127,7 +1127,7 @@
         
         self.reloadActionButtonIndex = [self.actionSheet addButtonWithTitle:NSLocalizedString(@"Reload",nil)];
         
-        if (ServerSupportsFeature(FolderCreate))
+        if ([self.connectionManager pluginRespondsToSelector:@selector(createFolder:inFolder:)])
         {
             self.createFolderActionButtonIndex = [self.actionSheet addButtonWithTitle:NSLocalizedString(@"Create Folder",nil)];
         }
@@ -1136,7 +1136,7 @@
             self.createFolderActionButtonIndex = -1;
         }
         
-        if (ServerSupportsFeature(FileUpload))
+        if ([self.connectionManager pluginRespondsToSelector:@selector(uploadLocalFile:toPath:overwrite:serverFiles:)])
         {
             self.uploadButtonIndex = [self.actionSheet addButtonWithTitle:NSLocalizedString(@"Upload local file here",nil)];
             self.cameraRollSyncButtonIndex = [self.actionSheet addButtonWithTitle:NSLocalizedString(@"Synchronize Camera Roll",nil)];
@@ -1454,7 +1454,7 @@
 
             MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                       animated:YES];
-            if (ServerSupportsFeature(DeleteCancel))
+            if ([self.connectionManager pluginRespondsToSelector:@selector(cancelDeleteTask)])
             {
                 hud.allowsCancelation = YES;
                 hud.tag = TAG_HUD_DELETE;
@@ -1608,7 +1608,7 @@
                 self.downloadAction = DOWNLOAD_ACTION_SUBTITLE;
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                           animated:YES];
-                if (ServerSupportsFeature(DownloadCancel))
+                if ([self.connectionManager pluginRespondsToSelector:@selector(cancelDownloadTask)])
                 {
                     hud.allowsCancelation = YES;
                     hud.tag = TAG_HUD_DOWNLOAD;
@@ -2362,7 +2362,7 @@
                 self.downloadAction = DOWNLOAD_ACTION_DOWNLOAD;
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                           animated:YES];
-                if (ServerSupportsFeature(DownloadCancel))
+                if ([self.connectionManager pluginRespondsToSelector:@selector(cancelDownloadTask)])
                 {
                     hud.allowsCancelation = YES;
                     hud.tag = TAG_HUD_DOWNLOAD;
@@ -2391,7 +2391,7 @@
                 
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                           animated:YES];
-                if (ServerSupportsFeature(DownloadCancel))
+                if ([self.connectionManager pluginRespondsToSelector:@selector(cancelDownloadTask)])
                 {
                     hud.allowsCancelation = YES;
                     hud.tag = TAG_HUD_DOWNLOAD;
@@ -2761,7 +2761,7 @@
                 
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                           animated:YES];
-                if (ServerSupportsFeature(DeleteCancel))
+                if ([self.connectionManager pluginRespondsToSelector:@selector(cancelDeleteTask)])
                 {
                     hud.allowsCancelation = YES;
                     hud.tag = TAG_HUD_DELETE;
@@ -2889,7 +2889,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                               animated:YES];
-    if (ServerSupportsFeature(CompressCancel))
+    if ([self.connectionManager pluginRespondsToSelector:@selector(cancelCompressTask)])
     {
         hud.allowsCancelation = YES;
         hud.tag = TAG_HUD_COMPRESS;
@@ -2915,7 +2915,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                               animated:YES];
-    if (ServerSupportsFeature(ExtractCancel))
+    if ([self.connectionManager pluginRespondsToSelector:@selector(cancelExtractTask)])
     {
         hud.allowsCancelation = YES;
         hud.tag = TAG_HUD_EXTRACT;
@@ -2936,7 +2936,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                               animated:YES];
-    if (ServerSupportsFeature(MoveCancel))
+    if ([self.connectionManager pluginRespondsToSelector:@selector(cancelMoveTask)])
     {
         hud.allowsCancelation = YES;
         hud.tag = TAG_HUD_MOVE;
@@ -2953,7 +2953,7 @@
 {
     MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                               animated:YES];
-    if (ServerSupportsFeature(CopyCancel))
+    if ([self.connectionManager pluginRespondsToSelector:@selector(cancelCopyTask)])
     {
         hud.allowsCancelation = YES;
         hud.tag = TAG_HUD_COPY;
@@ -4098,7 +4098,7 @@
 
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                           animated:YES];
-                if (ServerSupportsFeature(SearchCancel))
+                if ([self.connectionManager pluginRespondsToSelector:@selector(cancelSearchTask)])
                 {
                     hud.allowsCancelation = YES;
                     hud.tag = TAG_HUD_SEARCH;
@@ -4151,7 +4151,7 @@
     {
         MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
                                                   animated:YES];
-        if (ServerSupportsFeature(SearchCancel))
+        if ([self.connectionManager pluginRespondsToSelector:@selector(cancelSearchTask)])
         {
             hud.allowsCancelation = YES;
             hud.tag = TAG_HUD_SEARCH;
@@ -4289,7 +4289,9 @@
         self.openInButtonIndex = -1;
     }
     
-    if ((ServerSupportsFeature(FileDownload)) && (!fileItem.isDir) && (self.userAccount.serverType != SERVER_TYPE_LOCAL))
+    if ([self.connectionManager pluginRespondsToSelector:@selector(downloadFile:toLocalName:)] &&
+        (!fileItem.isDir) &&
+        (self.userAccount.serverType != SERVER_TYPE_LOCAL))
     {
         self.downloadButtonIndex = [self.itemActionSheet addButtonWithTitle:NSLocalizedString(@"Download locally",nil)];
     }

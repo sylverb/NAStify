@@ -39,6 +39,9 @@
 - (NSArray *)serverInfo;
 - (void)listForPath:(FileItem *)folder;
 
+- (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName;
+- (void)cancelDownloadTask;
+
 /* File URL requests */
 - (NetworkConnection *)urlForFile:(FileItem *)file;
 

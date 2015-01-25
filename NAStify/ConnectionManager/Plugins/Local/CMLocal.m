@@ -1055,7 +1055,6 @@
 {
     long long features = CMSupportedFeaturesMaskFileDelete     |
                          CMSupportedFeaturesMaskFolderDelete   |
-                         CMSupportedFeaturesMaskFolderCreate   |
                          CMSupportedFeaturesMaskFileRename     |
                          CMSupportedFeaturesMaskFolderRename   |
                          CMSupportedFeaturesMaskFileMove       |
@@ -1065,10 +1064,6 @@
                          CMSupportedFeaturesMaskCompress       |
                          CMSupportedFeaturesMaskExtract        |
                          CMSupportedFeaturesMaskSearch         |
-                         CMSupportedFeaturesMaskFileDownload   |
-#ifdef APP_EXTENSION
-                         CMSupportedFeaturesMaskFileUpload     |
-#endif
                          CMSupportedFeaturesMaskQTPlayer       |
                          CMSupportedFeaturesMaskVLCPlayer      |
                          CMSupportedFeaturesMaskVideoSeek      |

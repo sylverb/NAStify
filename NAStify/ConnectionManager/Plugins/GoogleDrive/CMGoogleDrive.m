@@ -953,21 +953,12 @@
 {
     return (CMSupportedFeaturesMaskFileDelete      |
             CMSupportedFeaturesMaskFolderDelete    |
-            CMSupportedFeaturesMaskDeleteCancel    |
-            CMSupportedFeaturesMaskFolderCreate    |
             CMSupportedFeaturesMaskFileRename      |
             CMSupportedFeaturesMaskFolderRename    |
             CMSupportedFeaturesMaskFileMove        |
             CMSupportedFeaturesMaskFolderMove      |
-            CMSupportedFeaturesMaskMoveCancel      |
             CMSupportedFeaturesMaskFileCopy        |
-            CMSupportedFeaturesMaskCopyCancel      |
-            CMSupportedFeaturesMaskFileDownload    |
-            CMSupportedFeaturesMaskDownloadCancel  |
-            CMSupportedFeaturesMaskFileUpload      |
-            CMSupportedFeaturesMaskUploadCancel    |
             CMSupportedFeaturesMaskSearch          |
-            CMSupportedFeaturesMaskSearchCancel    |
             CMSupportedFeaturesMaskFileShare       |
             CMSupportedFeaturesMaskFolderShare     |
             CMSupportedFeaturesMaskQTPlayer        |

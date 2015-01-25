@@ -1015,15 +1015,10 @@ static void nastify_smbc_get_auth_data_fn(const char *srv,
     NSInteger features = (
                           CMSupportedFeaturesMaskFileDelete      |
                           CMSupportedFeaturesMaskFolderDelete    |
-                          CMSupportedFeaturesMaskFolderCreate    |
                           CMSupportedFeaturesMaskFileRename      |
                           CMSupportedFeaturesMaskFolderRename    |
                           CMSupportedFeaturesMaskFileMove        |
-                          CMSupportedFeaturesMaskFolderMove      |
-                          CMSupportedFeaturesMaskFileDownload    |
-                          CMSupportedFeaturesMaskDownloadCancel  |
-                          CMSupportedFeaturesMaskFileUpload      |
-                          CMSupportedFeaturesMaskUploadCancel
+                          CMSupportedFeaturesMaskFolderMove
                           );
     return features;
 }

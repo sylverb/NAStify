@@ -255,24 +255,16 @@
 
 - (long long)supportedFeaturesAtPath:(NSString *)path
 {
-    long long features = CMSupportedFeaturesMaskFolderCreate   |
-                         CMSupportedFeaturesMaskFileDelete     |
+    long long features = CMSupportedFeaturesMaskFileDelete     |
                          CMSupportedFeaturesMaskFolderDelete   |
-                         CMSupportedFeaturesMaskDeleteCancel   |
                          CMSupportedFeaturesMaskFileRename     |
                          CMSupportedFeaturesMaskFileMove       |
                          CMSupportedFeaturesMaskFolderMove     |
-                         CMSupportedFeaturesMaskMoveCancel     |
                          CMSupportedFeaturesMaskFileCopy       |
                          CMSupportedFeaturesMaskFolderCopy     |
-                         CMSupportedFeaturesMaskCopyCancel     |
                          CMSupportedFeaturesMaskFolderRename   |
                          CMSupportedFeaturesMaskFileShare      |
-                         CMSupportedFeaturesMaskFolderShare    |
-                         CMSupportedFeaturesMaskFileDownload   |
-                         CMSupportedFeaturesMaskDownloadCancel |
-                         CMSupportedFeaturesMaskFileUpload     |
-                         CMSupportedFeaturesMaskUploadCancel;
+                         CMSupportedFeaturesMaskFolderShare;
     
     return features;
 }

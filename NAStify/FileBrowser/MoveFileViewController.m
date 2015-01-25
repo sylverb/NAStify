@@ -87,7 +87,7 @@
                                       self.mvButtonItem,
                                       nil]];
     }
-    if (ServerSupportsFeature(FolderCreate))
+    if ([self.connectionManager pluginRespondsToSelector:@selector(createFolder:inFolder:)])
     {
         [buttons addObjectsFromArray:[NSArray arrayWithObjects:
                                       flexibleSpaceButtonItem,

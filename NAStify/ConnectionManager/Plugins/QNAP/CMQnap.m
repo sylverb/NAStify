@@ -2669,22 +2669,14 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     {
         features = CMSupportedFeaturesMaskFileDelete      |
                    CMSupportedFeaturesMaskFolderDelete    |
-                   CMSupportedFeaturesMaskFolderCreate    |
                    CMSupportedFeaturesMaskFileRename      |
                    CMSupportedFeaturesMaskFolderRename    |
                    CMSupportedFeaturesMaskFileMove        |
-                   CMSupportedFeaturesMaskMoveCancel      |
                    CMSupportedFeaturesMaskFolderMove      |
                    CMSupportedFeaturesMaskFileCopy        |
                    CMSupportedFeaturesMaskFolderCopy      |
-                   CMSupportedFeaturesMaskCopyCancel      |
                    CMSupportedFeaturesMaskExtract         |
-                   CMSupportedFeaturesMaskExtractCancel   |
                    CMSupportedFeaturesMaskSearch          |
-                   CMSupportedFeaturesMaskFileDownload    |
-                   CMSupportedFeaturesMaskDownloadCancel  |
-                   CMSupportedFeaturesMaskFileUpload      |
-                   CMSupportedFeaturesMaskUploadCancel    |
                    CMSupportedFeaturesMaskEject           |
                    CMSupportedFeaturesMaskVideoSeek       |
                    CMSupportedFeaturesMaskAirPlay         |
@@ -2694,7 +2686,6 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
         if (([self.version compare:QNAP_FIRMWARE_4_0 options:NSNumericSearch] != NSOrderedAscending))
         {
             features |= CMSupportedFeaturesMaskCompress   |
-                        CMSupportedFeaturesMaskCompressCancel |
                         CMSupportedFeaturesMaskFileShare       |
                         CMSupportedFeaturesMaskFolderShare;
         }

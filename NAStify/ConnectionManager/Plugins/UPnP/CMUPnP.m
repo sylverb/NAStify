@@ -295,8 +295,6 @@
     long long features = CMSupportedFeaturesMaskVLCPlayer      |
                          CMSupportedFeaturesMaskQTPlayer       |
                          CMSupportedFeaturesMaskGoogleCast     |
-                         CMSupportedFeaturesMaskFileDownload   |
-                         CMSupportedFeaturesMaskDownloadCancel |
                          CMSupportedFeaturesMaskCacheImage;
     return features;
 }

@@ -2368,26 +2368,16 @@
     {
         features = CMSupportedFeaturesMaskFileDelete      |
                    CMSupportedFeaturesMaskFolderDelete    |
-                   CMSupportedFeaturesMaskDeleteCancel    |
                    CMSupportedFeaturesMaskFileRename      |
                    CMSupportedFeaturesMaskFolderRename    |
-                   CMSupportedFeaturesMaskFolderCreate    |
                    CMSupportedFeaturesMaskFileMove        |
                    CMSupportedFeaturesMaskFolderMove      |
-                   CMSupportedFeaturesMaskMoveCancel      |
                    CMSupportedFeaturesMaskFileCopy        |
                    CMSupportedFeaturesMaskFolderCopy      |
-                   CMSupportedFeaturesMaskCopyCancel      |
                    CMSupportedFeaturesMaskExtract         |
-                   CMSupportedFeaturesMaskExtractCancel   |
                    CMSupportedFeaturesMaskCompress        |
-                   CMSupportedFeaturesMaskCompressCancel  |
                    CMSupportedFeaturesMaskFileShare       |
                    CMSupportedFeaturesMaskFolderShare     |
-                   CMSupportedFeaturesMaskFileDownload    |
-                   CMSupportedFeaturesMaskDownloadCancel  |
-                   CMSupportedFeaturesMaskFileUpload      |
-                   CMSupportedFeaturesMaskUploadCancel    |
                    CMSupportedFeaturesMaskQTPlayer        |
                    CMSupportedFeaturesMaskVLCPlayer       |
                    CMSupportedFeaturesMaskVideoSeek       |

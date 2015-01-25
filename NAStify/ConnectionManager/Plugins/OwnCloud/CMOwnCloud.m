@@ -884,26 +884,17 @@ shouldExecuteAsBackgroundTaskWithExpirationHandler:handlerBgExpBlock];
 
 - (long long)supportedFeaturesAtPath:(NSString *)path
 {
-    long long features = CMSupportedFeaturesMaskFolderCreate   |
-                         CMSupportedFeaturesMaskFileDelete     |
+    long long features = CMSupportedFeaturesMaskFileDelete     |
                          CMSupportedFeaturesMaskFolderDelete   |
-                         CMSupportedFeaturesMaskDeleteCancel   |
                          CMSupportedFeaturesMaskFileRename     |
                          CMSupportedFeaturesMaskFolderRename   |
                          CMSupportedFeaturesMaskFileMove       |
                          CMSupportedFeaturesMaskFolderMove     |
-                         CMSupportedFeaturesMaskMoveCancel     |
-                         CMSupportedFeaturesMaskFileDownload   |
-                         CMSupportedFeaturesMaskDownloadCancel |
-                         CMSupportedFeaturesMaskFileUpload     |
-                         CMSupportedFeaturesMaskUploadCancel   |
                          CMSupportedFeaturesMaskFileShare      |
                          CMSupportedFeaturesMaskFolderShare    |
                          CMSupportedFeaturesMaskVLCPlayer      |
                          CMSupportedFeaturesMaskQTPlayer       |
                          CMSupportedFeaturesMaskGoogleCast     |
-                         CMSupportedFeaturesMaskFileDownload   |
-                         CMSupportedFeaturesMaskDownloadCancel |
                          CMSupportedFeaturesMaskCacheImage;
     return features;
 }

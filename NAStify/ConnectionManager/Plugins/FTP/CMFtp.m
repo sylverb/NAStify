@@ -195,6 +195,9 @@ static size_t WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *da
 
     if (self.userAccount.boolSSL)
     {
+        NSString *path = [[NSBundle mainBundle] pathForResource:@"ca-bundle" ofType:@"crt"];
+        curl_easy_setopt(curl, CURLOPT_CAINFO, [path UTF8String]);
+
         // Enable FTPS (FTP with SSL)
         curl_easy_setopt(_curl, CURLOPT_FTP_SSL, CURLFTPSSL_ALL);
         curl_easy_setopt(_curl, CURLOPT_FTP_USE_EPSV, TRUE);
@@ -2011,17 +2014,10 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
 {
     long long features = CMSupportedFeaturesMaskFileDelete      |
                          CMSupportedFeaturesMaskFolderDelete    |
-                         CMSupportedFeaturesMaskDeleteCancel    |
-                         CMSupportedFeaturesMaskFolderCreate    |
                          CMSupportedFeaturesMaskFileRename      |
                          CMSupportedFeaturesMaskFolderRename    |
                          CMSupportedFeaturesMaskFileMove        |
                          CMSupportedFeaturesMaskFolderMove      |
-                         CMSupportedFeaturesMaskMoveCancel      |
-                         CMSupportedFeaturesMaskFileDownload    |
-                         CMSupportedFeaturesMaskDownloadCancel  |
-                         CMSupportedFeaturesMaskFileUpload      |
-                         CMSupportedFeaturesMaskUploadCancel    |
                          CMSupportedFeaturesMaskCacheImage;
     
     if ((self.userAccount.serverType == SERVER_TYPE_FTP) && (self.userAccount.boolSSL == FALSE))

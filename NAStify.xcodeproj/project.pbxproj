@@ -34,6 +34,8 @@
 		D51660D91A56ACEB008C347E /* MKStoreKitConfigs.plist in Resources */ = {isa = PBXBuildFile; fileRef = D51660D81A56ACEB008C347E /* MKStoreKitConfigs.plist */; };
 		D51660F61A56B127008C347E /* SKProduct+priceAsString.m in Sources */ = {isa = PBXBuildFile; fileRef = D51660F51A56B127008C347E /* SKProduct+priceAsString.m */; };
 		D51D0FCC19D1DFE80001ECF8 /* Reader-Export@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D51D0FCA19D1DFE80001ECF8 /* Reader-Export@2x.png */; };
+		D52FB0521A75937B00DCAF30 /* ca-bundle.crt in Resources */ = {isa = PBXBuildFile; fileRef = D52FB0511A75937B00DCAF30 /* ca-bundle.crt */; };
+		D52FB0531A75937B00DCAF30 /* ca-bundle.crt in Resources */ = {isa = PBXBuildFile; fileRef = D52FB0511A75937B00DCAF30 /* ca-bundle.crt */; };
 		D53030EC19DA979C004F7147 /* MediaAccessibility.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D53030EB19DA979C004F7147 /* MediaAccessibility.framework */; };
 		D530313819DD30C4004F7147 /* setup@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530313719DD30C4004F7147 /* setup@3x.png */; };
 		D530313A19E32783004F7147 /* network-disk@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D530313919E32783004F7147 /* network-disk@3x.png */; };
@@ -1511,6 +1513,7 @@
 		D51660F51A56B127008C347E /* SKProduct+priceAsString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SKProduct+priceAsString.m"; sourceTree = "<group>"; };
 		D51660F71A574DD0008C347E /* MEGAAccountDetails+init.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MEGAAccountDetails+init.h"; sourceTree = "<group>"; };
 		D51D0FCA19D1DFE80001ECF8 /* Reader-Export@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Reader-Export@2x.png"; sourceTree = "<group>"; };
+		D52FB0511A75937B00DCAF30 /* ca-bundle.crt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ca-bundle.crt"; sourceTree = "<group>"; };
 		D53030EB19DA979C004F7147 /* MediaAccessibility.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaAccessibility.framework; path = System/Library/Frameworks/MediaAccessibility.framework; sourceTree = SDKROOT; };
 		D530313719DD30C4004F7147 /* setup@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "setup@3x.png"; sourceTree = "<group>"; };
 		D530313919E32783004F7147 /* network-disk@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "network-disk@3x.png"; sourceTree = "<group>"; };
@@ -4521,6 +4524,7 @@
 				F93EEA2315E26C1E0082BA3B /* TabBar */,
 				F9694C5C15D883E80040F5D9 /* FileIcon */,
 				F9694CDE15D883E80040F5D9 /* ServerType */,
+				D52FB0511A75937B00DCAF30 /* ca-bundle.crt */,
 				F95BC4751602EF5C00A0C9C6 /* Default-568h@2x.png */,
 				D5316B2E1A17B07700364CA7 /* CloseButton.png */,
 				F943558615FCC79B00307556 /* CloseButton@2x.png */,
@@ -5717,6 +5721,7 @@
 				D5316AE21A17B04B00364CA7 /* nef@3x.png in Resources */,
 				D5316AE31A17B04B00364CA7 /* numbers.png in Resources */,
 				D5316AE41A17B04B00364CA7 /* numbers@2x.png in Resources */,
+				D52FB0531A75937B00DCAF30 /* ca-bundle.crt in Resources */,
 				D5316AE51A17B04B00364CA7 /* numbers@3x.png in Resources */,
 				D5316AE61A17B04B00364CA7 /* oga.png in Resources */,
 				D5EBAB031A6C6B2200905450 /* samba_small.png in Resources */,
@@ -6044,6 +6049,7 @@
 				D53032C519E33110004F7147 /* eject@3x.png in Resources */,
 				F99CB7BA15F7FA2F0011F91F /* Reader-Button-N@2x.png in Resources */,
 				D53D92F41A0E1E0500E6D6B6 /* avi.png in Resources */,
+				D52FB0521A75937B00DCAF30 /* ca-bundle.crt in Resources */,
 				D530330319E33110004F7147 /* pdf@3x.png in Resources */,
 				D5316B2F1A17B07700364CA7 /* CloseButton.png in Resources */,
 				F99CB7BC15F7FA2F0011F91F /* Reader-Email@2x.png in Resources */,

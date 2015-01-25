@@ -51,8 +51,10 @@
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
 #ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files;
+- (void)cancelDeleteTask;
 - (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder;
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
+- (void)cancelMoveTask;
 - (void)shareFiles:(NSArray *)files duration:(NSTimeInterval)duration password:(NSString *)password;
 #endif
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localpath;
