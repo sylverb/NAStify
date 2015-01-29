@@ -766,6 +766,7 @@
 {
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
     [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:self.accounts] forKey:@"accounts"];
+    [defaults synchronize];
 }
 
 #pragma mark - Orientation management
