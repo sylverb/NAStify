@@ -22,6 +22,7 @@
 
 // File viewers
 #import "CustomMoviePlayerViewController.h"
+#import "VLCPlaybackNavigationController.h"
 #import "VLCMovieViewController.h"
 
 // Settings
@@ -366,8 +367,7 @@
 }
 
 
-#pragma mark -
-#pragma mark Disconnection handling
+#pragma mark - Disconnection handling
 
 - (void)confirmDisconnect
 {
@@ -1646,7 +1646,7 @@
                     
                     movieViewController.url = [NSURL fileURLWithPath:fileItem.fullPath];
                     
-                    UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                    UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                     navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                     [self.navigationController presentViewController:navCon animated:YES completion:nil];
                 }
@@ -1674,7 +1674,7 @@
                 
                 movieViewController.url = [NSURL fileURLWithPath:fileItem.fullPath];
                 
-                UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                 navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                 [self.navigationController presentViewController:navCon animated:YES completion:nil];
             }
@@ -1868,7 +1868,7 @@
                             
                             movieViewController.url = self.videoNetworkConnection.url;
                             
-                            UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                            UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                             navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                             [self.navigationController presentViewController:navCon animated:YES completion:nil];
                         }
@@ -1895,7 +1895,7 @@
                             
                             movieViewController.url = self.videoNetworkConnection.url;
                             
-                            UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                            UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                             navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                             [self.navigationController presentViewController:navCon animated:YES completion:nil];
                         }
@@ -1976,7 +1976,7 @@
                         
                         movieViewController.url = self.videoNetworkConnection.url;
                         
-                        UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                        UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                         navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                         [self.navigationController presentViewController:navCon animated:YES completion:nil];
                     }
@@ -2138,7 +2138,7 @@
                 
                 movieViewController.url = nil;
 
-                UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                 navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                 [self.navigationController presentViewController:navCon animated:YES completion:nil];
             }
@@ -2425,7 +2425,7 @@
                     VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
                     movieViewController.url = self.videoNetworkConnection.url;
                     
-                    UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                    UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                     navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                     [self.navigationController presentViewController:navCon animated:YES completion:nil];
                     break;
@@ -2507,8 +2507,7 @@
 {
 }
 
-#pragma mark -
-#pragma mark MWPhotoBrowserDelegate
+#pragma mark - MWPhotoBrowserDelegate
 
 - (NSUInteger)numberOfPhotosInPhotoBrowser:(MWPhotoBrowser *)photoBrowser
 {
@@ -3561,7 +3560,7 @@
                 movieViewController.url = self.videoNetworkConnection.url;
                 movieViewController.pathToExternalSubtitlesFile = self.dlFilePath;
                 
-                UINavigationController *navCon = [[UINavigationController alloc] initWithRootViewController:movieViewController];
+                UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                 navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                 [self.navigationController presentViewController:navCon animated:YES completion:nil];
                 break;

@@ -617,7 +617,6 @@
 		D546B8811A704436001AF141 /* PurchaseServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D546B8801A704436001AF141 /* PurchaseServerViewController.m */; };
 		D546FCEC19FE4EA400125E62 /* libMediaLibraryKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D306F71901186B0087F4C6 /* libMediaLibraryKit.a */; };
 		D546FCFA19FE5D2F00125E62 /* libc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D546FCF919FE5D2F00125E62 /* libc++.dylib */; };
-		D546FCFD19FE5F9900125E62 /* MediaLibrary.mom in Resources */ = {isa = PBXBuildFile; fileRef = D546FCFC19FE5F9900125E62 /* MediaLibrary.mom */; };
 		D54EBF471950290A008AC4BB /* ServerSettingsSynologyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54EBF461950290A008AC4BB /* ServerSettingsSynologyViewController.m */; };
 		D54EBF4A1954A7A5008AC4BB /* ServerSettingsFtpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54EBF491954A7A5008AC4BB /* ServerSettingsFtpViewController.m */; };
 		D54EBF4D195E39B5008AC4BB /* TextViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D54EBF4C195E39B5008AC4BB /* TextViewCell.m */; };
@@ -643,6 +642,10 @@
 		D562AC2D197D86D400C2322A /* ftp_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D562AC2A197D86D400C2322A /* ftp_small.png */; };
 		D562AC2E197D86D400C2322A /* ftps_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D562AC2B197D86D400C2322A /* ftps_small.png */; };
 		D562AC2F197D86D400C2322A /* sftp_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D562AC2C197D86D400C2322A /* sftp_small.png */; };
+		D5645FE61A7EDE3900FDAA1F /* MediaLibrary-2.1.mom in Resources */ = {isa = PBXBuildFile; fileRef = D5645FE21A7EDE3900FDAA1F /* MediaLibrary-2.1.mom */; };
+		D5645FE71A7EDE3900FDAA1F /* MediaLibrary-2.5.mom in Resources */ = {isa = PBXBuildFile; fileRef = D5645FE31A7EDE3900FDAA1F /* MediaLibrary-2.5.mom */; };
+		D5645FE81A7EDE3900FDAA1F /* MediaLibrary-2.5.omo in Resources */ = {isa = PBXBuildFile; fileRef = D5645FE41A7EDE3900FDAA1F /* MediaLibrary-2.5.omo */; };
+		D5645FE91A7EDE3900FDAA1F /* VersionInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = D5645FE51A7EDE3900FDAA1F /* VersionInfo.plist */; };
 		D56506DA1A431AC6000EC977 /* owncloud_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506D71A431AC6000EC977 /* owncloud_small.png */; };
 		D56506DB1A431AC6000EC977 /* owncloud_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506D71A431AC6000EC977 /* owncloud_small.png */; };
 		D56506DC1A431AC6000EC977 /* owncloud_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D56506D81A431AC6000EC977 /* owncloud_small@2x.png */; };
@@ -858,6 +861,10 @@
 		D56509601A543FD5000EC977 /* mega@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = D565095C1A543FD5000EC977 /* mega@3x.png */; };
 		D56509611A543FD5000EC977 /* mega~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = D565095D1A543FD5000EC977 /* mega~ipad.png */; };
 		D56509621A543FD5000EC977 /* mega~iphone.png in Resources */ = {isa = PBXBuildFile; fileRef = D565095E1A543FD5000EC977 /* mega~iphone.png */; };
+		D566CEA01A7E8BF200611FF3 /* VLCEqualizerView.m in Sources */ = {isa = PBXBuildFile; fileRef = D566CE9F1A7E8BF200611FF3 /* VLCEqualizerView.m */; };
+		D566CEC01A7E93BC00611FF3 /* VLCTrackSelectorHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = D566CEBD1A7E93BC00611FF3 /* VLCTrackSelectorHeaderView.m */; };
+		D566CEC11A7E93BC00611FF3 /* VLCTrackSelectorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D566CEBF1A7E93BC00611FF3 /* VLCTrackSelectorTableViewCell.m */; };
+		D566CEC41A7E9A7C00611FF3 /* VLCPlaybackNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D566CEC31A7E9A7C00611FF3 /* VLCPlaybackNavigationController.m */; };
 		D56785831A61D11600286B86 /* LiveAuthDialog_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D565078F1A4A0392000EC977 /* LiveAuthDialog_iPhone.xib */; };
 		D56785881A61D49500286B86 /* libicucore.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = D56785871A61D49500286B86 /* libicucore.dylib */; };
 		D56785971A61DD2C00286B86 /* libConnectSDK.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D56785921A61DD1000286B86 /* libConnectSDK.a */; };
@@ -1283,7 +1290,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = BE9F35A1ECF5DD0B2EFD940E;
+			remoteGlobalIDString = 74DD86B7A832541B3445CFDD;
 			remoteInfo = Pods;
 		};
 		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
@@ -1430,7 +1437,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = BE9F35A1ECF5DD0B2EFD940E;
+			remoteGlobalIDString = 74DD86B7A832541B3445CFDD;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -1859,7 +1866,6 @@
 		D546B8801A704436001AF141 /* PurchaseServerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PurchaseServerViewController.m; path = Settings/PurchaseServerViewController.m; sourceTree = "<group>"; };
 		D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Pods.xcodeproj; path = Pods/Pods.xcodeproj; sourceTree = "<group>"; };
 		D546FCF919FE5D2F00125E62 /* libc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libc++.dylib"; path = "usr/lib/libc++.dylib"; sourceTree = SDKROOT; };
-		D546FCFC19FE5F9900125E62 /* MediaLibrary.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; name = MediaLibrary.mom; path = "external/MediaLibraryKit/build/Release-iphoneos/MediaLibrary.mom"; sourceTree = SOURCE_ROOT; };
 		D54EBF451950290A008AC4BB /* ServerSettingsSynologyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerSettingsSynologyViewController.h; path = ServersSettings/ServerSettingsSynologyViewController.h; sourceTree = "<group>"; };
 		D54EBF461950290A008AC4BB /* ServerSettingsSynologyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ServerSettingsSynologyViewController.m; path = ServersSettings/ServerSettingsSynologyViewController.m; sourceTree = "<group>"; };
 		D54EBF481954A7A5008AC4BB /* ServerSettingsFtpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ServerSettingsFtpViewController.h; path = ServersSettings/ServerSettingsFtpViewController.h; sourceTree = "<group>"; };
@@ -1890,6 +1896,10 @@
 		D562AC2A197D86D400C2322A /* ftp_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ftp_small.png; sourceTree = "<group>"; };
 		D562AC2B197D86D400C2322A /* ftps_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ftps_small.png; sourceTree = "<group>"; };
 		D562AC2C197D86D400C2322A /* sftp_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sftp_small.png; sourceTree = "<group>"; };
+		D5645FE21A7EDE3900FDAA1F /* MediaLibrary-2.1.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "MediaLibrary-2.1.mom"; sourceTree = "<group>"; };
+		D5645FE31A7EDE3900FDAA1F /* MediaLibrary-2.5.mom */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = "MediaLibrary-2.5.mom"; sourceTree = "<group>"; };
+		D5645FE41A7EDE3900FDAA1F /* MediaLibrary-2.5.omo */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MediaLibrary-2.5.omo"; sourceTree = "<group>"; };
+		D5645FE51A7EDE3900FDAA1F /* VersionInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = file.bplist; path = VersionInfo.plist; sourceTree = "<group>"; };
 		D56506D71A431AC6000EC977 /* owncloud_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = owncloud_small.png; sourceTree = "<group>"; };
 		D56506D81A431AC6000EC977 /* owncloud_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "owncloud_small@2x.png"; sourceTree = "<group>"; };
 		D56506D91A431AC6000EC977 /* owncloud_small@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "owncloud_small@3x.png"; sourceTree = "<group>"; };
@@ -2143,6 +2153,14 @@
 		D565095C1A543FD5000EC977 /* mega@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega@3x.png"; sourceTree = "<group>"; };
 		D565095D1A543FD5000EC977 /* mega~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega~ipad.png"; sourceTree = "<group>"; };
 		D565095E1A543FD5000EC977 /* mega~iphone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "mega~iphone.png"; sourceTree = "<group>"; };
+		D566CE9E1A7E8BF200611FF3 /* VLCEqualizerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCEqualizerView.h; sourceTree = "<group>"; };
+		D566CE9F1A7E8BF200611FF3 /* VLCEqualizerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCEqualizerView.m; sourceTree = "<group>"; };
+		D566CEBC1A7E93BC00611FF3 /* VLCTrackSelectorHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCTrackSelectorHeaderView.h; sourceTree = "<group>"; };
+		D566CEBD1A7E93BC00611FF3 /* VLCTrackSelectorHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCTrackSelectorHeaderView.m; sourceTree = "<group>"; };
+		D566CEBE1A7E93BC00611FF3 /* VLCTrackSelectorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCTrackSelectorTableViewCell.h; sourceTree = "<group>"; };
+		D566CEBF1A7E93BC00611FF3 /* VLCTrackSelectorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCTrackSelectorTableViewCell.m; sourceTree = "<group>"; };
+		D566CEC21A7E9A7C00611FF3 /* VLCPlaybackNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCPlaybackNavigationController.h; sourceTree = "<group>"; };
+		D566CEC31A7E9A7C00611FF3 /* VLCPlaybackNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCPlaybackNavigationController.m; sourceTree = "<group>"; };
 		D56785871A61D49500286B86 /* libicucore.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libicucore.dylib; path = usr/lib/libicucore.dylib; sourceTree = SDKROOT; };
 		D567858B1A61DD0F00286B86 /* ConnectSDK.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ConnectSDK.xcodeproj; path = "NAStify/External/Connect-SDK-iOS/ConnectSDK.xcodeproj"; sourceTree = "<group>"; };
 		D569B17B1982F7C0007C0AC5 /* ShareViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ShareViewController.h; path = FileBrowser/ShareViewController.h; sourceTree = "<group>"; };
@@ -3017,6 +3035,18 @@
 			path = en.lproj;
 			sourceTree = "<group>";
 		};
+		D5645FE11A7EDE3900FDAA1F /* MediaLibrary.momd */ = {
+			isa = PBXGroup;
+			children = (
+				D5645FE21A7EDE3900FDAA1F /* MediaLibrary-2.1.mom */,
+				D5645FE31A7EDE3900FDAA1F /* MediaLibrary-2.5.mom */,
+				D5645FE41A7EDE3900FDAA1F /* MediaLibrary-2.5.omo */,
+				D5645FE51A7EDE3900FDAA1F /* VersionInfo.plist */,
+			);
+			name = MediaLibrary.momd;
+			path = "external/MediaLibraryKit/build/Release-iphoneos/MediaLibrary.momd";
+			sourceTree = SOURCE_ROOT;
+		};
 		D565070A1A436CC7000EC977 /* Synology */ = {
 			isa = PBXGroup;
 			children = (
@@ -3653,9 +3683,9 @@
 		D5D306E3190117B20087F4C6 /* MediaLibraryKit */ = {
 			isa = PBXGroup;
 			children = (
+				D5645FE11A7EDE3900FDAA1F /* MediaLibrary.momd */,
 				D5D306EC1901186B0087F4C6 /* include */,
 				D5D306F71901186B0087F4C6 /* libMediaLibraryKit.a */,
-				D546FCFC19FE5F9900125E62 /* MediaLibrary.mom */,
 			);
 			name = MediaLibraryKit;
 			sourceTree = "<group>";
@@ -4130,6 +4160,14 @@
 		F901F83315D85ED20059428E /* VLCMoviePlayer */ = {
 			isa = PBXGroup;
 			children = (
+				D566CEC21A7E9A7C00611FF3 /* VLCPlaybackNavigationController.h */,
+				D566CEC31A7E9A7C00611FF3 /* VLCPlaybackNavigationController.m */,
+				D566CEBC1A7E93BC00611FF3 /* VLCTrackSelectorHeaderView.h */,
+				D566CEBD1A7E93BC00611FF3 /* VLCTrackSelectorHeaderView.m */,
+				D566CEBE1A7E93BC00611FF3 /* VLCTrackSelectorTableViewCell.h */,
+				D566CEBF1A7E93BC00611FF3 /* VLCTrackSelectorTableViewCell.m */,
+				D566CE9E1A7E8BF200611FF3 /* VLCEqualizerView.h */,
+				D566CE9F1A7E8BF200611FF3 /* VLCEqualizerView.m */,
 				D5D308C019015CCB0087F4C6 /* VLCSlider.h */,
 				D5D308C119015CCB0087F4C6 /* VLCSlider.m */,
 				D5D3067F19010B430087F4C6 /* VLCStatusLabel.h */,
@@ -6040,6 +6078,7 @@
 				D53032F719E33110004F7147 /* mpv@3x.png in Resources */,
 				D53D935A1A0E1E0500E6D6B6 /* rar.png in Resources */,
 				D53D93641A0E1E0500E6D6B6 /* txt.png in Resources */,
+				D5645FE91A7EDE3900FDAA1F /* VersionInfo.plist in Resources */,
 				D530330819E33110004F7147 /* ps@2x.png in Resources */,
 				D53032B119E33110004F7147 /* cr2@3x.png in Resources */,
 				D53032CA19E33110004F7147 /* flac@2x.png in Resources */,
@@ -6055,6 +6094,7 @@
 				D53032E319E33110004F7147 /* mlp@3x.png in Resources */,
 				D53D92E81A0E1E0500E6D6B6 /* al.png in Resources */,
 				D53032F819E33110004F7147 /* nef@2x.png in Resources */,
+				D5645FE71A7EDE3900FDAA1F /* MediaLibrary-2.5.mom in Resources */,
 				D53032A219E33110004F7147 /* alaw@2x.png in Resources */,
 				D5D3CC5C19AD300A0083EA08 /* box_small.png in Resources */,
 				D53D93981A0E4B4A00E6D6B6 /* qnap@3x.png in Resources */,
@@ -6156,6 +6196,7 @@
 				D530330319E33110004F7147 /* pdf@3x.png in Resources */,
 				D5316B2F1A17B07700364CA7 /* CloseButton.png in Resources */,
 				F99CB7BC15F7FA2F0011F91F /* Reader-Email@2x.png in Resources */,
+				D5645FE61A7EDE3900FDAA1F /* MediaLibrary-2.1.mom in Resources */,
 				F99CB7BE15F7FA2F0011F91F /* Reader-Mark-N@2x.png in Resources */,
 				F99CB7C015F7FA2F0011F91F /* Reader-Mark-Y@2x.png in Resources */,
 				D53032BD19E33110004F7147 /* doc@3x.png in Resources */,
@@ -6206,7 +6247,6 @@
 				D5551C101901827B00652A08 /* subtitleIcon@2x.png in Resources */,
 				D530330119E33110004F7147 /* opus@3x.png in Resources */,
 				D56509571A536F6C000EC977 /* mega_small@3x.png in Resources */,
-				D546FCFD19FE5F9900125E62 /* MediaLibrary.mom in Resources */,
 				D54236C81A3655C8008AC52A /* googledrive@3x.png in Resources */,
 				D53032A019E33110004F7147 /* al@2x.png in Resources */,
 				D530332619E33110004F7147 /* wmv@2x.png in Resources */,
@@ -6288,6 +6328,7 @@
 				D5551C021901827B00652A08 /* pauseIcon@2x.png in Resources */,
 				D53032DE19E33110004F7147 /* m4v@2x.png in Resources */,
 				D5AFBAF519D022B0001C14CC /* licenses.html in Resources */,
+				D5645FE81A7EDE3900FDAA1F /* MediaLibrary-2.5.omo in Resources */,
 				D53032F219E33110004F7147 /* mpg@2x.png in Resources */,
 				D5392E971A7AFC7D00CA711E /* repeat.png in Resources */,
 				D53032F519E33110004F7147 /* mpga@3x.png in Resources */,
@@ -6590,6 +6631,7 @@
 				D5D3CB7B19952DF70083EA08 /* CameraRollSyncViewController.m in Sources */,
 				D501D6EF19FFEB7F0032AACD /* MWGridCell.m in Sources */,
 				F99CB72E15F770A30011F91F /* resource.cpp in Sources */,
+				D566CEC11A7E93BC00611FF3 /* VLCTrackSelectorTableViewCell.m in Sources */,
 				D565082F1A51D7D0000EC977 /* MEGATransfer.mm in Sources */,
 				D56507D11A4A0392000EC977 /* LiveConnectClientCore.m in Sources */,
 				D501D72A19FFEBD30032AACD /* SDWebImageDecoder.m in Sources */,
@@ -6601,6 +6643,7 @@
 				F99CB73215F770A30011F91F /* scantree.cpp in Sources */,
 				D56507D31A4A0392000EC977 /* LiveDownloadOperationCore.m in Sources */,
 				D5D3CC4F19A8F5A50083EA08 /* ServerSettingsBoxViewController.m in Sources */,
+				D566CEC41A7E9A7C00611FF3 /* VLCPlaybackNavigationController.m in Sources */,
 				D56507C51A4A0392000EC977 /* LiveAuthDialog.m in Sources */,
 				F99CB73315F770A30011F91F /* secpassword.cpp in Sources */,
 				F99CB73415F770A30011F91F /* sha1.cpp in Sources */,
@@ -6656,6 +6699,7 @@
 				F99CB7F915F7FB5F0011F91F /* ReaderThumbRender.m in Sources */,
 				F99CB7FA15F7FB5F0011F91F /* ReaderThumbRequest.m in Sources */,
 				F99CB7FB15F7FB5F0011F91F /* ReaderThumbsView.m in Sources */,
+				D566CEA01A7E8BF200611FF3 /* VLCEqualizerView.m in Sources */,
 				D56508D61A51DA25000EC977 /* attrmap.cpp in Sources */,
 				F99CB7FC15F7FB5F0011F91F /* ReaderThumbView.m in Sources */,
 				F99CB7FD15F7FB5F0011F91F /* ReaderViewController.m in Sources */,
@@ -6693,6 +6737,7 @@
 				D597AA6018C2A5FC006FA582 /* ServerSettingsDropboxViewController.m in Sources */,
 				F943565215FD54F800307556 /* AesOpt.c in Sources */,
 				D56508291A51D7D0000EC977 /* MEGASdk.mm in Sources */,
+				D566CEC01A7E93BC00611FF3 /* VLCTrackSelectorHeaderView.m in Sources */,
 				F943565315FD54F800307556 /* Alloc.c in Sources */,
 				D56509041A51DA25000EC977 /* megaapi_impl.cpp in Sources */,
 				D56508F61A51DA25000EC977 /* GfxProcCG.cpp in Sources */,

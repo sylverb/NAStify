@@ -20,6 +20,9 @@
 #import <AVFoundation/AVFoundation.h>
 #import <CommonCrypto/CommonDigest.h>
 #import "VLCThumbnailsCache.h"
+#import "VLCTrackSelectorTableViewCell.h"
+#import "VLCTrackSelectorHeaderView.h"
+#import "VLCEqualizerView.h"
 #import "SettingsViewController.h"
 
 #import "OBSlider.h"
@@ -29,7 +32,14 @@
 #define FORWARD_SWIPE_DURATION 30
 #define BACKWARD_SWIPE_DURATION 10
 
-@interface VLCMovieViewController () <UIGestureRecognizerDelegate, AVAudioSessionDelegate, VLCMediaDelegate>
+#define LOCKCHECK \
+if (_interfaceIsLocked) \
+return
+
+#define TRACK_SELECTOR_TABLEVIEW_CELL @"track selector table view cell"
+#define TRACK_SELECTOR_TABLEVIEW_SECTIONHEADER @"track selector table view section header"
+
+@interface VLCMovieViewController () <UIGestureRecognizerDelegate, AVAudioSessionDelegate, VLCMediaDelegate, UITableViewDataSource, UITableViewDelegate, VLCEqualizerViewDelegate>
 {
 #if !(TARGET_IPHONE_SIMULATOR)
     VLCMediaListPlayer *_listPlayer;
@@ -54,15 +64,20 @@
     BOOL _positionSet;
     BOOL _playerIsSetup;
     BOOL _isScrubbing;
-
+    BOOL _interfaceIsLocked;
+    BOOL _switchingTracksNotChapters;
+    
     BOOL _swipeGesturesEnabled;
-    NSString * panType;
     UIPinchGestureRecognizer *_pinchRecognizer;
     UIPanGestureRecognizer *_panRecognizer;
     UISwipeGestureRecognizer *_swipeRecognizerLeft;
     UISwipeGestureRecognizer *_swipeRecognizerRight;
     UITapGestureRecognizer *_tapRecognizer;
     UITapGestureRecognizer *_tapOnVideoRecognizer;
+    
+    UIView *_trackSelectorContainer;
+    UITableView *_trackSelectorTableView;
+    VLCEqualizerView *_equalizerView;
     
     // GoogleCast
     GoogleCastController *_gcController;
@@ -146,7 +161,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    CGRect rect;
+    
     // GoogleCast controller init
     _gcController = [GoogleCastController sharedGCController];
     _gcController.delegate = self;
@@ -179,19 +195,25 @@
     _playbackSpeedLabel.text = NSLocalizedString(@"PLAYBACK_SPEED", @"");
     _playbackSpeedSlider.accessibilityLabel = _playbackSpeedLabel.text;
     _playbackSpeedSlider.isAccessibilityElement = YES;
-
+    _audioDelayLabel.text = NSLocalizedString(@"AUDIO_DELAY", nil);
+    _audioDelaySlider.accessibilityLabel = _audioDelayLabel.text;
+    _audioDelaySlider.isAccessibilityElement = YES;
+    _spuDelayLabel.text = NSLocalizedString(@"SPU_DELAY", nil);
+    _spuDelaySlider.accessibilityLabel = _spuDelayLabel.text;
+    _spuDelaySlider.isAccessibilityElement = YES;
+    
     _positionSlider.accessibilityLabel = NSLocalizedString(@"PLAYBACK_POSITION", @"");
     _positionSlider.isAccessibilityElement = YES;
     _timeDisplay.isAccessibilityElement = YES;
 
-    _audioSwitcherButton.accessibilityLabel = NSLocalizedString(@"CHOOSE_AUDIO_TRACK", @"");
-    _audioSwitcherButton.isAccessibilityElement = YES;
-    _audioSwitcherButtonLandscape.accessibilityLabel = NSLocalizedString(@"CHOOSE_AUDIO_TRACK", @"");
-    _audioSwitcherButtonLandscape.isAccessibilityElement = YES;
-    _subtitleSwitcherButton.accessibilityLabel = NSLocalizedString(@"CHOOSE_SUBTITLE_TRACK", @"");
-    _subtitleSwitcherButton.isAccessibilityElement = YES;
-    _subtitleSwitcherButtonLandscape.accessibilityLabel = NSLocalizedString(@"CHOOSE_SUBTITLE_TRACK", @"");
-    _subtitleSwitcherButtonLandscape.isAccessibilityElement = YES;
+    _trackSwitcherButton.accessibilityLabel = NSLocalizedString(@"OPEN_TRACK_PANEL", nil);
+    _trackSwitcherButton.isAccessibilityElement = YES;
+    _trackSwitcherButtonLandscape.accessibilityLabel = NSLocalizedString(@"OPEN_TRACK_PANEL", nil);
+    _trackSwitcherButtonLandscape.isAccessibilityElement = YES;
+    _chapterButton.accessibilityLabel = NSLocalizedString(@"JUMP_TO_TITLE_OR_CHAPTER", nil);
+    _chapterButton.isAccessibilityElement = YES;
+    _chapterButtonLandscape.accessibilityLabel = NSLocalizedString(@"JUMP_TO_TITLE_OR_CHAPTER", nil);
+    _chapterButtonLandscape.isAccessibilityElement = YES;
     _playbackSpeedButton.accessibilityLabel = _playbackSpeedLabel.text;
     _playbackSpeedButton.isAccessibilityElement = YES;
     _playbackSpeedButtonLandscape.accessibilityLabel = _playbackSpeedLabel.text;
@@ -290,7 +312,7 @@
     self.toolbar.tintColor = [UIColor whiteColor];
     self.toolbar.barStyle = UIBarStyleBlack;
     
-    CGRect rect = self.resetVideoFilterButton.frame;
+    rect = self.resetVideoFilterButton.frame;
     rect.origin.y = rect.origin.y + 5.;
     self.resetVideoFilterButton.frame = rect;
     rect = self.toolbar.frame;
@@ -333,8 +355,47 @@
 
     _playerIsSetup = NO;
 
-    [self.movieView setAccessibilityLabel:NSLocalizedString(@"VO_VIDEOPLAYER_TITLE", @"")];
-    [self.movieView setAccessibilityHint:NSLocalizedString(@"VO_VIDEOPLAYER_DOUBLETAP", @"")];
+    [self.movieView setAccessibilityLabel:NSLocalizedString(@"VO_VIDEOPLAYER_TITLE", nil)];
+    [self.movieView setAccessibilityHint:NSLocalizedString(@"VO_VIDEOPLAYER_DOUBLETAP", nil)];
+    
+    rect = self.view.frame;
+    CGFloat width;
+    CGFloat height;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        width = 300.;
+        height = 320.;
+    } else {
+        width = 450.;
+        height = 470.;
+    }
+
+    _trackSelectorTableView = [[UITableView alloc] initWithFrame:CGRectMake(0., 0., width, height) style:UITableViewStylePlain];
+    _trackSelectorTableView.delegate = self;
+    _trackSelectorTableView.dataSource = self;
+    _trackSelectorTableView.separatorColor = [UIColor clearColor];
+    _trackSelectorTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+    [_trackSelectorTableView registerClass:[VLCTrackSelectorTableViewCell class] forCellReuseIdentifier:TRACK_SELECTOR_TABLEVIEW_CELL];
+    [_trackSelectorTableView registerClass:[VLCTrackSelectorHeaderView class] forHeaderFooterViewReuseIdentifier:TRACK_SELECTOR_TABLEVIEW_SECTIONHEADER];
+    _trackSelectorTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    
+    _trackSelectorContainer = [[VLCFrostedGlasView alloc] initWithFrame:CGRectMake((rect.size.width - width) / 2., (rect.size.height - height) / 2., width, height)];
+    [_trackSelectorContainer addSubview:_trackSelectorTableView];
+    _trackSelectorContainer.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight;
+    _trackSelectorContainer.hidden = YES;
+    
+    if ([[UIDevice currentDevice] speedCategory] >= 3) {
+        _trackSelectorTableView.opaque = NO;
+        _trackSelectorTableView.backgroundColor = [UIColor clearColor];
+    } else
+        _trackSelectorTableView.backgroundColor = [UIColor blackColor];
+    
+    [self.view addSubview:_trackSelectorContainer];
+    
+    _equalizerView = [[VLCEqualizerView alloc] initWithFrame:CGRectMake((rect.size.width - 450.) / 2., self.controllerPanel.frame.origin.y - 200., 450., 240.)];
+    _equalizerView.delegate = self;
+    _equalizerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
+    _equalizerView.hidden = YES;
+    [self.view addSubview:_equalizerView];
 }
 
 - (void)volumeChanged:(NSNotification *)notification {
@@ -489,10 +550,12 @@
         self.repeatButtonLandscape.hidden = YES;
         self.videoFilterButton.hidden = YES;
         self.videoFilterButtonLandscape.hidden = YES;
-        self.audioSwitcherButton.hidden = YES;
-        self.audioSwitcherButtonLandscape.hidden = YES;
-        self.subtitleContainer.hidden = YES;
-        self.subtitleContainerLandscape.hidden = YES;
+        self.lockButton.hidden = YES;
+        self.lockButtonLandscape.hidden = YES;
+        self.equalizerButton.hidden = YES;
+        self.chapterButton.hidden = YES;
+        self.trackSwitcherButton.hidden = YES;
+        self.trackSwitcherButtonLandscape.hidden = YES;
         
         // Load new media if needed
         if (self.url != nil &&
@@ -567,11 +630,13 @@
         self.repeatButtonLandscape.hidden = NO;
         self.videoFilterButton.hidden = NO;
         self.videoFilterButtonLandscape.hidden = NO;
-        self.audioSwitcherButton.hidden = NO;
-        self.audioSwitcherButtonLandscape.hidden = NO;
-        self.subtitleContainer.hidden = NO;
-        self.subtitleContainerLandscape.hidden = NO;
-        
+        self.lockButton.hidden = NO;
+        self.lockButtonLandscape.hidden = NO;
+        self.equalizerButton.hidden = NO;
+        self.chapterButton.hidden = NO;
+        self.trackSwitcherButton.hidden = NO;
+        self.trackSwitcherButtonLandscape.hidden = NO;
+
         if (_playerIsSetup)
             return;
         
@@ -638,8 +703,13 @@
         if (![self _isMediaSuitableForDevice]) {
             UIAlertView * alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"DEVICE_TOOSLOW_TITLE", @"") message:[NSString stringWithFormat:NSLocalizedString(@"DEVICE_TOOSLOW", @""), [[UIDevice currentDevice] model], self.fileFromMediaLibrary.title] delegate:self cancelButtonTitle:NSLocalizedString(@"BUTTON_CANCEL", @"") otherButtonTitles:NSLocalizedString(@"BUTTON_OPEN", @""), nil];
             [alert show];
-        } else
+        } else {
+            unsigned int profile = (unsigned int)[[[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] objectForKey:kVLCSettingEqualizerProfile] integerValue];
+            // Set initial preamp value (flat profile)
+            [_mediaPlayer resetEqualizerFromProfile:profile];
+
             [self _playNewMedia];
+        }
         
         if (![self hasExternalDisplay])
             self.brightnessSlider.value = [UIScreen mainScreen].brightness * 2.;
@@ -729,6 +799,12 @@
     self.playbackSpeedSlider.value = [self _playbackSpeed];
     [self _updatePlaybackSpeedIndicator];
 
+    self.audioDelaySlider.value = _mediaPlayer.currentAudioPlaybackDelay / 1000000;
+    self.audioDelayIndicator.text = [NSString stringWithFormat:@"%1.00f s", self.audioDelaySlider.value];
+    
+    self.spuDelaySlider.value = _mediaPlayer.currentVideoSubTitleDelay / 1000000;
+    self.spuDelayIndicator.text = [NSString stringWithFormat:@"%1.00f s", self.spuDelaySlider.value];
+    
     _currentAspectRatioMask = 0;
     _mediaPlayer.videoAspectRatio = NULL;
 
@@ -930,6 +1006,8 @@
 
 - (void)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer
 {
+    LOCKCHECK;
+    
     if (!_swipeGesturesEnabled)
         return;
 
@@ -972,6 +1050,10 @@
         _videoFilterView.hidden = _videoFiltersHidden;
         _playbackSpeedView.alpha = 0.0f;
         _playbackSpeedView.hidden = _playbackSpeedViewHidden;
+        _trackSelectorContainer.alpha = 0.0f;
+        _trackSelectorContainer.hidden = YES;
+        _equalizerView.alpha = 0.0f;
+        _equalizerView.hidden = YES;
     }
 
     void (^animationBlock)() = ^() {
@@ -980,6 +1062,8 @@
         _toolbar.alpha = alpha;
         _videoFilterView.alpha = alpha;
         _playbackSpeedView.alpha = alpha;
+        _trackSelectorContainer.alpha = alpha;
+        _equalizerView.alpha = alpha;
     };
 
     void (^completionBlock)(BOOL finished) = ^(BOOL finished) {
@@ -988,6 +1072,8 @@
         _toolbar.hidden = _controlsHidden;
         _videoFilterView.hidden = _videoFiltersHidden;
         _playbackSpeedView.hidden = _playbackSpeedViewHidden;
+        _trackSelectorContainer.hidden = YES;
+        _equalizerView.hidden = YES;
     };
 
     UIStatusBarAnimation animationType = animated? UIStatusBarAnimationFade: UIStatusBarAnimationNone;
@@ -1055,12 +1141,16 @@
 
 - (IBAction)closePlayback:(id)sender
 {
+//    LOCKCHECK;
+    
     [self setControlsHidden:NO animated:NO];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)positionSliderAction:(UISlider *)sender
 {
+    LOCKCHECK;
+    
     /* we need to limit the number of events sent by the slider, since otherwise, the user
      * wouldn't see the I-frames when seeking on current mobile devices. This isn't a problem
      * within the Simulator, but especially on older ARMv7 devices, it's clearly noticeable. */
@@ -1096,6 +1186,8 @@
 
 - (IBAction)positionSliderTouchDown:(id)sender
 {
+    LOCKCHECK;
+    
     [self _updateScrubLabel];
     self.scrubIndicatorView.hidden = NO;
     _isScrubbing = YES;
@@ -1103,6 +1195,8 @@
 
 - (IBAction)positionSliderTouchUp:(id)sender
 {
+    LOCKCHECK;
+    
     self.scrubIndicatorView.hidden = YES;
     _isScrubbing = NO;
     
@@ -1130,11 +1224,15 @@
 
 - (IBAction)positionSliderDrag:(id)sender
 {
+    LOCKCHECK;
+    
     [self _updateScrubLabel];
 }
 
 - (IBAction)volumeSliderAction:(id)sender
 {
+    LOCKCHECK;
+    
     [self disableAudioForRescrictedCodecs];
 
     if (![_gcController isConnected])
@@ -1185,26 +1283,28 @@
     [_playPauseButton setImage:playPauseImage forState:UIControlStateNormal];
     [_playPauseButtonLandscape setImage:playPauseImage forState:UIControlStateNormal];
 
-    if ([[_mediaPlayer audioTrackIndexes] count] > 2) {
-        self.audioSwitcherButton.hidden = NO;
-        self.audioSwitcherButtonLandscape.hidden = NO;
+    if ([[_mediaPlayer audioTrackIndexes] count] > 2 || [[_mediaPlayer videoSubTitlesIndexes] count] > 1) {
+        self.trackSwitcherButton.hidden = NO;
+        self.trackSwitcherButtonLandscape.hidden = NO;
     } else {
-        self.audioSwitcherButton.hidden = YES;
-        self.audioSwitcherButtonLandscape.hidden = YES;
+        self.trackSwitcherButton.hidden = YES;
+        self.trackSwitcherButtonLandscape.hidden = YES;
     }
-
-    if ([[_mediaPlayer videoSubTitlesIndexes] count] > 1) {
-        self.subtitleContainer.hidden = NO;
-        self.subtitleContainerLandscape.hidden = NO;
+    
+    if (_mediaPlayer.titles.count > 1 || [_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex].count > 1) {
+        self.chapterButton.hidden = NO;
+        self.chapterButtonLandscape.hidden = NO;
     } else {
-        self.subtitleContainer.hidden = YES;
-        self.subtitleContainerLandscape.hidden = YES;
+        self.chapterButton.hidden = YES;
+        self.chapterButtonLandscape.hidden = YES;
     }
 #endif
 }
 
 - (IBAction)playPause
 {
+    LOCKCHECK;
+    
     if ([_gcController isConnected] && _gcController.mediaControlChannel && _gcController.mediaControlChannel.mediaStatus) {
         if ((_gcController.playerState == GCKMediaPlayerStatePlaying) ||
             (_gcController.playerState == GCKMediaPlayerStateBuffering))
@@ -1237,6 +1337,8 @@
 
 - (IBAction)forward:(id)sender
 {
+    LOCKCHECK;
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     if ([_gcController isConnected]) {
         if (self.mediaList) {
@@ -1255,6 +1357,8 @@
 
 - (IBAction)backward:(id)sender
 {
+    LOCKCHECK;
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     if ([_gcController isConnected]) {
         if (self.mediaList) {
@@ -1286,47 +1390,231 @@
 #endif
 }
 
-- (IBAction)switchAudioTrack:(id)sender
+- (IBAction)switchTrack:(id)sender
 {
 #if !(TARGET_IPHONE_SIMULATOR)
-    _audiotrackActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"CHOOSE_AUDIO_TRACK", @"audio track selector") delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
-    NSArray *audioTracks = [_mediaPlayer audioTrackNames];
-    NSArray *audioTrackIndexes = [_mediaPlayer audioTrackIndexes];
-
-    NSUInteger count = [audioTracks count];
-    for (NSUInteger i = 0; i < count; i++) {
-        NSString *indexIndicator = ([audioTrackIndexes[i] intValue] == [_mediaPlayer currentAudioTrackIndex])? @"\u2713": @"";
-        NSString *buttonTitle = [NSString stringWithFormat:@"%@ %@", indexIndicator, audioTracks[i]];
-        [_audiotrackActionSheet addButtonWithTitle:buttonTitle];
+    LOCKCHECK;
+    
+    LOCKCHECK;
+    
+    if (_trackSelectorContainer.hidden == YES || _switchingTracksNotChapters == NO) {
+        _switchingTracksNotChapters = YES;
+        
+        [_trackSelectorTableView reloadData];
+        _trackSelectorContainer.hidden = NO;
+        _trackSelectorContainer.alpha = 1.;
+        
+        if (!_playbackSpeedViewHidden)
+            self.playbackSpeedView.hidden = _playbackSpeedViewHidden = YES;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (!_controlsHidden) {
+                self.controllerPanel.hidden = _controlsHidden = YES;
+                self.controllerPanelLandscape.hidden = YES;
+            }
+        }
+        
+        self.videoFilterView.hidden = _videoFiltersHidden = YES;
+    } else {
+        _trackSelectorContainer.hidden = YES;
+        _switchingTracksNotChapters = NO;
     }
-
-    [_audiotrackActionSheet addButtonWithTitle:NSLocalizedString(@"BUTTON_CANCEL", @"cancel button")];
-    [_audiotrackActionSheet setCancelButtonIndex:[_audiotrackActionSheet numberOfButtons] - 1];
-    [_audiotrackActionSheet showInView:(UIButton *)sender];
 #endif
 }
 
-- (IBAction)switchSubtitleTrack:(id)sender
+- (IBAction)switchChapter:(id)sender
 {
-#if !(TARGET_IPHONE_SIMULATOR)
-    NSArray *spuTracks = [_mediaPlayer videoSubTitlesNames];
-    NSArray *spuTrackIndexes = [_mediaPlayer videoSubTitlesIndexes];
-
-    NSUInteger count = [spuTracks count];
-    if (count <= 1)
-        return;
-    _subtitleActionSheet = [[UIActionSheet alloc] initWithTitle:NSLocalizedString(@"CHOOSE_SUBTITLE_TRACK", @"subtitle track selector") delegate:self cancelButtonTitle:nil destructiveButtonTitle:nil otherButtonTitles: nil];
-
-    for (NSUInteger i = 0; i < count; i++) {
-        NSString *indexIndicator = ([spuTrackIndexes[i] intValue] == [_mediaPlayer currentVideoSubTitleIndex])? @"\u2713": @"";
-        NSString *buttonTitle = [NSString stringWithFormat:@"%@ %@", indexIndicator, spuTracks[i]];
-        [_subtitleActionSheet addButtonWithTitle:buttonTitle];
+    LOCKCHECK;
+    
+    if (_trackSelectorContainer.hidden == YES || _switchingTracksNotChapters == YES) {
+        _switchingTracksNotChapters = NO;
+        
+        [_trackSelectorTableView reloadData];
+        _trackSelectorContainer.hidden = NO;
+        _trackSelectorContainer.alpha = 1.;
+        
+        if (!_playbackSpeedViewHidden)
+            self.playbackSpeedView.hidden = _playbackSpeedViewHidden = YES;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (!_controlsHidden) {
+                self.controllerPanel.hidden = _controlsHidden = YES;
+                self.controllerPanelLandscape.hidden = YES;
+            }
+        }
+        
+        self.videoFilterView.hidden = _videoFiltersHidden = YES;
+    } else {
+        _trackSelectorContainer.hidden = YES;
     }
+}
 
-    [_subtitleActionSheet addButtonWithTitle:NSLocalizedString(@"BUTTON_CANCEL", @"cancel button")];
-    [_subtitleActionSheet setCancelButtonIndex:[_subtitleActionSheet numberOfButtons] - 1];
-    [_subtitleActionSheet showInView:(UIButton *)sender];
-#endif
+- (IBAction)toggleTimeDisplay:(id)sender
+{
+    LOCKCHECK;
+    
+    _displayRemainingTime = !_displayRemainingTime;
+    
+    if (_gcController.isConnected) {
+        if (_displayRemainingTime)
+            [self.timeDisplay setTitle:[NSString stringWithFormat:@"-%@",[self getFormattedTime:(_gcController.streamDuration - _gcController.streamPosition)]]
+                              forState:UIControlStateNormal];
+        else
+            [self.timeDisplay setTitle:[self getFormattedTime:_gcController.streamPosition]
+                              forState:UIControlStateNormal];
+    } else {
+        [self _resetIdleTimer];
+    }
+}
+
+#pragma mark - track selector table view
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    NSInteger ret = 0;
+    
+    if (_switchingTracksNotChapters == YES) {
+        if (_mediaPlayer.audioTrackIndexes.count > 2)
+            ret++;
+        
+        if (_mediaPlayer.videoSubTitlesIndexes.count > 1)
+            ret++;
+    } else {
+        if ([_mediaPlayer countOfTitles] > 1)
+            ret++;
+        
+        if ([_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex].count > 1)
+            ret++;
+    }
+    
+    return ret;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:TRACK_SELECTOR_TABLEVIEW_SECTIONHEADER];
+    if (!view)
+        view = [[VLCTrackSelectorHeaderView alloc] initWithReuseIdentifier:TRACK_SELECTOR_TABLEVIEW_SECTIONHEADER];
+    
+    return view;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (_switchingTracksNotChapters == YES) {
+        if (_mediaPlayer.audioTrackIndexes.count > 2 && section == 0)
+            return NSLocalizedString(@"CHOOSE_AUDIO_TRACK", nil);
+        
+        if (_mediaPlayer.videoSubTitlesIndexes.count > 1)
+            return NSLocalizedString(@"CHOOSE_SUBTITLE_TRACK", nil);
+    } else {
+        if (_mediaPlayer.titles.count > 1 && section == 0)
+            return NSLocalizedString(@"CHOOSE_TITLE", nil);
+        
+        if ([_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex].count > 1)
+            return NSLocalizedString(@"CHOOSE_CHAPTER", nil);
+    }
+    
+    return @"unknown track type";
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    VLCTrackSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TRACK_SELECTOR_TABLEVIEW_CELL forIndexPath:indexPath];
+    
+    if (!cell)
+        cell = [[VLCTrackSelectorTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TRACK_SELECTOR_TABLEVIEW_CELL];
+    
+    NSInteger row = indexPath.row;
+    
+    if (_switchingTracksNotChapters == YES) {
+        NSArray *indexArray;
+        if (_mediaPlayer.audioTrackIndexes.count > 2 && indexPath.section == 0) {
+            indexArray = _mediaPlayer.audioTrackIndexes;
+            
+            if ([indexArray indexOfObjectIdenticalTo:[NSNumber numberWithInt:_mediaPlayer.currentAudioTrackIndex]] == row)
+                [cell setShowsCurrentTrack:YES];
+            else
+                [cell setShowsCurrentTrack:NO];
+            
+            cell.textLabel.text = [NSString stringWithFormat:@"%@", _mediaPlayer.audioTrackNames[row]];
+        } else {
+            indexArray = _mediaPlayer.videoSubTitlesIndexes;
+            
+            if ([indexArray indexOfObjectIdenticalTo:[NSNumber numberWithInt:_mediaPlayer.currentVideoSubTitleIndex]] == row)
+                [cell setShowsCurrentTrack:YES];
+            else
+                [cell setShowsCurrentTrack:NO];
+            
+            cell.textLabel.text = [NSString stringWithFormat:@"%@", _mediaPlayer.videoSubTitlesNames[row]];
+        }
+    } else {
+        if (_mediaPlayer.titles.count > 1 && indexPath.section == 0) {
+            cell.textLabel.text = _mediaPlayer.titles[row];
+            
+            if (row == _mediaPlayer.currentTitleIndex)
+                [cell setShowsCurrentTrack:YES];
+            else
+                [cell setShowsCurrentTrack:NO];
+        } else {
+            cell.textLabel.text = [_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex][row];
+            
+            if (row == _mediaPlayer.currentChapterIndex)
+                [cell setShowsCurrentTrack:YES];
+            else
+                [cell setShowsCurrentTrack:NO];
+        }
+    }
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    NSInteger audioTrackCount = _mediaPlayer.audioTrackIndexes.count;
+    
+    if (audioTrackCount > 2 && section == 0)
+        return audioTrackCount;
+    
+    return _mediaPlayer.videoSubTitlesIndexes.count;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    NSInteger index = indexPath.row;
+    
+    if (_switchingTracksNotChapters == YES) {
+        NSArray *indexArray;
+        if (_mediaPlayer.audioTrackIndexes.count > 2 && indexPath.section == 0) {
+            indexArray = _mediaPlayer.audioTrackIndexes;
+            if (index <= indexArray.count)
+                _mediaPlayer.currentAudioTrackIndex = [indexArray[index] intValue];
+            
+        } else {
+            indexArray = _mediaPlayer.videoSubTitlesIndexes;
+            if (index <= indexArray.count)
+                _mediaPlayer.currentVideoSubTitleIndex = [indexArray[index] intValue];
+        }
+    } else {
+        if (_mediaPlayer.titles.count > 1 && indexPath.section == 0)
+            _mediaPlayer.currentTitleIndex = index;
+        else
+            _mediaPlayer.currentChapterIndex = index;
+    }
+    
+    CGFloat alpha = 0.0f;
+    _trackSelectorContainer.alpha = 1.0f;
+    
+    void (^animationBlock)() = ^() {
+        _trackSelectorContainer.alpha = alpha;
+    };
+    
+    void (^completionBlock)(BOOL finished) = ^(BOOL finished) {
+        _trackSelectorContainer.hidden = YES;
+    };
+    
+    NSTimeInterval animationDuration = .3;
+    [UIView animateWithDuration:animationDuration animations:animationBlock completion:completionBlock];
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -1367,24 +1655,39 @@
 #endif
 }
 
-- (IBAction)toggleTimeDisplay:(id)sender
+- (IBAction)lock:(id)sender
 {
-    _displayRemainingTime = !_displayRemainingTime;
+    _interfaceIsLocked = !_interfaceIsLocked;
+}
 
-    if (_gcController.isConnected) {
-        if (_displayRemainingTime)
-            [self.timeDisplay setTitle:[NSString stringWithFormat:@"-%@",[self getFormattedTime:(_gcController.streamDuration - _gcController.streamPosition)]]
-                              forState:UIControlStateNormal];
-        else
-            [self.timeDisplay setTitle:[self getFormattedTime:_gcController.streamPosition]
-                              forState:UIControlStateNormal];
-    } else {
-        [self _resetIdleTimer];
-    }
+- (IBAction)equalizer:(id)sender
+{
+    LOCKCHECK;
+    
+    if (_equalizerView.hidden) {
+        if (!_playbackSpeedViewHidden)
+            self.playbackSpeedView.hidden = _playbackSpeedViewHidden = YES;
+        
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+            if (!_controlsHidden) {
+                self.controllerPanel.hidden = _controlsHidden = YES;
+                self.controllerPanelLandscape.hidden = YES;
+            }
+        }
+        
+        self.videoFilterView.hidden = _videoFiltersHidden = YES;
+        [_equalizerView reloadData];
+
+        _equalizerView.alpha = 1.;
+        _equalizerView.hidden = NO;
+    } else
+        _equalizerView.hidden = YES;
 }
 
 - (IBAction)googleCastAction:(id)sender
 {
+    LOCKCHECK;
+
     //Choose device
     if (_gcController.selectedDevice == nil)
     {
@@ -1430,6 +1733,8 @@
 
 - (void)tapRecognized
 {
+    LOCKCHECK;
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     if ([_mediaPlayer isPlaying]) {
         [_listPlayer pause];
@@ -1443,8 +1748,8 @@
 
 - (NSString*)detectPanTypeForPan:(UIPanGestureRecognizer*)panRecognizer
 {
-    NSString * type;
-    NSString * deviceType = [[UIDevice currentDevice] model];
+    NSString *type;
+    NSString *deviceType = [[UIDevice currentDevice] model];
     type = @"Volume"; // default in case of error
     CGPoint location = [panRecognizer locationInView:self.view];
     CGFloat position = location.x;
@@ -1473,7 +1778,10 @@
 
 - (void)panRecognized:(UIPanGestureRecognizer*)panRecognizer
 {
+    LOCKCHECK;
+    
 #if !(TARGET_IPHONE_SIMULATOR)
+    NSString *panType;
     CGFloat panDirectionX = [panRecognizer velocityInView:self.view].x;
     CGFloat panDirectionY = [panRecognizer velocityInView:self.view].y;
 
@@ -1508,6 +1816,12 @@
             else
                 brightness = brightness + 0.01;
             
+            // Sanity check since -[UIScreen brightness] does not go by 0.01 steps
+            if (brightness > 1.0)
+                brightness = 1.0;
+            else if (brightness < 0.0)
+                brightness = 0.0;
+
             [[UIScreen mainScreen] setBrightness:brightness];
             self.brightnessSlider.value = brightness * 2.;
             
@@ -1527,6 +1841,8 @@
 
 - (void)swipeRecognized:(UISwipeGestureRecognizer*)swipeRecognizer
 {
+    LOCKCHECK;
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     NSString * hudString = @" ";
 
@@ -1577,6 +1893,8 @@
 
 - (IBAction)videoFilterToggle:(id)sender
 {
+    LOCKCHECK;
+    
     if (!_playbackSpeedViewHidden)
         self.playbackSpeedView.hidden = _playbackSpeedViewHidden = YES;
 
@@ -1620,16 +1938,73 @@
 #endif
 }
 
+#pragma mark - equalizer
+
+- (void)setAmplification:(CGFloat)amplification forBand:(unsigned int)index
+{
+    [self _resetIdleTimer];
+    
+    if (!_mediaPlayer.equalizerEnabled)
+        [_mediaPlayer setEqualizerEnabled:YES];
+    
+    [_mediaPlayer setAmplification:amplification forBand:index];
+    // Apply value
+    [_mediaPlayer setPreAmplification:[_mediaPlayer preAmplification]];
+}
+
+- (CGFloat)amplificationOfBand:(unsigned int)index
+{
+    return [_mediaPlayer amplificationOfBand:index];
+}
+
+- (NSArray *)equalizerProfiles
+{
+    return _mediaPlayer.equalizerProfiles;
+}
+
+- (void)resetEqualizerFromProfile:(unsigned int)profile
+{
+    [[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] setObject:@(profile) forKey:kVLCSettingEqualizerProfile];
+
+    [_mediaPlayer resetEqualizerFromProfile:profile];
+}
+
+- (void)setPreAmplification:(CGFloat)preAmplification
+{
+    if (!_mediaPlayer.equalizerEnabled)
+        [_mediaPlayer setEqualizerEnabled:YES];
+
+    [self _resetIdleTimer];
+    [_mediaPlayer setPreAmplification:preAmplification];
+}
+
+- (CGFloat)preAmplification
+{
+    return [_mediaPlayer preAmplification];
+}
+
 #pragma mark - playback view
-- (IBAction)playbackSpeedSliderAction:(UISlider *)sender
+
+- (IBAction)playbackSliderAction:(UISlider *)sender
 {
 #if !(TARGET_IPHONE_SIMULATOR)
-    double speed = pow(2, sender.value / 17.);
-    float rate = INPUT_RATE_DEFAULT / speed;
-    if (_currentPlaybackRate != rate)
-        [_mediaPlayer setRate:INPUT_RATE_DEFAULT / rate];
-    _currentPlaybackRate = rate;
-    [self _updatePlaybackSpeedIndicator];
+    LOCKCHECK;
+
+    if (sender == _playbackSpeedSlider) {
+        double speed = pow(2, sender.value / 17.);
+        float rate = INPUT_RATE_DEFAULT / speed;
+        if (_currentPlaybackRate != rate)
+            [_mediaPlayer setRate:INPUT_RATE_DEFAULT / rate];
+        _currentPlaybackRate = rate;
+        [self _updatePlaybackSpeedIndicator];
+    } else if (sender == _audioDelaySlider) {
+        _mediaPlayer.currentAudioPlaybackDelay = _audioDelaySlider.value * 1000000;
+        _audioDelayIndicator.text = [NSString stringWithFormat:@"%1.2f s", _audioDelaySlider.value];
+    } else if (sender == _spuDelaySlider) {
+        _mediaPlayer.currentVideoSubTitleDelay = _spuDelaySlider.value * 1000000;
+        _spuDelayIndicator.text = [NSString stringWithFormat:@"%1.00f s", _spuDelaySlider.value];
+    }
+    
     [self _resetIdleTimer];
 #endif
 }
@@ -1664,6 +2039,8 @@
 
 - (IBAction)videoDimensionAction:(id)sender
 {
+    LOCKCHECK;
+    
 #if !(TARGET_IPHONE_SIMULATOR)
     if (sender == self.playbackSpeedButton || sender == self.playbackSpeedButtonLandscape) {
         if (!_videoFiltersHidden)
@@ -1866,6 +2243,11 @@
 }
 
 #pragma mark - autorotation
+
+- (BOOL)rotationIsDisabled
+{
+    return _interfaceIsLocked;
+}
 
 - (BOOL)shouldAutorotate
 {
@@ -2075,7 +2457,7 @@
  */
 - (void)didReceiveMediaStateChange {
     NSLog(@"didReceiveMediaStateChange");
-    NSLog(@"state %d",_gcController.playerState);
+    NSLog(@"state %ld",_gcController.playerState);
     
     if (_gcController.playerState == GCKMediaPlayerStatePaused ||
         _gcController.playerState == GCKMediaPlayerStateIdle)

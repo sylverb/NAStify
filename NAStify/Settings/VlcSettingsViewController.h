@@ -34,6 +34,8 @@
 #define kVLCSettingSubtitlesBoldFontDefaulValue @NO
 #define kVLCSettingSubtitlesFontColor @"quartztext-color"
 #define kVLCSettingSubtitlesFontColorDefaultValue @"16777215"
+#define kVLCSettingEqualizerProfile @"EqualizerProfile"
+#define kVLCSettingEqualizerProfileDefaultValue @(0)
 
 #define kNASTifySettingPlayerType       @"VideoPlayerType"
 #define kNASTifySettingPlayerTypeInternal           0

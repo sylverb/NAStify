@@ -35,14 +35,15 @@
 @property (nonatomic, strong) IBOutlet UIButton *bwdButtonLandscape;
 @property (nonatomic, strong) IBOutlet UIButton *fwdButton;
 @property (nonatomic, strong) IBOutlet UIButton *fwdButtonLandscape;
-@property (nonatomic, strong) IBOutlet UIView *subtitleContainer;
-@property (nonatomic, strong) IBOutlet UIView *subtitleContainerLandscape;
-@property (nonatomic, strong) IBOutlet UIButton *subtitleSwitcherButton;
-@property (nonatomic, strong) IBOutlet UIButton *subtitleSwitcherButtonLandscape;
-@property (nonatomic, strong) IBOutlet UIButton *audioSwitcherButton;
-@property (nonatomic, strong) IBOutlet UIButton *audioSwitcherButtonLandscape;
+@property (nonatomic, strong) IBOutlet UIButton *trackSwitcherButton;
+@property (nonatomic, strong) IBOutlet UIButton *trackSwitcherButtonLandscape;
 @property (nonatomic, strong) IBOutlet UIButton *repeatButton;
 @property (nonatomic, strong) IBOutlet UIButton *repeatButtonLandscape;
+@property (nonatomic, strong) IBOutlet UIButton *lockButton;
+@property (nonatomic, strong) IBOutlet UIButton *lockButtonLandscape;
+@property (nonatomic, strong) IBOutlet UIButton *chapterButton;
+@property (nonatomic, strong) IBOutlet UIButton *chapterButtonLandscape;
+@property (nonatomic, strong) IBOutlet UIButton *equalizerButton;
 @property (nonatomic, strong) IBOutlet UINavigationBar *toolbar;
 @property (nonatomic, strong) IBOutlet VLCFrostedGlasView *controllerPanel;
 @property (nonatomic, strong) IBOutlet VLCFrostedGlasView *controllerPanelLandscape;
@@ -75,6 +76,12 @@
 @property (nonatomic, strong) IBOutlet UISlider *playbackSpeedSlider;
 @property (nonatomic, strong) IBOutlet UILabel *playbackSpeedLabel;
 @property (nonatomic, strong) IBOutlet UILabel *playbackSpeedIndicator;
+@property (nonatomic, strong) IBOutlet UISlider *audioDelaySlider;
+@property (nonatomic, strong) IBOutlet UILabel *audioDelayLabel;
+@property (nonatomic, strong) IBOutlet UILabel *audioDelayIndicator;
+@property (nonatomic, strong) IBOutlet UISlider *spuDelaySlider;
+@property (nonatomic, strong) IBOutlet UILabel *spuDelayLabel;
+@property (nonatomic, strong) IBOutlet UILabel *spuDelayIndicator;
 @property (nonatomic, strong) IBOutlet UIButton *aspectRatioButton;
 
 @property (nonatomic, strong) IBOutlet VLCFrostedGlasView *scrubIndicatorView;
@@ -108,14 +115,18 @@
 - (IBAction)backward:(id)sender;
 - (IBAction)forward:(id)sender;
 - (IBAction)toggleRepeatMode:(id)sender;
-- (IBAction)switchAudioTrack:(id)sender;
-- (IBAction)switchSubtitleTrack:(id)sender;
+- (IBAction)switchTrack:(id)sender;
+- (IBAction)lock:(id)sender;
+- (IBAction)switchChapter:(id)sender;
+- (IBAction)equalizer:(id)sender;
 
 - (IBAction)videoFilterToggle:(id)sender;
 - (IBAction)videoFilterSliderAction:(id)sender;
 
-- (IBAction)playbackSpeedSliderAction:(id)sender;
+- (IBAction)playbackSliderAction:(id)sender;
 - (IBAction)videoDimensionAction:(id)sender;
+
+- (BOOL)rotationIsDisabled;
 
 - (IBAction)googleCastAction:(id)sender;
 

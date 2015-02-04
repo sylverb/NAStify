@@ -2,7 +2,7 @@
  * VLCFrostedGlasView.m
  * VLC for iOS
  *****************************************************************************
- * Copyright (c) 2013 VideoLAN. All rights reserved.
+ * Copyright (c) 2013-2014 VideoLAN. All rights reserved.
  * $Id$
  *
  * Authors: Carola Nitz <nitz.carola # googlemail.com>
@@ -21,19 +21,33 @@
 
 @implementation VLCFrostedGlasView
 
-
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    if (self) {
-        [self setClipsToBounds:YES];
-        if (![self toolbar]) {
-            [self setToolbar:[[UIToolbar alloc] initWithFrame:[self bounds]]];
-            [self.layer insertSublayer:[self.toolbar layer] atIndex:0];
-            [self.toolbar setBarStyle:UIBarStyleBlack];
-        }
-    }
+    if (self)
+        [self setupView];
+    
     return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    
+    if (self)
+        [self setupView];
+    
+    return self;
+}
+
+- (void)setupView
+{
+    [self setClipsToBounds:YES];
+    if (![self toolbar]) {
+        [self setToolbar:[[UIToolbar alloc] initWithFrame:[self bounds]]];
+        [self.layer insertSublayer:[self.toolbar layer] atIndex:0];
+        [self.toolbar setBarStyle:UIBarStyleBlack];
+    }
 }
 
 - (void)layoutSubviews {
