@@ -334,10 +334,7 @@
         }
         case SETTINGS_GCAST_SECTION_INDEX:
         {
-            if (self.gcController.deviceScanner.devices.count > 0)
-            {
-                title = NSLocalizedString(@"Google Cast",nil);
-            }
+            title = NSLocalizedString(@"Google Cast",nil);
             break;
         }
         case SETTINGS_ABOUT_SECTION_INDEX:
