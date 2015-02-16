@@ -401,7 +401,11 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     
     [self.view addSubview:_trackSelectorContainer];
     
-    _equalizerView = [[VLCEqualizerView alloc] initWithFrame:CGRectMake((rect.size.width - 450.) / 2., self.controllerPanel.frame.origin.y - 200., 450., 240.)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        _equalizerView = [[VLCEqualizerView alloc] initWithFrame:CGRectMake((rect.size.width - 450.) / 2., self.controllerPanel.frame.origin.y - 200., 450., 240.)];
+    } else {
+        _equalizerView = [[VLCEqualizerView alloc] initWithFrame:CGRectMake((rect.size.width - 450.) / 2., self.controllerPanel.frame.origin.y - 240., 450., 240.)];
+    }
     _equalizerView.delegate = self;
     _equalizerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     _equalizerView.hidden = YES;
@@ -1151,7 +1155,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (IBAction)closePlayback:(id)sender
 {
-//    LOCKCHECK;
+    LOCKCHECK;
     
     [self setControlsHidden:NO animated:NO];
     [self.navigationController dismissViewControllerAnimated:YES completion:nil];
@@ -1667,7 +1671,22 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (IBAction)lock:(id)sender
 {
-    _interfaceIsLocked = !_interfaceIsLocked;
+    if (_interfaceIsLocked)
+    {
+        [self.lockButton setTitleColor:[UIColor whiteColor]
+                              forState:UIControlStateNormal];
+        [self.lockButtonLandscape setTitleColor:[UIColor whiteColor]
+                                       forState:UIControlStateNormal];
+        _interfaceIsLocked = NO;
+    }
+    else
+    {
+        [self.lockButton setTitleColor:[UIColor redColor]
+                              forState:UIControlStateNormal];
+        [self.lockButtonLandscape setTitleColor:[UIColor redColor]
+                                       forState:UIControlStateNormal];
+        _interfaceIsLocked = YES;
+    }
 }
 
 - (IBAction)equalizer:(id)sender
@@ -2270,6 +2289,9 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (self.artworkImageView.image)
             self.trackNameLabel.hidden = UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+        
+        if (!_equalizerView.hidden)
+            _equalizerView.hidden = YES;
     }
 }
 
