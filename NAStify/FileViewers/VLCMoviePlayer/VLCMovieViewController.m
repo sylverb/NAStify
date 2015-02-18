@@ -86,6 +86,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     UIView *_trackSelectorContainer;
     UITableView *_trackSelectorTableView;
     VLCEqualizerView *_equalizerView;
+    NSInteger _mediaDuration;
     
     // GoogleCast
     GoogleCastController *_gcController;
@@ -1181,10 +1182,12 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     } else {
         [self performSelector:@selector(_setPositionForReal) withObject:nil afterDelay:0.3];
 #if !(TARGET_IPHONE_SIMULATOR)
-        VLCTime *newPosition = [VLCTime timeWithInt:(int)(_positionSlider.value * self.fileFromMediaLibrary.duration.intValue)];
-        [self.timeDisplay setTitle:newPosition.stringValue forState:UIControlStateNormal];
-        self.timeDisplay.accessibilityLabel = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"PLAYBACK_POSITION", @""), newPosition.stringValue];
-        _positionSet = NO;
+        if (_mediaDuration > 0) {
+            VLCTime *newPosition = [VLCTime timeWithInt:(int)(_positionSlider.value * _mediaDuration)];
+            [self.timeDisplay setTitle:newPosition.stringValue forState:UIControlStateNormal];
+            self.timeDisplay.accessibilityLabel = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"PLAYBACK_POSITION", nil), newPosition.stringValue];
+            _positionSet = NO;
+        }
 #endif
         [self _resetIdleTimer];
     }
@@ -1283,6 +1286,8 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         [_mediaPlayer performSelector:@selector(setTextRendererFont:) withObject:[self _resolveFontName]];
         [_mediaPlayer performSelector:@selector(setTextRendererFontSize:) withObject:[[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] objectForKey:kVLCSettingSubtitlesFontSize]];
         [_mediaPlayer performSelector:@selector(setTextRendererFontColor:) withObject:[[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] objectForKey:kVLCSettingSubtitlesFontColor]];
+        
+        _mediaDuration = _listPlayer.mediaPlayer.media.length.intValue;
     }
 
     if (currentState == VLCMediaPlayerStateError) {
