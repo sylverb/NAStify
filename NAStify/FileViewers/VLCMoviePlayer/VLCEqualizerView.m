@@ -71,7 +71,7 @@
     
     // Info
     textView = [[UITextView alloc] initWithFrame:CGRectMake(sliderWidth, vertical_padding_up - 10, 55, 20)];
-    textView.text = NSLocalizedString(@"20DB", nil);
+    textView.text = [NSString stringWithFormat:NSLocalizedString(@"DB_FORMAT", nil), 20];
     textView.textAlignment = NSTextAlignmentRight;
     textView.backgroundColor = [UIColor clearColor];
     textView.textColor = [UIColor whiteColor];
@@ -79,7 +79,7 @@
     [self addSubview:textView];
     
     textView = [[UITextView alloc] initWithFrame:CGRectMake(sliderWidth, vertical_padding_up + sliderHeight / 2 - 15, 55, 20)];
-    textView.text = NSLocalizedString(@"0DB", nil);
+    textView.text = [NSString stringWithFormat:NSLocalizedString(@"DB_FORMAT", nil), 0];
     textView.textAlignment = NSTextAlignmentRight;
     textView.backgroundColor = [UIColor clearColor];
     textView.textColor = [UIColor whiteColor];
@@ -87,7 +87,7 @@
     [self addSubview:textView];
     
     textView = [[UITextView alloc] initWithFrame:CGRectMake(sliderWidth, frame.size.height - vertical_padding_down - 20, 55, 20)];
-    textView.text = NSLocalizedString(@"-20DB", nil);
+    textView.text = [NSString stringWithFormat:NSLocalizedString(@"DB_FORMAT", nil), -20];
     textView.textAlignment = NSTextAlignmentRight;
     textView.backgroundColor = [UIColor clearColor];
     textView.textColor = [UIColor whiteColor];
@@ -246,11 +246,20 @@
     [self addSubview:textView];
     
     // TableView
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,frame.size.height - vertical_padding_down + 25,frame.size.width,145)
-                                                  style:UITableViewStyleGrouped];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    [self addSubview:self.tableView];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,frame.size.height - vertical_padding_down + 25.,frame.size.width,145.)
+                                              style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.separatorColor = [UIColor clearColor];
+    _tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+    [_tableView registerClass:[VLCTrackSelectorHeaderView class] forHeaderFooterViewReuseIdentifier:PROFILE_SELECTOR_TABLEVIEW_SECTIONHEADER];
+    [_tableView registerClass:[VLCTrackSelectorTableViewCell class] forCellReuseIdentifier:PROFILE_SELECTOR_TABLEVIEW_CELL];
+    if ([[UIDevice currentDevice] speedCategory] >= 3) {
+        _tableView.opaque = NO;
+        _tableView.backgroundColor = [UIColor clearColor];
+    } else
+        _tableView.backgroundColor = [UIColor blackColor];
+    [self addSubview:_tableView];
     return self;
 }
 
