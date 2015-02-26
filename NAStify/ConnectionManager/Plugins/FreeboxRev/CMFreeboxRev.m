@@ -173,11 +173,20 @@
             // End the network activity spinner
             [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
             
+            NSString *errorMessage = nil;
+            if ([operation.responseObject objectForKey:@"error_code"])
+            {
+                errorMessage = NSLocalizedString([operation.responseObject objectForKey:@"error_code"], nil);
+            }
+            else
+            {
+                errorMessage = [error localizedDescription];
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:NO],@"success",
-                                        NSLocalizedString(@"You have to be connected to the wifi network of your Freebox to perform pairing",nil),@"error",
-                                            nil]];
+                                        errorMessage,@"error",
+                                        nil]];
             });
         };
         
