@@ -31,6 +31,8 @@ typedef enum _SERVER_TYPE
 //    SERVER_TYPE_CLOUDDRIVE,         // Amazon cloud drive ( https://developer.amazon.com/public/apis/experience/cloud-drive )
 //    SERVER_TYPE_AMAZONS3            // Amazon S3 ( https://github.com/aws/aws-sdk-ios )
 //    SERVER_TYPE_ICLOUD,             // Apple iCloud ( https://developer.apple.com/icloud/index.html )
+//    SERVER_TYPE_OPENSTACK,          // OpenStack
+//    SERVER_TYPE_HUBIC,              // hubiC
 //    SERVER_TYPE_KUAIPAN,
 //    SERVER_TYPE_BAIDU,              // Baidu ( http://developer.baidu.com/en/ )
 //    SERVER_TYPE_THECUS,
