@@ -25,6 +25,7 @@
 #endif
 @end
 
+#define QNAP_FIRMWARE_3_3     @"3.3"
 #define QNAP_FIRMWARE_4_0     @"4.0"
 
 #define QNAP_STATUS_NOK                     0
@@ -483,6 +484,16 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
                     NSInteger userPermission = [[file objectForKey:@"privilege"] integerValue] / 100;
                     BOOL writeAccess = userPermission & 2; // Posix w rights
                     
+                    id dateObject = nil;
+                    if ([file objectForKey:@"epochmt"])
+                    {
+                        dateObject = [file objectForKey:@"epochmt"];
+                    }
+                    else
+                    {
+                        dateObject = [file objectForKey:@"mt"];
+                    }
+                    
                     NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
                                               [file objectForKey:@"isfolder"],@"isdir",
                                               [file objectForKey:@"filename"],@"filename",
@@ -490,7 +501,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
                                               [file objectForKey:@"owner"],@"owner",
                                               [NSNumber numberWithBool:iscompressed],@"iscompressed",
                                               [NSNumber numberWithBool:writeAccess],@"writeaccess",
-                                              [file objectForKey:@"epochmt"],@"date",
+                                              dateObject,@"date",
                                               [[file objectForKey:@"filename"] pathExtension],@"type",
                                               nil];
                     
@@ -2484,15 +2495,16 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     
     __block long long lastNotifiedProgress = 0;
     [downloadOperation setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+        long long totalSize = [file.fileSizeNumber longLongValue];
         // send a notification every 0,5% of progress (to limit the impact on performances)
-        if ((totalBytesRead >= lastNotifiedProgress + totalBytesExpectedToRead/200) || (totalBytesRead == totalBytesExpectedToRead))
+        if ((totalBytesRead >= lastNotifiedProgress + totalSize/200) || (totalBytesRead == totalSize))
         {
             lastNotifiedProgress = totalBytesRead;
             dispatch_async(dispatch_get_main_queue(), ^{
                 [weakSelf.delegate CMDownloadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
                                                        [NSNumber numberWithLongLong:totalBytesRead],@"downloadedBytes",
-                                                       [NSNumber numberWithLongLong:totalBytesExpectedToRead],@"totalBytes",
-                                                       [NSNumber numberWithFloat:(float)((float)totalBytesRead/(float)totalBytesExpectedToRead)],@"progress",
+                                                       file.fileSizeNumber,@"totalBytes",
+                                                       [NSNumber numberWithFloat:(float)((float)totalBytesRead/(float)totalSize)],@"progress",
                                                        nil]];
             });
         }
@@ -2528,48 +2540,60 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
         
         HandleServerDisconnection();
         
-        NSInteger status = [[JSON objectForKey:@"status"] integerValue];
-        switch (status)
+        if (JSON)
         {
-            case QNAP_STATUS_OK:
+            NSInteger status = [[JSON objectForKey:@"status"] integerValue];
+            switch (status)
             {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                     [NSNumber numberWithBool:YES],@"success",
-                                                     nil]];
-                });
-                break;
+                case QNAP_STATUS_OK:
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSNumber numberWithBool:YES],@"success",
+                                                         nil]];
+                    });
+                    break;
+                }
+                case QNAP_STATUS_PERMISSION_DENIED:
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSNumber numberWithBool:NO],@"success",
+                                                         @"Permission denied",@"error",
+                                                         nil]];
+                    });
+                    break;
+                }
+                case QNAP_STATUS_QUOTA_EXCEEDED:
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSNumber numberWithBool:NO],@"success",
+                                                         @"Quota limit exceeded",@"error",
+                                                         nil]];
+                    });
+                    break;
+                }
+                default:
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSNumber numberWithBool:NO],@"success",
+                                                         [NSString stringWithFormat:@"Unknown error %ld",(long)status],@"error",
+                                                         nil]];
+                    });
+                    break;
+                }
             }
-            case QNAP_STATUS_PERMISSION_DENIED:
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                     [NSNumber numberWithBool:NO],@"success",
-                                                     @"Permission denied",@"error",
-                                                     nil]];
-                });
-                break;
-            }
-            case QNAP_STATUS_QUOTA_EXCEEDED:
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                     [NSNumber numberWithBool:NO],@"success",
-                                                     @"Quota limit exceeded",@"error",
-                                                     nil]];
-                });
-                break;
-            }
-            default:
-            {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                     [NSNumber numberWithBool:NO],@"success",
-                                                     [NSString stringWithFormat:@"Unknown error %ld",(long)status],@"error",
-                                                     nil]];
-                });
-                break;
-            }
+        }
+        else
+        {
+            // With some old firmwares, answer is not JSON, in this case assume that the answer is "OK"
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:YES],@"success",
+                                                 nil]];
+            });
         }
     };
     
@@ -2727,21 +2751,30 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
 - (void)firmwareVersion
 {
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id response) {
-        NSDictionary *xml = [NSDictionary dictionaryWithXMLData:response];
-        self.version = [xml valueForKeyPath:@"firmware.version"];
-        
-        serverModel = [xml valueForKeyPath:@"model.modelName"];
-        serverFirmware = [NSString stringWithFormat:@"%@-%@", self.version, [xml valueForKeyPath:@"firmware.build"]];
-        serverHostname = [xml valueForKeyPath:@"hostname"];
-        
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
         
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithBool:YES],@"success",
-                                    nil]];
-        });
+        NSDictionary *xml = [NSDictionary dictionaryWithXMLData:response];
+        if ([xml valueForKeyPath:@"firmware.version"])
+        {
+            self.version = [xml valueForKeyPath:@"firmware.version"];
+            
+            serverModel = [xml valueForKeyPath:@"model.modelName"];
+            serverFirmware = [NSString stringWithFormat:@"%@-%@", self.version, [xml valueForKeyPath:@"firmware.build"]];
+            if ([xml valueForKeyPath:@"hostname"])
+            {
+                serverHostname = [xml valueForKeyPath:@"hostname"];
+            }
+            else
+            {
+                serverHostname = NSLocalizedString(@"unknown", nil);
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithBool:YES],@"success",
+                                        nil]];
+            });
+        }
     };
     
     void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -2763,7 +2796,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
     
-    [self.manager GET:[self createUrlWithPath:@"cgi-bin/sysinfoReq.cgi"]
+    [self.manager GET:[self createUrlWithPath:[NSString stringWithFormat:@"cgi-bin/sysinfoReq.cgi?sid=%@",sID]]
            parameters:nil
               success:successBlock
               failure:failureBlock];
