@@ -1493,6 +1493,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 {
     NSInteger ret = 0;
     
+#if !(TARGET_IPHONE_SIMULATOR)
     if (_switchingTracksNotChapters == YES) {
         if (_mediaPlayer.audioTrackIndexes.count > 2)
             ret++;
@@ -1506,6 +1507,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         if ([_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex].count > 1)
             ret++;
     }
+#endif
     
     return ret;
 }
@@ -1521,6 +1523,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     if (_switchingTracksNotChapters == YES) {
         if (_mediaPlayer.audioTrackIndexes.count > 2 && section == 0)
             return NSLocalizedString(@"CHOOSE_AUDIO_TRACK", nil);
@@ -1534,7 +1537,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         if ([_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex].count > 1)
             return NSLocalizedString(@"CHOOSE_CHAPTER", nil);
     }
-    
+#endif
     return @"unknown track type";
 }
 
@@ -1545,6 +1548,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     if (!cell)
         cell = [[VLCTrackSelectorTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TRACK_SELECTOR_TABLEVIEW_CELL];
     
+#if !(TARGET_IPHONE_SIMULATOR)
     NSInteger row = indexPath.row;
     
     if (_switchingTracksNotChapters == YES) {
@@ -1585,23 +1589,30 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
                 [cell setShowsCurrentTrack:NO];
         }
     }
+#endif
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
+#if !(TARGET_IPHONE_SIMULATOR)
+
     NSInteger audioTrackCount = _mediaPlayer.audioTrackIndexes.count;
     
     if (audioTrackCount > 2 && section == 0)
         return audioTrackCount;
     
     return _mediaPlayer.videoSubTitlesIndexes.count;
+#else
+    return 0;
+#endif
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
+#if !(TARGET_IPHONE_SIMULATOR)
     NSInteger index = indexPath.row;
     
     if (_switchingTracksNotChapters == YES) {
@@ -1636,6 +1647,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     
     NSTimeInterval animationDuration = .3;
     [UIView animateWithDuration:animationDuration animations:animationBlock completion:completionBlock];
+#endif
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -1975,6 +1987,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (void)setAmplification:(CGFloat)amplification forBand:(unsigned int)index
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     [self _resetIdleTimer];
     
     if (!_mediaPlayer.equalizerEnabled)
@@ -1983,37 +1996,54 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     [_mediaPlayer setAmplification:amplification forBand:index];
     // Apply value
     [_mediaPlayer setPreAmplification:[_mediaPlayer preAmplification]];
+#endif
 }
 
 - (CGFloat)amplificationOfBand:(unsigned int)index
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     return [_mediaPlayer amplificationOfBand:index];
+#else
+    return 0;
+#endif
 }
 
 - (NSArray *)equalizerProfiles
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     return _mediaPlayer.equalizerProfiles;
+#else
+    return nil;
+#endif
 }
 
 - (void)resetEqualizerFromProfile:(unsigned int)profile
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     [[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] setObject:@(profile) forKey:kVLCSettingEqualizerProfile];
 
     [_mediaPlayer resetEqualizerFromProfile:profile];
+#endif
 }
 
 - (void)setPreAmplification:(CGFloat)preAmplification
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     if (!_mediaPlayer.equalizerEnabled)
         [_mediaPlayer setEqualizerEnabled:YES];
 
     [self _resetIdleTimer];
     [_mediaPlayer setPreAmplification:preAmplification];
+#endif
 }
 
 - (CGFloat)preAmplification
 {
+#if !(TARGET_IPHONE_SIMULATOR)
     return [_mediaPlayer preAmplification];
+#else
+    return 0;
+#endif
 }
 
 #pragma mark - playback view
@@ -2067,6 +2097,8 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
     _currentPlaybackRate = returnValue;
     return returnValue;
+#else
+    return 0;
 #endif
 }
 
@@ -2493,7 +2525,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
  */
 - (void)didReceiveMediaStateChange {
     NSLog(@"didReceiveMediaStateChange");
-    NSLog(@"state %ld",_gcController.playerState);
     
     if (_gcController.playerState == GCKMediaPlayerStatePaused ||
         _gcController.playerState == GCKMediaPlayerStateIdle)
