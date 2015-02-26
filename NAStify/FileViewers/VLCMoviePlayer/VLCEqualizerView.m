@@ -247,7 +247,7 @@
     
     // TableView
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,frame.size.height - vertical_padding_down + 25.,frame.size.width,145.)
-                                              style:UITableViewStylePlain];
+                                              style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorColor = [UIColor clearColor];
