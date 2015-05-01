@@ -24,7 +24,7 @@ echo "Compiling OpenSSL ${detectedSSLVersion}..."
 
 DEVELOPER="/Applications/Xcode.app/Contents/Developer"
 
-SDK_VERSION="8.1"
+SDK_VERSION="8.3"
 MIN_VERSION="7.0"
 
 IPHONEOS_PLATFORM=`xcode-select -print-path`/Platforms/iPhoneOS.platform
