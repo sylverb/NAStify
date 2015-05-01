@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		27E0049449C6732EB4D8676A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5830BD314AC90F99906CD41 /* libPods.a */; };
+		95755E6D1AF407840045A9E8 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95755E6C1AF407840045A9E8 /* GoogleMobileAds.framework */; };
 		D501D6EE19FFEB7F0032AACD /* MWCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D501D6DB19FFEB7F0032AACD /* MWCaptionView.m */; };
 		D501D6EF19FFEB7F0032AACD /* MWGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D501D6DE19FFEB7F0032AACD /* MWGridCell.m */; };
 		D501D6F019FFEB7F0032AACD /* MWGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D501D6E019FFEB7F0032AACD /* MWGridViewController.m */; };
@@ -933,7 +934,6 @@
 		D5D3CC5319A92ADA0083EA08 /* BoxAuthorizationNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3CC5219A92ADA0083EA08 /* BoxAuthorizationNavigationController.m */; };
 		D5D3CC5C19AD300A0083EA08 /* box_small.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D3CC5A19AD300A0083EA08 /* box_small.png */; };
 		D5D3CC5D19AD300A0083EA08 /* box_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D5D3CC5B19AD300A0083EA08 /* box_small@2x.png */; };
-		D5D3CCB719B7AE920083EA08 /* libGoogleAdMobAds.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D3CCB519B7AE920083EA08 /* libGoogleAdMobAds.a */; };
 		D5D3CCBB19B7B8F20083EA08 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D3CCBA19B7B8F20083EA08 /* CoreAudio.framework */; };
 		D5D3CCBD19B7B9340083EA08 /* CoreTelephony.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D3CCBC19B7B9340083EA08 /* CoreTelephony.framework */; };
 		D5D3CCBF19B7BA110083EA08 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D5D3CCBE19B7BA110083EA08 /* AdSupport.framework */; };
@@ -1287,7 +1287,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 74DD86B7A832541B3445CFDD;
+			remoteGlobalIDString = F7AF91887C8DB9CBADED8371;
 			remoteInfo = Pods;
 		};
 		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
@@ -1434,7 +1434,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 74DD86B7A832541B3445CFDD;
+			remoteGlobalIDString = F7AF91887C8DB9CBADED8371;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -1490,6 +1490,7 @@
 
 /* Begin PBXFileReference section */
 		513D370EB7021CE537F92518 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		95755E6C1AF407840045A9E8 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = NAStify/External/GoogleMobileAdsSdkiOS/GoogleMobileAds.framework; sourceTree = "<group>"; };
 		A6953849EB9283B9A860C597 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D501D6DA19FFEB7F0032AACD /* MWCaptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCaptionView.h; sourceTree = "<group>"; };
 		D501D6DB19FFEB7F0032AACD /* MWCaptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCaptionView.m; sourceTree = "<group>"; };
@@ -2840,6 +2841,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95755E6D1AF407840045A9E8 /* GoogleMobileAds.framework in Frameworks */,
 				D5EBAAEB1A6C69DB00905450 /* libsmbclient.a in Frameworks */,
 				D5EBAAEC1A6C69DB00905450 /* libtalloc.a in Frameworks */,
 				D5EBAAED1A6C69DB00905450 /* libtdb.a in Frameworks */,
@@ -2883,7 +2885,6 @@
 				F99CB81815F8086A0011F91F /* QuickLook.framework in Frameworks */,
 				F99CB81215F800EB0011F91F /* MessageUI.framework in Frameworks */,
 				F99CB80715F7FC7F0011F91F /* ImageIO.framework in Frameworks */,
-				D5D3CCB719B7AE920083EA08 /* libGoogleAdMobAds.a in Frameworks */,
 				F9E706D515DF0D8F00275445 /* Security.framework in Frameworks */,
 				F9345C8A15DC5B26004035A9 /* CFNetwork.framework in Frameworks */,
 				F901F85715D863990059428E /* QuartzCore.framework in Frameworks */,
@@ -3890,6 +3891,7 @@
 		F901F7A815D7C7C50059428E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				95755E6C1AF407840045A9E8 /* GoogleMobileAds.framework */,
 				D5EBAAE61A6C69DB00905450 /* libsmbclient.a */,
 				D5EBAAE71A6C69DB00905450 /* libtalloc.a */,
 				D5EBAAE81A6C69DB00905450 /* libtdb.a */,
@@ -6878,8 +6880,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = "NAStify-DocProvider/NAStify_DocProvider.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREFIX_HEADER = "NAStify-DocProvider/NAStify-DocProvider-Prefix.pch";
@@ -6946,8 +6948,8 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_ENTITLEMENTS = "NAStify-DocProvider/NAStify_DocProvider.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Sylver Bruneau";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Sylver Bruneau";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -7011,8 +7013,8 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_OBJC_ARC = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
@@ -7074,13 +7076,14 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_ENTITLEMENTS = NAStify/NAStify.entitlements;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
-				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Sylver Bruneau (76CXVB8973)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NAStify/External/Connect-SDK-iOS/modules/google-cast/",
+					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
@@ -7113,7 +7116,6 @@
 					"$(PROJECT_DIR)/external/MediaLibraryKit/build/Release-iphoneos",
 					"$(SRCROOT)/external/VLCKit/build/Release-iphoneos/",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos",
-					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
 					"$(PROJECT_DIR)/external/cryptopp/lib",
 					"$(PROJECT_DIR)/external/cares/lib",
 					"$(PROJECT_DIR)/external/samba/libs",
@@ -7143,6 +7145,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NAStify/External/Connect-SDK-iOS/modules/google-cast/",
+					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
@@ -7175,7 +7178,6 @@
 					"$(PROJECT_DIR)/external/MediaLibraryKit/build/Release-iphoneos",
 					"$(SRCROOT)/external/VLCKit/build/Release-iphoneos/",
 					"$(PROJECT_DIR)/external/VLCKit/build/Release-iphoneos",
-					"$(PROJECT_DIR)/NAStify/External/GoogleMobileAdsSdkiOS",
 					"$(PROJECT_DIR)/external/cryptopp/lib",
 					"$(PROJECT_DIR)/external/cares/lib",
 					"$(PROJECT_DIR)/external/samba/libs",

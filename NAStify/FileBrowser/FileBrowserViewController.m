@@ -4448,12 +4448,11 @@
         {
             NSLog(@"fallback to Google Ads");
             GADRequest *request = [GADRequest request];
-            request.testDevices = [NSArray arrayWithObjects:GAD_SIMULATOR_ID, IPHONE5S_ID, nil];
+            request.testDevices = [NSArray arrayWithObjects:kGADSimulatorID, IPHONE5S_ID, nil];
             
             if (self.interstitial == nil)
             {
-                self.interstitial = [[GADInterstitial alloc] init];
-                self.interstitial.adUnitID = NASTIFY_FULL_SCREEN_INTERSTITIAL_ID;
+                self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:NASTIFY_FULL_SCREEN_INTERSTITIAL_ID];
                 self.interstitial.delegate = self;
             }
             

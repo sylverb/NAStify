@@ -30,7 +30,7 @@
 
 // Ads
 #import <iAd/iAd.h>
-#import "GADInterstitial.h"
+#import <GoogleMobileAds/GADInterstitial.h>
 
 typedef enum
 {
