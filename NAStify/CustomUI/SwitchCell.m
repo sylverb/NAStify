@@ -39,8 +39,7 @@
 		}
         else
         {
-			self.switchButton = [[UISwitch alloc] init];
-            self.switchButton.frame = CGRectMake([UIScreen mainScreen].bounds.size.width - self.switchButton.frame.size.width - 20,8,0,0);
+            self.switchButton = [[UISwitch alloc] initWithFrame:CGRectMake(250,8,0,0)];
 		}
 
 		//Set properties
