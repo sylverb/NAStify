@@ -27,11 +27,14 @@ PODS:
   - CocoaHTTPServer (2.3):
     - CocoaAsyncSocket
     - CocoaLumberjack
-  - CocoaLumberjack (1.9.2):
-    - CocoaLumberjack/Extensions (= 1.9.2)
-  - CocoaLumberjack/Core (1.9.2)
-  - CocoaLumberjack/Extensions (1.9.2):
+  - CocoaLumberjack (2.0.0):
+    - CocoaLumberjack/Default (= 2.0.0)
+    - CocoaLumberjack/Extensions (= 2.0.0)
+  - CocoaLumberjack/Core (2.0.0)
+  - CocoaLumberjack/Default (2.0.0):
     - CocoaLumberjack/Core
+  - CocoaLumberjack/Extensions (2.0.0):
+    - CocoaLumberjack/Default
   - DACircularProgress (2.2.0)
   - ELCImagePickerController (0.2.0)
   - Google-API-Client/Common (1.0.418):
@@ -42,7 +45,7 @@ PODS:
     - gtm-http-fetcher (~> 1.0.141)
     - gtm-oauth2 (~> 1.0.125)
   - gtm-http-fetcher (1.0.141)
-  - gtm-oauth2 (1.0.125):
+  - gtm-oauth2 (1.0.126):
     - gtm-http-fetcher (~> 1.0.141)
   - iRate (1.11.3)
   - ISO8601DateFormatter (0.7)
@@ -54,27 +57,31 @@ PODS:
   - OBSlider (1.1.0)
   - PSTCollectionView (1.2.3)
   - SSKeychain (1.2.2)
-  - upnpx (1.3.0)
+  - upnpx (1.3.1)
   - XMLDictionary (1.4)
 
 DEPENDENCIES:
-  - AFNetworking (from `https://github.com/AFNetworking/AFNetworking.git`, commit `0e6f9be`)
+  - AFNetworking (from `https://github.com/AFNetworking/AFNetworking.git`, commit
+    `0e6f9be`)
   - box-ios-sdk-v2 (from `https://github.com/box/box-ios-sdk-v2.git`, commit `5b9af5c`)
   - CocoaHTTPServer (= 2.3)
-  - DACircularProgress (from `https://github.com/danielamitay/DACircularProgress.git`, commit `ccc7a2e`)
-  - ELCImagePickerController (from `https://github.com/B-Sides/ELCImagePickerController.git`, commit `b57e2f3`)
+  - DACircularProgress (from `https://github.com/danielamitay/DACircularProgress.git`,
+    commit `ccc7a2e`)
+  - ELCImagePickerController (from `https://github.com/B-Sides/ELCImagePickerController.git`,
+    commit `b57e2f3`)
   - Google-API-Client/Drive (= 1.0.418)
   - iRate (= 1.11.3)
   - ISO8601DateFormatter (= 0.7)
   - LTHPasscodeViewController (= 3.3.3)
-  - MAConfirmButton (from `https://github.com/gizmosachin/MAConfirmButton.git`, commit `23ce343`)
+  - MAConfirmButton (from `https://github.com/gizmosachin/MAConfirmButton.git`, commit
+    `cc15357`)
   - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD.git`, commit `fc1903f`)
   - MKStoreKit (HEAD)
   - objective-zip (= 0.8.3)
   - OBSlider (= 1.1.0)
   - PSTCollectionView (= 1.2.3)
   - SSKeychain (= 1.2.2)
-  - upnpx (from `https://github.com/fkuehne/upnpx.git`, commit `8e31bd1`)
+  - upnpx (from `https://github.com/fkuehne/upnpx.git`, commit `7bbfef5`)
   - XMLDictionary (= 1.4)
 
 EXTERNAL SOURCES:
@@ -91,13 +98,13 @@ EXTERNAL SOURCES:
     :commit: b57e2f3
     :git: https://github.com/B-Sides/ELCImagePickerController.git
   MAConfirmButton:
-    :commit: 23ce343
+    :commit: cc15357
     :git: https://github.com/gizmosachin/MAConfirmButton.git
   MBProgressHUD:
     :commit: fc1903f
     :git: https://github.com/jdg/MBProgressHUD.git
   upnpx:
-    :commit: 8e31bd1
+    :commit: 7bbfef5
     :git: https://github.com/fkuehne/upnpx.git
 
 CHECKOUT OPTIONS:
@@ -114,37 +121,37 @@ CHECKOUT OPTIONS:
     :commit: b57e2f3
     :git: https://github.com/B-Sides/ELCImagePickerController.git
   MAConfirmButton:
-    :commit: 23ce343
+    :commit: cc15357
     :git: https://github.com/gizmosachin/MAConfirmButton.git
   MBProgressHUD:
     :commit: fc1903f
     :git: https://github.com/jdg/MBProgressHUD.git
   upnpx:
-    :commit: 8e31bd1
+    :commit: 7bbfef5
     :git: https://github.com/fkuehne/upnpx.git
 
 SPEC CHECKSUMS:
-  AFNetworking: 4c9d0041306f20098bedc239a6ff13cd58440943
-  box-ios-sdk-v2: c06d3009266dc2c5c27bbb3882f1e5cf1f3c72cb
-  CocoaAsyncSocket: b0a1a89e7ea4c1c0ea4ec83f57d55117d3cdae06
-  CocoaHTTPServer: 217df4cba4e48803db2480f97b805aaad2230dd1
-  CocoaLumberjack: 205769c032b5fef85b92472046bcc8b7e7c8a817
-  DACircularProgress: 659d6fd11b5fc099c13ba9350239d9dca324916a
-  ELCImagePickerController: 1baf64fadfe088550c16f82225469e4dfad917e2
-  Google-API-Client: ff0d197a1fa20a5feb2d9c38bdf0bcdcd1ec3889
+  AFNetworking: 96ac9bf3eda33582701cb1fcc5b896aa1e20311e
+  box-ios-sdk-v2: e6833ca786bf93da1dbe63e3d0a945b1e1fe1f42
+  CocoaAsyncSocket: 7cbf214b27f8e7f7574db6a3fd96352ffaed433d
+  CocoaHTTPServer: 5624681fc3473d43b18202f635f9b3abb013b530
+  CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
+  DACircularProgress: 0f92b77239d5f3c612fc66185e2998391ac8e054
+  ELCImagePickerController: b1b7084434a7d49f2cfc916bde1f3ba353d38de9
+  Google-API-Client: 015d6f9303fa910f91f42300a088eac5fac5dd25
   gtm-http-fetcher: 6d4617e7d343b6e4c082b777541c334eb6f5d81e
-  gtm-oauth2: 3f97d22a6066a80df0b1f878c1ce41176472daad
-  iRate: 5e1978bac8b3f3f0296dbeccc0dd7b50e6e50657
-  ISO8601DateFormatter: 59731cd880cf87e71b4fa95f0d6b713dcbc4cbce
-  LTHPasscodeViewController: 8387a22d59ed648e3c23d8db265eaae110850975
-  MAConfirmButton: 1400cef9aee5ffc104bc4ea8cb72ab7039dd0823
-  MBProgressHUD: 85f9608e8473269aba4f6603958bb8bafcb60388
-  MKStoreKit: b3974582d36f1410eb4d1174728f45909a367b86
-  objective-zip: 5d3c6d7c5f9f7638c840c011e9e33485b5caa43c
-  OBSlider: 3536461f3dd47dfcbd0972c5aafb88aa7081fb79
-  PSTCollectionView: d9f466e4554cc83260ca9bde7beb27f308e8fd76
-  SSKeychain: cc48bd3ad24fcd9125adb9e0d23dd50b8bbd08b9
-  upnpx: e9c5b4ca6fa09224fdf78b1a5e168a2637784506
-  XMLDictionary: 735e81b9a043e220b0d24e9d4f16719606f2e0fc
+  gtm-oauth2: 2a18b824e4f8a02df6cfe987beb59ae9d9697f9d
+  iRate: 09ef501c74ade02013348bc33225ea48f7aa4e55
+  ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
+  LTHPasscodeViewController: 01d2c19b6e2aefcd34f4a63d880cf3718da27fdc
+  MAConfirmButton: fb4a445eb31b717981c9b74c1cdd3c25fd4f3960
+  MBProgressHUD: d8e7ea388dc1549a42e0d219067cf5f2c898fb66
+  MKStoreKit: 748617e5f87ad1e0d3f075155047945248eccefc
+  objective-zip: a27d4b3c060eead4325159e49178e7f0ad5ee808
+  OBSlider: 490f108007bfdd5414a38650b211fe403a95b8a0
+  PSTCollectionView: 6749df92885353521f55279a7ce2b293762e2be4
+  SSKeychain: 88767e903ee8d274ed380e364d96b7a101235286
+  upnpx: ef9bb95b4aa4c1c8b52f0cd1e4ee5cdb13d1b42f
+  XMLDictionary: f9f51601ba76678b594ab485f2b00ec1fed23724
 
-COCOAPODS: 0.35.0
+COCOAPODS: 0.36.4
