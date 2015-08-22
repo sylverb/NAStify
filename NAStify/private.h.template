@@ -31,3 +31,7 @@
 
 // Mega.co.nz
 #define MEGA_KEY                            @"CLIENT_KEY"
+
+// hubiC
+#define HUBIC_CLIENT_ID                     @"CLIENT_ID"
+#define HUBIC_CLIENT_SECRET                 @"CLIENT_SECRET"

@@ -97,6 +97,11 @@
             self.fileTypeImage.image = [UIImage imageNamed:@"dropbox_small.png"];
             break;
         }
+        case SERVER_TYPE_PYDIO:
+        {
+            self.fileTypeImage.image = [UIImage imageNamed:@"pydio_small.png"];
+            break;
+        }
         case SERVER_TYPE_QNAP:
         {
             self.fileTypeImage.image = [UIImage imageNamed:@"qnap_small.png"];

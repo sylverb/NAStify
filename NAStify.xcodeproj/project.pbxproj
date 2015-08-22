@@ -9,6 +9,74 @@
 /* Begin PBXBuildFile section */
 		27E0049449C6732EB4D8676A /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E5830BD314AC90F99906CD41 /* libPods.a */; };
 		95755E6D1AF407840045A9E8 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95755E6C1AF407840045A9E8 /* GoogleMobileAds.framework */; };
+		95DFB7011B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
+		95DFB7021B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
+		95DFB7561B0BA6260002C830 /* AuthorizationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7071B0BA6250002C830 /* AuthorizationClient.m */; };
+		95DFB7571B0BA6260002C830 /* AuthorizationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7071B0BA6250002C830 /* AuthorizationClient.m */; };
+		95DFB7581B0BA6260002C830 /* OperationsClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7091B0BA6250002C830 /* OperationsClient.m */; };
+		95DFB7591B0BA6260002C830 /* OperationsClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7091B0BA6250002C830 /* OperationsClient.m */; };
+		95DFB75A1B0BA6260002C830 /* NSString+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB70C1B0BA6250002C830 /* NSString+Hash.m */; };
+		95DFB75B1B0BA6260002C830 /* NSString+Hash.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB70C1B0BA6250002C830 /* NSString+Hash.m */; };
+		95DFB75C1B0BA6260002C830 /* NSURL+Normalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB70E1B0BA6250002C830 /* NSURL+Normalization.m */; };
+		95DFB75D1B0BA6260002C830 /* NSURL+Normalization.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB70E1B0BA6250002C830 /* NSURL+Normalization.m */; };
+		95DFB75E1B0BA6260002C830 /* ErrorResponseParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7111B0BA6250002C830 /* ErrorResponseParserDelegate.m */; };
+		95DFB75F1B0BA6260002C830 /* ErrorResponseParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7111B0BA6250002C830 /* ErrorResponseParserDelegate.m */; };
+		95DFB7601B0BA6260002C830 /* ListFilesResponseParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7131B0BA6250002C830 /* ListFilesResponseParserDelegate.m */; };
+		95DFB7611B0BA6260002C830 /* ListFilesResponseParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7131B0BA6250002C830 /* ListFilesResponseParserDelegate.m */; };
+		95DFB7621B0BA6260002C830 /* LoginResponseParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7151B0BA6250002C830 /* LoginResponseParserDelegate.m */; };
+		95DFB7631B0BA6260002C830 /* LoginResponseParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7151B0BA6250002C830 /* LoginResponseParserDelegate.m */; };
+		95DFB7641B0BA6260002C830 /* NotAuthorizedResponseParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7171B0BA6250002C830 /* NotAuthorizedResponseParserDelegate.m */; };
+		95DFB7651B0BA6260002C830 /* NotAuthorizedResponseParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7171B0BA6250002C830 /* NotAuthorizedResponseParserDelegate.m */; };
+		95DFB7661B0BA6260002C830 /* RepositoriesParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7191B0BA6250002C830 /* RepositoriesParserDelegate.m */; };
+		95DFB7671B0BA6260002C830 /* RepositoriesParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7191B0BA6250002C830 /* RepositoriesParserDelegate.m */; };
+		95DFB7681B0BA6260002C830 /* SuccessResponseParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB71B1B0BA6250002C830 /* SuccessResponseParserDelegate.m */; };
+		95DFB7691B0BA6260002C830 /* SuccessResponseParserDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB71B1B0BA6250002C830 /* SuccessResponseParserDelegate.m */; };
+		95DFB76A1B0BA6260002C830 /* GetRepositoriesParserStates.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB71E1B0BA6250002C830 /* GetRepositoriesParserStates.m */; };
+		95DFB76B1B0BA6260002C830 /* GetRepositoriesParserStates.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB71E1B0BA6250002C830 /* GetRepositoriesParserStates.m */; };
+		95DFB76C1B0BA6260002C830 /* XMLParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7211B0BA6250002C830 /* XMLParserState.m */; };
+		95DFB76D1B0BA6260002C830 /* XMLParserState.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7211B0BA6250002C830 /* XMLParserState.m */; };
+		95DFB76E1B0BA6260002C830 /* LoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7241B0BA6250002C830 /* LoginResponse.m */; };
+		95DFB76F1B0BA6260002C830 /* LoginResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7241B0BA6250002C830 /* LoginResponse.m */; };
+		95DFB7701B0BA6260002C830 /* NotAuthorizedResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7261B0BA6250002C830 /* NotAuthorizedResponse.m */; };
+		95DFB7711B0BA6260002C830 /* NotAuthorizedResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7261B0BA6250002C830 /* NotAuthorizedResponse.m */; };
+		95DFB7721B0BA6260002C830 /* PydioErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7281B0BA6250002C830 /* PydioErrorResponse.m */; };
+		95DFB7731B0BA6260002C830 /* PydioErrorResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7281B0BA6250002C830 /* PydioErrorResponse.m */; };
+		95DFB7741B0BA6260002C830 /* PydioSuccessResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB72A1B0BA6250002C830 /* PydioSuccessResponse.m */; };
+		95DFB7751B0BA6260002C830 /* PydioSuccessResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB72A1B0BA6250002C830 /* PydioSuccessResponse.m */; };
+		95DFB7761B0BA6260002C830 /* SeedResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB72C1B0BA6260002C830 /* SeedResponse.m */; };
+		95DFB7771B0BA6260002C830 /* SeedResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB72C1B0BA6260002C830 /* SeedResponse.m */; };
+		95DFB7781B0BA6260002C830 /* BootConfResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB72F1B0BA6260002C830 /* BootConfResponseSerializer.m */; };
+		95DFB7791B0BA6260002C830 /* BootConfResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB72F1B0BA6260002C830 /* BootConfResponseSerializer.m */; };
+		95DFB77A1B0BA6260002C830 /* FailingResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7311B0BA6260002C830 /* FailingResponseSerializer.m */; };
+		95DFB77B1B0BA6260002C830 /* FailingResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7311B0BA6260002C830 /* FailingResponseSerializer.m */; };
+		95DFB77C1B0BA6260002C830 /* GetCaptchaResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7331B0BA6260002C830 /* GetCaptchaResponseSerializer.m */; };
+		95DFB77D1B0BA6260002C830 /* GetCaptchaResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7331B0BA6260002C830 /* GetCaptchaResponseSerializer.m */; };
+		95DFB77E1B0BA6260002C830 /* GetSeedJSONResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7351B0BA6260002C830 /* GetSeedJSONResponseSerializer.m */; };
+		95DFB77F1B0BA6260002C830 /* GetSeedJSONResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7351B0BA6260002C830 /* GetSeedJSONResponseSerializer.m */; };
+		95DFB7801B0BA6260002C830 /* GetSeedResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7371B0BA6260002C830 /* GetSeedResponseSerializer.m */; };
+		95DFB7811B0BA6260002C830 /* GetSeedResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7371B0BA6260002C830 /* GetSeedResponseSerializer.m */; };
+		95DFB7821B0BA6260002C830 /* GetSeedTextResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7391B0BA6260002C830 /* GetSeedTextResponseSerializer.m */; };
+		95DFB7831B0BA6260002C830 /* GetSeedTextResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7391B0BA6260002C830 /* GetSeedTextResponseSerializer.m */; };
+		95DFB7841B0BA6260002C830 /* XMLResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB73B1B0BA6260002C830 /* XMLResponseSerializer.m */; };
+		95DFB7851B0BA6260002C830 /* XMLResponseSerializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB73B1B0BA6260002C830 /* XMLResponseSerializer.m */; };
+		95DFB7861B0BA6260002C830 /* XMLResponseSerializerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB73E1B0BA6260002C830 /* XMLResponseSerializerDelegate.m */; };
+		95DFB7871B0BA6260002C830 /* XMLResponseSerializerDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB73E1B0BA6260002C830 /* XMLResponseSerializerDelegate.m */; };
+		95DFB7881B0BA6260002C830 /* PydioClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7421B0BA6260002C830 /* PydioClient.m */; };
+		95DFB7891B0BA6260002C830 /* PydioClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7421B0BA6260002C830 /* PydioClient.m */; };
+		95DFB78A1B0BA6260002C830 /* DeleteNodesRequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7471B0BA6260002C830 /* DeleteNodesRequestParams.m */; };
+		95DFB78B1B0BA6260002C830 /* DeleteNodesRequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7471B0BA6260002C830 /* DeleteNodesRequestParams.m */; };
+		95DFB78C1B0BA6260002C830 /* ListNodesRequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7491B0BA6260002C830 /* ListNodesRequestParams.m */; };
+		95DFB78D1B0BA6260002C830 /* ListNodesRequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7491B0BA6260002C830 /* ListNodesRequestParams.m */; };
+		95DFB78E1B0BA6260002C830 /* MkDirRequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB74B1B0BA6260002C830 /* MkDirRequestParams.m */; };
+		95DFB78F1B0BA6260002C830 /* MkDirRequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB74B1B0BA6260002C830 /* MkDirRequestParams.m */; };
+		95DFB7901B0BA6260002C830 /* NodeResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB74E1B0BA6260002C830 /* NodeResponse.m */; };
+		95DFB7911B0BA6260002C830 /* NodeResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB74E1B0BA6260002C830 /* NodeResponse.m */; };
+		95DFB7921B0BA6260002C830 /* WorkspaceResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7501B0BA6260002C830 /* WorkspaceResponse.m */; };
+		95DFB7931B0BA6260002C830 /* WorkspaceResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7501B0BA6260002C830 /* WorkspaceResponse.m */; };
+		95DFB7941B0BA6260002C830 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7521B0BA6260002C830 /* User.m */; };
+		95DFB7951B0BA6260002C830 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7521B0BA6260002C830 /* User.m */; };
+		95DFB7961B0BA6260002C830 /* ServersParamsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7551B0BA6260002C830 /* ServersParamsManager.m */; };
+		95DFB7971B0BA6260002C830 /* ServersParamsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7551B0BA6260002C830 /* ServersParamsManager.m */; };
 		D501D6EE19FFEB7F0032AACD /* MWCaptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = D501D6DB19FFEB7F0032AACD /* MWCaptionView.m */; };
 		D501D6EF19FFEB7F0032AACD /* MWGridCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D501D6DE19FFEB7F0032AACD /* MWGridCell.m */; };
 		D501D6F019FFEB7F0032AACD /* MWGridViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D501D6E019FFEB7F0032AACD /* MWGridViewController.m */; };
@@ -1287,7 +1355,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = F7AF91887C8DB9CBADED8371;
+			remoteGlobalIDString = 66B8C13BF049E821F03EA302;
 			remoteInfo = Pods;
 		};
 		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
@@ -1434,7 +1502,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = F7AF91887C8DB9CBADED8371;
+			remoteGlobalIDString = 66B8C13BF049E821F03EA302;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -1491,6 +1559,77 @@
 /* Begin PBXFileReference section */
 		513D370EB7021CE537F92518 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		95755E6C1AF407840045A9E8 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = NAStify/External/GoogleMobileAdsSdkiOS/GoogleMobileAds.framework; sourceTree = "<group>"; };
+		95DFB6FF1B0BA5D40002C830 /* CMPydio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMPydio.h; sourceTree = "<group>"; };
+		95DFB7001B0BA5D40002C830 /* CMPydio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMPydio.m; sourceTree = "<group>"; };
+		95DFB7061B0BA6250002C830 /* AuthorizationClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorizationClient.h; sourceTree = "<group>"; };
+		95DFB7071B0BA6250002C830 /* AuthorizationClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AuthorizationClient.m; sourceTree = "<group>"; };
+		95DFB7081B0BA6250002C830 /* OperationsClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OperationsClient.h; sourceTree = "<group>"; };
+		95DFB7091B0BA6250002C830 /* OperationsClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OperationsClient.m; sourceTree = "<group>"; };
+		95DFB70B1B0BA6250002C830 /* NSString+Hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Hash.h"; sourceTree = "<group>"; };
+		95DFB70C1B0BA6250002C830 /* NSString+Hash.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Hash.m"; sourceTree = "<group>"; };
+		95DFB70D1B0BA6250002C830 /* NSURL+Normalization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURL+Normalization.h"; sourceTree = "<group>"; };
+		95DFB70E1B0BA6250002C830 /* NSURL+Normalization.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURL+Normalization.m"; sourceTree = "<group>"; };
+		95DFB7101B0BA6250002C830 /* ErrorResponseParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ErrorResponseParserDelegate.h; sourceTree = "<group>"; };
+		95DFB7111B0BA6250002C830 /* ErrorResponseParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ErrorResponseParserDelegate.m; sourceTree = "<group>"; };
+		95DFB7121B0BA6250002C830 /* ListFilesResponseParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListFilesResponseParserDelegate.h; sourceTree = "<group>"; };
+		95DFB7131B0BA6250002C830 /* ListFilesResponseParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListFilesResponseParserDelegate.m; sourceTree = "<group>"; };
+		95DFB7141B0BA6250002C830 /* LoginResponseParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResponseParserDelegate.h; sourceTree = "<group>"; };
+		95DFB7151B0BA6250002C830 /* LoginResponseParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResponseParserDelegate.m; sourceTree = "<group>"; };
+		95DFB7161B0BA6250002C830 /* NotAuthorizedResponseParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotAuthorizedResponseParserDelegate.h; sourceTree = "<group>"; };
+		95DFB7171B0BA6250002C830 /* NotAuthorizedResponseParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotAuthorizedResponseParserDelegate.m; sourceTree = "<group>"; };
+		95DFB7181B0BA6250002C830 /* RepositoriesParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RepositoriesParserDelegate.h; sourceTree = "<group>"; };
+		95DFB7191B0BA6250002C830 /* RepositoriesParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RepositoriesParserDelegate.m; sourceTree = "<group>"; };
+		95DFB71A1B0BA6250002C830 /* SuccessResponseParserDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuccessResponseParserDelegate.h; sourceTree = "<group>"; };
+		95DFB71B1B0BA6250002C830 /* SuccessResponseParserDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuccessResponseParserDelegate.m; sourceTree = "<group>"; };
+		95DFB71D1B0BA6250002C830 /* GetRepositoriesParserStates.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetRepositoriesParserStates.h; sourceTree = "<group>"; };
+		95DFB71E1B0BA6250002C830 /* GetRepositoriesParserStates.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetRepositoriesParserStates.m; sourceTree = "<group>"; };
+		95DFB71F1B0BA6250002C830 /* ParserStateDelgate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParserStateDelgate.h; sourceTree = "<group>"; };
+		95DFB7201B0BA6250002C830 /* XMLParserState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLParserState.h; sourceTree = "<group>"; };
+		95DFB7211B0BA6250002C830 /* XMLParserState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLParserState.m; sourceTree = "<group>"; };
+		95DFB7231B0BA6250002C830 /* LoginResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginResponse.h; sourceTree = "<group>"; };
+		95DFB7241B0BA6250002C830 /* LoginResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginResponse.m; sourceTree = "<group>"; };
+		95DFB7251B0BA6250002C830 /* NotAuthorizedResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NotAuthorizedResponse.h; sourceTree = "<group>"; };
+		95DFB7261B0BA6250002C830 /* NotAuthorizedResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NotAuthorizedResponse.m; sourceTree = "<group>"; };
+		95DFB7271B0BA6250002C830 /* PydioErrorResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PydioErrorResponse.h; sourceTree = "<group>"; };
+		95DFB7281B0BA6250002C830 /* PydioErrorResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PydioErrorResponse.m; sourceTree = "<group>"; };
+		95DFB7291B0BA6250002C830 /* PydioSuccessResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PydioSuccessResponse.h; sourceTree = "<group>"; };
+		95DFB72A1B0BA6250002C830 /* PydioSuccessResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PydioSuccessResponse.m; sourceTree = "<group>"; };
+		95DFB72B1B0BA6250002C830 /* SeedResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeedResponse.h; sourceTree = "<group>"; };
+		95DFB72C1B0BA6260002C830 /* SeedResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeedResponse.m; sourceTree = "<group>"; };
+		95DFB72E1B0BA6260002C830 /* BootConfResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BootConfResponseSerializer.h; sourceTree = "<group>"; };
+		95DFB72F1B0BA6260002C830 /* BootConfResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BootConfResponseSerializer.m; sourceTree = "<group>"; };
+		95DFB7301B0BA6260002C830 /* FailingResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FailingResponseSerializer.h; sourceTree = "<group>"; };
+		95DFB7311B0BA6260002C830 /* FailingResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FailingResponseSerializer.m; sourceTree = "<group>"; };
+		95DFB7321B0BA6260002C830 /* GetCaptchaResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetCaptchaResponseSerializer.h; sourceTree = "<group>"; };
+		95DFB7331B0BA6260002C830 /* GetCaptchaResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetCaptchaResponseSerializer.m; sourceTree = "<group>"; };
+		95DFB7341B0BA6260002C830 /* GetSeedJSONResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSeedJSONResponseSerializer.h; sourceTree = "<group>"; };
+		95DFB7351B0BA6260002C830 /* GetSeedJSONResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSeedJSONResponseSerializer.m; sourceTree = "<group>"; };
+		95DFB7361B0BA6260002C830 /* GetSeedResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSeedResponseSerializer.h; sourceTree = "<group>"; };
+		95DFB7371B0BA6260002C830 /* GetSeedResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSeedResponseSerializer.m; sourceTree = "<group>"; };
+		95DFB7381B0BA6260002C830 /* GetSeedTextResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetSeedTextResponseSerializer.h; sourceTree = "<group>"; };
+		95DFB7391B0BA6260002C830 /* GetSeedTextResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetSeedTextResponseSerializer.m; sourceTree = "<group>"; };
+		95DFB73A1B0BA6260002C830 /* XMLResponseSerializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLResponseSerializer.h; sourceTree = "<group>"; };
+		95DFB73B1B0BA6260002C830 /* XMLResponseSerializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLResponseSerializer.m; sourceTree = "<group>"; };
+		95DFB73D1B0BA6260002C830 /* XMLResponseSerializerDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLResponseSerializerDelegate.h; sourceTree = "<group>"; };
+		95DFB73E1B0BA6260002C830 /* XMLResponseSerializerDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLResponseSerializerDelegate.m; sourceTree = "<group>"; };
+		95DFB7411B0BA6260002C830 /* PydioClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PydioClient.h; sourceTree = "<group>"; };
+		95DFB7421B0BA6260002C830 /* PydioClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PydioClient.m; sourceTree = "<group>"; };
+		95DFB7431B0BA6260002C830 /* Commons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Commons.h; sourceTree = "<group>"; };
+		95DFB7461B0BA6260002C830 /* DeleteNodesRequestParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteNodesRequestParams.h; sourceTree = "<group>"; };
+		95DFB7471B0BA6260002C830 /* DeleteNodesRequestParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteNodesRequestParams.m; sourceTree = "<group>"; };
+		95DFB7481B0BA6260002C830 /* ListNodesRequestParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ListNodesRequestParams.h; sourceTree = "<group>"; };
+		95DFB7491B0BA6260002C830 /* ListNodesRequestParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ListNodesRequestParams.m; sourceTree = "<group>"; };
+		95DFB74A1B0BA6260002C830 /* MkDirRequestParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MkDirRequestParams.h; sourceTree = "<group>"; };
+		95DFB74B1B0BA6260002C830 /* MkDirRequestParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MkDirRequestParams.m; sourceTree = "<group>"; };
+		95DFB74D1B0BA6260002C830 /* NodeResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NodeResponse.h; sourceTree = "<group>"; };
+		95DFB74E1B0BA6260002C830 /* NodeResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NodeResponse.m; sourceTree = "<group>"; };
+		95DFB74F1B0BA6260002C830 /* WorkspaceResponse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorkspaceResponse.h; sourceTree = "<group>"; };
+		95DFB7501B0BA6260002C830 /* WorkspaceResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorkspaceResponse.m; sourceTree = "<group>"; };
+		95DFB7511B0BA6260002C830 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		95DFB7521B0BA6260002C830 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		95DFB7531B0BA6260002C830 /* PydioErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PydioErrors.h; sourceTree = "<group>"; };
+		95DFB7541B0BA6260002C830 /* ServersParamsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServersParamsManager.h; sourceTree = "<group>"; };
+		95DFB7551B0BA6260002C830 /* ServersParamsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServersParamsManager.m; sourceTree = "<group>"; };
 		A6953849EB9283B9A860C597 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		D501D6DA19FFEB7F0032AACD /* MWCaptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWCaptionView.h; sourceTree = "<group>"; };
 		D501D6DB19FFEB7F0032AACD /* MWCaptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWCaptionView.m; sourceTree = "<group>"; };
@@ -2912,6 +3051,196 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		95DFB6FE1B0BA5D40002C830 /* Pydio */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB6FF1B0BA5D40002C830 /* CMPydio.h */,
+				95DFB7001B0BA5D40002C830 /* CMPydio.m */,
+			);
+			path = Pydio;
+			sourceTree = "<group>";
+		};
+		95DFB7031B0BA6250002C830 /* PydioSDK */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB7041B0BA6250002C830 /* Internals */,
+				95DFB73F1B0BA6260002C830 /* Public */,
+			);
+			name = PydioSDK;
+			path = External/PydioSDK;
+			sourceTree = "<group>";
+		};
+		95DFB7041B0BA6250002C830 /* Internals */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB7051B0BA6250002C830 /* Clients */,
+				95DFB70A1B0BA6250002C830 /* Helpers */,
+				95DFB70F1B0BA6250002C830 /* ResponseParsers */,
+				95DFB7221B0BA6250002C830 /* Responses */,
+				95DFB72D1B0BA6260002C830 /* ResponseSerializers */,
+				95DFB73C1B0BA6260002C830 /* SerializersDelegates */,
+			);
+			path = Internals;
+			sourceTree = "<group>";
+		};
+		95DFB7051B0BA6250002C830 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB7061B0BA6250002C830 /* AuthorizationClient.h */,
+				95DFB7071B0BA6250002C830 /* AuthorizationClient.m */,
+				95DFB7081B0BA6250002C830 /* OperationsClient.h */,
+				95DFB7091B0BA6250002C830 /* OperationsClient.m */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		95DFB70A1B0BA6250002C830 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB70B1B0BA6250002C830 /* NSString+Hash.h */,
+				95DFB70C1B0BA6250002C830 /* NSString+Hash.m */,
+				95DFB70D1B0BA6250002C830 /* NSURL+Normalization.h */,
+				95DFB70E1B0BA6250002C830 /* NSURL+Normalization.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		95DFB70F1B0BA6250002C830 /* ResponseParsers */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB7101B0BA6250002C830 /* ErrorResponseParserDelegate.h */,
+				95DFB7111B0BA6250002C830 /* ErrorResponseParserDelegate.m */,
+				95DFB7121B0BA6250002C830 /* ListFilesResponseParserDelegate.h */,
+				95DFB7131B0BA6250002C830 /* ListFilesResponseParserDelegate.m */,
+				95DFB7141B0BA6250002C830 /* LoginResponseParserDelegate.h */,
+				95DFB7151B0BA6250002C830 /* LoginResponseParserDelegate.m */,
+				95DFB7161B0BA6250002C830 /* NotAuthorizedResponseParserDelegate.h */,
+				95DFB7171B0BA6250002C830 /* NotAuthorizedResponseParserDelegate.m */,
+				95DFB7181B0BA6250002C830 /* RepositoriesParserDelegate.h */,
+				95DFB7191B0BA6250002C830 /* RepositoriesParserDelegate.m */,
+				95DFB71A1B0BA6250002C830 /* SuccessResponseParserDelegate.h */,
+				95DFB71B1B0BA6250002C830 /* SuccessResponseParserDelegate.m */,
+				95DFB71C1B0BA6250002C830 /* XMLParserStates */,
+			);
+			path = ResponseParsers;
+			sourceTree = "<group>";
+		};
+		95DFB71C1B0BA6250002C830 /* XMLParserStates */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB71D1B0BA6250002C830 /* GetRepositoriesParserStates.h */,
+				95DFB71E1B0BA6250002C830 /* GetRepositoriesParserStates.m */,
+				95DFB71F1B0BA6250002C830 /* ParserStateDelgate.h */,
+				95DFB7201B0BA6250002C830 /* XMLParserState.h */,
+				95DFB7211B0BA6250002C830 /* XMLParserState.m */,
+			);
+			path = XMLParserStates;
+			sourceTree = "<group>";
+		};
+		95DFB7221B0BA6250002C830 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB7231B0BA6250002C830 /* LoginResponse.h */,
+				95DFB7241B0BA6250002C830 /* LoginResponse.m */,
+				95DFB7251B0BA6250002C830 /* NotAuthorizedResponse.h */,
+				95DFB7261B0BA6250002C830 /* NotAuthorizedResponse.m */,
+				95DFB7271B0BA6250002C830 /* PydioErrorResponse.h */,
+				95DFB7281B0BA6250002C830 /* PydioErrorResponse.m */,
+				95DFB7291B0BA6250002C830 /* PydioSuccessResponse.h */,
+				95DFB72A1B0BA6250002C830 /* PydioSuccessResponse.m */,
+				95DFB72B1B0BA6250002C830 /* SeedResponse.h */,
+				95DFB72C1B0BA6260002C830 /* SeedResponse.m */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
+		95DFB72D1B0BA6260002C830 /* ResponseSerializers */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB72E1B0BA6260002C830 /* BootConfResponseSerializer.h */,
+				95DFB72F1B0BA6260002C830 /* BootConfResponseSerializer.m */,
+				95DFB7301B0BA6260002C830 /* FailingResponseSerializer.h */,
+				95DFB7311B0BA6260002C830 /* FailingResponseSerializer.m */,
+				95DFB7321B0BA6260002C830 /* GetCaptchaResponseSerializer.h */,
+				95DFB7331B0BA6260002C830 /* GetCaptchaResponseSerializer.m */,
+				95DFB7341B0BA6260002C830 /* GetSeedJSONResponseSerializer.h */,
+				95DFB7351B0BA6260002C830 /* GetSeedJSONResponseSerializer.m */,
+				95DFB7361B0BA6260002C830 /* GetSeedResponseSerializer.h */,
+				95DFB7371B0BA6260002C830 /* GetSeedResponseSerializer.m */,
+				95DFB7381B0BA6260002C830 /* GetSeedTextResponseSerializer.h */,
+				95DFB7391B0BA6260002C830 /* GetSeedTextResponseSerializer.m */,
+				95DFB73A1B0BA6260002C830 /* XMLResponseSerializer.h */,
+				95DFB73B1B0BA6260002C830 /* XMLResponseSerializer.m */,
+			);
+			path = ResponseSerializers;
+			sourceTree = "<group>";
+		};
+		95DFB73C1B0BA6260002C830 /* SerializersDelegates */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB73D1B0BA6260002C830 /* XMLResponseSerializerDelegate.h */,
+				95DFB73E1B0BA6260002C830 /* XMLResponseSerializerDelegate.m */,
+			);
+			path = SerializersDelegates;
+			sourceTree = "<group>";
+		};
+		95DFB73F1B0BA6260002C830 /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB7401B0BA6260002C830 /* Clients */,
+				95DFB7431B0BA6260002C830 /* Commons.h */,
+				95DFB7441B0BA6260002C830 /* Data */,
+				95DFB7531B0BA6260002C830 /* PydioErrors.h */,
+				95DFB7541B0BA6260002C830 /* ServersParamsManager.h */,
+				95DFB7551B0BA6260002C830 /* ServersParamsManager.m */,
+			);
+			path = Public;
+			sourceTree = "<group>";
+		};
+		95DFB7401B0BA6260002C830 /* Clients */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB7411B0BA6260002C830 /* PydioClient.h */,
+				95DFB7421B0BA6260002C830 /* PydioClient.m */,
+			);
+			path = Clients;
+			sourceTree = "<group>";
+		};
+		95DFB7441B0BA6260002C830 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB7451B0BA6260002C830 /* Requests */,
+				95DFB74C1B0BA6260002C830 /* Responses */,
+				95DFB7511B0BA6260002C830 /* User.h */,
+				95DFB7521B0BA6260002C830 /* User.m */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		95DFB7451B0BA6260002C830 /* Requests */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB7461B0BA6260002C830 /* DeleteNodesRequestParams.h */,
+				95DFB7471B0BA6260002C830 /* DeleteNodesRequestParams.m */,
+				95DFB7481B0BA6260002C830 /* ListNodesRequestParams.h */,
+				95DFB7491B0BA6260002C830 /* ListNodesRequestParams.m */,
+				95DFB74A1B0BA6260002C830 /* MkDirRequestParams.h */,
+				95DFB74B1B0BA6260002C830 /* MkDirRequestParams.m */,
+			);
+			path = Requests;
+			sourceTree = "<group>";
+		};
+		95DFB74C1B0BA6260002C830 /* Responses */ = {
+			isa = PBXGroup;
+			children = (
+				95DFB74D1B0BA6260002C830 /* NodeResponse.h */,
+				95DFB74E1B0BA6260002C830 /* NodeResponse.m */,
+				95DFB74F1B0BA6260002C830 /* WorkspaceResponse.h */,
+				95DFB7501B0BA6260002C830 /* WorkspaceResponse.m */,
+			);
+			path = Responses;
+			sourceTree = "<group>";
+		};
 		D501D6D819FFEB7F0032AACD /* MWPhotoBrowser */ = {
 			isa = PBXGroup;
 			children = (
@@ -3647,8 +3976,8 @@
 				D5AFBAF219D02097001C14CC /* AboutViewController.m */,
 				D546B87F1A704436001AF141 /* PurchaseServerViewController.h */,
 				D546B8801A704436001AF141 /* PurchaseServerViewController.m */,
-				D5D302D918FDE4EE0087F4C6 /* SettingsViewController.h */,
 				D5D302DA18FDE4EE0087F4C6 /* SettingsViewController.m */,
+				D5D302D918FDE4EE0087F4C6 /* SettingsViewController.h */,
 				D54042FD197C44E000A902DA /* VlcSettingsViewController.h */,
 				D54042FE197C44E000A902DA /* VlcSettingsViewController.m */,
 			);
@@ -4010,6 +4339,7 @@
 		F901F7C515D7C9460059428E /* External */ = {
 			isa = PBXGroup;
 			children = (
+				95DFB7031B0BA6250002C830 /* PydioSDK */,
 				D56507E61A51D767000EC977 /* MegaSDK */,
 				D56507781A4A0338000EC977 /* LiveSDK */,
 				D501D70919FFEBD30032AACD /* SDWebImage */,
@@ -4367,6 +4697,7 @@
 				D56509491A52B816000EC977 /* Mega */,
 				D565075C1A473F75000EC977 /* OneDrive */,
 				D57CCF3C1A3E17B200D9E6A9 /* OwnCloud */,
+				95DFB6FE1B0BA5D40002C830 /* Pydio */,
 				F97B1C101632BD4400E3FF7C /* QNAP */,
 				F98D897E181F8AD80053D5CF /* Samba */,
 				F9401E3B15F5347400AF40B2 /* Synology */,
@@ -6386,8 +6717,11 @@
 				D565083E1A51D7D0000EC977 /* DelegateMEGARequestListener.mm in Sources */,
 				D56508301A51D7D0000EC977 /* MEGATransfer.mm in Sources */,
 				D56508F11A51DA25000EC977 /* filesystem.cpp in Sources */,
+				95DFB7731B0BA6260002C830 /* PydioErrorResponse.m in Sources */,
 				D56508201A51D7D0000EC977 /* MEGAError.mm in Sources */,
+				95DFB7571B0BA6260002C830 /* AuthorizationClient.m in Sources */,
 				D56509131A51DA25000EC977 /* net.cpp in Sources */,
+				95DFB7791B0BA6260002C830 /* BootConfResponseSerializer.m in Sources */,
 				D56508D91A51DA25000EC977 /* backofftimer.cpp in Sources */,
 				D565090B1A51DA25000EC977 /* node.cpp in Sources */,
 				D56507D61A4A0392000EC977 /* LiveOperationCore.m in Sources */,
@@ -6395,6 +6729,7 @@
 				D56508FB1A51DA25000EC977 /* gfx.cpp in Sources */,
 				D56508401A51D7D0000EC977 /* DelegateMEGATransferListener.mm in Sources */,
 				D5E473D21A00E79300A02A1A /* FileItem.m in Sources */,
+				95DFB7691B0BA6260002C830 /* SuccessResponseParserDelegate.m in Sources */,
 				D5E473CF1A00E74000A02A1A /* SBNetworkActivityIndicator.m in Sources */,
 				D56507C41A4A0392000EC977 /* UrlHelper.m in Sources */,
 				D56507E41A4A0392000EC977 /* LiveOperationProgress.m in Sources */,
@@ -6410,8 +6745,10 @@
 				D56507E21A4A0392000EC977 /* LiveOperation.m in Sources */,
 				D56507E01A4A0392000EC977 /* LiveDownloadOperation.m in Sources */,
 				D5E4734E1A00446E00A02A1A /* DocumentPickerViewController.m in Sources */,
+				95DFB7831B0BA6260002C830 /* GetSeedTextResponseSerializer.m in Sources */,
 				D56508E71A51DA25000EC977 /* sqlite.cpp in Sources */,
 				D5E4738C1A00C70600A02A1A /* ServerCell.m in Sources */,
+				95DFB7631B0BA6260002C830 /* LoginResponseParserDelegate.m in Sources */,
 				D5E4738D1A00C70C00A02A1A /* UserAccount.m in Sources */,
 				D56507B81A4A0392000EC977 /* JsonWriter.m in Sources */,
 				D56507DC1A4A0392000EC977 /* LiveConnectClient.m in Sources */,
@@ -6421,6 +6758,7 @@
 				D56508DB1A51DA25000EC977 /* base64.cpp in Sources */,
 				D56509151A51DA25000EC977 /* waiter.cpp in Sources */,
 				D56508ED1A51DA25000EC977 /* fileattributefetch.cpp in Sources */,
+				95DFB75B1B0BA6260002C830 /* NSString+Hash.m in Sources */,
 				D5E4738F1A00C72000A02A1A /* NetworkConnection.m in Sources */,
 				D56507CC1A4A0392000EC977 /* LiveAuthRefreshRequest.m in Sources */,
 				D56508EF1A51DA25000EC977 /* filefingerprint.cpp in Sources */,
@@ -6428,28 +6766,43 @@
 				D56508DD1A51DA25000EC977 /* command.cpp in Sources */,
 				D56507C21A4A0392000EC977 /* StringHelper.m in Sources */,
 				D5E473911A00C73200A02A1A /* CMSamba.m in Sources */,
+				95DFB75D1B0BA6260002C830 /* NSURL+Normalization.m in Sources */,
 				D5E473921A00C73700A02A1A /* CMQnap.m in Sources */,
 				D56508E31A51DA25000EC977 /* sodium.cpp in Sources */,
 				D56509111A51DA25000EC977 /* fs.cpp in Sources */,
+				95DFB78B1B0BA6260002C830 /* DeleteNodesRequestParams.m in Sources */,
+				95DFB7811B0BA6260002C830 /* GetSeedResponseSerializer.m in Sources */,
+				95DFB7891B0BA6260002C830 /* PydioClient.m in Sources */,
+				95DFB7711B0BA6260002C830 /* NotAuthorizedResponse.m in Sources */,
 				D56507D81A4A0392000EC977 /* LiveUploadOperationCore.m in Sources */,
 				D565090F1A51DA25000EC977 /* consolewaiter.cpp in Sources */,
 				D565091D1A51DA25000EC977 /* serialize64.cpp in Sources */,
 				D565094D1A52B82E000EC977 /* CMMega.m in Sources */,
 				D56509171A51DA25000EC977 /* proxy.cpp in Sources */,
+				95DFB7851B0BA6260002C830 /* XMLResponseSerializer.m in Sources */,
+				95DFB77D1B0BA6260002C830 /* GetCaptchaResponseSerializer.m in Sources */,
 				D5E473931A00C73B00A02A1A /* CMFreeboxRev.m in Sources */,
 				D56507BC1A4A0392000EC977 /* LiveAuthHelper.m in Sources */,
+				95DFB7651B0BA6260002C830 /* NotAuthorizedResponseParserDelegate.m in Sources */,
 				D56508281A51D7D0000EC977 /* MEGARequest.mm in Sources */,
+				95DFB7871B0BA6260002C830 /* XMLResponseSerializerDelegate.m in Sources */,
 				D56507D01A4A0392000EC977 /* LiveAuthStorage.m in Sources */,
 				D54236D11A36572F008AC52A /* CMGoogleDrive.m in Sources */,
+				95DFB7971B0BA6260002C830 /* ServersParamsManager.m in Sources */,
 				D56508F71A51DA25000EC977 /* GfxProcCG.cpp in Sources */,
 				D565082A1A51D7D0000EC977 /* MEGASdk.mm in Sources */,
 				D56507D21A4A0392000EC977 /* LiveConnectClientCore.m in Sources */,
+				95DFB76B1B0BA6260002C830 /* GetRepositoriesParserStates.m in Sources */,
 				D56508241A51D7D0000EC977 /* MEGANodeList.mm in Sources */,
 				D565091F1A51DA25000EC977 /* share.cpp in Sources */,
+				95DFB78D1B0BA6260002C830 /* ListNodesRequestParams.m in Sources */,
 				D56507BA1A4A0392000EC977 /* LiveApiHelper.m in Sources */,
 				D56508321A51D7D0000EC977 /* MEGATransferList.mm in Sources */,
+				95DFB77B1B0BA6260002C830 /* FailingResponseSerializer.m in Sources */,
 				D56508DF1A51DA25000EC977 /* commands.cpp in Sources */,
+				95DFB7751B0BA6260002C830 /* PydioSuccessResponse.m in Sources */,
 				D5E473941A00C74100A02A1A /* CMLocal.m in Sources */,
+				95DFB7591B0BA6260002C830 /* OperationsClient.m in Sources */,
 				D5E473951A00C74900A02A1A /* CMDropbox.m in Sources */,
 				D5E473961A00C74F00A02A1A /* CMSynology.m in Sources */,
 				D56509031A51DA25000EC977 /* logging.cpp in Sources */,
@@ -6459,6 +6812,8 @@
 				D565081E1A51D7D0000EC977 /* MEGAAccountDetails.mm in Sources */,
 				D56508381A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm in Sources */,
 				D5E473981A00C75E00A02A1A /* CMWebDav.m in Sources */,
+				95DFB77F1B0BA6260002C830 /* GetSeedJSONResponseSerializer.m in Sources */,
+				95DFB7931B0BA6260002C830 /* WorkspaceResponse.m in Sources */,
 				D56509311A51DA25000EC977 /* treeproc.cpp in Sources */,
 				D565082E1A51D7D0000EC977 /* MEGAShareList.mm in Sources */,
 				D565083C1A51D7D0000EC977 /* DelegateMEGALoggerListener.mm in Sources */,
@@ -6466,15 +6821,20 @@
 				D56507CE1A4A0392000EC977 /* LiveAuthRequest.m in Sources */,
 				D56509371A51DA25000EC977 /* waiterbase.cpp in Sources */,
 				D565083A1A51D7D0000EC977 /* DelegateMEGAListener.mm in Sources */,
+				95DFB7671B0BA6260002C830 /* RepositoriesParserDelegate.m in Sources */,
 				D56507BE1A4A0392000EC977 /* LiveConnectionHelper.m in Sources */,
 				D56507C01A4A0392000EC977 /* StreamReader.m in Sources */,
 				D56509211A51DA25000EC977 /* sharenodekeys.cpp in Sources */,
+				95DFB7911B0BA6260002C830 /* NodeResponse.m in Sources */,
+				95DFB76D1B0BA6260002C830 /* XMLParserState.m in Sources */,
 				D5E473D61A00F65F00A02A1A /* NSNumberAdditions.m in Sources */,
 				D5E473D71A00F66400A02A1A /* NSStringAdditions.m in Sources */,
 				D5E473D81A00F66D00A02A1A /* NSMutableArrayAdditions.m in Sources */,
+				95DFB78F1B0BA6260002C830 /* MkDirRequestParams.m in Sources */,
 				D56508EB1A51DA25000EC977 /* file.cpp in Sources */,
 				D5E473D91A00F67F00A02A1A /* NSDataAdditions.m in Sources */,
 				D56508221A51D7D0000EC977 /* MEGANode.mm in Sources */,
+				95DFB76F1B0BA6260002C830 /* LoginResponse.m in Sources */,
 				D56509011A51DA25000EC977 /* json.cpp in Sources */,
 				D56507DE1A4A0392000EC977 /* LiveConnectSession.m in Sources */,
 				D56508FD1A51DA25000EC977 /* http.cpp in Sources */,
@@ -6482,9 +6842,14 @@
 				D57CCF401A3E17B200D9E6A9 /* CMOwnCloud.m in Sources */,
 				D565091B1A51DA25000EC977 /* request.cpp in Sources */,
 				D53D92891A0DBECE00E6D6B6 /* CustomSearchDisplayController.m in Sources */,
+				95DFB75F1B0BA6260002C830 /* ErrorResponseParserDelegate.m in Sources */,
 				D56509331A51DA25000EC977 /* user.cpp in Sources */,
 				D56508E11A51DA25000EC977 /* cryptopp.cpp in Sources */,
+				95DFB7951B0BA6260002C830 /* User.m in Sources */,
+				95DFB7611B0BA6260002C830 /* ListFilesResponseParserDelegate.m in Sources */,
+				95DFB7021B0BA5D40002C830 /* CMPydio.m in Sources */,
 				D56509351A51DA25000EC977 /* utils.cpp in Sources */,
+				95DFB7771B0BA6260002C830 /* SeedResponse.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -6493,17 +6858,21 @@
 			buildActionMask = 2147483647;
 			files = (
 				D565091A1A51DA25000EC977 /* request.cpp in Sources */,
+				95DFB78C1B0BA6260002C830 /* ListNodesRequestParams.m in Sources */,
 				F901F7B615D7C7C50059428E /* main.m in Sources */,
 				F901F7BA15D7C7C50059428E /* AppDelegate.m in Sources */,
 				F901F7F215D7CA060059428E /* ServerCell.m in Sources */,
+				95DFB75A1B0BA6260002C830 /* NSString+Hash.m in Sources */,
 				F901F7F315D7CA060059428E /* ServerTypeCell.m in Sources */,
 				D5D3068119010B430087F4C6 /* VLCStatusLabel.m in Sources */,
 				D501D72919FFEBD30032AACD /* SDWebImageCompat.m in Sources */,
+				95DFB7861B0BA6260002C830 /* XMLResponseSerializerDelegate.m in Sources */,
 				F901F7F415D7CA060059428E /* ServerTypeViewController.m in Sources */,
 				D501D73419FFEBD30032AACD /* UIView+WebCacheOperation.m in Sources */,
 				F901F7F515D7CA060059428E /* ServerSettingsWebDavViewController.m in Sources */,
 				F901F7F615D7CA060059428E /* UserAccount.m in Sources */,
 				D501D72E19FFEBD30032AACD /* SDWebImagePrefetcher.m in Sources */,
+				95DFB77A1B0BA6260002C830 /* FailingResponseSerializer.m in Sources */,
 				F901F7F715D7CA060059428E /* ServersListViewController.m in Sources */,
 				F901F80015D7D0040059428E /* TextCell.m in Sources */,
 				F901F81015D7E9B50059428E /* ConnectionManager.m in Sources */,
@@ -6515,6 +6884,7 @@
 				D501D72D19FFEBD30032AACD /* SDWebImageManager.m in Sources */,
 				F901F83A15D85ED20059428E /* CustomMoviePlayerViewController.m in Sources */,
 				F9115D3015DA9047004259D3 /* CMWebDav.m in Sources */,
+				95DFB7011B0BA5D40002C830 /* CMPydio.m in Sources */,
 				D501D72719FFEBD30032AACD /* NSData+ImageContentType.m in Sources */,
 				D56509261A51DA25000EC977 /* posixthread.cpp in Sources */,
 				F9115D3315DB02BD004259D3 /* CustomTabBarController.m in Sources */,
@@ -6535,6 +6905,7 @@
 				F9401E3E15F5347400AF40B2 /* CMSynology.m in Sources */,
 				F9401E5F15F53B0D00AF40B2 /* CompressViewController.m in Sources */,
 				F9401E6015F53B0D00AF40B2 /* ExtractViewController.m in Sources */,
+				95DFB7581B0BA6260002C830 /* OperationsClient.m in Sources */,
 				F9401E6115F53B0D00AF40B2 /* FolderBrowserViewController.m in Sources */,
 				F9401E6215F53B0D00AF40B2 /* TableSelectViewController.m in Sources */,
 				D501D73219FFEBD30032AACD /* UIImageView+HighlightedWebCache.m in Sources */,
@@ -6552,16 +6923,20 @@
 				F975485815F6AB8400E9D1E1 /* CMLocal.m in Sources */,
 				F99CB70115F770A30011F91F /* archive.cpp in Sources */,
 				D56507BF1A4A0392000EC977 /* StreamReader.m in Sources */,
+				95DFB7621B0BA6260002C830 /* LoginResponseParserDelegate.m in Sources */,
 				D501D6F319FFEB7F0032AACD /* MWTapDetectingImageView.m in Sources */,
+				95DFB7961B0BA6260002C830 /* ServersParamsManager.m in Sources */,
 				F99CB70215F770A30011F91F /* arcread.cpp in Sources */,
 				D56508FC1A51DA25000EC977 /* http.cpp in Sources */,
 				D56509081A51DA25000EC977 /* megaclient.cpp in Sources */,
 				F99CB70415F770A30011F91F /* cmddata.cpp in Sources */,
 				D56509321A51DA25000EC977 /* user.cpp in Sources */,
+				95DFB7721B0BA6260002C830 /* PydioErrorResponse.m in Sources */,
 				F99CB70615F770A30011F91F /* consio.cpp in Sources */,
 				D56507CD1A4A0392000EC977 /* LiveAuthRequest.m in Sources */,
 				F99CB70715F770A30011F91F /* crc.cpp in Sources */,
 				D56507CF1A4A0392000EC977 /* LiveAuthStorage.m in Sources */,
+				95DFB7941B0BA6260002C830 /* User.m in Sources */,
 				D56508961A51D8E5000EC977 /* utf8proc.cpp in Sources */,
 				D56508391A51D7D0000EC977 /* DelegateMEGAListener.mm in Sources */,
 				F99CB70815F770A30011F91F /* crypt.cpp in Sources */,
@@ -6573,24 +6948,29 @@
 				D54EBF4A1954A7A5008AC4BB /* ServerSettingsFtpViewController.m in Sources */,
 				D565090E1A51DA25000EC977 /* consolewaiter.cpp in Sources */,
 				F99CB70F15F770A30011F91F /* extract.cpp in Sources */,
+				95DFB7921B0BA6260002C830 /* WorkspaceResponse.m in Sources */,
 				D58EE84718DAD20F00E89437 /* UIPopoverController+iPhone.m in Sources */,
 				F99CB71015F770A30011F91F /* filcreat.cpp in Sources */,
 				D56508E61A51DA25000EC977 /* sqlite.cpp in Sources */,
 				F99CB71115F770A30011F91F /* file.cpp in Sources */,
+				95DFB78E1B0BA6260002C830 /* MkDirRequestParams.m in Sources */,
 				D54236D01A36572F008AC52A /* CMGoogleDrive.m in Sources */,
 				F99CB71215F770A30011F91F /* filefn.cpp in Sources */,
 				F99CB71315F770A30011F91F /* filestr.cpp in Sources */,
 				F99CB71415F770A30011F91F /* find.cpp in Sources */,
 				D56507CB1A4A0392000EC977 /* LiveAuthRefreshRequest.m in Sources */,
 				F99CB71515F770A30011F91F /* getbits.cpp in Sources */,
+				95DFB7661B0BA6260002C830 /* RepositoriesParserDelegate.m in Sources */,
 				D56508D81A51DA25000EC977 /* backofftimer.cpp in Sources */,
 				D57254CD18AD75BD0088A6C9 /* UploadBrowserViewController.m in Sources */,
 				F99CB71615F770A30011F91F /* global.cpp in Sources */,
 				D56507C31A4A0392000EC977 /* UrlHelper.m in Sources */,
 				F99CB71715F770A30011F91F /* isnt.cpp in Sources */,
 				F99CB71915F770A30011F91F /* list.cpp in Sources */,
+				95DFB76C1B0BA6260002C830 /* XMLParserState.m in Sources */,
 				F99CB72015F770A30011F91F /* match.cpp in Sources */,
 				F99CB72315F770A30011F91F /* options.cpp in Sources */,
+				95DFB7641B0BA6260002C830 /* NotAuthorizedResponseParserDelegate.m in Sources */,
 				D5D302DB18FDE4EE0087F4C6 /* SettingsViewController.m in Sources */,
 				D56507DF1A4A0392000EC977 /* LiveDownloadOperation.m in Sources */,
 				D56508EE1A51DA25000EC977 /* filefingerprint.cpp in Sources */,
@@ -6604,14 +6984,17 @@
 				D5AFBAF319D02097001C14CC /* AboutViewController.m in Sources */,
 				F99CB72A15F770A30011F91F /* rawread.cpp in Sources */,
 				F99CB72B15F770A30011F91F /* rdwrfn.cpp in Sources */,
+				95DFB76A1B0BA6260002C830 /* GetRepositoriesParserStates.m in Sources */,
 				F99CB72D15F770A30011F91F /* recvol.cpp in Sources */,
 				D501D6F019FFEB7F0032AACD /* MWGridViewController.m in Sources */,
 				D56509361A51DA25000EC977 /* waiterbase.cpp in Sources */,
 				D5D3067A19010A830087F4C6 /* VLCThumbnailsCache.m in Sources */,
 				D565081D1A51D7D0000EC977 /* MEGAAccountDetails.mm in Sources */,
+				95DFB7781B0BA6260002C830 /* BootConfResponseSerializer.m in Sources */,
 				D5D3CB7B19952DF70083EA08 /* CameraRollSyncViewController.m in Sources */,
 				D501D6EF19FFEB7F0032AACD /* MWGridCell.m in Sources */,
 				F99CB72E15F770A30011F91F /* resource.cpp in Sources */,
+				95DFB77E1B0BA6260002C830 /* GetSeedJSONResponseSerializer.m in Sources */,
 				D566CEC11A7E93BC00611FF3 /* VLCTrackSelectorTableViewCell.m in Sources */,
 				D565082F1A51D7D0000EC977 /* MEGATransfer.mm in Sources */,
 				D56507D11A4A0392000EC977 /* LiveConnectClientCore.m in Sources */,
@@ -6636,7 +7019,9 @@
 				F99CB73915F770A30011F91F /* system.cpp in Sources */,
 				D56509301A51DA25000EC977 /* treeproc.cpp in Sources */,
 				F99CB73A15F770A30011F91F /* timefn.cpp in Sources */,
+				95DFB7681B0BA6260002C830 /* SuccessResponseParserDelegate.m in Sources */,
 				F99CB73B15F770A30011F91F /* ulinks.cpp in Sources */,
+				95DFB7561B0BA6260002C830 /* AuthorizationClient.m in Sources */,
 				D56508DA1A51DA25000EC977 /* base64.cpp in Sources */,
 				D595AF87185EEABE00AE8037 /* ServerSettingsSambaViewController.m in Sources */,
 				D56508311A51D7D0000EC977 /* MEGATransferList.mm in Sources */,
@@ -6662,6 +7047,8 @@
 				F99CB7F115F7FB5F0011F91F /* ReaderContentTile.m in Sources */,
 				F99CB7F215F7FB5F0011F91F /* ReaderContentView.m in Sources */,
 				F99CB7F315F7FB5F0011F91F /* ReaderDocument.m in Sources */,
+				95DFB7841B0BA6260002C830 /* XMLResponseSerializer.m in Sources */,
+				95DFB7821B0BA6260002C830 /* GetSeedTextResponseSerializer.m in Sources */,
 				D56509341A51DA25000EC977 /* utils.cpp in Sources */,
 				F99CB7F415F7FB5F0011F91F /* ReaderMainPagebar.m in Sources */,
 				D5EBAAE51A6C592C00905450 /* ServerSettingsQnapViewController.m in Sources */,
@@ -6686,14 +7073,20 @@
 				F99CB7FD15F7FB5F0011F91F /* ReaderViewController.m in Sources */,
 				F99CB7FE15F7FB5F0011F91F /* ThumbsMainToolbar.m in Sources */,
 				F99CB7FF15F7FB5F0011F91F /* ThumbsViewController.m in Sources */,
+				95DFB7601B0BA6260002C830 /* ListFilesResponseParserDelegate.m in Sources */,
 				F99CB80115F7FB5F0011F91F /* UIXToolbarView.m in Sources */,
 				F99CB81615F806DB0011F91F /* RBFilePreviewer.m in Sources */,
 				D56507621A475763000EC977 /* ServerSettingsOneDriveViewController.m in Sources */,
 				F94BA64C15F93A4600901387 /* UIImage+BBlock.m in Sources */,
+				95DFB7701B0BA6260002C830 /* NotAuthorizedResponse.m in Sources */,
 				F943558B15FCE9AD00307556 /* SortItemsViewController.m in Sources */,
+				95DFB7741B0BA6260002C830 /* PydioSuccessResponse.m in Sources */,
 				F943559215FD1DAD00307556 /* SegCtrlCell.m in Sources */,
+				95DFB7901B0BA6260002C830 /* NodeResponse.m in Sources */,
 				F943564815FD54F800307556 /* 7zAlloc.c in Sources */,
 				D56507E11A4A0392000EC977 /* LiveOperation.m in Sources */,
+				95DFB77C1B0BA6260002C830 /* GetCaptchaResponseSerializer.m in Sources */,
+				95DFB75E1B0BA6260002C830 /* ErrorResponseParserDelegate.m in Sources */,
 				D56509481A52B759000EC977 /* ServerSettingsMegaViewController.m in Sources */,
 				F943564915FD54F800307556 /* 7zBuf.c in Sources */,
 				F943564A15FD54F800307556 /* 7zBuf2.c in Sources */,
@@ -6710,6 +7103,7 @@
 				D56507BD1A4A0392000EC977 /* LiveConnectionHelper.m in Sources */,
 				D56508E81A51DA25000EC977 /* db.cpp in Sources */,
 				D56508371A51D7D0000EC977 /* DelegateMEGAGlobalListener.mm in Sources */,
+				95DFB7881B0BA6260002C830 /* PydioClient.m in Sources */,
 				D565082D1A51D7D0000EC977 /* MEGAShareList.mm in Sources */,
 				F943565015FD54F800307556 /* 7zStream.c in Sources */,
 				D56508F21A51DA25000EC977 /* external.cpp in Sources */,
@@ -6717,6 +7111,7 @@
 				F943565115FD54F800307556 /* Aes.c in Sources */,
 				D597AA6018C2A5FC006FA582 /* ServerSettingsDropboxViewController.m in Sources */,
 				F943565215FD54F800307556 /* AesOpt.c in Sources */,
+				95DFB7761B0BA6260002C830 /* SeedResponse.m in Sources */,
 				D56508291A51D7D0000EC977 /* MEGASdk.mm in Sources */,
 				D566CEC01A7E93BC00611FF3 /* VLCTrackSelectorHeaderView.m in Sources */,
 				F943565315FD54F800307556 /* Alloc.c in Sources */,
@@ -6725,6 +7120,7 @@
 				D56509021A51DA25000EC977 /* logging.cpp in Sources */,
 				F943565815FD54F800307556 /* Bcj2.c in Sources */,
 				D56509181A51DA25000EC977 /* pubkeyaction.cpp in Sources */,
+				95DFB78A1B0BA6260002C830 /* DeleteNodesRequestParams.m in Sources */,
 				D565075F1A473F75000EC977 /* CMOneDrive.m in Sources */,
 				D546B8811A704436001AF141 /* PurchaseServerViewController.m in Sources */,
 				D56508E21A51DA25000EC977 /* sodium.cpp in Sources */,
@@ -6748,6 +7144,7 @@
 				F943566615FD54F800307556 /* LzmaDec.c in Sources */,
 				D5D3CC4C19A8F5040083EA08 /* CMBox.m in Sources */,
 				F943566715FD54F800307556 /* LzmaEnc.c in Sources */,
+				95DFB75C1B0BA6260002C830 /* NSURL+Normalization.m in Sources */,
 				F943566815FD54F800307556 /* LzmaLib.c in Sources */,
 				F943566A15FD54F800307556 /* Ppmd7.c in Sources */,
 				D501D73319FFEBD30032AACD /* UIImageView+WebCache.m in Sources */,
@@ -6769,6 +7166,7 @@
 				F943568B15FD54F800307556 /* XzCrc64.c in Sources */,
 				D56507E31A4A0392000EC977 /* LiveOperationProgress.m in Sources */,
 				F943568C15FD54F800307556 /* XzDec.c in Sources */,
+				95DFB76E1B0BA6260002C830 /* LoginResponse.m in Sources */,
 				F943568D15FD54F800307556 /* XzEnc.c in Sources */,
 				F943568E15FD54F800307556 /* XzIn.c in Sources */,
 				D56509161A51DA25000EC977 /* proxy.cpp in Sources */,
@@ -6782,6 +7180,7 @@
 				D56507B91A4A0392000EC977 /* LiveApiHelper.m in Sources */,
 				F91245E51604E8ED00D9AFA9 /* NSNumberAdditions.m in Sources */,
 				D56509061A51DA25000EC977 /* megaapi.cpp in Sources */,
+				95DFB7801B0BA6260002C830 /* GetSeedResponseSerializer.m in Sources */,
 				F91245E61604E8ED00D9AFA9 /* NSStringAdditions.m in Sources */,
 				D565091C1A51DA25000EC977 /* serialize64.cpp in Sources */,
 				D526A96D1A9FCDE40069482E /* MediaLibrary.xcdatamodeld in Sources */,

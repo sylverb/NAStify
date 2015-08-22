@@ -49,6 +49,11 @@
             self.serverTypeImage.image = [UIImage imageNamed:@"freebox.png"];
             break;
         }
+        case SERVER_TYPE_PYDIO:
+        {
+            self.serverTypeImage.image = [UIImage imageNamed:@"pydio.png"];
+            break;
+        }
         case SERVER_TYPE_QNAP:
         {
             self.serverTypeImage.image = [UIImage imageNamed:@"qnap.png"];

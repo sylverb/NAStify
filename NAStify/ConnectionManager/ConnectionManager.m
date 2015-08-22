@@ -21,6 +21,7 @@
 #import "CMMega.h"
 #import "CMOneDrive.h"
 #import "CMOwnCloud.h"
+#import "CMPydio.h"
 #import "CMQnap.h"
 #import "CMSamba.h"
 #import "CMSynology.h"
@@ -89,6 +90,11 @@
             case SERVER_TYPE_OWNCLOUD:
             {
                 cmPlugin = [[CMOwnCloud alloc] init];
+                break;
+            }
+            case SERVER_TYPE_PYDIO:
+            {
+                cmPlugin = [[CMPydio alloc] init];
                 break;
             }
             case SERVER_TYPE_QNAP:

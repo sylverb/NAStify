@@ -40,6 +40,7 @@
 #ifdef SAMBA
 #define ROW_INDEX_SAMBA         11
 #endif
+//#define ROW_INDEX_PYDIO         8
 
 // Update this when adding new server types !!!
 #ifdef SAMBA
@@ -167,6 +168,11 @@
             cell.serverType = SERVER_TYPE_OWNCLOUD;
             break;
         }
+//        case ROW_INDEX_PYDIO:
+//        {
+//            cell.serverType = SERVER_TYPE_PYDIO;
+//            break;
+//        }
         default:
             break;
     }
@@ -215,6 +221,15 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
+//        case ROW_INDEX_PYDIO:
+//        {
+//            ServerSettingsQnapViewController * svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped
+//                                                                                                  andAccount:nil
+//                                                                                                    andIndex:-1];
+//            svc.userAccount.serverType = SERVER_TYPE_PYDIO;
+//            [self.navigationController pushViewController:svc animated:YES];
+//            break;
+//        }
         case ROW_INDEX_QNAP:
         {
             ServerSettingsQnapViewController * svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped

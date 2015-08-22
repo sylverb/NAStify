@@ -363,6 +363,15 @@
                         [self.navigationController pushViewController:svc animated:YES];
                         break;
                     }
+                    case SERVER_TYPE_PYDIO:
+                    {
+                        ServerSettingsQnapViewController *svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped
+                                                                                                             andAccount:account
+                                                                                                               andIndex:indexPath.row];
+                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
+                        [self.navigationController pushViewController:svc animated:YES];
+                        break;
+                    }
                     case SERVER_TYPE_QNAP:
                     {
                         ServerSettingsQnapViewController *svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -698,7 +707,7 @@
     [[managerInstance DB] addObserver:self];
     
     //Optional; set User Agent
-    [[managerInstance SSDP] setUserAgentProduct:[NSString stringWithFormat:@"NASTify/%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] andOS:[NSString stringWithFormat:@"iOS/%@", [[UIDevice currentDevice] systemVersion]]];
+    [[managerInstance SSDP] setUserAgentProduct:[NSString stringWithFormat:@"NAStify/%@", [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"]] andOS:[NSString stringWithFormat:@"iOS/%@", [[UIDevice currentDevice] systemVersion]]];
     
     //Search for UPnP Devices
     [[managerInstance SSDP] startSSDP];

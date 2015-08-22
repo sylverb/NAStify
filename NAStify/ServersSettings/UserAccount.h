@@ -26,6 +26,7 @@ typedef enum _SERVER_TYPE
     SERVER_TYPE_OWNCLOUD,           // Own Cloud ( https://github.com/owncloud/ios-library )
     SERVER_TYPE_ONEDRIVE,           // Microsoft OneDrive ( https://github.com/liveservices/LiveSDK-for-iOS )
     SERVER_TYPE_MEGA,               // Mega ( https://github.com/meganz/sdk )
+    SERVER_TYPE_PYDIO,               // pyd.io ( https://github.com/pydio/pydio-sdk-objc ) -> Unfinished SDK, wait for a new one (in swift)
 //    SERVER_TYPE_SUGARSYNC,          // SugarSync ( https://github.com/huadee/sugarsync-ios )
 //    SERVER_TYPE_NFS,                // NFS ( https://github.com/sahlberg/libnfs )
 //    SERVER_TYPE_CLOUDDRIVE,         // Amazon cloud drive ( https://developer.amazon.com/public/apis/experience/cloud-drive )
