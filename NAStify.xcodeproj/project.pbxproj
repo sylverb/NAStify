@@ -1274,68 +1274,159 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		D501D64719FE85270032AACD /* PBXContainerItemProxy */ = {
+		95D9017F1BB72F210078A101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 74C0F75C1C68096D1BB16A03;
-			remoteInfo = "Pods-ISO8601DateFormatter";
+			remoteGlobalIDString = 6EBF90CEF7F817C3C1C4D601CC0F7164;
+			remoteInfo = AFNetworking;
 		};
-		D501D65619FE862D0032AACD /* PBXContainerItemProxy */ = {
+		95D901811BB72F210078A101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4D3C53BA2B99FCD58353D673;
-			remoteInfo = "Pods-DACircularProgress";
+			remoteGlobalIDString = DBAE6F6ADA7C821132FB6E0755248BB4;
+			remoteInfo = CocoaAsyncSocket;
 		};
-		D501D65819FE862D0032AACD /* PBXContainerItemProxy */ = {
+		95D901831BB72F210078A101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 078960AC2796CE0F7A448D9E;
-			remoteInfo = "Pods-PSTCollectionView";
+			remoteGlobalIDString = 5335DF75ECC012581A435EA5DA0D13FD;
+			remoteInfo = CocoaHTTPServer;
 		};
-		D501D66819FE87FD0032AACD /* PBXContainerItemProxy */ = {
+		95D901851BB72F210078A101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 462C242F752FDB74DA3A04F3;
-			remoteInfo = "Pods-objective-zip";
+			remoteGlobalIDString = E50439D4A7AC4B46F370E861814967A0;
+			remoteInfo = CocoaLumberjack;
 		};
-		D501D68F19FF9D860032AACD /* PBXContainerItemProxy */ = {
+		95D901871BB72F210078A101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = FB81FA725BF549A34DE4774B;
-			remoteInfo = "Pods-MBProgressHUD";
+			remoteGlobalIDString = 54872A01030324671AAD94477AF5F4C7;
+			remoteInfo = DACircularProgress;
 		};
-		D501D6A519FFA8090032AACD /* PBXContainerItemProxy */ = {
+		95D901891BB72F210078A101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 9A8C015728E1725213B35B68;
-			remoteInfo = "Pods-OBSlider";
+			remoteGlobalIDString = 802E903C46E112BD04C366E4108DBBFA;
+			remoteInfo = ELCImagePickerController;
 		};
-		D501D6A719FFA8090032AACD /* PBXContainerItemProxy */ = {
+		95D9018B1BB72F210078A101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 2C3CF050ACB49C5DF4DDA7D3;
-			remoteInfo = "Pods-SSKeychain";
+			remoteGlobalIDString = 7785AA60D07EA6C22A6E704B43ECAA93;
+			remoteInfo = "Google-API-Client";
 		};
-		D51660F21A56ACEC008C347E /* PBXContainerItemProxy */ = {
+		95D9018D1BB72F210078A101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 73B24750E218587108C52EAA;
-			remoteInfo = "Pods-MKStoreKit";
+			remoteGlobalIDString = 1BAB1BA86C95F1803E9AB34E3959EDD8;
+			remoteInfo = ISO8601DateFormatter;
 		};
-		D516611A1A58A2C2008C347E /* PBXContainerItemProxy */ = {
+		95D9018F1BB72F210078A101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 52160DA1CF0F0B3184962679;
-			remoteInfo = "Pods-MAConfirmButton";
+			remoteGlobalIDString = 60804D823030DFD45C2035005696AC9B;
+			remoteInfo = LTHPasscodeViewController;
+		};
+		95D901911BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5A103691BA71FF7610AD0374CBFAFE22;
+			remoteInfo = MAConfirmButton;
+		};
+		95D901931BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AEA9E826FC45631F92C7A315C0C341C8;
+			remoteInfo = MBProgressHUD;
+		};
+		95D901951BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 47C51B4439DD05E77638F6E17725C3FB;
+			remoteInfo = MKStoreKit;
+		};
+		95D901971BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = C51C5966E664A016885CA0D3BFF961E1;
+			remoteInfo = OBSlider;
+		};
+		95D901991BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3C2E46A7A7387428EBDB1B74C73ADE3B;
+			remoteInfo = PSTCollectionView;
+		};
+		95D9019B1BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E4E704290C7C7574FC483CBF5927BEE3;
+			remoteInfo = SSKeychain;
+		};
+		95D9019D1BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8794607AA04F8A0C927294AE728EA86D;
+			remoteInfo = XMLDictionary;
+		};
+		95D9019F1BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 03C814CA868242BE7D1648AF71CF8A2B;
+			remoteInfo = "box-ios-sdk-v2";
+		};
+		95D901A11BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 2380F92D5AAE02EAE02697AF9BFDED14;
+			remoteInfo = "gtm-http-fetcher";
+		};
+		95D901A31BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8F1955EF4016988D7D26BC530C94806D;
+			remoteInfo = "gtm-oauth2";
+		};
+		95D901A51BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = AEC545FE4F97CC405C042D7A47FCA9D7;
+			remoteInfo = iRate;
+		};
+		95D901A71BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1EA5A29D309CA05FC9B4394E77769222;
+			remoteInfo = "objective-zip";
+		};
+		95D901A91BB72F210078A101 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 844FCED8A8C038F18B2DBD02CF2929B8;
+			remoteInfo = upnpx;
 		};
 		D546FCA219FD3F4100125E62 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1344,82 +1435,12 @@
 			remoteGlobalIDString = E72AE9AD3A19269667975345;
 			remoteInfo = Pods;
 		};
-		D546FCA419FD3F4100125E62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 10ADEC88B483A753444E6C4A;
-			remoteInfo = "Pods-box-ios-sdk-v2";
-		};
 		D546FCA619FD3F6400125E62 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 66B8C13BF049E821F03EA302;
+			remoteGlobalIDString = 29F5A1E1D6637FAA58096D01C14B75AE;
 			remoteInfo = Pods;
-		};
-		D546FCBF19FE414700125E62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F6A799E7FD2C9DDDEBFEF75A;
-			remoteInfo = "Pods-AFNetworking";
-		};
-		D546FCCF19FE483D00125E62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 805C8E78F9335724E84B555D;
-			remoteInfo = "Pods-CocoaAsyncSocket";
-		};
-		D546FCD119FE483D00125E62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 7A60E04D5158D1A9C4F7E6CA;
-			remoteInfo = "Pods-CocoaHTTPServer";
-		};
-		D546FCD319FE483D00125E62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1744461AAE92F1100026E088;
-			remoteInfo = "Pods-CocoaLumberjack";
-		};
-		D546FCD519FE483D00125E62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 561E45DD5FEF1BF89CA0FAA6;
-			remoteInfo = "Pods-XMLDictionary";
-		};
-		D546FCDF19FE4C6500125E62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D243BFA1166734633439E75;
-			remoteInfo = "Pods-ELCImagePickerController";
-		};
-		D546FCEA19FE4DA900125E62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D5CDCF333837A64ADE6C28E8;
-			remoteInfo = "Pods-LTHPasscodeViewController";
-		};
-		D546FCF719FE5C5800125E62 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 990A57550C9FF7F183B1A9CA;
-			remoteInfo = "Pods-upnpx";
-		};
-		D56507541A473E31000EC977 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1774B52E479B57238A3278BD;
-			remoteInfo = "Pods-iRate";
 		};
 		D56785911A61DD1000286B86 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -1470,27 +1491,6 @@
 			remoteGlobalIDString = EA7CC896183E11E600B6A4B4;
 			remoteInfo = "ownCloud iOS library";
 		};
-		D5D059F01A31A37800461226 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = E2CC3CCCD0EB3EFF08F995B1;
-			remoteInfo = "Pods-Google-API-Client";
-		};
-		D5D059F21A31A37800461226 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 52D229C0ED11A55B452A2911;
-			remoteInfo = "Pods-gtm-http-fetcher";
-		};
-		D5D059F41A31A37800461226 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F29422C688817D4D040465B3;
-			remoteInfo = "Pods-gtm-oauth2";
-		};
 		D5E473511A00446E00A02A1A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F901F79C15D7C7C50059428E /* Project object */;
@@ -1502,7 +1502,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 66B8C13BF049E821F03EA302;
+			remoteGlobalIDString = 29F5A1E1D6637FAA58096D01C14B75AE;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -3325,29 +3325,29 @@
 		D546FC9E19FD3F4100125E62 /* Products */ = {
 			isa = PBXGroup;
 			children = (
+				95D901801BB72F210078A101 /* libAFNetworking.a */,
+				95D901821BB72F210078A101 /* libCocoaAsyncSocket.a */,
+				95D901841BB72F210078A101 /* libCocoaHTTPServer.a */,
+				95D901861BB72F210078A101 /* libCocoaLumberjack.a */,
+				95D901881BB72F210078A101 /* libDACircularProgress.a */,
+				95D9018A1BB72F210078A101 /* libELCImagePickerController.a */,
+				95D9018C1BB72F210078A101 /* libGoogle-API-Client.a */,
+				95D9018E1BB72F210078A101 /* libISO8601DateFormatter.a */,
+				95D901901BB72F210078A101 /* libLTHPasscodeViewController.a */,
+				95D901921BB72F210078A101 /* libMAConfirmButton.a */,
+				95D901941BB72F210078A101 /* libMBProgressHUD.a */,
+				95D901961BB72F210078A101 /* libMKStoreKit.a */,
+				95D901981BB72F210078A101 /* libOBSlider.a */,
+				95D9019A1BB72F210078A101 /* libPSTCollectionView.a */,
 				D546FCA319FD3F4100125E62 /* libPods.a */,
-				D546FCC019FE414700125E62 /* libPods-AFNetworking.a */,
-				D546FCD019FE483D00125E62 /* libPods-CocoaAsyncSocket.a */,
-				D546FCD219FE483D00125E62 /* libPods-CocoaHTTPServer.a */,
-				D546FCD419FE483D00125E62 /* libPods-CocoaLumberjack.a */,
-				D501D65719FE862D0032AACD /* libPods-DACircularProgress.a */,
-				D546FCE019FE4C6500125E62 /* libPods-ELCImagePickerController.a */,
-				D5D059F11A31A37800461226 /* libPods-Google-API-Client.a */,
-				D501D64819FE85270032AACD /* libPods-ISO8601DateFormatter.a */,
-				D546FCEB19FE4DA900125E62 /* libPods-LTHPasscodeViewController.a */,
-				D516611B1A58A2C2008C347E /* libPods-MAConfirmButton.a */,
-				D501D69019FF9D860032AACD /* libPods-MBProgressHUD.a */,
-				D51660F31A56ACEC008C347E /* libPods-MKStoreKit.a */,
-				D501D6A619FFA8090032AACD /* libPods-OBSlider.a */,
-				D501D65919FE862D0032AACD /* libPods-PSTCollectionView.a */,
-				D501D6A819FFA8090032AACD /* libPods-SSKeychain.a */,
-				D546FCD619FE483D00125E62 /* libPods-XMLDictionary.a */,
-				D546FCA519FD3F4100125E62 /* libPods-box-ios-sdk-v2.a */,
-				D5D059F31A31A37800461226 /* libPods-gtm-http-fetcher.a */,
-				D5D059F51A31A37800461226 /* libPods-gtm-oauth2.a */,
-				D56507551A473E31000EC977 /* libPods-iRate.a */,
-				D501D66919FE87FD0032AACD /* libPods-objective-zip.a */,
-				D546FCF819FE5C5800125E62 /* libPods-upnpx.a */,
+				95D9019C1BB72F210078A101 /* libSSKeychain.a */,
+				95D9019E1BB72F210078A101 /* libXMLDictionary.a */,
+				95D901A01BB72F210078A101 /* libbox-ios-sdk-v2.a */,
+				95D901A21BB72F210078A101 /* libgtm-http-fetcher.a */,
+				95D901A41BB72F210078A101 /* libgtm-oauth2.a */,
+				95D901A61BB72F210078A101 /* libiRate.a */,
+				95D901A81BB72F210078A101 /* libobjective-zip.a */,
+				95D901AA1BB72F210078A101 /* libupnpx.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5674,7 +5674,7 @@
 		F901F79C15D7C7C50059428E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0510;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = CodeIsALie;
 				TargetAttributes = {
 					D5E473461A00446E00A02A1A = {
@@ -5737,67 +5737,158 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		D501D64819FE85270032AACD /* libPods-ISO8601DateFormatter.a */ = {
+		95D901801BB72F210078A101 /* libAFNetworking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libPods-ISO8601DateFormatter.a";
-			remoteRef = D501D64719FE85270032AACD /* PBXContainerItemProxy */;
+			path = libAFNetworking.a;
+			remoteRef = 95D9017F1BB72F210078A101 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D501D65719FE862D0032AACD /* libPods-DACircularProgress.a */ = {
+		95D901821BB72F210078A101 /* libCocoaAsyncSocket.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libPods-DACircularProgress.a";
-			remoteRef = D501D65619FE862D0032AACD /* PBXContainerItemProxy */;
+			path = libCocoaAsyncSocket.a;
+			remoteRef = 95D901811BB72F210078A101 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D501D65919FE862D0032AACD /* libPods-PSTCollectionView.a */ = {
+		95D901841BB72F210078A101 /* libCocoaHTTPServer.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libPods-PSTCollectionView.a";
-			remoteRef = D501D65819FE862D0032AACD /* PBXContainerItemProxy */;
+			path = libCocoaHTTPServer.a;
+			remoteRef = 95D901831BB72F210078A101 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D501D66919FE87FD0032AACD /* libPods-objective-zip.a */ = {
+		95D901861BB72F210078A101 /* libCocoaLumberjack.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libPods-objective-zip.a";
-			remoteRef = D501D66819FE87FD0032AACD /* PBXContainerItemProxy */;
+			path = libCocoaLumberjack.a;
+			remoteRef = 95D901851BB72F210078A101 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D501D69019FF9D860032AACD /* libPods-MBProgressHUD.a */ = {
+		95D901881BB72F210078A101 /* libDACircularProgress.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libPods-MBProgressHUD.a";
-			remoteRef = D501D68F19FF9D860032AACD /* PBXContainerItemProxy */;
+			path = libDACircularProgress.a;
+			remoteRef = 95D901871BB72F210078A101 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D501D6A619FFA8090032AACD /* libPods-OBSlider.a */ = {
+		95D9018A1BB72F210078A101 /* libELCImagePickerController.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libPods-OBSlider.a";
-			remoteRef = D501D6A519FFA8090032AACD /* PBXContainerItemProxy */;
+			path = libELCImagePickerController.a;
+			remoteRef = 95D901891BB72F210078A101 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D501D6A819FFA8090032AACD /* libPods-SSKeychain.a */ = {
+		95D9018C1BB72F210078A101 /* libGoogle-API-Client.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libPods-SSKeychain.a";
-			remoteRef = D501D6A719FFA8090032AACD /* PBXContainerItemProxy */;
+			path = "libGoogle-API-Client.a";
+			remoteRef = 95D9018B1BB72F210078A101 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D51660F31A56ACEC008C347E /* libPods-MKStoreKit.a */ = {
+		95D9018E1BB72F210078A101 /* libISO8601DateFormatter.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libPods-MKStoreKit.a";
-			remoteRef = D51660F21A56ACEC008C347E /* PBXContainerItemProxy */;
+			path = libISO8601DateFormatter.a;
+			remoteRef = 95D9018D1BB72F210078A101 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D516611B1A58A2C2008C347E /* libPods-MAConfirmButton.a */ = {
+		95D901901BB72F210078A101 /* libLTHPasscodeViewController.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = "libPods-MAConfirmButton.a";
-			remoteRef = D516611A1A58A2C2008C347E /* PBXContainerItemProxy */;
+			path = libLTHPasscodeViewController.a;
+			remoteRef = 95D9018F1BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D901921BB72F210078A101 /* libMAConfirmButton.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMAConfirmButton.a;
+			remoteRef = 95D901911BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D901941BB72F210078A101 /* libMBProgressHUD.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMBProgressHUD.a;
+			remoteRef = 95D901931BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D901961BB72F210078A101 /* libMKStoreKit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libMKStoreKit.a;
+			remoteRef = 95D901951BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D901981BB72F210078A101 /* libOBSlider.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libOBSlider.a;
+			remoteRef = 95D901971BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D9019A1BB72F210078A101 /* libPSTCollectionView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libPSTCollectionView.a;
+			remoteRef = 95D901991BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D9019C1BB72F210078A101 /* libSSKeychain.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libSSKeychain.a;
+			remoteRef = 95D9019B1BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D9019E1BB72F210078A101 /* libXMLDictionary.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libXMLDictionary.a;
+			remoteRef = 95D9019D1BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D901A01BB72F210078A101 /* libbox-ios-sdk-v2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libbox-ios-sdk-v2.a";
+			remoteRef = 95D9019F1BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D901A21BB72F210078A101 /* libgtm-http-fetcher.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libgtm-http-fetcher.a";
+			remoteRef = 95D901A11BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D901A41BB72F210078A101 /* libgtm-oauth2.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libgtm-oauth2.a";
+			remoteRef = 95D901A31BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D901A61BB72F210078A101 /* libiRate.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libiRate.a;
+			remoteRef = 95D901A51BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D901A81BB72F210078A101 /* libobjective-zip.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libobjective-zip.a";
+			remoteRef = 95D901A71BB72F210078A101 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		95D901AA1BB72F210078A101 /* libupnpx.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libupnpx.a;
+			remoteRef = 95D901A91BB72F210078A101 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		D546FCA319FD3F4100125E62 /* libPods.a */ = {
@@ -5805,76 +5896,6 @@
 			fileType = archive.ar;
 			path = libPods.a;
 			remoteRef = D546FCA219FD3F4100125E62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D546FCA519FD3F4100125E62 /* libPods-box-ios-sdk-v2.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-box-ios-sdk-v2.a";
-			remoteRef = D546FCA419FD3F4100125E62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D546FCC019FE414700125E62 /* libPods-AFNetworking.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-AFNetworking.a";
-			remoteRef = D546FCBF19FE414700125E62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D546FCD019FE483D00125E62 /* libPods-CocoaAsyncSocket.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-CocoaAsyncSocket.a";
-			remoteRef = D546FCCF19FE483D00125E62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D546FCD219FE483D00125E62 /* libPods-CocoaHTTPServer.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-CocoaHTTPServer.a";
-			remoteRef = D546FCD119FE483D00125E62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D546FCD419FE483D00125E62 /* libPods-CocoaLumberjack.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-CocoaLumberjack.a";
-			remoteRef = D546FCD319FE483D00125E62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D546FCD619FE483D00125E62 /* libPods-XMLDictionary.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-XMLDictionary.a";
-			remoteRef = D546FCD519FE483D00125E62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D546FCE019FE4C6500125E62 /* libPods-ELCImagePickerController.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-ELCImagePickerController.a";
-			remoteRef = D546FCDF19FE4C6500125E62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D546FCEB19FE4DA900125E62 /* libPods-LTHPasscodeViewController.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-LTHPasscodeViewController.a";
-			remoteRef = D546FCEA19FE4DA900125E62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D546FCF819FE5C5800125E62 /* libPods-upnpx.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-upnpx.a";
-			remoteRef = D546FCF719FE5C5800125E62 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D56507551A473E31000EC977 /* libPods-iRate.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-iRate.a";
-			remoteRef = D56507541A473E31000EC977 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		D56785921A61DD1000286B86 /* libConnectSDK.a */ = {
@@ -5903,27 +5924,6 @@
 			fileType = wrapper.cfbundle;
 			path = "ownCloud iOS libraryTests.xctest";
 			remoteRef = D57CCF211A3E124C00D9E6A9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D5D059F11A31A37800461226 /* libPods-Google-API-Client.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-Google-API-Client.a";
-			remoteRef = D5D059F01A31A37800461226 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D5D059F31A31A37800461226 /* libPods-gtm-http-fetcher.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-gtm-http-fetcher.a";
-			remoteRef = D5D059F21A31A37800461226 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D5D059F51A31A37800461226 /* libPods-gtm-oauth2.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = "libPods-gtm-oauth2.a";
-			remoteRef = D5D059F41A31A37800461226 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		D5E473B11A00D71D00A02A1A /* DropboxSDK.framework */ = {
@@ -7281,6 +7281,7 @@
 				CODE_SIGN_ENTITLEMENTS = "NAStify-DocProvider/NAStify_DocProvider.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
 				GCC_PREFIX_HEADER = "NAStify-DocProvider/NAStify-DocProvider-Prefix.pch";
@@ -7325,6 +7326,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sylver.NAStify.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -7349,6 +7351,7 @@
 				CODE_SIGN_ENTITLEMENTS = "NAStify-DocProvider/NAStify_DocProvider.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ENABLE_BITCODE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = "";
@@ -7397,6 +7400,7 @@
 					"$(inherited)",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sylver.NAStify.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SKIP_INSTALL = YES;
@@ -7416,6 +7420,7 @@
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEAD_CODE_STRIPPING = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -7479,6 +7484,7 @@
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NAStify/External/Connect-SDK-iOS/modules/google-cast/",
@@ -7521,6 +7527,7 @@
 				);
 				OTHER_CFLAGS = "$(inherited)";
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sylver.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -7541,6 +7548,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Sylver Bruneau";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Sylver Bruneau";
 				DEAD_CODE_STRIPPING = YES;
+				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/NAStify/External/Connect-SDK-iOS/modules/google-cast/",
@@ -7586,6 +7594,7 @@
 					"$(inherited)",
 				);
 				OTHER_LDFLAGS = "$(inherited)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.sylver.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = "1,2";

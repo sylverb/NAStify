@@ -1,39 +1,39 @@
 PODS:
-  - AFNetworking (2.5.0):
-    - AFNetworking/NSURLConnection (= 2.5.0)
-    - AFNetworking/NSURLSession (= 2.5.0)
-    - AFNetworking/Reachability (= 2.5.0)
-    - AFNetworking/Security (= 2.5.0)
-    - AFNetworking/Serialization (= 2.5.0)
-    - AFNetworking/UIKit (= 2.5.0)
-  - AFNetworking/NSURLConnection (2.5.0):
+  - AFNetworking (2.6.0):
+    - AFNetworking/NSURLConnection (= 2.6.0)
+    - AFNetworking/NSURLSession (= 2.6.0)
+    - AFNetworking/Reachability (= 2.6.0)
+    - AFNetworking/Security (= 2.6.0)
+    - AFNetworking/Serialization (= 2.6.0)
+    - AFNetworking/UIKit (= 2.6.0)
+  - AFNetworking/NSURLConnection (2.6.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/NSURLSession (2.5.0):
+  - AFNetworking/NSURLSession (2.6.0):
     - AFNetworking/Reachability
     - AFNetworking/Security
     - AFNetworking/Serialization
-  - AFNetworking/Reachability (2.5.0)
-  - AFNetworking/Security (2.5.0)
-  - AFNetworking/Serialization (2.5.0)
-  - AFNetworking/UIKit (2.5.0):
+  - AFNetworking/Reachability (2.6.0)
+  - AFNetworking/Security (2.6.0)
+  - AFNetworking/Serialization (2.6.0)
+  - AFNetworking/UIKit (2.6.0):
     - AFNetworking/NSURLConnection
     - AFNetworking/NSURLSession
   - box-ios-sdk-v2 (1.2.2):
     - box-ios-sdk-v2/no-arc (= 1.2.2)
   - box-ios-sdk-v2/no-arc (1.2.2)
-  - CocoaAsyncSocket (7.4.1)
+  - CocoaAsyncSocket (7.4.2)
   - CocoaHTTPServer (2.3):
     - CocoaAsyncSocket
     - CocoaLumberjack
-  - CocoaLumberjack (2.0.0):
-    - CocoaLumberjack/Default (= 2.0.0)
-    - CocoaLumberjack/Extensions (= 2.0.0)
-  - CocoaLumberjack/Core (2.0.0)
-  - CocoaLumberjack/Default (2.0.0):
+  - CocoaLumberjack (2.0.1):
+    - CocoaLumberjack/Default (= 2.0.1)
+    - CocoaLumberjack/Extensions (= 2.0.1)
+  - CocoaLumberjack/Core (2.0.1)
+  - CocoaLumberjack/Default (2.0.1):
     - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.0.0):
+  - CocoaLumberjack/Extensions (2.0.1):
     - CocoaLumberjack/Default
   - DACircularProgress (2.2.0)
   - ELCImagePickerController (0.2.0)
@@ -57,12 +57,11 @@ PODS:
   - OBSlider (1.1.0)
   - PSTCollectionView (1.2.3)
   - SSKeychain (1.2.2)
-  - upnpx (1.3.1)
+  - upnpx (1.3.4)
   - XMLDictionary (1.4)
 
 DEPENDENCIES:
-  - AFNetworking (from `https://github.com/AFNetworking/AFNetworking.git`, commit
-    `0e6f9be`)
+  - AFNetworking (= 2.6.0)
   - box-ios-sdk-v2 (from `https://github.com/box/box-ios-sdk-v2.git`, commit `5b9af5c`)
   - CocoaHTTPServer (= 2.3)
   - DACircularProgress (from `https://github.com/danielamitay/DACircularProgress.git`,
@@ -81,13 +80,10 @@ DEPENDENCIES:
   - OBSlider (= 1.1.0)
   - PSTCollectionView (= 1.2.3)
   - SSKeychain (= 1.2.2)
-  - upnpx (from `https://github.com/fkuehne/upnpx.git`, commit `7bbfef5`)
+  - upnpx (= 1.3.4)
   - XMLDictionary (= 1.4)
 
 EXTERNAL SOURCES:
-  AFNetworking:
-    :commit: 0e6f9be
-    :git: https://github.com/AFNetworking/AFNetworking.git
   box-ios-sdk-v2:
     :commit: 5b9af5c
     :git: https://github.com/box/box-ios-sdk-v2.git
@@ -103,14 +99,8 @@ EXTERNAL SOURCES:
   MBProgressHUD:
     :commit: fc1903f
     :git: https://github.com/jdg/MBProgressHUD.git
-  upnpx:
-    :commit: 7bbfef5
-    :git: https://github.com/fkuehne/upnpx.git
 
 CHECKOUT OPTIONS:
-  AFNetworking:
-    :commit: 0e6f9be
-    :git: https://github.com/AFNetworking/AFNetworking.git
   box-ios-sdk-v2:
     :commit: 5b9af5c
     :git: https://github.com/box/box-ios-sdk-v2.git
@@ -126,17 +116,14 @@ CHECKOUT OPTIONS:
   MBProgressHUD:
     :commit: fc1903f
     :git: https://github.com/jdg/MBProgressHUD.git
-  upnpx:
-    :commit: 7bbfef5
-    :git: https://github.com/fkuehne/upnpx.git
 
 SPEC CHECKSUMS:
-  AFNetworking: 96ac9bf3eda33582701cb1fcc5b896aa1e20311e
+  AFNetworking: 79f7eb1a0fcfa7beb409332b2ca49afe9ce53b05
   box-ios-sdk-v2: e6833ca786bf93da1dbe63e3d0a945b1e1fe1f42
-  CocoaAsyncSocket: 7cbf214b27f8e7f7574db6a3fd96352ffaed433d
+  CocoaAsyncSocket: f5783bdedd232d91b89769bc4b5a1580aed518ad
   CocoaHTTPServer: 5624681fc3473d43b18202f635f9b3abb013b530
-  CocoaLumberjack: a6f77d987d65dc7ba86b0f84db7d0b9084f77bcb
-  DACircularProgress: 0f92b77239d5f3c612fc66185e2998391ac8e054
+  CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
+  DACircularProgress: c602fd7d0c4417c27054536cb1e3cc0087312481
   ELCImagePickerController: b1b7084434a7d49f2cfc916bde1f3ba353d38de9
   Google-API-Client: 015d6f9303fa910f91f42300a088eac5fac5dd25
   gtm-http-fetcher: 6d4617e7d343b6e4c082b777541c334eb6f5d81e
@@ -145,13 +132,13 @@ SPEC CHECKSUMS:
   ISO8601DateFormatter: ab926648eebe497f4d167c0fd083992f959f1274
   LTHPasscodeViewController: 01d2c19b6e2aefcd34f4a63d880cf3718da27fdc
   MAConfirmButton: fb4a445eb31b717981c9b74c1cdd3c25fd4f3960
-  MBProgressHUD: d8e7ea388dc1549a42e0d219067cf5f2c898fb66
+  MBProgressHUD: 7c553ce49e4fbdb323c99f8ce315e54e698b559e
   MKStoreKit: 748617e5f87ad1e0d3f075155047945248eccefc
   objective-zip: a27d4b3c060eead4325159e49178e7f0ad5ee808
   OBSlider: 490f108007bfdd5414a38650b211fe403a95b8a0
   PSTCollectionView: 6749df92885353521f55279a7ce2b293762e2be4
   SSKeychain: 88767e903ee8d274ed380e364d96b7a101235286
-  upnpx: ef9bb95b4aa4c1c8b52f0cd1e4ee5cdb13d1b42f
+  upnpx: 790dcf9598818385d881ca39a5b77b184b7d291a
   XMLDictionary: f9f51601ba76678b594ab485f2b00ec1fed23724
 
-COCOAPODS: 0.36.4
+COCOAPODS: 0.38.2

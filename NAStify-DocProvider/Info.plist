@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.sylver.NAStify.$(PRODUCT_NAME:rfc1034identifier)</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -36,10 +36,10 @@
 				<string>public.content</string>
 			</array>
 		</dict>
-		<key>NSExtensionPrincipalClass</key>
-		<string>DocumentPickerViewController</string>
 		<key>NSExtensionPointIdentifier</key>
 		<string>com.apple.fileprovider-ui</string>
+		<key>NSExtensionPrincipalClass</key>
+		<string>DocumentPickerViewController</string>
 	</dict>
 </dict>
 </plist>
