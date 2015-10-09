@@ -89,7 +89,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     return; \
 }
 
-#define QNAP_ACCEPTABLE_CONTENT_TYPES @"text/html",@"text/json",@"text/plain"
+#define QNAP_ACCEPTABLE_CONTENT_TYPES @"text/html",@"text/json",@"text/plain",@"application/json"
 
 @implementation CMQnap
 
