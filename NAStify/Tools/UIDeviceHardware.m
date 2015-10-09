@@ -162,6 +162,10 @@
     if ([platform hasPrefix:@"iPhone4"])            return UIDevice4SiPhone;
     if ([platform hasPrefix:@"iPhone5"])            return UIDevice5iPhone;
     if ([platform hasPrefix:@"iPhone6"])            return UIDevice5SiPhone;
+    if ([platform hasPrefix:@"iPhone7,1"])          return UIDevice6iPhone;
+    if ([platform hasPrefix:@"iPhone7,2"])          return UIDevice6PiPhone;
+    if ([platform hasPrefix:@"iPhone8,1"])          return UIDevice6SiPhone;
+    if ([platform hasPrefix:@"iPhone8,2"])          return UIDevice6SPiPhone;
     
     // iPod
     if ([platform hasPrefix:@"iPod1"])              return UIDevice1GiPod;
@@ -179,6 +183,7 @@
     // Apple TV
     if ([platform hasPrefix:@"AppleTV2"])           return UIDeviceAppleTV2;
     if ([platform hasPrefix:@"AppleTV3"])           return UIDeviceAppleTV3;
+    if ([platform hasPrefix:@"AppleTV4"])           return UIDeviceAppleTV4;
     
     if ([platform hasPrefix:@"iPhone"])             return UIDeviceUnknowniPhone;
     if ([platform hasPrefix:@"iPod"])               return UIDeviceUnknowniPod;
@@ -206,6 +211,10 @@
         case UIDevice4SiPhone: return IPHONE_4S_NAMESTRING;
         case UIDevice5iPhone: return IPHONE_5_NAMESTRING;
         case UIDevice5SiPhone: return IPHONE_5S_NAMESTRING;
+        case UIDevice6iPhone: return IPHONE_6_NAMESTRING;
+        case UIDevice6PiPhone: return IPHONE_6P_NAMESTRING;
+        case UIDevice6SiPhone: return IPHONE_6S_NAMESTRING;
+        case UIDevice6SPiPhone: return IPHONE_6SP_NAMESTRING;
         case UIDeviceUnknowniPhone: return IPHONE_UNKNOWN_NAMESTRING;
             
         case UIDevice1GiPod: return IPOD_1G_NAMESTRING;
