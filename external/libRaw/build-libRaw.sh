@@ -5,7 +5,7 @@ set -e
 
 PLATFORM=OS
 VERBOSE=no
-SDK_VERSION=8.3
+SDK_VERSION=9.0
 SDK_MIN=7.0
 ARCH=armv7
 
@@ -129,7 +129,7 @@ export PLATFORM=$PLATFORM
 export SDK_VERSION=$SDK_VERSION
 
 if [ "$PLATFORM" = "OS" ]; then
-export CFLAGS="-isysroot ${SDKROOT} -arch ${ARCH} -miphoneos-version-min=${SDK_MIN} ${OPTIM}"
+export CFLAGS="-isysroot ${SDKROOT} -arch ${ARCH} -miphoneos-version-min=${SDK_MIN} -fembed-bitcode ${OPTIM}"
 if [ "$ARCH" != "arm64" ]; then
 export CFLAGS="${CFLAGS} -mcpu=cortex-a8"
 fi
@@ -171,6 +171,8 @@ info "LD FLAGS SELECTED = '${LDFLAGS}'"
 
 mkdir -p ${BUILDDIR}
 spushd ${BUILDDIR}
+
+export MACOSX_DEPLOYMENT_TARGET="10.4"
 
 info ">> --prefix=${PREFIX} --host=${TARGET}"
 

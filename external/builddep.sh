@@ -1,7 +1,7 @@
 #!/bin/sh
 PLATFORM=iphoneos
 SDK=`xcrun --sdk iphoneos --show-sdk-version`
-SDK_MIN=6.1
+SDK_MIN=7.0
 VERBOSE=no
 CONFIGURATION="Release"
 out="/dev/stdout"

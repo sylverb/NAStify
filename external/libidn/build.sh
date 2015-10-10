@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+SDK=`xcrun --sdk iphoneos --show-sdk-version`
+
 . ../versions
 
 # create libidn lib
@@ -16,15 +18,15 @@ tar xzfv libidn-${LIBIDN_VERSION}.tar.gz
 fi
 
 #build armv7
-./build-libidn.sh -a armv7
+./build-libidn.sh -a armv7 -k $SDK
 #build armv7s
-./build-libidn.sh -a armv7s
+./build-libidn.sh -a armv7s -k $SDK
 #build arm64
-./build-libidn.sh -a arm64
+./build-libidn.sh -a arm64 -k $SDK
 #build i386
-./build-libidn.sh -a i386 -s
+./build-libidn.sh -a i386 -s -k $SDK
 #build x86_64
-./build-libidn.sh -a x86_64 -s
+./build-libidn.sh -a x86_64 -s -k $SDK
 
 #create universal libneon
 mkdir -p lib

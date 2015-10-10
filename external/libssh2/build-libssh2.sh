@@ -126,7 +126,7 @@ export PLATFORM=$PLATFORM
 export SDK_VERSION=$SDK_VERSION
 
 if [ "$PLATFORM" = "OS" ]; then
-export CFLAGS="-isysroot ${SDKROOT} -arch ${ARCH} -miphoneos-version-min=${SDK_MIN} ${OPTIM}"
+export CFLAGS="-isysroot ${SDKROOT} -arch ${ARCH} -miphoneos-version-min=${SDK_MIN} -fembed-bitcode ${OPTIM}"
 if [ "$ARCH" != "arm64" ]; then
 export CFLAGS="${CFLAGS} -mcpu=cortex-a8"
 fi

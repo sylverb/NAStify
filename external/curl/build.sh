@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+SDK=`xcrun --sdk iphoneos --show-sdk-version`
+
 . ../versions
 
 # create curl lib
@@ -16,15 +18,15 @@ tar xzfv curl-${LIBCURL_VERSION}.tar.gz
 fi
 
 #build armv7
-./build-curl.sh -a armv7
+./build-curl.sh -a armv7 -k $SDK
 #build armv7s
-./build-curl.sh -a armv7s
+./build-curl.sh -a armv7s -k $SDK
 #build arm64
-./build-curl.sh -a arm64
+./build-curl.sh -a arm64 -k $SDK
 #build i386
-./build-curl.sh -a i386 -s
+./build-curl.sh -a i386 -s -k $SDK
 #build x86_64
-./build-curl.sh -a x86_64 -s
+./build-curl.sh -a x86_64 -s -k $SDK
 
 #create universal libray
 mkdir -p lib

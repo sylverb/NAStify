@@ -1,0 +1,12 @@
+diff -Nur a/configure b/configure
+--- a/configure	2015-10-10 12:30:36.000000000 +0200
++++ b/configure	2015-10-10 12:31:41.000000000 +0200
+@@ -4225,7 +4225,7 @@
+ 
+ if test "$ne_cv_os_uname" = "Darwin"; then
+   CPPFLAGS="$CPPFLAGS -no-cpp-precomp"
+-  LDFLAGS="$LDFLAGS -flat_namespace"
++  LDFLAGS="$LDFLAGS"
+   # poll has various issues in various Darwin releases
+   if test x${ac_cv_func_poll+set} != xset; then
+     ac_cv_func_poll=no

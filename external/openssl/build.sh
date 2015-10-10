@@ -24,7 +24,7 @@ echo "Compiling OpenSSL ${detectedSSLVersion}..."
 
 DEVELOPER="/Applications/Xcode.app/Contents/Developer"
 
-SDK_VERSION="8.3"
+SDK_VERSION=`xcrun --sdk iphoneos --show-sdk-version`
 MIN_VERSION="7.0"
 
 IPHONEOS_PLATFORM=`xcode-select -print-path`/Platforms/iPhoneOS.platform
@@ -91,7 +91,7 @@ build()
    ./Configure ${TARGET} --openssldir="${DESTFOLDER}/openssl-${detectedSSLVersion}-${ARCH}" ${EXTRA} &> "${DESTFOLDER}/openssl-${detectedSSLVersion}-${ARCH}.log"
    perl -i -pe 's|static volatile sig_atomic_t intr_signal|static volatile int intr_signal|' crypto/ui/ui_openssl.c
    perl -i -pe "s|^CC= gcc|CC= ${GCC} -arch ${ARCH} -miphoneos-version-min=${MIN_VERSION}|g" Makefile
-   perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDK} \$1|g" Makefile
+   perl -i -pe "s|^CFLAG= (.*)|CFLAG= -isysroot ${SDK} -fembed-bitcode \$1|g" Makefile
    make &>  "${DESTFOLDER}/openssl-${OPENSSL_VERSION}-${ARCH}.build-log"
    make install &> "${DESTFOLDER}/openssl-${detectedSSLVersion}-${ARCH}.install-log"
    popd

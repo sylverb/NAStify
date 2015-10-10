@@ -72,9 +72,9 @@ end
 
 # versions
 
-SDK_VERSION='8.3'
+SDK_VERSION='9.0'
 IOS_MIN_VERSION='7.0'
-SAMBA_VERSION='4.0.22'
+SAMBA_VERSION='4.0.26'
 
 # samba source
 
@@ -180,8 +180,8 @@ def mkArgs(sdkPath, platformArgs, procArgs, cfFlags, ldFlags)
 	ENV['CC']="xcrun clang"
 	ENV['CPP']="xcrun clang -E"
 	ENV['LD']="xcrun ld"
-	ENV['CFLAGS']="-std=gnu99 -no-cpp-precomp -miphoneos-version-min=#{IOS_MIN_VERSION} -isysroot #{sdkPath} -I#{sdkPath}/usr/include #{cfFlags}"
-	ENV['CPPFLAGS']="-std=gnu99 -no-cpp-precomp -miphoneos-version-min=#{IOS_MIN_VERSION} -isysroot #{sdkPath} -I#{sdkPath}/usr/include #{cfFlags} -I#{extInclude}"
+	ENV['CFLAGS']="-std=gnu99 -no-cpp-precomp -miphoneos-version-min=#{IOS_MIN_VERSION} -isysroot #{sdkPath} -I#{sdkPath}/usr/include -fembed-bitcode #{cfFlags}"
+	ENV['CPPFLAGS']="-std=gnu99 -no-cpp-precomp -miphoneos-version-min=#{IOS_MIN_VERSION} -isysroot #{sdkPath} -I#{sdkPath}/usr/include -fembed-bitcode #{cfFlags} -I#{extInclude}"
 	ENV['LDFLAGS']="-miphoneos-version-min=#{IOS_MIN_VERSION} -isysroot #{sdkPath} -L#{sdkPath}/usr/lib #{ldFlags}"
 	args.join(' ')
 end

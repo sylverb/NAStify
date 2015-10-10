@@ -1,6 +1,8 @@
 #!/bin/sh
 set -e
 
+SDK=`xcrun --sdk iphoneos --show-sdk-version`
+
 . ../versions
 
 # create curl lib
@@ -13,18 +15,21 @@ fi
 if [ ! -d neon-${LIBNEON_VERSION} ]
 then
 tar xzfv neon-${LIBNEON_VERSION}.tar.gz
+cd neon-${LIBNEON_VERSION}
+patch -Np1 -i ../neon-allow-bitcode-compilation.patch
+cd ..
 fi
 
 #build x86_64
-./build-neon.sh -s -a x86_64
+./build-neon.sh -s -a x86_64 -k $SDK
 #build arm64
-./build-neon.sh -a arm64
+./build-neon.sh -a arm64 -k $SDK
 #build armv7s
-./build-neon.sh -a armv7s
+./build-neon.sh -a armv7s -k $SDK
 #build armv7
-./build-neon.sh -a armv7
+./build-neon.sh -a armv7 -k $SDK
 #build i386
-./build-neon.sh -s -a i386
+./build-neon.sh -s -a i386 -k $SDK
 
 #create universal libneon
 mkdir -p lib
