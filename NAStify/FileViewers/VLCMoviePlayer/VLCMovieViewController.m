@@ -912,7 +912,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
             NSLog(@"failed to save current media state - file removed?");
         }
     } else {
-        NSArray *files = [MLFile fileForURL:[[_mediaPlayer.media url] absoluteString]];
+        NSArray *files = [MLFile fileForURL:[_mediaPlayer.media url]];
         if (files.count > 0) {
             MLFile *fileFromList = files[0];
             fileFromList.lastPosition = @([_mediaPlayer position]);
