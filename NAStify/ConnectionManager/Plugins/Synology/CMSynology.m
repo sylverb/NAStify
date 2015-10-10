@@ -145,7 +145,7 @@
         self.manager.requestSerializer = [AFHTTPRequestSerializer serializer];
         self.manager.responseSerializer = [AFJSONResponseSerializer serializer];
         // text/html and text/plain are content types returned by Synology's servers
-        [self.manager.responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:@"text/html", @"text/plain", nil]];
+        [self.manager.responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:@"text/html", @"text/plain", @"application/json", nil]];
         
         timeoutDuration = 10 * 60; // Default to 10 minutes
         protocolVersion = -1;
