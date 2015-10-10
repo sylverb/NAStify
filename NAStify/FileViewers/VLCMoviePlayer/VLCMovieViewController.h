@@ -93,9 +93,7 @@
 @property (nonatomic, strong) IBOutlet UILabel *trackNameLabel;
 @property (nonatomic, strong) IBOutlet UIImageView *artworkImageView;
 
-#if !(TARGET_IPHONE_SIMULATOR)
 @property (nonatomic, strong) MLFile *fileFromMediaLibrary;
-#endif
 @property (nonatomic, strong) NSURL *url;
 @property (nonatomic, strong) NSString *pathToExternalSubtitlesFile;
 @property (nonatomic, retain) VLCMediaList *mediaList;

@@ -48,10 +48,9 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 @interface VLCMovieViewController () <UIGestureRecognizerDelegate, AVAudioSessionDelegate, VLCMediaDelegate, UITableViewDataSource, UITableViewDelegate, VLCEqualizerViewDelegate>
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     VLCMediaListPlayer *_listPlayer;
     VLCMediaPlayer *_mediaPlayer;
-#endif
+
     BOOL _controlsHidden;
     BOOL _videoFiltersHidden;
     BOOL _playbackSpeedViewHidden;
@@ -137,14 +136,12 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (void)setFileFromMediaLibrary:(id)newFile
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (_fileFromMediaLibrary != newFile) {
         [self _stopPlayback];
         _fileFromMediaLibrary = newFile;
         if (_viewAppeared)
             [self _startPlayback:0];
     }
-#endif
     if (self.masterPopoverController != nil)
         [self.masterPopoverController dismissPopoverAnimated:YES];
 }
@@ -542,7 +539,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (void)_startPlayback:(NSInteger)startTime
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
     
     if ([_gcController isConnected])
@@ -683,7 +679,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         VLCMedia *media;
         if (self.fileFromMediaLibrary) {
             MLFile *item = self.fileFromMediaLibrary;
-            media = [VLCMedia mediaWithURL:[NSURL URLWithString:item.url]];
+            media = [VLCMedia mediaWithURL:item.url];
         } else if (self.mediaList) {
             media = [self.mediaList mediaAtIndex:self.itemInMediaListToBePlayedFirst];
             [media parse];
@@ -731,12 +727,10 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         if (![self hasExternalDisplay])
             self.brightnessSlider.value = [UIScreen mainScreen].brightness * 2.;
     }
-#endif
 }
 
 - (BOOL)_isMediaSuitableForDevice
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (!self.fileFromMediaLibrary)
         return YES;
 
@@ -754,7 +748,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         // iPhone 5, iPad 4
         return (totalNumberOfPixels < 2074000); // 1080p
     }
-#endif
     return YES;
 }
 
@@ -770,7 +763,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (void)_playNewMedia
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     NSNumber *playbackPositionInTime = @(0);
     CGFloat lastPosition = .0;
     NSInteger duration = 0;
@@ -779,7 +771,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     if (self.fileFromMediaLibrary)
         matchedFile = self.fileFromMediaLibrary;
     else if (self.mediaList) {
-        NSArray *matches = [MLFile fileForURL:[[[self.mediaList mediaAtIndex:self.itemInMediaListToBePlayedFirst] url] absoluteString]];
+        NSArray *matches = [MLFile fileForURL:[[self.mediaList mediaAtIndex:self.itemInMediaListToBePlayedFirst] url]];
         if (matches.count > 0) {
             matchedFile = matches[0];
             lastPosition = matchedFile.lastPosition.floatValue;
@@ -831,7 +823,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
     [self _resetIdleTimer];
     _playerIsSetup = YES;
-#endif
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -862,7 +853,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (void)_stopPlayback
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (_mediaPlayer) {
         @try {
             [_mediaPlayer removeObserver:self forKeyPath:@"time"];
@@ -895,12 +885,10 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         _pathToExternalSubtitlesFile = nil;
     }
     _playerIsSetup = NO;
-#endif
 }
 
 - (void)_saveCurrentState
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (self.fileFromMediaLibrary) {
         @try {
             MLFile *item = self.fileFromMediaLibrary;
@@ -920,7 +908,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
             fileFromList.lastSubtitleTrack = @(_mediaPlayer.currentVideoSubTitleIndex);
         }
     }
-#endif
 }
 
 - (NSString *)_resolveFontName
@@ -987,7 +974,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     switch (event.subtype) {
         case UIEventSubtypeRemoteControlPlay:
             [_listPlayer play];
@@ -1016,7 +1002,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         default:
             break;
     }
-#endif
 }
 
 #pragma mark - controls visibility
@@ -1181,26 +1166,22 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         }
     } else {
         [self performSelector:@selector(_setPositionForReal) withObject:nil afterDelay:0.3];
-#if !(TARGET_IPHONE_SIMULATOR)
         if (_mediaDuration > 0) {
             VLCTime *newPosition = [VLCTime timeWithInt:(int)(_positionSlider.value * _mediaDuration)];
             [self.timeDisplay setTitle:newPosition.stringValue forState:UIControlStateNormal];
             self.timeDisplay.accessibilityLabel = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"PLAYBACK_POSITION", nil), newPosition.stringValue];
             _positionSet = NO;
         }
-#endif
         [self _resetIdleTimer];
     }
 }
 
 - (void)_setPositionForReal
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if ((!_positionSet) && (![_gcController isConnected])) {
         _mediaPlayer.position = _positionSlider.value;
         _positionSet = YES;
     }
-#endif
 }
 
 - (IBAction)positionSliderTouchDown:(id)sender
@@ -1260,7 +1241,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (!_isScrubbing) {
         self.positionSlider.value = [_mediaPlayer position];
     }
@@ -1269,12 +1249,10 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         [self.timeDisplay setTitle:[[_mediaPlayer remainingTime] stringValue] forState:UIControlStateNormal];
     else
         [self.timeDisplay setTitle:[[_mediaPlayer time] stringValue] forState:UIControlStateNormal];
-#endif
 }
 
 - (void)mediaPlayerStateChanged:(NSNotification *)aNotification
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     VLCMediaPlayerState currentState = _mediaPlayer.state;
     if (currentState == VLCMediaPlayerStateBuffering) {
         /* attach delegate */
@@ -1312,14 +1290,13 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         self.trackSwitcherButtonLandscape.hidden = YES;
     }
     
-    if (_mediaPlayer.titles.count > 1 || [_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex].count > 1) {
+    if ([_mediaPlayer numberOfTitles] > 1 || [_mediaPlayer numberOfChaptersForTitle:_mediaPlayer.currentTitleIndex] > 1) {
         self.chapterButton.hidden = NO;
         self.chapterButtonLandscape.hidden = NO;
     } else {
         self.chapterButton.hidden = YES;
         self.chapterButtonLandscape.hidden = YES;
     }
-#endif
 }
 
 - (IBAction)playPause
@@ -1347,12 +1324,10 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     }
     else
     {
-#if !(TARGET_IPHONE_SIMULATOR)
         if ([_mediaPlayer isPlaying])
             [_listPlayer pause];
         else
             [_listPlayer play];
-#endif
     }
 }
 
@@ -1360,7 +1335,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 {
     LOCKCHECK;
     
-#if !(TARGET_IPHONE_SIMULATOR)
     if ([_gcController isConnected]) {
         if (self.mediaList) {
             [_listPlayer next];
@@ -1373,14 +1347,12 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         else
             [_mediaPlayer mediumJumpForward];
     }
-#endif
 }
 
 - (IBAction)backward:(id)sender
 {
     LOCKCHECK;
     
-#if !(TARGET_IPHONE_SIMULATOR)
     if ([_gcController isConnected]) {
         if (self.mediaList) {
             [_listPlayer previous];
@@ -1393,12 +1365,10 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         else
             [_mediaPlayer mediumJumpBackward];
     }
-#endif
 }
 
 - (void)toggleRepeatMode:(id)sender
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (_listPlayer.repeatMode == VLCDoNotRepeat) {
         _listPlayer.repeatMode = VLCRepeatCurrentItem;
         [self.repeatButton setImage:[UIImage imageNamed:@"repeatOne"] forState:UIControlStateNormal];
@@ -1408,14 +1378,10 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         [self.repeatButton setImage:[UIImage imageNamed:@"repeat"] forState:UIControlStateNormal];
         [self.repeatButtonLandscape setImage:[UIImage imageNamed:@"repeat"] forState:UIControlStateNormal];
     }
-#endif
 }
 
 - (IBAction)switchTrack:(id)sender
 {
-#if !(TARGET_IPHONE_SIMULATOR)
-    LOCKCHECK;
-    
     LOCKCHECK;
     
     if (_trackSelectorContainer.hidden == YES || _switchingTracksNotChapters == NO) {
@@ -1440,7 +1406,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         _trackSelectorContainer.hidden = YES;
         _switchingTracksNotChapters = NO;
     }
-#endif
 }
 
 - (IBAction)switchChapter:(id)sender
@@ -1493,7 +1458,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 {
     NSInteger ret = 0;
     
-#if !(TARGET_IPHONE_SIMULATOR)
     if (_switchingTracksNotChapters == YES) {
         if (_mediaPlayer.audioTrackIndexes.count > 2)
             ret++;
@@ -1501,13 +1465,12 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         if (_mediaPlayer.videoSubTitlesIndexes.count > 1)
             ret++;
     } else {
-        if ([_mediaPlayer countOfTitles] > 1)
+        if ([_mediaPlayer numberOfTitles] > 1)
             ret++;
         
-        if ([_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex].count > 1)
+        if ([_mediaPlayer numberOfChaptersForTitle:_mediaPlayer.currentTitleIndex] > 1)
             ret++;
     }
-#endif
     
     return ret;
 }
@@ -1523,7 +1486,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (_switchingTracksNotChapters == YES) {
         if (_mediaPlayer.audioTrackIndexes.count > 2 && section == 0)
             return NSLocalizedString(@"CHOOSE_AUDIO_TRACK", nil);
@@ -1531,13 +1493,12 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         if (_mediaPlayer.videoSubTitlesIndexes.count > 1)
             return NSLocalizedString(@"CHOOSE_SUBTITLE_TRACK", nil);
     } else {
-        if (_mediaPlayer.titles.count > 1 && section == 0)
+        if ([_mediaPlayer numberOfTitles] > 1 && section == 0)
             return NSLocalizedString(@"CHOOSE_TITLE", nil);
         
-        if ([_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex].count > 1)
+        if ([_mediaPlayer numberOfChaptersForTitle:_mediaPlayer.currentTitleIndex] > 1)
             return NSLocalizedString(@"CHOOSE_CHAPTER", nil);
     }
-#endif
     return @"unknown track type";
 }
 
@@ -1548,7 +1509,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     if (!cell)
         cell = [[VLCTrackSelectorTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TRACK_SELECTOR_TABLEVIEW_CELL];
     
-#if !(TARGET_IPHONE_SIMULATOR)
     NSInteger row = indexPath.row;
     
     if (_switchingTracksNotChapters == YES) {
@@ -1573,15 +1533,17 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
             cell.textLabel.text = [NSString stringWithFormat:@"%@", _mediaPlayer.videoSubTitlesNames[row]];
         }
     } else {
-        if (_mediaPlayer.titles.count > 1 && indexPath.section == 0) {
-            cell.textLabel.text = _mediaPlayer.titles[row];
+        if ([_mediaPlayer numberOfTitles] > 1 && indexPath.section == 0) {
+            NSDictionary *description = _mediaPlayer.titleDescriptions[row];
+            cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", description[VLCTitleDescriptionName], [[VLCTime timeWithNumber:description[VLCTitleDescriptionDuration]] stringValue]];
             
             if (row == _mediaPlayer.currentTitleIndex)
                 [cell setShowsCurrentTrack:YES];
             else
                 [cell setShowsCurrentTrack:NO];
         } else {
-            cell.textLabel.text = [_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex][row];
+            NSDictionary *description = [_mediaPlayer chapterDescriptionsOfTitle:_mediaPlayer.currentTitleIndex][row];
+            cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", description[VLCChapterDescriptionName], [[VLCTime timeWithNumber:description[VLCChapterDescriptionDuration]] stringValue]];
             
             if (row == _mediaPlayer.currentChapterIndex)
                 [cell setShowsCurrentTrack:YES];
@@ -1589,30 +1551,23 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
                 [cell setShowsCurrentTrack:NO];
         }
     }
-#endif
     
     return cell;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#if !(TARGET_IPHONE_SIMULATOR)
-
     NSInteger audioTrackCount = _mediaPlayer.audioTrackIndexes.count;
     
     if (audioTrackCount > 2 && section == 0)
         return audioTrackCount;
     
     return _mediaPlayer.videoSubTitlesIndexes.count;
-#else
-    return 0;
-#endif
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-#if !(TARGET_IPHONE_SIMULATOR)
     NSInteger index = indexPath.row;
     
     if (_switchingTracksNotChapters == YES) {
@@ -1628,10 +1583,10 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
                 _mediaPlayer.currentVideoSubTitleIndex = [indexArray[index] intValue];
         }
     } else {
-        if (_mediaPlayer.titles.count > 1 && indexPath.section == 0)
-            _mediaPlayer.currentTitleIndex = index;
+        if ([_mediaPlayer numberOfTitles] > 1 && indexPath.section == 0)
+            _mediaPlayer.currentTitleIndex = (int)index;
         else
-            _mediaPlayer.currentChapterIndex = index;
+            _mediaPlayer.currentChapterIndex = (int)index;
     }
     
     CGFloat alpha = 0.0f;
@@ -1642,12 +1597,13 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     };
     
     void (^completionBlock)(BOOL finished) = ^(BOOL finished) {
+        for (UIGestureRecognizer *recognizer in self.view.gestureRecognizers)
+            [recognizer setEnabled:YES];
         _trackSelectorContainer.hidden = YES;
     };
     
     NSTimeInterval animationDuration = .3;
     [UIView animateWithDuration:animationDuration animations:animationBlock completion:completionBlock];
-#endif
 }
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -1655,7 +1611,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     if (buttonIndex == [actionSheet cancelButtonIndex])
         return;
 
-#if !(TARGET_IPHONE_SIMULATOR)
     NSArray *indexArray;
     if (actionSheet == _subtitleActionSheet) {
         indexArray = _mediaPlayer.videoSubTitlesIndexes;
@@ -1685,7 +1640,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
             }
         }
     }
-#endif
 }
 
 - (IBAction)lock:(id)sender
@@ -1783,7 +1737,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 {
     LOCKCHECK;
     
-#if !(TARGET_IPHONE_SIMULATOR)
     if ([_mediaPlayer isPlaying]) {
         [_listPlayer pause];
         [self.statusLabel showStatusMessage:@"  ▌▌"];
@@ -1791,7 +1744,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         [_listPlayer play];
         [self.statusLabel showStatusMessage:@" ►"];
     }
-#endif
 }
 
 - (VLCPanType)detectPanTypeForPan:(UIPanGestureRecognizer*)panRecognizer
@@ -1825,8 +1777,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 {
     LOCKCHECK;
     
-#if !(TARGET_IPHONE_SIMULATOR)
-    NSString *panType;
     CGFloat panDirectionX = [panRecognizer velocityInView:self.view].x;
     CGFloat panDirectionY = [panRecognizer velocityInView:self.view].y;
 
@@ -1844,6 +1794,8 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
             [_mediaPlayer jumpBackward:1];
     } else if (_currentPanType == VLCPanTypeVolume) {
         MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
         if (panDirectionY > 0)
             musicPlayer.volume -= 0.01;
         else
@@ -1851,7 +1803,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         if ([_gcController isConnected]) {
             [_gcController.deviceManager setVolume:musicPlayer.volume];
         }
-
+#pragma clang diagnostic pop
     } else if (_currentPanType == VLCPanTypeBrightness) {
         if (![_gcController isConnected]) {
             CGFloat brightness = [UIScreen mainScreen].brightness;
@@ -1881,14 +1833,12 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
             [_listPlayer play];
         }
     }
-#endif
 }
 
 - (void)swipeRecognized:(UISwipeGestureRecognizer*)swipeRecognizer
 {
     LOCKCHECK;
     
-#if !(TARGET_IPHONE_SIMULATOR)
     NSString * hudString = @" ";
 
     if (swipeRecognizer.direction == UISwipeGestureRecognizerDirectionRight) {
@@ -1931,7 +1881,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         }
         [self.statusLabel showStatusMessage:hudString];
     }
-#endif
 }
 
 #pragma mark - Video Filter UI
@@ -1956,7 +1905,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (IBAction)videoFilterSliderAction:(id)sender
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (sender == self.hueSlider)
         _mediaPlayer.hue = (int)self.hueSlider.value;
     else if (sender == self.contrastSlider)
@@ -1980,14 +1928,12 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     } else
         NSLog(@"unknown sender for videoFilterSliderAction");
     [self _resetIdleTimer];
-#endif
 }
 
 #pragma mark - equalizer
 
 - (void)setAmplification:(CGFloat)amplification forBand:(unsigned int)index
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     [self _resetIdleTimer];
     
     if (!_mediaPlayer.equalizerEnabled)
@@ -1996,61 +1942,43 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     [_mediaPlayer setAmplification:amplification forBand:index];
     // Apply value
     [_mediaPlayer setPreAmplification:[_mediaPlayer preAmplification]];
-#endif
 }
 
 - (CGFloat)amplificationOfBand:(unsigned int)index
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     return [_mediaPlayer amplificationOfBand:index];
-#else
-    return 0;
-#endif
 }
 
 - (NSArray *)equalizerProfiles
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     return _mediaPlayer.equalizerProfiles;
-#else
-    return nil;
-#endif
 }
 
 - (void)resetEqualizerFromProfile:(unsigned int)profile
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     [[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] setObject:@(profile) forKey:kVLCSettingEqualizerProfile];
 
     [_mediaPlayer resetEqualizerFromProfile:profile];
-#endif
 }
 
 - (void)setPreAmplification:(CGFloat)preAmplification
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (!_mediaPlayer.equalizerEnabled)
         [_mediaPlayer setEqualizerEnabled:YES];
 
     [self _resetIdleTimer];
     [_mediaPlayer setPreAmplification:preAmplification];
-#endif
 }
 
 - (CGFloat)preAmplification
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     return [_mediaPlayer preAmplification];
-#else
-    return 0;
-#endif
 }
 
 #pragma mark - playback view
 
 - (IBAction)playbackSliderAction:(UISlider *)sender
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     LOCKCHECK;
 
     if (sender == _playbackSpeedSlider) {
@@ -2069,7 +1997,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     }
     
     [self _resetIdleTimer];
-#endif
 }
 
 - (void)_updatePlaybackSpeedIndicator
@@ -2084,7 +2011,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (float)_playbackSpeed
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     float f_rate = _mediaPlayer.rate;
 
     double value = 17 * log(f_rate) / log(2.);
@@ -2097,16 +2023,12 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
     _currentPlaybackRate = returnValue;
     return returnValue;
-#else
-    return 0;
-#endif
 }
 
 - (IBAction)videoDimensionAction:(id)sender
 {
     LOCKCHECK;
     
-#if !(TARGET_IPHONE_SIMULATOR)
     if (sender == self.playbackSpeedButton || sender == self.playbackSpeedButtonLandscape) {
         if (!_videoFiltersHidden)
             self.videoFilterView.hidden = _videoFiltersHidden = YES;
@@ -2154,14 +2076,12 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
             [self.statusLabel showStatusMessage:[NSString stringWithFormat:NSLocalizedString(@"AR_CHANGED", @""), _aspectRatios[_currentAspectRatioMask]]];
         }
     }
-#endif
 }
 
 #pragma mark - background interaction
 
 - (void)applicationWillResignActive:(NSNotification *)aNotification
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     [self _saveCurrentState];
 
     _mediaPlayer.currentVideoTrackIndex = 0;
@@ -2172,7 +2092,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
             _shouldResumePlaying = YES;
         }
     }
-#endif
 }
 
 - (void)applicationDidEnterBackground:(NSNotification *)notification
@@ -2182,19 +2101,16 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (void)applicationDidBecomeActive:(NSNotification *)notification
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     _mediaPlayer.currentVideoTrackIndex = 1;
 
     if (_shouldResumePlaying) {
         _shouldResumePlaying = NO;
         [_listPlayer play];
     }
-#endif
 }
 
 - (void)audioSessionRouteChange:(NSNotification *)notification
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     NSArray *outputs = [[AVAudioSession sharedInstance] currentRoute].outputs;
     NSString *portName = [[outputs objectAtIndex:0] portName];
 
@@ -2202,7 +2118,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     {
         [_listPlayer pause];
     }
-#endif
 }
 
 - (void)mediaDidFinishParsing:(VLCMedia *)aMedia
@@ -2214,9 +2129,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 {
     [self _updateDisplayedMetadata];
     
-#if !(TARGET_IPHONE_SIMULATOR)
     NSLog(@"count = %lu currentAudioTrackIndex = %lu",(unsigned long)[[_mediaPlayer audioTrackNames] count], (unsigned long)_mediaPlayer.currentAudioTrackIndex);
-#endif
     if ([self disableAudioForRescrictedCodecs])
     {
         UIAlertView * alert = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"AUDIO_TITLE", @"")
@@ -2231,7 +2144,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
 - (void)_updateDisplayedMetadata
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     MLFile *item;
     NSString *title;
     NSString *artist;
@@ -2244,7 +2156,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         if (self.fileFromMediaLibrary)
             item = self.fileFromMediaLibrary;
         else if (self.mediaList) {
-            NSArray *matches = [MLFile fileForURL:[_mediaPlayer.media.url absoluteString]];
+            NSArray *matches = [MLFile fileForURL:_mediaPlayer.media.url];
             if (matches.count > 0)
                 item = matches[0];
         }
@@ -2256,7 +2168,9 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
                 albumName = item.albumTrack.album.name;
             } else
                 title = item.title;
+#if !(TARGET_IPHONE_SIMULATOR)
             self.artworkImageView.image = [VLCThumbnailsCache thumbnailForMediaFile:item];
+#endif
         } else {
             NSDictionary * metaDict = _mediaPlayer.media.metaDictionary;
             if (metaDict) {
@@ -2304,7 +2218,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     
     if (self.trackNameLabel.text.length < 1)
         self.trackNameLabel.text = [[_mediaPlayer.media url] lastPathComponent];
-#endif
 }
 
 #pragma mark - autorotation
@@ -2337,22 +2250,18 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 #pragma mark - AVSession delegate
 - (void)beginInterruption
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if ([[[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] objectForKey:kVLCSettingContinueAudioInBackgroundKey] boolValue])
         _shouldResumePlaying = YES;
 
     [_mediaPlayer pause];
-#endif
 }
 
 - (void)endInterruption
 {
-#if !(TARGET_IPHONE_SIMULATOR)
     if (_shouldResumePlaying) {
         [_mediaPlayer play];
         _shouldResumePlaying = NO;
     }
-#endif
 }
 
 #pragma mark - External Display
@@ -2408,7 +2317,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 {
     BOOL disabledAudio = NO;
     
-#if !(TARGET_IPHONE_SIMULATOR)
     if (_mediaPlayer.currentAudioTrackIndex < [[_mediaPlayer audioTrackNames] count])
     {
         NSString *tzName = [[NSTimeZone systemTimeZone] name];
@@ -2432,7 +2340,10 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
                         if (![self _blobCheck]) {
                             disabledAudio = YES;
                             MPMusicPlayerController* musicPlayer = [MPMusicPlayerController iPodMusicPlayer];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated"
                             musicPlayer.volume = 0;
+#pragma clang diagnostic pop
                         }
                         break;
                     }
@@ -2443,7 +2354,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
             }
         }
     }
-#endif
     return disabledAudio;
 }
 
@@ -2501,7 +2411,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
  * @param device The device to which the connection was established.
  */
 - (void)didConnectToDevice:(GCKDevice *)device {
-#if !(TARGET_IPHONE_SIMULATOR)
 //    lastKnownPlaybackTime = [self.moviePlayer currentPlaybackTime];
 //    [self.moviePlayer stop];
     NSLog(@"didConnectToDevice");
@@ -2510,7 +2419,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
     [self _startPlayback:localTime];
     [self _stopPlayback];
-#endif
 }
 
 /**
