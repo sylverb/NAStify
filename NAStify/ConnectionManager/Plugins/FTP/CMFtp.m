@@ -18,8 +18,8 @@
 #include <iconv.h>
 #include <langinfo.h>
 
-#define CURLOPT_VERBOSE_LEVEL 1L
-//#define CURLOPT_VERBOSE_LEVEL 0L
+//#define CURLOPT_VERBOSE_LEVEL 1L
+#define CURLOPT_VERBOSE_LEVEL 0L
 
 #define FTP_CODE_ACTION_COMPLETED               200
 #define FTP_CODE_FILE_ACTION_OK_DATA_CNX_CLOSED 226
