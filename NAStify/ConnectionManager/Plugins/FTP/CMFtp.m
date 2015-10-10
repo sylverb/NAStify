@@ -18,8 +18,8 @@
 #include <iconv.h>
 #include <langinfo.h>
 
-//#define CURLOPT_VERBOSE_LEVEL 1L
-#define CURLOPT_VERBOSE_LEVEL 0L
+#define CURLOPT_VERBOSE_LEVEL 1L
+//#define CURLOPT_VERBOSE_LEVEL 0L
 
 #define FTP_CODE_ACTION_COMPLETED               200
 #define FTP_CODE_FILE_ACTION_OK_DATA_CNX_CLOSED 226
@@ -67,13 +67,31 @@ static char error_buf[CURL_ERROR_SIZE];
 
 - (NSString *)createUrl
 {
+    NSString *url = self.userAccount.server;
+    
+    // Update URL for HTTP request if IPv6
+    NSArray *components = [url componentsSeparatedByString:@":"];
+    if ([components count] > 2)
+    {
+        // IPv6
+        if ([[components objectAtIndex:0] isEqualToString:@"fe80"])
+        {
+            // Local adress, we have to add interface to use
+            url = [NSString stringWithFormat:@"[%@%%25en0]",url];
+        }
+        else
+        {
+            url = [NSString stringWithFormat:@"[%@]",url];
+        }
+    }
+
     if (self.userAccount.serverType == SERVER_TYPE_SFTP)
     {
-        return [NSString stringWithFormat:@"sftp://%@", self.userAccount.server];
+        return [NSString stringWithFormat:@"sftp://%@", url];
     }
     else
     {
-        return [NSString stringWithFormat:@"ftp://%@", self.userAccount.server];
+        return [NSString stringWithFormat:@"ftp://%@", url];
     }
 }
 
@@ -88,7 +106,24 @@ static char error_buf[CURL_ERROR_SIZE];
         userName = @"anonymous";
         password = @"johndoe@mail.com";
     }
+
     
+    // Update URL for HTTP request if IPv6
+    NSArray *components = [url componentsSeparatedByString:@":"];
+    if ([components count] > 2)
+    {
+        // IPv6
+        if ([[components objectAtIndex:0] isEqualToString:@"fe80"])
+        {
+            // Local adress, we have to add interface to use
+            url = [NSString stringWithFormat:@"[%@%%25en0]",url];
+        }
+        else
+        {
+            url = [NSString stringWithFormat:@"[%@]",url];
+        }
+    }
+
     if (self.userAccount.serverType == SERVER_TYPE_SFTP)
     {
         url = [NSString stringWithFormat:@"sftp://%@:%@@%@", userName, password, url];

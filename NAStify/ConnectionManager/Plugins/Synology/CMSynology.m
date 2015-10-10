@@ -164,7 +164,24 @@
     else
     {
         url = self.userAccount.server;
+        
+        // Update URL for HTTP request if IPv6
+        NSArray *components = [url componentsSeparatedByString:@":"];
+        if ([components count] > 2)
+        {
+            // IPv6
+            if ([[components objectAtIndex:0] isEqualToString:@"fe80"])
+            {
+                // Local adress, we have to add interface to use
+                url = [NSString stringWithFormat:@"[%@%%25en0]",url];
+            }
+            else
+            {
+                url = [NSString stringWithFormat:@"[%@]",url];
+            }
+        }
     }
+    
     if (self.userAccount.boolSSL)
     {
         url = [NSString stringWithFormat:@"https://%@", url];
@@ -214,6 +231,22 @@
     else
     {
         url = self.userAccount.server;
+        
+        // Update URL for HTTP request if IPv6
+        NSArray *components = [url componentsSeparatedByString:@":"];
+        if ([components count] > 2)
+        {
+            // IPv6
+            if ([[components objectAtIndex:0] isEqualToString:@"fe80"])
+            {
+                // Local adress, we have to add interface to use
+                url = [NSString stringWithFormat:@"[%@%%25en0]",url];
+            }
+            else
+            {
+                url = [NSString stringWithFormat:@"[%@]",url];
+            }
+        }
     }
     NSString *userName = self.userAccount.userName;
     NSString *password = [SSKeychain passwordForService:self.userAccount.uuid
@@ -369,7 +402,8 @@
 
 - (BOOL)login
 {
-    if ([self.userAccount.server rangeOfString:@"."].location != NSNotFound)
+    if (([self.userAccount.server rangeOfString:@"."].location != NSNotFound) || // IPv4
+        ([self.userAccount.server rangeOfString:@":"].location != NSNotFound)) // IPv6
     {
         [self loginRequest];
     }

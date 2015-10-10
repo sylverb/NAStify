@@ -178,7 +178,29 @@ static void dav_delete_props(dav_props *props);
     {
         [url appendFormat:@"%@//",[urlArray objectAtIndex:0]];
     }
-	[url appendString:[urlArray objectAtIndex:ipIndex]];
+    
+    NSString *formatedIP = [urlArray objectAtIndex:ipIndex];
+
+    // Update URL for HTTP request if not formated IPv6
+    NSArray *components = [formatedIP componentsSeparatedByString:@":"];
+    if (([components count] > 2) &&
+        ([self.userAccount.server rangeOfString:@"["].location == NSNotFound) &&
+        ([self.userAccount.server rangeOfString:@"]"].location == NSNotFound)
+        )
+    {
+        // IPv6
+        if ([[components objectAtIndex:0] isEqualToString:@"fe80"])
+        {
+            // Local adress, we have to add interface to use
+            formatedIP = [NSString stringWithFormat:@"[%@%%25en0]",formatedIP];
+        }
+        else
+        {
+            formatedIP = [NSString stringWithFormat:@"[%@]",formatedIP];
+        }
+    }
+
+	[url appendString:formatedIP];
     
 	NSString *port = self.userAccount.port;
 	if ((port) && !([port length] == 0))
@@ -241,7 +263,29 @@ static void dav_delete_props(dav_props *props);
     // Add credentials
     [url appendFormat:@"%@:%@@", self.userAccount.userName, password];
     
-	[url appendString:[urlArray objectAtIndex:ipIndex]];
+    // Add url
+    NSString *formatedIP = [urlArray objectAtIndex:ipIndex];
+    
+    // Update URL for HTTP request if not formated IPv6
+    NSArray *components = [formatedIP componentsSeparatedByString:@":"];
+    if (([components count] > 2) &&
+        ([self.userAccount.server rangeOfString:@"["].location == NSNotFound) &&
+        ([self.userAccount.server rangeOfString:@"]"].location == NSNotFound)
+        )
+    {
+        // IPv6
+        if ([[components objectAtIndex:0] isEqualToString:@"fe80"])
+        {
+            // Local adress, we have to add interface to use
+            formatedIP = [NSString stringWithFormat:@"[%@%%25en0]",formatedIP];
+        }
+        else
+        {
+            formatedIP = [NSString stringWithFormat:@"[%@]",formatedIP];
+        }
+    }
+    
+    [url appendString:formatedIP];
     
 	NSString *port = self.userAccount.port;
 	if ((port == nil) || ([port length] == 0))

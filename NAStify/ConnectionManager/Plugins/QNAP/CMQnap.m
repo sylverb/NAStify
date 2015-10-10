@@ -111,6 +111,23 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
 - (NSString *)createUrl
 {
     NSString * url = self.userAccount.server;
+    
+    // Update URL for HTTP request if IPv6
+    NSArray *components = [url componentsSeparatedByString:@":"];
+    if ([components count] > 2)
+    {
+        // IPv6
+        if ([[components objectAtIndex:0] isEqualToString:@"fe80"])
+        {
+            // Local adress, we have to add interface to use
+            url = [NSString stringWithFormat:@"[%@%%25en0]",url];
+        }
+        else
+        {
+            url = [NSString stringWithFormat:@"[%@]",url];
+        }
+    }
+
     if (self.userAccount.boolSSL)
     {
         url = [NSString stringWithFormat:@"https://%@", url];
@@ -139,6 +156,23 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
 - (NSString *)createUrlWithPath:(NSString *)path
 {
     NSString * url = self.userAccount.server;
+    
+    // Update URL for HTTP request if IPv6
+    NSArray *components = [url componentsSeparatedByString:@":"];
+    if ([components count] > 2)
+    {
+        // IPv6
+        if ([[components objectAtIndex:0] isEqualToString:@"fe80"])
+        {
+            // Local adress, we have to add interface to use
+            url = [NSString stringWithFormat:@"[%@%%25en0]",url];
+        }
+        else
+        {
+            url = [NSString stringWithFormat:@"[%@]",url];
+        }
+    }
+    
     if (self.userAccount.boolSSL)
     {
         url = [NSString stringWithFormat:@"https://%@", url];
@@ -173,6 +207,22 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     {
         userName = @"guest";
         password = @"";
+    }
+    
+    // Update URL for HTTP request if IPv6
+    NSArray *components = [url componentsSeparatedByString:@":"];
+    if ([components count] > 2)
+    {
+        // IPv6
+        if ([[components objectAtIndex:0] isEqualToString:@"fe80"])
+        {
+            // Local adress, we have to add interface to use
+            url = [NSString stringWithFormat:@"[%@%%25en0]",url];
+        }
+        else
+        {
+            url = [NSString stringWithFormat:@"[%@]",url];
+        }
     }
     
     if (self.userAccount.boolSSL)
