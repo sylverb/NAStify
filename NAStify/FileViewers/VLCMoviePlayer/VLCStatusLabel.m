@@ -2,7 +2,7 @@
  * VLCStatusLabel.m
  * VLC for iOS
  *****************************************************************************
- * Copyright (c) 2013 VideoLAN. All rights reserved.
+ * Copyright (c) 2013-2015 VideoLAN. All rights reserved.
  * $Id$
  *
  * Authors: Felix Paul Kühne <fkuehne # videolan.org>
@@ -13,7 +13,39 @@
 
 #import "VLCStatusLabel.h"
 
+@interface VLCStatusLabel ()
+{
+    NSTimer *_displayTimer;
+}
+@end
+
 @implementation VLCStatusLabel
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+        [self initialize];
+
+    return self;
+}
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+        [self initialize];
+
+    return self;
+}
+
+- (void)initialize
+{
+    self.backgroundColor = [UIColor clearColor];
+    self.textAlignment = NSTextAlignmentCenter;
+}
+
+#pragma mark -
 
 - (void)showStatusMessage:(NSString *)message
 {
@@ -23,7 +55,6 @@
     [self sizeToFit];
     CGRect selfFrame = self.frame;
     CGRect parentFrame = [self superview].bounds;
-    selfFrame.size.width += 15.; // take extra width into account for our custom drawing
     selfFrame.origin.x = (parentFrame.size.width - selfFrame.size.width) / 2.;
     [self setFrame:selfFrame];
 
@@ -32,7 +63,7 @@
     if (_displayTimer)
         [_displayTimer invalidate];
     else
-        [self _toggleVisibility:NO];
+        [self setHidden:NO animated:YES];
 
     _displayTimer = [NSTimer scheduledTimerWithTimeInterval:1.5
                                                      target:self
@@ -43,11 +74,11 @@
 
 - (void)_hideAgain
 {
-    [self _toggleVisibility:YES];
+    [self setHidden:YES animated:YES];
     _displayTimer = nil;
 }
 
-- (void)_toggleVisibility:(BOOL)hidden
+- (void)setHidden:(BOOL)hidden animated:(BOOL)animated
 {
     CGFloat alpha = hidden? 0.0f: 1.0f;
 
@@ -64,15 +95,24 @@
         self.hidden = hidden;
     };
 
-    [UIView animateWithDuration:0.3f animations:animationBlock completion:completionBlock];
+    NSTimeInterval duration = animated? 0.3: 0.0;
+    [UIView animateWithDuration:duration animations:animationBlock completion:completionBlock];
 }
+
+#pragma mark - sizing
+
+- (CGSize)sizeThatFits:(CGSize)size
+{
+    CGSize textSize = [self.text sizeWithAttributes:self.font.fontDescriptor.fontAttributes];
+    textSize.width += size.height * 4.; // take extra width into account for our custom drawing
+    return textSize;
+}
+
+#pragma mark -
 
 - (void)drawRect:(CGRect)rect
 {
-    self.backgroundColor = [UIColor clearColor];
-    CGContextClearRect(UIGraphicsGetCurrentContext(), rect);
-
-    UIColor *drawingColor = [UIColor colorWithWhite:.20 alpha:.7];
+    UIColor *drawingColor = [UIColor VLCTransparentDarkBackgroundColor];
     [drawingColor setFill];
 
     UIBezierPath* bezierPath = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:rect.size.height / 2];

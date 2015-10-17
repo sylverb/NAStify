@@ -11,6 +11,22 @@
 		953EA82D1BC9454900C799FC /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EA82C1BC9454900C799FC /* VideoToolbox.framework */; };
 		953EA82F1BC9461E00C799FC /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EA82E1BC9461E00C799FC /* CoreSpotlight.framework */; };
 		953EA8311BC946C500C799FC /* libMediaLibraryKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EA8231BC9439600C799FC /* libMediaLibraryKit.a */; };
+		953EA8511BCAE9C700C799FC /* MLMediaLibrary+playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA8391BCAE9C700C799FC /* MLMediaLibrary+playlist.m */; settings = {ASSET_TAGS = (); }; };
+		953EA8521BCAE9C700C799FC /* UIColor+Presets.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA83B1BCAE9C700C799FC /* UIColor+Presets.m */; settings = {ASSET_TAGS = (); }; };
+		953EA8531BCAE9C700C799FC /* UIDevice+VLC.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA83D1BCAE9C700C799FC /* UIDevice+VLC.m */; settings = {ASSET_TAGS = (); }; };
+		953EA8541BCAE9C700C799FC /* VLCAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA83F1BCAE9C700C799FC /* VLCAlertView.m */; settings = {ASSET_TAGS = (); }; };
+		953EA8561BCAE9C700C799FC /* VLCMiniPlaybackView.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA8431BCAE9C700C799FC /* VLCMiniPlaybackView.m */; settings = {ASSET_TAGS = (); }; };
+		953EA8591BCAE9C700C799FC /* VLCMultiSelectionMenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA8481BCAE9C700C799FC /* VLCMultiSelectionMenuView.m */; settings = {ASSET_TAGS = (); }; };
+		953EA85A1BCAE9C700C799FC /* VLCPlaybackController.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA84A1BCAE9C700C799FC /* VLCPlaybackController.m */; settings = {ASSET_TAGS = (); }; };
+		953EA85B1BCAE9C700C799FC /* VLCPlaybackController+MediaLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA84C1BCAE9C700C799FC /* VLCPlaybackController+MediaLibrary.m */; settings = {ASSET_TAGS = (); }; };
+		953EA85C1BCAE9C700C799FC /* VLCPlayerDisplayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA84E1BCAE9C700C799FC /* VLCPlayerDisplayController.m */; settings = {ASSET_TAGS = (); }; };
+		953EA85D1BCAE9C700C799FC /* VLCTimeNavigationTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA8501BCAE9C700C799FC /* VLCTimeNavigationTitleView.m */; settings = {ASSET_TAGS = (); }; };
+		953EA8841BCAF07700C799FC /* VLCMovieViewControlPanelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA8831BCAF07700C799FC /* VLCMovieViewControlPanelViewController.m */; settings = {ASSET_TAGS = (); }; };
+		953EA8891BCAF3E800C799FC /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EA8881BCAF3E800C799FC /* WatchKit.framework */; };
+		953EA8B21BCB0A7000C799FC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 953EA8B11BCB0A7000C799FC /* Images.xcassets */; settings = {ASSET_TAGS = (); }; };
+		953EA8B51BCB0DEC00C799FC /* VLCSidebarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA8B41BCB0DEC00C799FC /* VLCSidebarController.m */; settings = {ASSET_TAGS = (); }; };
+		953EA8BD1BCD968200C799FC /* VLCMovieViewControlPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 953EA8BC1BCD968200C799FC /* VLCMovieViewControlPanel.xib */; settings = {ASSET_TAGS = (); }; };
+		953EA8E31BCD974B00C799FC /* VLCVolumeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 953EA8E21BCD974B00C799FC /* VLCVolumeView.m */; settings = {ASSET_TAGS = (); }; };
 		95755E6D1AF407840045A9E8 /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95755E6C1AF407840045A9E8 /* GoogleMobileAds.framework */; };
 		95DFB7011B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
 		95DFB7021B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
@@ -1338,6 +1354,13 @@
 			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = MobileVLCKit;
 		};
+		953EA8DF1BCD968300C799FC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 024BAD0506EA3836E12419E83211E1DD;
+			remoteInfo = GHSidebarNav;
+		};
 		95D9017F1BB72F210078A101 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
@@ -1503,7 +1526,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 29F5A1E1D6637FAA58096D01C14B75AE;
+			remoteGlobalIDString = DE4913439D99C01E50179FDB1F690A3C;
 			remoteInfo = Pods;
 		};
 		D56785911A61DD1000286B86 /* PBXContainerItemProxy */ = {
@@ -1566,7 +1589,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = D546FC9D19FD3F4100125E62 /* Pods.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 29F5A1E1D6637FAA58096D01C14B75AE;
+			remoteGlobalIDString = DE4913439D99C01E50179FDB1F690A3C;
 			remoteInfo = Pods;
 		};
 		D5E473B01A00D71D00A02A1A /* PBXContainerItemProxy */ = {
@@ -1626,6 +1649,35 @@
 		953EA81C1BC9439600C799FC /* MediaLibraryKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MediaLibraryKit.xcodeproj; path = external/MediaLibraryKit/MediaLibraryKit.xcodeproj; sourceTree = "<group>"; };
 		953EA82C1BC9454900C799FC /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		953EA82E1BC9461E00C799FC /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
+		953EA8381BCAE9C700C799FC /* MLMediaLibrary+playlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MLMediaLibrary+playlist.h"; sourceTree = "<group>"; };
+		953EA8391BCAE9C700C799FC /* MLMediaLibrary+playlist.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MLMediaLibrary+playlist.m"; sourceTree = "<group>"; };
+		953EA83A1BCAE9C700C799FC /* UIColor+Presets.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Presets.h"; sourceTree = "<group>"; };
+		953EA83B1BCAE9C700C799FC /* UIColor+Presets.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Presets.m"; sourceTree = "<group>"; };
+		953EA83C1BCAE9C700C799FC /* UIDevice+VLC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+VLC.h"; sourceTree = "<group>"; };
+		953EA83D1BCAE9C700C799FC /* UIDevice+VLC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+VLC.m"; sourceTree = "<group>"; };
+		953EA83E1BCAE9C700C799FC /* VLCAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCAlertView.h; sourceTree = "<group>"; };
+		953EA83F1BCAE9C700C799FC /* VLCAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCAlertView.m; sourceTree = "<group>"; };
+		953EA8421BCAE9C700C799FC /* VLCMiniPlaybackView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCMiniPlaybackView.h; sourceTree = "<group>"; };
+		953EA8431BCAE9C700C799FC /* VLCMiniPlaybackView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCMiniPlaybackView.m; sourceTree = "<group>"; };
+		953EA8471BCAE9C700C799FC /* VLCMultiSelectionMenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCMultiSelectionMenuView.h; sourceTree = "<group>"; };
+		953EA8481BCAE9C700C799FC /* VLCMultiSelectionMenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCMultiSelectionMenuView.m; sourceTree = "<group>"; };
+		953EA8491BCAE9C700C799FC /* VLCPlaybackController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCPlaybackController.h; sourceTree = "<group>"; };
+		953EA84A1BCAE9C700C799FC /* VLCPlaybackController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCPlaybackController.m; sourceTree = "<group>"; };
+		953EA84B1BCAE9C700C799FC /* VLCPlaybackController+MediaLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "VLCPlaybackController+MediaLibrary.h"; sourceTree = "<group>"; };
+		953EA84C1BCAE9C700C799FC /* VLCPlaybackController+MediaLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "VLCPlaybackController+MediaLibrary.m"; sourceTree = "<group>"; };
+		953EA84D1BCAE9C700C799FC /* VLCPlayerDisplayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCPlayerDisplayController.h; sourceTree = "<group>"; };
+		953EA84E1BCAE9C700C799FC /* VLCPlayerDisplayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCPlayerDisplayController.m; sourceTree = "<group>"; };
+		953EA84F1BCAE9C700C799FC /* VLCTimeNavigationTitleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCTimeNavigationTitleView.h; sourceTree = "<group>"; };
+		953EA8501BCAE9C700C799FC /* VLCTimeNavigationTitleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCTimeNavigationTitleView.m; sourceTree = "<group>"; };
+		953EA8821BCAF07700C799FC /* VLCMovieViewControlPanelViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCMovieViewControlPanelViewController.h; sourceTree = "<group>"; };
+		953EA8831BCAF07700C799FC /* VLCMovieViewControlPanelViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCMovieViewControlPanelViewController.m; sourceTree = "<group>"; };
+		953EA8881BCAF3E800C799FC /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = System/Library/Frameworks/WatchKit.framework; sourceTree = SDKROOT; };
+		953EA8B11BCB0A7000C799FC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		953EA8B31BCB0DEC00C799FC /* VLCSidebarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCSidebarController.h; sourceTree = "<group>"; };
+		953EA8B41BCB0DEC00C799FC /* VLCSidebarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCSidebarController.m; sourceTree = "<group>"; };
+		953EA8BC1BCD968200C799FC /* VLCMovieViewControlPanel.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLCMovieViewControlPanel.xib; sourceTree = "<group>"; };
+		953EA8E11BCD974B00C799FC /* VLCVolumeView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCVolumeView.h; sourceTree = "<group>"; };
+		953EA8E21BCD974B00C799FC /* VLCVolumeView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCVolumeView.m; sourceTree = "<group>"; };
 		95755E6C1AF407840045A9E8 /* GoogleMobileAds.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GoogleMobileAds.framework; path = NAStify/External/GoogleMobileAdsSdkiOS/GoogleMobileAds.framework; sourceTree = "<group>"; };
 		95DFB6FF1B0BA5D40002C830 /* CMPydio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMPydio.h; sourceTree = "<group>"; };
 		95DFB7001B0BA5D40002C830 /* CMPydio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMPydio.m; sourceTree = "<group>"; };
@@ -3038,6 +3090,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				953EA8891BCAF3E800C799FC /* WatchKit.framework in Frameworks */,
 				953EA8311BC946C500C799FC /* libMediaLibraryKit.a in Frameworks */,
 				953EA82F1BC9461E00C799FC /* CoreSpotlight.framework in Frameworks */,
 				953EA82D1BC9454900C799FC /* VideoToolbox.framework in Frameworks */,
@@ -3411,6 +3464,7 @@
 				95D901861BB72F210078A101 /* libCocoaLumberjack.a */,
 				95D901881BB72F210078A101 /* libDACircularProgress.a */,
 				95D9018A1BB72F210078A101 /* libELCImagePickerController.a */,
+				953EA8E01BCD968300C799FC /* libGHSidebarNav.a */,
 				95D9018C1BB72F210078A101 /* libGoogle-API-Client.a */,
 				95D9018E1BB72F210078A101 /* libISO8601DateFormatter.a */,
 				95D901901BB72F210078A101 /* libLTHPasscodeViewController.a */,
@@ -4111,6 +4165,7 @@
 		D5D30703190157ED0087F4C6 /* VLC */ = {
 			isa = PBXGroup;
 			children = (
+				953EA8B11BCB0A7000C799FC /* Images.xcassets */,
 				D5392E6B1A7AFC7D00CA711E /* audioTrackIcon.png */,
 				D5551BE01901827B00652A08 /* audioTrackIcon@2x.png */,
 				D5392E6C1A7AFC7D00CA711E /* audioTrackIcon@3x.png */,
@@ -4156,6 +4211,7 @@
 				D5392E861A7AFC7D00CA711E /* videoEffectsIcon@3x.png */,
 				D5D307D0190157EE0087F4C6 /* VLCMovieViewController~ipad.xib */,
 				D5D307D1190157EE0087F4C6 /* VLCMovieViewController~iphone.xib */,
+				953EA8BC1BCD968200C799FC /* VLCMovieViewControlPanel.xib */,
 			);
 			path = VLC;
 			sourceTree = "<group>";
@@ -4302,6 +4358,7 @@
 		F901F7A815D7C7C50059428E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				953EA8881BCAF3E800C799FC /* WatchKit.framework */,
 				953EA82E1BC9461E00C799FC /* CoreSpotlight.framework */,
 				953EA82C1BC9454900C799FC /* VideoToolbox.framework */,
 				95755E6C1AF407840045A9E8 /* GoogleMobileAds.framework */,
@@ -4558,6 +4615,32 @@
 		F901F83315D85ED20059428E /* VLCMoviePlayer */ = {
 			isa = PBXGroup;
 			children = (
+				953EA8E11BCD974B00C799FC /* VLCVolumeView.h */,
+				953EA8E21BCD974B00C799FC /* VLCVolumeView.m */,
+				953EA8B31BCB0DEC00C799FC /* VLCSidebarController.h */,
+				953EA8B41BCB0DEC00C799FC /* VLCSidebarController.m */,
+				953EA8821BCAF07700C799FC /* VLCMovieViewControlPanelViewController.h */,
+				953EA8831BCAF07700C799FC /* VLCMovieViewControlPanelViewController.m */,
+				953EA8381BCAE9C700C799FC /* MLMediaLibrary+playlist.h */,
+				953EA8391BCAE9C700C799FC /* MLMediaLibrary+playlist.m */,
+				953EA83A1BCAE9C700C799FC /* UIColor+Presets.h */,
+				953EA83B1BCAE9C700C799FC /* UIColor+Presets.m */,
+				953EA83C1BCAE9C700C799FC /* UIDevice+VLC.h */,
+				953EA83D1BCAE9C700C799FC /* UIDevice+VLC.m */,
+				953EA83E1BCAE9C700C799FC /* VLCAlertView.h */,
+				953EA83F1BCAE9C700C799FC /* VLCAlertView.m */,
+				953EA8421BCAE9C700C799FC /* VLCMiniPlaybackView.h */,
+				953EA8431BCAE9C700C799FC /* VLCMiniPlaybackView.m */,
+				953EA8471BCAE9C700C799FC /* VLCMultiSelectionMenuView.h */,
+				953EA8481BCAE9C700C799FC /* VLCMultiSelectionMenuView.m */,
+				953EA8491BCAE9C700C799FC /* VLCPlaybackController.h */,
+				953EA84A1BCAE9C700C799FC /* VLCPlaybackController.m */,
+				953EA84B1BCAE9C700C799FC /* VLCPlaybackController+MediaLibrary.h */,
+				953EA84C1BCAE9C700C799FC /* VLCPlaybackController+MediaLibrary.m */,
+				953EA84D1BCAE9C700C799FC /* VLCPlayerDisplayController.h */,
+				953EA84E1BCAE9C700C799FC /* VLCPlayerDisplayController.m */,
+				953EA84F1BCAE9C700C799FC /* VLCTimeNavigationTitleView.h */,
+				953EA8501BCAE9C700C799FC /* VLCTimeNavigationTitleView.m */,
 				D566CEC21A7E9A7C00611FF3 /* VLCPlaybackNavigationController.h */,
 				D566CEC31A7E9A7C00611FF3 /* VLCPlaybackNavigationController.m */,
 				D566CEBC1A7E93BC00611FF3 /* VLCTrackSelectorHeaderView.h */,
@@ -5845,6 +5928,13 @@
 			remoteRef = 953EA8261BC9439600C799FC /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		953EA8E01BCD968300C799FC /* libGHSidebarNav.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libGHSidebarNav.a;
+			remoteRef = 953EA8DF1BCD968300C799FC /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		95D901801BB72F210078A101 /* libAFNetworking.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -6541,6 +6631,7 @@
 				D530329019E33110004F7147 /* 3gp@2x.png in Resources */,
 				D5D059A41A2DAFA000461226 /* upnp_small@3x.png in Resources */,
 				D53032C719E33110004F7147 /* es@3x.png in Resources */,
+				953EA8BD1BCD968200C799FC /* VLCMovieViewControlPanel.xib in Resources */,
 				D530330C19E33110004F7147 /* ra@2x.png in Resources */,
 				D530329919E33110004F7147 /* ac3@3x.png in Resources */,
 				D5392E921A7AFC7D00CA711E /* playIcon@3x.png in Resources */,
@@ -6762,6 +6853,7 @@
 				D53032FE19E33110004F7147 /* ogg@2x.png in Resources */,
 				D53D93CC1A12053C00E6D6B6 /* dropbox@2x~iphone.png in Resources */,
 				D5392E9F1A7AFC7D00CA711E /* subtitleIcon.png in Resources */,
+				953EA8B21BCB0A7000C799FC /* Images.xcassets in Resources */,
 				D530330719E33110004F7147 /* pnt@3x.png in Resources */,
 				D501D6F619FFEB7F0032AACD /* MWPhotoBrowser.bundle in Resources */,
 				D5392E891A7AFC7D00CA711E /* backIcon.png in Resources */,
@@ -6996,6 +7088,8 @@
 				D501D72719FFEBD30032AACD /* NSData+ImageContentType.m in Sources */,
 				D56509261A51DA25000EC977 /* posixthread.cpp in Sources */,
 				F9115D3315DB02BD004259D3 /* CustomTabBarController.m in Sources */,
+				953EA85C1BCAE9C700C799FC /* VLCPlayerDisplayController.m in Sources */,
+				953EA85D1BCAE9C700C799FC /* VLCTimeNavigationTitleView.m in Sources */,
 				F9345C5815DC0BB8004035A9 /* SwitchCell.m in Sources */,
 				D5D3CC5319A92ADA0083EA08 /* BoxAuthorizationNavigationController.m in Sources */,
 				F9345CAF15DC6321004035A9 /* CMFtp.m in Sources */,
@@ -7029,6 +7123,7 @@
 				D501D6F519FFEB7F0032AACD /* MWZoomingScrollView.m in Sources */,
 				D56508251A51D7D0000EC977 /* MEGAPricing.mm in Sources */,
 				F975485815F6AB8400E9D1E1 /* CMLocal.m in Sources */,
+				953EA8E31BCD974B00C799FC /* VLCVolumeView.m in Sources */,
 				F99CB70115F770A30011F91F /* archive.cpp in Sources */,
 				D56507BF1A4A0392000EC977 /* StreamReader.m in Sources */,
 				95DFB7621B0BA6260002C830 /* LoginResponseParserDelegate.m in Sources */,
@@ -7036,6 +7131,7 @@
 				95DFB7961B0BA6260002C830 /* ServersParamsManager.m in Sources */,
 				F99CB70215F770A30011F91F /* arcread.cpp in Sources */,
 				D56508FC1A51DA25000EC977 /* http.cpp in Sources */,
+				953EA8511BCAE9C700C799FC /* MLMediaLibrary+playlist.m in Sources */,
 				D56509081A51DA25000EC977 /* megaclient.cpp in Sources */,
 				F99CB70415F770A30011F91F /* cmddata.cpp in Sources */,
 				D56509321A51DA25000EC977 /* user.cpp in Sources */,
@@ -7066,6 +7162,7 @@
 				F99CB71215F770A30011F91F /* filefn.cpp in Sources */,
 				F99CB71315F770A30011F91F /* filestr.cpp in Sources */,
 				F99CB71415F770A30011F91F /* find.cpp in Sources */,
+				953EA8841BCAF07700C799FC /* VLCMovieViewControlPanelViewController.m in Sources */,
 				D56507CB1A4A0392000EC977 /* LiveAuthRefreshRequest.m in Sources */,
 				F99CB71515F770A30011F91F /* getbits.cpp in Sources */,
 				95DFB7661B0BA6260002C830 /* RepositoriesParserDelegate.m in Sources */,
@@ -7105,6 +7202,7 @@
 				95DFB77E1B0BA6260002C830 /* GetSeedJSONResponseSerializer.m in Sources */,
 				D566CEC11A7E93BC00611FF3 /* VLCTrackSelectorTableViewCell.m in Sources */,
 				D565082F1A51D7D0000EC977 /* MEGATransfer.mm in Sources */,
+				953EA85B1BCAE9C700C799FC /* VLCPlaybackController+MediaLibrary.m in Sources */,
 				D56507D11A4A0392000EC977 /* LiveConnectClientCore.m in Sources */,
 				D501D72A19FFEBD30032AACD /* SDWebImageDecoder.m in Sources */,
 				F99CB72F15F770A30011F91F /* rijndael.cpp in Sources */,
@@ -7118,6 +7216,7 @@
 				D566CEC41A7E9A7C00611FF3 /* VLCPlaybackNavigationController.m in Sources */,
 				D56507C51A4A0392000EC977 /* LiveAuthDialog.m in Sources */,
 				F99CB73315F770A30011F91F /* secpassword.cpp in Sources */,
+				953EA8561BCAE9C700C799FC /* VLCMiniPlaybackView.m in Sources */,
 				F99CB73415F770A30011F91F /* sha1.cpp in Sources */,
 				F99CB73515F770A30011F91F /* smallfn.cpp in Sources */,
 				F99CB73615F770A30011F91F /* strfn.cpp in Sources */,
@@ -7202,6 +7301,7 @@
 				F943564C15FD54F800307556 /* 7zCrcOpt.c in Sources */,
 				D565094C1A52B82E000EC977 /* CMMega.m in Sources */,
 				D569B17D1982F7C0007C0AC5 /* ShareViewController.m in Sources */,
+				953EA8541BCAE9C700C799FC /* VLCAlertView.m in Sources */,
 				F943564D15FD54F800307556 /* 7zDec.c in Sources */,
 				D565083D1A51D7D0000EC977 /* DelegateMEGARequestListener.mm in Sources */,
 				D54042FF197C44E000A902DA /* VlcSettingsViewController.m in Sources */,
@@ -7246,6 +7346,7 @@
 				F943566215FD54F800307556 /* Lzma2Dec.c in Sources */,
 				F943566315FD54F800307556 /* Lzma2Enc.c in Sources */,
 				F943566415FD54F800307556 /* Lzma86Dec.c in Sources */,
+				953EA8591BCAE9C700C799FC /* VLCMultiSelectionMenuView.m in Sources */,
 				D56507BB1A4A0392000EC977 /* LiveAuthHelper.m in Sources */,
 				F943566515FD54F800307556 /* Lzma86Enc.c in Sources */,
 				D56508DE1A51DA25000EC977 /* commands.cpp in Sources */,
@@ -7258,9 +7359,11 @@
 				D501D73319FFEBD30032AACD /* UIImageView+WebCache.m in Sources */,
 				F90D725115FD5BB100ABD5C2 /* Ppmd7Dec.c in Sources */,
 				D501D72F19FFEBD30032AACD /* UIButton+WebCache.m in Sources */,
+				953EA8B51BCB0DEC00C799FC /* VLCSidebarController.m in Sources */,
 				D56507D71A4A0392000EC977 /* LiveUploadOperationCore.m in Sources */,
 				F943566C15FD54F800307556 /* Ppmd7Enc.c in Sources */,
 				D56508211A51D7D0000EC977 /* MEGANode.mm in Sources */,
+				953EA8531BCAE9C700C799FC /* UIDevice+VLC.m in Sources */,
 				F943566D15FD54F800307556 /* Ppmd8.c in Sources */,
 				D56507DB1A4A0392000EC977 /* LiveConnectClient.m in Sources */,
 				F943566E15FD54F800307556 /* Ppmd8Dec.c in Sources */,
@@ -7288,6 +7391,7 @@
 				D56507B91A4A0392000EC977 /* LiveApiHelper.m in Sources */,
 				F91245E51604E8ED00D9AFA9 /* NSNumberAdditions.m in Sources */,
 				D56509061A51DA25000EC977 /* megaapi.cpp in Sources */,
+				953EA85A1BCAE9C700C799FC /* VLCPlaybackController.m in Sources */,
 				95DFB7801B0BA6260002C830 /* GetSeedResponseSerializer.m in Sources */,
 				F91245E61604E8ED00D9AFA9 /* NSStringAdditions.m in Sources */,
 				D565091C1A51DA25000EC977 /* serialize64.cpp in Sources */,
@@ -7295,6 +7399,7 @@
 				D54EBF4D195E39B5008AC4BB /* TextViewCell.m in Sources */,
 				D501D72B19FFEBD30032AACD /* SDWebImageDownloader.m in Sources */,
 				D5B07CBB1910784000882988 /* GoogleCastController.m in Sources */,
+				953EA8521BCAE9C700C799FC /* UIColor+Presets.m in Sources */,
 				F9BF24D31605139A001F5BAF /* CMDropbox.m in Sources */,
 				D565090C1A51DA25000EC977 /* console.cpp in Sources */,
 				F90C6C2E160685C200153186 /* CMFreeboxRev.m in Sources */,

@@ -10,6 +10,7 @@
 #import "CustomTabBarController.h"
 #import "ServersListViewController.h"
 #import <DropboxSDK/DropboxSDK.h>
+#import "VLCPlayerDisplayController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate,DBSessionDelegate,UIAlertViewDelegate>
 
@@ -20,5 +21,7 @@
 @property (strong, nonatomic) UINavigationController *settingsNavController;
 
 @property (strong, nonatomic) NSString *relinkUserId; // Dropbox relink handling
+
+@property (nonatomic, readonly) VLCPlayerDisplayController *playerDisplayController;
 
 @end

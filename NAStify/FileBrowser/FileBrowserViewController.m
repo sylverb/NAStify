@@ -11,6 +11,7 @@
 //  TODO : create a download/upload queue manager which will handle all requested downloads
 //  TODO : file download should show a folder browser to select where to store file
 
+#import "AppDelegate.h"
 #import "FileBrowserViewController.h"
 #import "CustomNavigationController.h"
 #import "CustomTabBarController.h"
@@ -1642,6 +1643,7 @@
             {
                 itemHandled = YES;
                 {
+#if 0
                     VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
                     
                     movieViewController.url = [NSURL fileURLWithPath:fileItem.fullPath];
@@ -1649,6 +1651,11 @@
                     UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                     navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                     [self.navigationController presentViewController:navCon animated:YES completion:nil];
+#else
+                    VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+                    vpc.fullscreenSessionRequested = YES;
+                    [vpc playURL:[self.connectionManager urlForVideo:fileItem].url successCallback:nil errorCallback:nil];
+#endif
                 }
             }
             else
@@ -1670,6 +1677,7 @@
         {
             itemHandled = YES;
             {
+#if 0
                 VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
                 
                 movieViewController.url = [NSURL fileURLWithPath:fileItem.fullPath];
@@ -1677,6 +1685,11 @@
                 UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                 navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                 [self.navigationController presentViewController:navCon animated:YES completion:nil];
+#else
+                VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+                vpc.fullscreenSessionRequested = YES;
+                [vpc playURL:[self.connectionManager urlForVideo:fileItem].url successCallback:nil errorCallback:nil];
+#endif
             }
             break;
         }
@@ -1864,6 +1877,7 @@
                         itemHandled = YES;
                         if (![self getSubtitleFileForMedia:fileItem])
                         {
+#if 0
                             VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
                             
                             movieViewController.url = self.videoNetworkConnection.url;
@@ -1871,6 +1885,11 @@
                             UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                             navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                             [self.navigationController presentViewController:navCon animated:YES completion:nil];
+#else
+                            VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+                            vpc.fullscreenSessionRequested = YES;
+                            [vpc playURL:[self.connectionManager urlForVideo:fileItem].url successCallback:nil errorCallback:nil];
+#endif
                         }
                     }
                     else if (ServerSupportsFeature(QTPlayer))
@@ -1891,6 +1910,7 @@
                         // Fallback to VLC media player
                         if (![self getSubtitleFileForMedia:fileItem])
                         {
+#if 0
                             VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
                             
                             movieViewController.url = self.videoNetworkConnection.url;
@@ -1898,6 +1918,11 @@
                             UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                             navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                             [self.navigationController presentViewController:navCon animated:YES completion:nil];
+#else
+                            VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+                            vpc.fullscreenSessionRequested = YES;
+                            [vpc playURL:[self.connectionManager urlForVideo:fileItem].url successCallback:nil errorCallback:nil];
+#endif
                         }
                     }
                 }
@@ -1972,6 +1997,7 @@
                     itemHandled = YES;
                     if (![self getSubtitleFileForMedia:fileItem])
                     {
+#if 0
                         VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
                         
                         movieViewController.url = self.videoNetworkConnection.url;
@@ -1979,6 +2005,11 @@
                         UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                         navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                         [self.navigationController presentViewController:navCon animated:YES completion:nil];
+#else
+                        VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+                        vpc.fullscreenSessionRequested = YES;
+                        [vpc playURL:[self.connectionManager urlForVideo:fileItem].url successCallback:nil errorCallback:nil];
+#endif
                     }
                 }
             }
@@ -2133,6 +2164,7 @@
             }
             else if (buttonIndex == 0)
             {
+#if 0
                 // Join the existing session.
                 VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
                 
@@ -2141,6 +2173,7 @@
                 UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                 navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                 [self.navigationController presentViewController:navCon animated:YES completion:nil];
+#endif
             }
         }
     }
@@ -2421,6 +2454,7 @@
             {
                 case DOWNLOAD_ACTION_SUBTITLE:
                 {
+#if 0
                     // Subtitle downloading canceled, play the video anyway
                     VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
                     movieViewController.url = self.videoNetworkConnection.url;
@@ -2428,6 +2462,11 @@
                     UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                     navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                     [self.navigationController presentViewController:navCon animated:YES completion:nil];
+#else
+                    VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+                    vpc.fullscreenSessionRequested = YES;
+                    [vpc playURL:self.videoNetworkConnection.url successCallback:nil errorCallback:nil];
+#endif
                     break;
                 }
                 default:
@@ -3555,6 +3594,7 @@
         {
             case DOWNLOAD_ACTION_SUBTITLE:
             {
+#if 0
                 VLCMovieViewController *movieViewController = [[VLCMovieViewController alloc] initWithNibName:nil bundle:nil];
                 
                 movieViewController.url = self.videoNetworkConnection.url;
@@ -3563,6 +3603,11 @@
                 UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
                 navCon.modalPresentationStyle = UIModalPresentationFullScreen;
                 [self.navigationController presentViewController:navCon animated:YES completion:nil];
+#else
+                VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+                vpc.fullscreenSessionRequested = YES;
+                [vpc playURL:self.videoNetworkConnection.url successCallback:nil errorCallback:nil];
+#endif
                 break;
             }
             case DOWNLOAD_ACTION_PREVIEW:

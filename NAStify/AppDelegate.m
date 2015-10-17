@@ -13,6 +13,7 @@
 #import "LTHPasscodeViewController.h"
 #import "iRate.h"
 #import "MKStoreKit.h"
+#import "VLCSidebarController.h"
 
 @implementation AppDelegate
 
@@ -25,7 +26,7 @@
     [iRate sharedInstance].appStoreID = 917241569;
 
     // Set default values
-    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     
     NSNumber *skipLoopFilterDefaultValue;
     int deviceSpeedCategory = [[UIDevice currentDevice] speedCategory];
@@ -34,8 +35,34 @@
     else
         skipLoopFilterDefaultValue = kVLCSettingSkipLoopFilterNonRef;
     
-    NSDictionary *appDefaults = @{kVLCSettingContinueAudioInBackgroundKey : @(YES), kVLCSettingStretchAudio : @(NO), kVLCSettingTextEncoding : kVLCSettingTextEncodingDefaultValue, kVLCSettingSkipLoopFilter : skipLoopFilterDefaultValue, kVLCSettingSubtitlesFont : kVLCSettingSubtitlesFontDefaultValue, kVLCSettingSubtitlesFontColor : kVLCSettingSubtitlesFontColorDefaultValue, kVLCSettingSubtitlesFontSize : kVLCSettingSubtitlesFontSizeDefaultValue, kVLCSettingSubtitlesBoldFont: kVLCSettingSubtitlesBoldFontDefaulValue, kVLCSettingDeinterlace : kVLCSettingDeinterlaceDefaultValue, kVLCSettingNetworkCaching : kVLCSettingNetworkCachingDefaultValue, kVLCSettingPlaybackGestures : [NSNumber numberWithBool:YES],kVLCSettingEqualizerProfile : kVLCSettingEqualizerProfileDefaultValue, kNASTifySettingBrowserShowGCast : @(YES), kNASTifySettingPlayerType : @(kNASTifySettingPlayerTypeInternal), kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeQTVLC)};
-    
+    NSDictionary *appDefaults = @{kVLCSettingPasscodeKey : @"",
+                                  kVLCSettingContinueAudioInBackgroundKey : @(YES),
+                                  kVLCSettingStretchAudio : @(NO),
+                                  kVLCSettingTextEncoding : kVLCSettingTextEncodingDefaultValue,
+                                  kVLCSettingSkipLoopFilter : skipLoopFilterDefaultValue,
+                                  kVLCSettingSubtitlesFont : kVLCSettingSubtitlesFontDefaultValue,
+                                  kVLCSettingSubtitlesFontColor : kVLCSettingSubtitlesFontColorDefaultValue,
+                                  kVLCSettingSubtitlesFontSize : kVLCSettingSubtitlesFontSizeDefaultValue,
+                                  kVLCSettingSubtitlesBoldFont: kVLCSettingSubtitlesBoldFontDefaultValue,
+                                  kVLCSettingDeinterlace : kVLCSettingDeinterlaceDefaultValue,
+                                  kVLCSettingNetworkCaching : kVLCSettingNetworkCachingDefaultValue,
+                                  kVLCSettingVolumeGesture : @(YES),
+                                  kVLCSettingPlayPauseGesture : @(YES),
+                                  kVLCSettingBrightnessGesture : @(YES),
+                                  kVLCSettingSeekGesture : @(YES),
+                                  kVLCSettingCloseGesture : @(YES),
+                                  kVLCSettingVariableJumpDuration : @(NO),
+                                  kVLCSettingVideoFullscreenPlayback : @(YES),
+                                  kVLCSettingContinuePlayback : @(1),
+                                  kVLCSettingFTPTextEncoding : kVLCSettingFTPTextEncodingDefaultValue,
+                                  kVLCSettingWiFiSharingIPv6 : kVLCSettingWiFiSharingIPv6DefaultValue,
+                                  kVLCSettingEqualizerProfile : kVLCSettingEqualizerProfileDefaultValue,
+                                  kVLCSettingPlaybackForwardSkipLength : kVLCSettingPlaybackForwardSkipLengthDefaultValue,
+                                  kVLCSettingPlaybackBackwardSkipLength : kVLCSettingPlaybackBackwardSkipLengthDefaultValue,
+                                  kVLCSettingOpenAppForPlayback : kVLCSettingOpenAppForPlaybackDefaultValue,
+                                  kNASTifySettingBrowserShowGCast : @(YES),
+                                  kNASTifySettingPlayerType : @(kNASTifySettingPlayerTypeInternal),
+                                  kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeQTVLC)};
     [defaults registerDefaults:appDefaults];
 }
 
@@ -134,9 +161,15 @@
                                     nil];
     self.tabBarController.viewControllers = navControllersArray;
     
-    // Set root view controller
-    self.window.rootViewController   = self.tabBarController;
+    VLCSidebarController *sidebarVC = [VLCSidebarController sharedInstance];
+    sidebarVC.contentViewController = self.tabBarController;
     
+    _playerDisplayController = [[VLCPlayerDisplayController alloc] init];
+    _playerDisplayController.childViewController = sidebarVC.fullViewController;
+    
+    // Set root view controller
+    self.window.rootViewController   = _playerDisplayController;
+
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
@@ -146,7 +179,7 @@
     {
         [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES withLogout:NO andLogoutTitle:nil];
     }
-    
+
     return YES;
 }
 

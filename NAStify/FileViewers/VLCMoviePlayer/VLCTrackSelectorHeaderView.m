@@ -11,7 +11,7 @@
  *****************************************************************************/
 
 #import "VLCTrackSelectorHeaderView.h"
-#import "UIDevice+SpeedCategory.h"
+#import "UIDevice+VLC.h"
 
 @implementation VLCTrackSelectorHeaderView
 
@@ -22,7 +22,7 @@
     if (!self)
         return self;
 
-    self.contentView.backgroundColor = [UIColor colorWithWhite:.122 alpha:1.];
+    self.contentView.backgroundColor = [UIColor VLCDarkBackgroundColor];
     self.textLabel.textColor = [UIColor whiteColor];
 
     if ([[UIDevice currentDevice] speedCategory] >= 3) {

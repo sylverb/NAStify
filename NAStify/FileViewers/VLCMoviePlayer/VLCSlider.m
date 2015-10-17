@@ -14,32 +14,11 @@
 
 @implementation VLCOBSlider
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self setThumbImage:[UIImage imageNamed:@"modernSliderKnob"] forState:UIControlStateNormal];
-    }
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-    self = [super initWithCoder:coder];
-    if (self) {
-        [self setThumbImage:[UIImage imageNamed:@"modernSliderKnob"] forState:UIControlStateNormal];
-    }
-    return self;
-}
-
 - (void)awakeFromNib
 {
-    [self setThumbImage:[UIImage imageNamed:@"modernSliderKnob"] forState:UIControlStateNormal];
-}
-
-- (CGRect)trackRectForBounds:(CGRect)bounds
-{
-    return [super trackRectForBounds:bounds];
+    self.accessibilityLabel = NSLocalizedString(@"PLAYBACK_POSITION", nil);
+    self.isAccessibilityElement = YES;
+    [self setThumbImage:[UIImage imageNamed:@"sliderKnob"] forState:UIControlStateNormal];
 }
 
 @end
@@ -50,29 +29,49 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    if (self) {
-        [self setThumbImage:[UIImage imageNamed:@"modernSliderKnob"] forState:UIControlStateNormal];
-    }
-    return self;
-}
-
-- (instancetype)initWithCoder:(NSCoder *)coder
-{
-    self = [super initWithCoder:coder];
-    if (self) {
-        [self setThumbImage:[UIImage imageNamed:@"modernSliderKnob"] forState:UIControlStateNormal];
-    }
+    if (self)
+        [self setThumbImage:[UIImage imageNamed:@"sliderKnob"] forState:UIControlStateNormal];
     return self;
 }
 
 - (void)awakeFromNib
 {
-    [self setThumbImage:[UIImage imageNamed:@"modernSliderKnob"] forState:UIControlStateNormal];
+    [self setThumbImage:[UIImage imageNamed:@"sliderKnob"] forState:UIControlStateNormal];
 }
 
-- (CGRect)trackRectForBounds:(CGRect)bounds
+@end
+
+@interface VLCResettingSlider ()
+@property (nonatomic, weak) UITapGestureRecognizer *doubleTapRecognizer;
+@end
+
+@implementation VLCResettingSlider
+- (void)awakeFromNib
 {
-    return [super trackRectForBounds:bounds];
+    [super awakeFromNib];
+    if (self.resetOnDoubleTap) {
+        [self setResetOnDoubleTap:YES];
+    }
+    
+}
+- (void)setResetOnDoubleTap:(BOOL)resetOnDoubleTap
+{
+    _resetOnDoubleTap = resetOnDoubleTap;
+    if (resetOnDoubleTap && self.doubleTapRecognizer == nil) {
+        UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didDoubleTap:)];
+        recognizer.numberOfTapsRequired = 2;
+        [self addGestureRecognizer:recognizer];
+        self.doubleTapRecognizer = recognizer;
+    } else if (!resetOnDoubleTap) {
+        UITapGestureRecognizer *recognizer = self.doubleTapRecognizer;
+        [self removeGestureRecognizer:recognizer];
+        self.doubleTapRecognizer = nil;
+    }
+}
+
+- (IBAction)didDoubleTap:(id)sender {
+    self.value = self.defaultValue;
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 @end

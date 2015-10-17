@@ -26,23 +26,24 @@
     self = [super initWithCoder:aDecoder];
     if (self)
         [self setupView];
-    
+
     return self;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
-    
+
     if (self)
         [self setupView];
-    
+
     return self;
 }
 
 - (void)setupView
 {
     [self setClipsToBounds:YES];
+
     if (![self toolbar]) {
         [self setToolbar:[[UIToolbar alloc] initWithFrame:[self bounds]]];
         [self.layer insertSublayer:[self.toolbar layer] atIndex:0];

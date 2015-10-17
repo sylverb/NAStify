@@ -2,7 +2,7 @@
  * VLCTrackSelectorTableViewCell.m
  * VLC for iOS
  *****************************************************************************
- * Copyright (c) 2014 VideoLAN. All rights reserved.
+ * Copyright (c) 2014-2015 VideoLAN. All rights reserved.
  * $Id$
  *
  * Authors: Felix Paul Kühne <fkuehne # videolan.org>
@@ -14,24 +14,14 @@
 
 @implementation VLCTrackSelectorTableViewCell
 
-- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-
-    if (!self)
-        return self;
-
-    return self;
-}
-
 - (void)setShowsCurrentTrack:(BOOL)value
 {
     if (value) {
-        self.backgroundColor = [UIColor colorWithWhite:.72 alpha:1.];
-        self.textLabel.textColor = [UIColor colorWithWhite:.122 alpha:1.];
+        self.backgroundColor = [UIColor VLCLightTextColor];
+        self.textLabel.textColor = [UIColor VLCDarkBackgroundColor];
     } else {
         self.backgroundColor = [UIColor clearColor];
-        self.textLabel.textColor = [UIColor colorWithWhite:.72 alpha:1.];
+        self.textLabel.textColor = [UIColor VLCLightTextColor];
     }
 }
 

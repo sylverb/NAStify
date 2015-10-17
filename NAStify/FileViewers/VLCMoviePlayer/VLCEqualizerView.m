@@ -6,14 +6,16 @@
  * $Id$
  *
  * Authors: Felix Paul Kühne <fkuehne # videolan dot org>
+ *          Sylver Bruneau <sylver.bruneau # gmail dot com>
  *
  * Refer to the COPYING file of the official project for license.
  *****************************************************************************/
 
+#if !TARGET_OS_TV
 #import "VLCEqualizerView.h"
 #import "VLCTrackSelectorTableViewCell.h"
 #import "VLCTrackSelectorHeaderView.h"
-#import "VlcSettingsViewController.h"
+#import "UIDevice+VLC.h"
 
 #define PROFILE_SELECTOR_TABLEVIEW_SECTIONHEADER @"profile selector table section header"
 #define PROFILE_SELECTOR_TABLEVIEW_CELL @"profile selector table view cell"
@@ -50,7 +52,7 @@
 #define spacer 8.
 
     UITextView *textView = nil;
-    
+
     CGFloat sliderHeight = frame.size.height - (vertical_padding_up + vertical_padding_down);
     CGFloat sliderWidth = (frame.size.width - (spacer * 11.)) / 12.;
     CGFloat sliderY = (sliderHeight / 2.) - horizontal_padding;
@@ -68,7 +70,7 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
+
     // Info
     textView = [[UITextView alloc] initWithFrame:CGRectMake(sliderWidth, vertical_padding_up - 10, 55, 20)];
     textView.text = [NSString stringWithFormat:NSLocalizedString(@"DB_FORMAT", nil), 20];
@@ -77,7 +79,7 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
+
     textView = [[UITextView alloc] initWithFrame:CGRectMake(sliderWidth, vertical_padding_up + sliderHeight / 2 - 15, 55, 20)];
     textView.text = [NSString stringWithFormat:NSLocalizedString(@"DB_FORMAT", nil), 0];
     textView.textAlignment = NSTextAlignmentRight;
@@ -85,7 +87,7 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
+
     textView = [[UITextView alloc] initWithFrame:CGRectMake(sliderWidth, frame.size.height - vertical_padding_down - 20, 55, 20)];
     textView.text = [NSString stringWithFormat:NSLocalizedString(@"DB_FORMAT", nil), -20];
     textView.textAlignment = NSTextAlignmentRight;
@@ -93,8 +95,8 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
-    
+
+
     _60_slider = [[VLCSlider alloc] initWithFrame:CGRectMake(horizontal_padding * 3. + sliderWidth, sliderY, sliderHeight, sliderWidth)];
     _60_slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
     _60_slider.tag = 0;
@@ -154,7 +156,7 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
+
     _1K_slider = [[VLCSlider alloc] initWithFrame:CGRectMake(horizontal_padding * 7. + sliderWidth * 5., sliderY, sliderHeight, sliderWidth)];
     _1K_slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
     _1K_slider.tag = 4;
@@ -169,7 +171,7 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
+
     _3K_slider = [[VLCSlider alloc] initWithFrame:CGRectMake(horizontal_padding * 8. + sliderWidth * 6., sliderY, sliderHeight, sliderWidth)];
     _3K_slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
     _3K_slider.tag = 5;
@@ -184,7 +186,7 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
+
     _6K_slider = [[VLCSlider alloc] initWithFrame:CGRectMake(horizontal_padding * 9. + sliderWidth * 7., sliderY, sliderHeight, sliderWidth)];
     _6K_slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
     _6K_slider.tag = 6;
@@ -199,7 +201,7 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
+
     _12K_slider = [[VLCSlider alloc] initWithFrame:CGRectMake(horizontal_padding * 10. + sliderWidth * 8., sliderY, sliderHeight, sliderWidth)];
     _12K_slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
     _12K_slider.tag = 7;
@@ -214,7 +216,7 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
+
     _14K_slider = [[VLCSlider alloc] initWithFrame:CGRectMake(horizontal_padding * 11. + sliderWidth * 9., sliderY, sliderHeight, sliderWidth)];
     _14K_slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
     _14K_slider.tag = 8;
@@ -229,7 +231,7 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
+
     _16K_slider = [[VLCSlider alloc] initWithFrame:CGRectMake(horizontal_padding * 12. + sliderWidth * 10., sliderY, sliderHeight, sliderWidth)];
     _16K_slider.transform = CGAffineTransformMakeRotation(-M_PI_2);
     _16K_slider.tag = 9;
@@ -244,14 +246,18 @@
     textView.textColor = [UIColor whiteColor];
     textView.userInteractionEnabled = NO;
     [self addSubview:textView];
-    
+
     // TableView
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,frame.size.height - vertical_padding_down + 25.,frame.size.width,145.)
-                                              style:UITableViewStyleGrouped];
+    CGFloat tableInset = frame.size.height - vertical_padding_down + 25.;
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,tableInset,frame.size.width, frame.size.height - tableInset)
+                                              style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.separatorColor = [UIColor clearColor];
     _tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+    _tableView.rowHeight = 44.;
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    _tableView.sectionHeaderHeight = 28.;
     [_tableView registerClass:[VLCTrackSelectorHeaderView class] forHeaderFooterViewReuseIdentifier:PROFILE_SELECTOR_TABLEVIEW_SECTIONHEADER];
     [_tableView registerClass:[VLCTrackSelectorTableViewCell class] forCellReuseIdentifier:PROFILE_SELECTOR_TABLEVIEW_CELL];
     if ([[UIDevice currentDevice] speedCategory] >= 3) {
@@ -267,12 +273,16 @@
 {
     if (self.delegate)
         [self.delegate setAmplification:[sender value] forBand:(unsigned)[sender tag]];
+    if ([self.UIdelegate respondsToSelector:@selector(equalizerViewReceivedUserInput)])
+        [self.UIdelegate equalizerViewReceivedUserInput];
 }
 
 - (IBAction)preampSliderChangedValue:(VLCSlider *)sender
 {
     if (self.delegate)
         [self.delegate setPreAmplification:sender.value];
+    if ([self.UIdelegate respondsToSelector:@selector(equalizerViewReceivedUserInput)])
+        [self.UIdelegate equalizerViewReceivedUserInput];
 }
 
 - (void)reloadData
@@ -304,7 +314,7 @@
     UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:PROFILE_SELECTOR_TABLEVIEW_SECTIONHEADER];
     if (!view)
         view = [[VLCTrackSelectorHeaderView alloc] initWithReuseIdentifier:PROFILE_SELECTOR_TABLEVIEW_SECTIONHEADER];
-    
+
     return view;
 }
 
@@ -316,23 +326,20 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     VLCTrackSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:PROFILE_SELECTOR_TABLEVIEW_CELL];
-    
+
     if (!cell)
         cell = [[VLCTrackSelectorTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:PROFILE_SELECTOR_TABLEVIEW_CELL];
-    
+
     NSInteger row = indexPath.row;
-    
+
     cell.textLabel.text = [[self.delegate equalizerProfiles] objectAtIndex:row];
-    unsigned int profile = (unsigned int)[[[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] objectForKey:kVLCSettingEqualizerProfile] integerValue];
-    
+    unsigned int profile = (unsigned int)[[[NSUserDefaults standardUserDefaults] objectForKey:kVLCSettingEqualizerProfile] integerValue];
+
     if (profile == row)
-    {
         [cell setShowsCurrentTrack:YES];
-    }
     else
-    {
         [cell setShowsCurrentTrack:NO];
-    }
+
     return cell;
 }
 
@@ -345,10 +352,11 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     NSInteger index = indexPath.row;
-    
+
     [self.delegate resetEqualizerFromProfile:(unsigned)index];
     [self reloadData];
     [self.tableView reloadData];
 }
 
 @end
+#endif

@@ -8,14 +8,30 @@
 #warning "This project uses features only available in iOS SDK 3.0 and later."
 #endif
 
+#define TARGET_TV_OS 0
+
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
     #import <MobileCoreServices/MobileCoreServices.h>
     #import <SystemConfiguration/SystemConfiguration.h>
+    #import "AppDelegate.h"
     #import "NSMutableArrayAdditions.h"
     #import "NSNumberAdditions.h"
     #import "NSStringAdditions.h"
-    #import "UIDevice+SpeedCategory.h"
+
+// VLC
+
+#ifndef NDEBUG
+#define APLog(format, ...) NSLog(format, ## __VA_ARGS__)
+#else
+#define APLog(format, ...)
+#endif
+
+    #import <MobileVLCKit/MobileVLCKit.h>
     #import <MediaLibraryKit/MediaLibraryKit.h>
+    #import "UIDevice+SpeedCategory.h"
+    #import "UIColor+Presets.h"
+    #import "VLCAlertView.h"
+    #import "VlcSettingsViewController.h"
 #endif
