@@ -141,7 +141,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     {
         if (self.userAccount.boolSSL)
         {
-            port = @"5001";
+            port = @"443";
         }
         else
         {
@@ -186,7 +186,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     {
         if (self.userAccount.boolSSL)
         {
-            port = @"5001";
+            port = @"443";
         }
         else
         {
@@ -239,7 +239,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
     {
         if (self.userAccount.boolSSL)
         {
-            port = @"5001";
+            port = @"443";
         }
         else
         {
@@ -1216,52 +1216,66 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
             // End the network activity spinner
             [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
             
-            HandleServerDisconnection();
-            
-            NSInteger status = [[JSON objectForKey:@"status"] integerValue];
-            switch (status) {
-                case QNAP_STATUS_OK:
-                {
-                    float progress = [[JSON objectForKey:@"percent"] floatValue] / 100;
-                    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithFloat:progress]
-                                                                                       forKey:@"progress"];
-                    if ([JSON objectForKey:@"filename"])
+            if (JSON == nil)
+            {
+                // QTS 4.2 is broken for this request, returning incorrect caracters in answer when
+                // move is finished, to solve that, we are considering that move is finished when
+                // it happens
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [NSNumber numberWithBool:YES],@"success",
+                                                   nil]];
+                });
+            }
+            else
+            {
+                HandleServerDisconnection();
+                
+                NSInteger status = [[JSON objectForKey:@"status"] integerValue];
+                switch (status) {
+                    case QNAP_STATUS_OK:
                     {
-                        [userInfo addEntriesFromDictionary:
-                         [NSDictionary dictionaryWithObject:[JSON objectForKey:@"filename"]
-                                                     forKey:@"info"]];
+                        float progress = [[JSON objectForKey:@"percent"] floatValue] / 100;
+                        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:[NSNumber numberWithFloat:progress]
+                                                                                           forKey:@"progress"];
+                        if ([JSON objectForKey:@"filename"])
+                        {
+                            [userInfo addEntriesFromDictionary:
+                             [NSDictionary dictionaryWithObject:[JSON objectForKey:@"filename"]
+                                                         forKey:@"info"]];
+                        }
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.delegate CMMoveProgress:userInfo];
+                        });
+                        
+                        if (progress < 1.0)
+                        {
+                            // Update progress
+                            [self performSelector:@selector(moveProgress)
+                                       withObject:nil
+                                       afterDelay:2];
+                        }
+                        else
+                        {
+                            // Move is now finished
+                            dispatch_async(dispatch_get_main_queue(), ^{
+                                [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                               [NSNumber numberWithBool:YES],@"success",
+                                                               nil]];
+                            });
+                        }
+                        break;
                     }
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.delegate CMMoveProgress:userInfo];
-                    });
-                    
-                    if (progress < 1.0)
+                    default:
                     {
-                        // Update progress
-                        [self performSelector:@selector(moveProgress)
-                                   withObject:nil
-                                   afterDelay:2];
-                    }
-                    else
-                    {
-                        // Move is now finished
                         dispatch_async(dispatch_get_main_queue(), ^{
                             [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                           [NSNumber numberWithBool:YES],@"success",
+                                                           [JSON objectForKey:@"success"],@"success",
+                                                           [NSString stringWithFormat:@"Unknown error %ld",(long)status],@"error",
                                                            nil]];
                         });
+                        break;
                     }
-                    break;
-                }
-                default:
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                       [JSON objectForKey:@"success"],@"success",
-                                                       [NSString stringWithFormat:@"Unknown error %ld",(long)status],@"error",
-                                                       nil]];
-                    });
-                    break;
                 }
             }
         };
