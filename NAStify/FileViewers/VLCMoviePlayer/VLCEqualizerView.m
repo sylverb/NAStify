@@ -11,7 +11,6 @@
  * Refer to the COPYING file of the official project for license.
  *****************************************************************************/
 
-#if !TARGET_OS_TV
 #import "VLCEqualizerView.h"
 #import "VLCTrackSelectorTableViewCell.h"
 #import "VLCTrackSelectorHeaderView.h"
@@ -359,4 +358,3 @@
 }
 
 @end
-#endif

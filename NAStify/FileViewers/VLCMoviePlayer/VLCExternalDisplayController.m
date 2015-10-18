@@ -23,7 +23,7 @@
     return NO;
 }
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+- (NSUInteger)supportedInterfaceOrientations
 {
     return ~UIInterfaceOrientationMaskAll;
 }

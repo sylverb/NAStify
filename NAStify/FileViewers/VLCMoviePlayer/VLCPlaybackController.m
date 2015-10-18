@@ -23,10 +23,6 @@
 #import <MediaPlayer/MediaPlayer.h>
 #import "VLCThumbnailsCache.h"
 #import <WatchKit/WatchKit.h>
-#if 0
-#import "VLCLibraryViewController.h"
-#import "VLCKeychainCoordinator.h"
-#endif
 
 NSString *const VLCPlaybackControllerPlaybackDidStart = @"VLCPlaybackControllerPlaybackDidStart";
 NSString *const VLCPlaybackControllerPlaybackDidPause = @"VLCPlaybackControllerPlaybackDidPause";
@@ -76,7 +72,7 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
     static dispatch_once_t pred;
 
     dispatch_once(&pred, ^{
-        sharedInstance = [VLCPlaybackController new];
+        sharedInstance = [self new];
     });
 
     return sharedInstance;
@@ -164,50 +160,6 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
     return YES;
 }
 
-- (void)playMediaList:(VLCMediaList *)mediaList firstIndex:(int)index
-{
-    self.mediaList = mediaList;
-    self.itemInMediaListToBePlayedFirst = index;
-    self.pathToExternalSubtitlesFile = nil;
-
-    if (self.activePlaybackSession) {
-        self.sessionWillRestart = YES;
-        [self stopPlayback];
-    } else {
-        self.sessionWillRestart = NO;
-        [self startPlayback];
-    }
-}
-
-- (void)playURL:(NSURL *)url successCallback:(NSURL*)successCallback errorCallback:(NSURL *)errorCallback
-{
-    self.url = url;
-    self.successCallback = successCallback;
-    self.errorCallback = errorCallback;
-
-    if (self.activePlaybackSession) {
-        self.sessionWillRestart = YES;
-        [self stopPlayback];
-    } else {
-        self.sessionWillRestart = NO;
-        [self startPlayback];
-    }
-}
-
-- (void)playURL:(NSURL *)url subtitlesFilePath:(NSString *)subsFilePath
-{
-    self.url = url;
-    self.pathToExternalSubtitlesFile = subsFilePath;
-
-    if (self.activePlaybackSession) {
-        self.sessionWillRestart = YES;
-        [self stopPlayback];
-    } else {
-        self.sessionWillRestart = NO;
-        [self startPlayback];
-    }
-}
-
 - (void)startPlayback
 {
     if (_playerIsSetup)
@@ -228,11 +180,6 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
         _listPlayer = [[VLCMediaListPlayer alloc] initWithOptions:@[[NSString stringWithFormat:@"--%@=%@", kVLCSettingSubtitlesFilePath, self.pathToExternalSubtitlesFile]]];
     else
         _listPlayer = [[VLCMediaListPlayer alloc] init];
-
-    /* to enable debug logging for the playback library instance, switch the boolean below
-     * note that the library instance used for playback may not necessarily match the instance
-     * used for media discovery or thumbnailing */
-    _listPlayer.mediaPlayer.libraryInstance.debugLogging = YES;
 
     /* video decoding permanently fails if we don't provide a UIView to draw into on init
      * hence we provide one which is not attached to any view controller for off-screen drawing
@@ -263,7 +210,7 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
         [media synchronousParse];
         [media addOptions:self.mediaOptionsDictionary];
     }
-    
+
     if (self.mediaList) {
         [_listPlayer setMediaList:self.mediaList];
     } else {
@@ -490,7 +437,7 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
 
 - (BOOL)currentMediaHasChapters
 {
-    return [_mediaPlayer numberOfTitles] > 1 || [_mediaPlayer numberOfChaptersForTitle:_mediaPlayer.currentTitleIndex] > 1;
+    return [_mediaPlayer countOfTitles] > 1 || [_mediaPlayer chaptersForTitleIndex:_mediaPlayer.currentTitleIndex].count > 1;
 }
 
 - (BOOL)currentMediaHasTrackToChooseFrom
@@ -880,10 +827,7 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
     currentlyPlayingTrackInfo[MPNowPlayingInfoPropertyPlaybackRate] = @(_mediaPlayer.isPlaying ? _mediaPlayer.rate : 0.0);
 
     /* don't leak sensitive information to the OS, if passcode lock is enabled */
-#if 0
-    if (![[VLCKeychainCoordinator defaultCoordinator] passcodeLockEnabled])
-#endif
-    {
+    if (![[[NSUserDefaults standardUserDefaults] objectForKey:kVLCSettingPasscodeOnKey] boolValue]) {
         if (title)
             currentlyPlayingTrackInfo[MPMediaItemPropertyTitle] = title;
         if (artist.length > 0)
@@ -939,24 +883,8 @@ setstuff:
             lastPosition = item.lastPosition.floatValue;
         duration = item.duration.intValue;
 
-        if (lastPosition < .95 && _mediaPlayer.position < lastPosition && (duration * lastPosition - duration) < -60000) {
-            NSInteger continuePlayback = [[[NSUserDefaults standardUserDefaults] objectForKey:kVLCSettingContinuePlayback] integerValue];
-            if (continuePlayback == 1) {
-                _mediaPlayer.position = lastPosition;
-            } else if (continuePlayback == 0) {
-                VLCAlertView *alert = [[VLCAlertView alloc] initWithTitle:NSLocalizedString(@"CONTINUE_PLAYBACK", nil)
-                                                                  message:[NSString stringWithFormat:NSLocalizedString(@"CONTINUE_PLAYBACK_LONG", nil), item.title]
-                                                                 delegate:self
-                                                        cancelButtonTitle:NSLocalizedString(@"BUTTON_CANCEL", nil)
-                                                        otherButtonTitles:NSLocalizedString(@"BUTTON_CONTINUE", nil), nil];
-                alert.completion = ^(BOOL cancelled, NSInteger buttonIndex) {
-                    if (!cancelled) {
-                        _mediaPlayer.position = lastPosition;
-                    }
-                };
-                [alert show];
-            }
-        }
+        if (lastPosition < .95 && _mediaPlayer.position < lastPosition && (duration * lastPosition - duration) < -60000)
+            _mediaPlayer.position = lastPosition;
     }
 }
 

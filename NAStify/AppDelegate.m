@@ -13,7 +13,6 @@
 #import "LTHPasscodeViewController.h"
 #import "iRate.h"
 #import "MKStoreKit.h"
-#import "VLCSidebarController.h"
 
 @implementation AppDelegate
 
@@ -160,12 +159,10 @@
                                     self.settingsNavController,
                                     nil];
     self.tabBarController.viewControllers = navControllersArray;
-    
-    VLCSidebarController *sidebarVC = [VLCSidebarController sharedInstance];
-    sidebarVC.contentViewController = self.tabBarController;
-    
+
+    // Setup main view for VLC integration
     _playerDisplayController = [[VLCPlayerDisplayController alloc] init];
-    _playerDisplayController.childViewController = sidebarVC.fullViewController;
+    _playerDisplayController.childViewController = self.tabBarController;//self.revealController;
     
     // Set root view controller
     self.window.rootViewController   = _playerDisplayController;

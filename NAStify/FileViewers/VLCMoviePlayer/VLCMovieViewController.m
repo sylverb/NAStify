@@ -32,7 +32,6 @@
 #import "VLCPlayerDisplayController.h"
 #import "AppDelegate.h"
 #import "VLCStatusLabel.h"
-#import "VLCMovieViewControlPanelViewController.h"
 
 #define FORWARD_SWIPE_DURATION 30
 #define BACKWARD_SWIPE_DURATION 10
@@ -71,19 +70,12 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     BOOL _switchingTracksNotChapters;
     BOOL _audioOnly;
 
-    BOOL _volumeGestureEnabled;
-    BOOL _playPauseGestureEnabled;
-    BOOL _brightnessGestureEnabled;
-    BOOL _seekGestureEnabled;
-    BOOL _closeGestureEnabled;
-    BOOL _variableJumpDurationEnabled;
+    BOOL _swipeGesturesEnabled;
     UIPinchGestureRecognizer *_pinchRecognizer;
     VLCPanType _currentPanType;
     UIPanGestureRecognizer *_panRecognizer;
     UISwipeGestureRecognizer *_swipeRecognizerLeft;
     UISwipeGestureRecognizer *_swipeRecognizerRight;
-    UISwipeGestureRecognizer *_swipeRecognizerUp;
-    UISwipeGestureRecognizer *_swipeRecognizerDown;
     UITapGestureRecognizer *_tapRecognizer;
     UITapGestureRecognizer *_tapOnVideoRecognizer;
 
@@ -123,10 +115,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         [self.view removeGestureRecognizer:_swipeRecognizerLeft];
     if (_swipeRecognizerRight)
         [self.view removeGestureRecognizer:_swipeRecognizerRight];
-    if (_swipeRecognizerUp)
-        [self.view removeGestureRecognizer:_swipeRecognizerUp];
-    if (_swipeRecognizerDown)
-        [self.view removeGestureRecognizer:_swipeRecognizerDown];
     if (_panRecognizer)
         [self.view removeGestureRecognizer:_panRecognizer];
     if (_pinchRecognizer)
@@ -136,8 +124,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     _tapRecognizer = nil;
     _swipeRecognizerLeft = nil;
     _swipeRecognizerRight = nil;
-    _swipeRecognizerUp = nil;
-    _swipeRecognizerDown = nil;
     _panRecognizer = nil;
     _pinchRecognizer = nil;
     _tapOnVideoRecognizer = nil;
@@ -148,8 +134,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     [super viewDidLoad];
     CGRect rect;
 
-    self.extendedLayoutIncludesOpaqueBars = YES;
-    self.edgesForExtendedLayout = UIRectEdgeAll;
+    self.wantsFullScreenLayout = YES;
 
     self.videoFilterView.hidden = YES;
     _videoFiltersHidden = YES;
@@ -178,11 +163,43 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     _spuDelaySlider.accessibilityLabel = _spuDelayLabel.text;
     _spuDelaySlider.isAccessibilityElement = YES;
 
+    _trackSwitcherButton.accessibilityLabel = NSLocalizedString(@"OPEN_TRACK_PANEL", nil);
+    _trackSwitcherButton.isAccessibilityElement = YES;
+    _trackSwitcherButtonLandscape.accessibilityLabel = NSLocalizedString(@"OPEN_TRACK_PANEL", nil);
+    _trackSwitcherButtonLandscape.isAccessibilityElement = YES;
+    _playbackSpeedButton.accessibilityLabel = _playbackSpeedLabel.text;
+    _playbackSpeedButton.isAccessibilityElement = YES;
+    _playbackSpeedButtonLandscape.accessibilityLabel = _playbackSpeedLabel.text;
+    _playbackSpeedButtonLandscape.isAccessibilityElement = YES;
+    _videoFilterButton.accessibilityLabel = NSLocalizedString(@"VIDEO_FILTER", nil);
+    _videoFilterButton.isAccessibilityElement = YES;
+    _videoFilterButtonLandscape.accessibilityLabel = NSLocalizedString(@"VIDEO_FILTER", nil);
+    _videoFilterButtonLandscape.isAccessibilityElement = YES;
     _resetVideoFilterButton.accessibilityLabel = NSLocalizedString(@"VIDEO_FILTER_RESET_BUTTON", nil);
     _resetVideoFilterButton.isAccessibilityElement = YES;
+    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(playPauseLongPress:)];
+    [_playPauseButton addGestureRecognizer:longPressRecognizer];
+    _playPauseButton.accessibilityLabel = NSLocalizedString(@"PLAY_PAUSE_BUTTON", nil);
+    _playPauseButton.accessibilityHint = NSLocalizedString(@"LONGPRESS_TO_STOP", nil);
+    _playPauseButton.isAccessibilityElement = YES;
+    UILongPressGestureRecognizer *longPressRecognizerLandscape = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(playPauseLongPress:)];
+    [_playPauseButton addGestureRecognizer:longPressRecognizerLandscape];
+    _playPauseButtonLandscape.accessibilityLabel = NSLocalizedString(@"PLAY_PAUSE_BUTTON", nil);
+    _playPauseButtonLandscape.accessibilityHint = NSLocalizedString(@"LONGPRESS_TO_STOP", nil);
+    _playPauseButtonLandscape.isAccessibilityElement = YES;
+    _bwdButton.accessibilityLabel = NSLocalizedString(@"BWD_BUTTON", nil);
+    _bwdButton.isAccessibilityElement = YES;
+    _bwdButtonLandscape.accessibilityLabel = NSLocalizedString(@"BWD_BUTTON", nil);
+    _bwdButtonLandscape.isAccessibilityElement = YES;
+    _fwdButton.accessibilityLabel = NSLocalizedString(@"FWD_BUTTON", nil);
+    _fwdButton.isAccessibilityElement = YES;
+    _fwdButtonLandscape.accessibilityLabel = NSLocalizedString(@"FWD_BUTTON", nil);
+    _fwdButtonLandscape.isAccessibilityElement = YES;
     _sleepTimerButton.accessibilityLabel = NSLocalizedString(@"BUTTON_SLEEP_TIMER", nil);
     _sleepTimerButton.isAccessibilityElement = YES;
     [_sleepTimerButton setTitle:NSLocalizedString(@"BUTTON_SLEEP_TIMER", nil) forState:UIControlStateNormal];
+    if (!SYSTEM_RUNS_IOS7_OR_LATER)
+        _sleepTimerButton.hidden = YES;
 
     _multiSelectionView = [[VLCMultiSelectionMenuView alloc] init];
     _multiSelectionView.delegate = self;
@@ -219,7 +236,9 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     _tapOnVideoRecognizer.delegate = self;
     [self.view addGestureRecognizer:_tapOnVideoRecognizer];
 
-
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    _displayRemainingTime = [[defaults objectForKey:kVLCShowRemainingTime] boolValue];
+    _swipeGesturesEnabled = [[defaults objectForKey:kVLCSettingPlaybackGestures] boolValue];
 
     _pinchRecognizer = [[UIPinchGestureRecognizer alloc] initWithTarget:self action:@selector(handlePinchGesture:)];
     _pinchRecognizer.delegate = self;
@@ -237,42 +256,60 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     _swipeRecognizerLeft.direction = UISwipeGestureRecognizerDirectionLeft;
     _swipeRecognizerRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRecognized:)];
     _swipeRecognizerRight.direction = UISwipeGestureRecognizerDirectionRight;
-    _swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRecognized:)];
-    _swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
-    _swipeRecognizerUp.numberOfTouchesRequired = 2;
-    _swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(swipeRecognized:)];
-    _swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
-    _swipeRecognizerDown.numberOfTouchesRequired = 2;
 
     [self.view addGestureRecognizer:_swipeRecognizerLeft];
     [self.view addGestureRecognizer:_swipeRecognizerRight];
-    [self.view addGestureRecognizer:_swipeRecognizerUp];
-    [self.view addGestureRecognizer:_swipeRecognizerDown];
     [self.view addGestureRecognizer:_panRecognizer];
     [self.view addGestureRecognizer:_tapRecognizer];
     [_panRecognizer requireGestureRecognizerToFail:_swipeRecognizerLeft];
     [_panRecognizer requireGestureRecognizerToFail:_swipeRecognizerRight];
-    [_panRecognizer requireGestureRecognizerToFail:_swipeRecognizerUp];
-    [_panRecognizer requireGestureRecognizerToFail:_swipeRecognizerDown];
 
     _panRecognizer.delegate = self;
     _swipeRecognizerRight.delegate = self;
     _swipeRecognizerLeft.delegate = self;
-    _swipeRecognizerUp.delegate = self;
-    _swipeRecognizerDown.delegate = self;
     _tapRecognizer.delegate = self;
 
-    self.backButton.tintColor = [UIColor colorWithRed:(190.0f/255.0f) green:(190.0f/255.0f) blue:(190.0f/255.0f) alpha:1.];
-    self.toolbar.tintColor = [UIColor whiteColor];
-    self.toolbar.barStyle = UIBarStyleBlack;
+    if (SYSTEM_RUNS_IOS7_OR_LATER) {
+        self.backButton.tintColor = [UIColor colorWithRed:(190.0f/255.0f) green:(190.0f/255.0f) blue:(190.0f/255.0f) alpha:1.];
+        self.toolbar.tintColor = [UIColor whiteColor];
+        self.toolbar.barStyle = UIBarStyleBlack;
 
-    rect = self.resetVideoFilterButton.frame;
-    rect.origin.y = rect.origin.y + 5.;
-    self.resetVideoFilterButton.frame = rect;
-    rect = self.toolbar.frame;
-    rect.size.height = rect.size.height + rect.origin.y;
-    rect.origin.y = 0;
-    self.toolbar.frame = rect;
+        rect = self.resetVideoFilterButton.frame;
+        rect.origin.y = rect.origin.y + 5.;
+        self.resetVideoFilterButton.frame = rect;
+        rect = self.toolbar.frame;
+        rect.size.height = rect.size.height + rect.origin.y;
+        rect.origin.y = 0;
+        self.toolbar.frame = rect;
+    } else {
+        [self.toolbar setBackgroundImage:[UIImage imageNamed:@"seekbarBg"] forBarMetrics:UIBarMetricsDefault];
+        [self.backButton setBackgroundImage:[UIImage imageNamed:@"playbackDoneButton"] forState:UIControlStateNormal barMetrics:UIBarMetricsDefault];
+        [self.backButton setBackgroundImage:[UIImage imageNamed:@"playbackDoneButtonHighlight"] forState:UIControlStateHighlighted barMetrics:UIBarMetricsDefault];
+    }
+
+    /* FIXME: there is a saner iOS 6+ API for this! */
+    /* this looks a bit weird, but we need to support iOS 5 and should show the same appearance */
+    void (^initVolumeSlider)(MPVolumeView *) = ^(MPVolumeView *volumeView){
+        UISlider *volumeSlider = nil;
+        for (id aView in volumeView.subviews){
+            if ([[[aView class] description] isEqualToString:@"MPVolumeSlider"]){
+                volumeSlider = (UISlider *)aView;
+                break;
+            }
+        }
+        if (!SYSTEM_RUNS_IOS7_OR_LATER) {
+            [volumeSlider setMinimumTrackImage:[[UIImage imageNamed:@"sliderminiValue"]resizableImageWithCapInsets:UIEdgeInsetsMake(0, 4, 0, 0)] forState:UIControlStateNormal];
+            [volumeSlider setMaximumTrackImage:[[UIImage imageNamed:@"slidermaxValue"] resizableImageWithCapInsets:UIEdgeInsetsMake(0, 0, 0, 4)] forState:UIControlStateNormal];
+            [volumeSlider setThumbImage:[UIImage imageNamed:@"volumeballslider"] forState:UIControlStateNormal];
+        } else
+            [volumeView setVolumeThumbImage:[UIImage imageNamed:@"modernSliderKnob"] forState:UIControlStateNormal];
+        [volumeSlider addTarget:self
+                         action:@selector(volumeSliderAction:)
+               forControlEvents:UIControlEventValueChanged];
+    };
+
+    initVolumeSlider(self.volumeView);
+    initVolumeSlider(self.volumeViewLandscape);
 
     _playerIsSetup = NO;
 
@@ -316,78 +353,61 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
     [self.view addSubview:_trackSelectorContainer];
 
-    _equalizerView = [[VLCEqualizerView alloc] initWithFrame:CGRectMake(0, 0, 450., 240.)];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
+        _equalizerView = [[VLCEqualizerView alloc] initWithFrame:CGRectMake((rect.size.width - 450.) / 2., self.controllerPanel.frame.origin.y - 200., 450., 240.)];
+    } else {
+        _equalizerView = [[VLCEqualizerView alloc] initWithFrame:CGRectMake((rect.size.width - 450.) / 2., self.controllerPanel.frame.origin.y - 240., 450., 240.)];
+    }
     _equalizerView.delegate = self.playbackController;
     _equalizerView.UIdelegate = self;
     _equalizerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     _equalizerView.hidden = YES;
     [self.view addSubview:_equalizerView];
 
-    /* add sleep timer UI */
-    _sleepTimerContainer = [[VLCFrostedGlasView alloc] initWithFrame:CGRectMake(0., 0., 300., 162.)];
-    _sleepTimerContainer.center = self.view.center;
-    _sleepTimerContainer.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
+    /* add sleep timer UI, requires iOS 7 or later */
+    if (SYSTEM_RUNS_IOS7_OR_LATER) {
+        _sleepTimerContainer = [[VLCFrostedGlasView alloc] initWithFrame:CGRectMake(0., 0., 300., 162.)];
+        _sleepTimerContainer.center = self.view.center;
+        _sleepTimerContainer.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
 
-    _sleepTimeDatePicker = [[UIDatePicker alloc] init];
-    if ([[UIDevice currentDevice] speedCategory] >= 3) {
-        _sleepTimeDatePicker.opaque = NO;
-        _sleepTimeDatePicker.backgroundColor = [UIColor clearColor];
-    } else
-        _sleepTimeDatePicker.backgroundColor = [UIColor blackColor];
-    _sleepTimeDatePicker.tintColor = [UIColor VLCLightTextColor];
-    _sleepTimeDatePicker.frame = CGRectMake(0., 0., 300., 162.);
-    _sleepTimeDatePicker.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
-    [_sleepTimerContainer addSubview:_sleepTimeDatePicker];
+        _sleepTimeDatePicker = [[UIDatePicker alloc] init];
+        if ([[UIDevice currentDevice] speedCategory] >= 3) {
+            _sleepTimeDatePicker.opaque = NO;
+            _sleepTimeDatePicker.backgroundColor = [UIColor clearColor];
+        } else
+            _sleepTimeDatePicker.backgroundColor = [UIColor blackColor];
+        _sleepTimeDatePicker.tintColor = [UIColor VLCLightTextColor];
+        _sleepTimeDatePicker.frame = CGRectMake(0., 0., 300., 162.);
+        _sleepTimeDatePicker.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
+        [_sleepTimerContainer addSubview:_sleepTimeDatePicker];
 
-    /* adapt the date picker style to suit our needs */
-    [_sleepTimeDatePicker setValue:[UIColor whiteColor] forKeyPath:@"textColor"];
-    SEL selector = NSSelectorFromString(@"setHighlightsToday:");
-    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDatePicker instanceMethodSignatureForSelector:selector]];
-    BOOL no = NO;
-    [invocation setSelector:selector];
-    [invocation setArgument:&no atIndex:2];
-    [invocation invokeWithTarget:_sleepTimeDatePicker];
+        /* adapt the date picker style to suit our needs */
+        [_sleepTimeDatePicker setValue:[UIColor whiteColor] forKeyPath:@"textColor"];
+        SEL selector = NSSelectorFromString(@"setHighlightsToday:");
+        NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:[UIDatePicker instanceMethodSignatureForSelector:selector]];
+        BOOL no = NO;
+        [invocation setSelector:selector];
+        [invocation setArgument:&no atIndex:2];
+        [invocation invokeWithTarget:_sleepTimeDatePicker];
 
-    if (_sleepTimerContainer.subviews.count > 0) {
-        NSArray *subviewsOfSubview = [_sleepTimeDatePicker.subviews[0] subviews];
-        NSUInteger subviewCount = subviewsOfSubview.count;
-        for (NSUInteger x = 0; x < subviewCount; x++) {
-            if ([subviewsOfSubview[x] isKindOfClass:[UILabel class]])
-                [subviewsOfSubview[x] setTextColor:[UIColor VLCLightTextColor]];
+        if (_sleepTimerContainer.subviews.count > 0) {
+            NSArray *subviewsOfSubview = [_sleepTimeDatePicker.subviews[0] subviews];
+            NSUInteger subviewCount = subviewsOfSubview.count;
+            for (NSUInteger x = 0; x < subviewCount; x++) {
+                if ([subviewsOfSubview[x] isKindOfClass:[UILabel class]])
+                    [subviewsOfSubview[x] setTextColor:[UIColor VLCLightTextColor]];
+            }
         }
-    }
-    _sleepTimeDatePicker.datePickerMode = UIDatePickerModeCountDownTimer;
-    _sleepTimeDatePicker.minuteInterval = 1;
-    _sleepTimeDatePicker.minimumDate = [NSDate date];
-    _sleepTimeDatePicker.countDownDuration = 1200.;
-    [_sleepTimeDatePicker addTarget:self action:@selector(sleepTimerAction:) forControlEvents:UIControlEventValueChanged];
+        _sleepTimeDatePicker.datePickerMode = UIDatePickerModeCountDownTimer;
+        _sleepTimeDatePicker.minuteInterval = 1;
+        _sleepTimeDatePicker.minimumDate = [NSDate date];
+        _sleepTimeDatePicker.countDownDuration = 1200.;
+        [_sleepTimeDatePicker addTarget:self action:@selector(sleepTimerAction:) forControlEvents:UIControlEventValueChanged];
 
-    [self.view addSubview:_sleepTimerContainer];
+        [self.view addSubview:_sleepTimerContainer];
+    }
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackDidStop:) name:VLCPlaybackControllerPlaybackDidStop object:nil];
-
-
-    VLCMovieViewControlPanelViewController *panelVC = [[VLCMovieViewControlPanelViewController alloc] initWithNibName:@"VLCMovieViewControlPanel"
-                                                                                                               bundle:nil];
-    [self addChildViewController:panelVC];
-    [self.view addSubview:panelVC.view];
-    panelVC.view.translatesAutoresizingMaskIntoConstraints = NO;
-    NSArray *hConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"H:|[panel]|"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:@{@"panel":panelVC.view}];
-
-    NSArray *vConstraints = [NSLayoutConstraint constraintsWithVisualFormat:@"V:[panel]|"
-                                                                    options:0
-                                                                    metrics:nil
-                                                                      views:@{@"panel":panelVC.view}];
-    [self.view addConstraints:hConstraints];
-    [self.view addConstraints:vConstraints];
-
-
-    [panelVC didMoveToParentViewController:self];
-    self.controlPanelController = panelVC;
-    self.controllerPanel = panelVC.view;
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -400,18 +420,27 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     self.artistNameLabel.text = nil;
     self.albumNameLabel.text = nil;
 
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
+    _swipeGesturesEnabled = [[[NSUserDefaults standardUserDefaults] objectForKey:kVLCSettingPlaybackGestures] boolValue];
+
+    [self.navigationController setNavigationBarHidden:YES animated:YES];
+
+    if (!SYSTEM_RUNS_IOS7_OR_LATER) {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+            [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
+    }
 
     VLCPlaybackController *vpc = self.playbackController;
     vpc.delegate = self;
     [vpc recoverPlaybackState];
 
     [self screenBrightnessChanged:nil];
-    [self setControlsHidden:NO animated:animated];
+    [self setControlsHidden:NO animated:YES];
 
-    [self updateDefaults];
-    [NSUserDefaults standardUserDefaults];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateDefaults) name:NSUserDefaultsDidChangeNotification object:nil];
+    VLCMediaPlayer *player = vpc.mediaPlayer;
+    self.hueSlider.value = player.hue;
+    self.contrastSlider.value = player.contrast;
+    self.saturationSlider.value = player.saturation;
+    self.gammaSlider.value = player.gamma;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -425,18 +454,13 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     vpc.videoOutputView = self.movieView;
 }
 
-- (void)viewDidLayoutSubviews
+- (void)viewWillLayoutSubviews
 {
-
-    CGRect equalizerRect = _equalizerView.frame;
-    equalizerRect.origin.x = CGRectGetMidX(self.view.bounds) - CGRectGetWidth(equalizerRect)/2.0;
-    equalizerRect.origin.y = CGRectGetMidY(self.view.bounds) - CGRectGetHeight(equalizerRect)/2.0;
-    _equalizerView.frame = equalizerRect;
-
     CGRect multiSelectionFrame;
-    CGRect controllerPanelFrame = _controllerPanel.frame;;
+    CGRect controllerPanelFrame;
 
     if (UI_USER_INTERFACE_IDIOM() != UIUserInterfaceIdiomPhone) {
+        controllerPanelFrame = _controllerPanel.frame;
         multiSelectionFrame = (CGRect){CGPointMake(0., 0.), [_multiSelectionView proposedDisplaySize]};
         multiSelectionFrame.origin.x = controllerPanelFrame.size.width - multiSelectionFrame.size.width;
         multiSelectionFrame.origin.y = controllerPanelFrame.origin.y - multiSelectionFrame.size.height;
@@ -445,17 +469,28 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         return;
     }
 
+    CGSize viewSize = self.view.frame.size;
+
     if (UIDeviceOrientationIsLandscape([UIDevice currentDevice].orientation)) {
+        [_controllerPanel removeFromSuperview];
+        controllerPanelFrame = (CGRect){CGPointMake(0, viewSize.height - _controllerPanelLandscape.frame.size.height), CGSizeMake(viewSize.width, _controllerPanelLandscape.frame.size.height)};
+        _controllerPanelLandscape.frame = controllerPanelFrame;
+        [self.view addSubview:_controllerPanelLandscape];
         _multiSelectionView.showsEqualizer = YES;
         multiSelectionFrame = (CGRect){CGPointMake(0., 0.), [_multiSelectionView proposedDisplaySize]};
         multiSelectionFrame.origin.x = controllerPanelFrame.size.width - multiSelectionFrame.size.width;
         multiSelectionFrame.origin.y = controllerPanelFrame.origin.y - multiSelectionFrame.size.height;
     } else {
+        [_controllerPanelLandscape removeFromSuperview];
+        controllerPanelFrame = (CGRect){CGPointMake(0, viewSize.height - _controllerPanel.frame.size.height), CGSizeMake(viewSize.width, _controllerPanel.frame.size.height)};
+        _controllerPanel.frame = controllerPanelFrame;
+        [self.view addSubview:_controllerPanel];
         _multiSelectionView.showsEqualizer = NO;
         multiSelectionFrame = (CGRect){CGPointMake(0., 0.), [_multiSelectionView proposedDisplaySize]};
         multiSelectionFrame.origin.x = controllerPanelFrame.size.width - multiSelectionFrame.size.width;
         multiSelectionFrame.origin.y = controllerPanelFrame.origin.y - multiSelectionFrame.size.height;
     }
+
     _multiSelectionView.frame = multiSelectionFrame;
 }
 
@@ -472,6 +507,8 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
         _idleTimer = nil;
     }
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    if (!SYSTEM_RUNS_IOS7_OR_LATER)
+        [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackOpaque;
     [[UIApplication sharedApplication] setStatusBarHidden:NO withAnimation:UIStatusBarAnimationFade];
     [super viewWillDisappear:animated];
 
@@ -485,7 +522,6 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     if (!_playbackSpeedViewHidden)
         _playbackSpeedViewHidden = YES;
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSUserDefaultsDidChangeNotification object:nil];
     [[NSUserDefaults standardUserDefaults] setBool:_displayRemainingTime forKey:kVLCShowRemainingTime];
 }
 
@@ -494,27 +530,13 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     return YES;
 }
 
-- (void) updateDefaults
-{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    _displayRemainingTime = [[defaults objectForKey:kVLCShowRemainingTime] boolValue];
-    [self updateTimeDisplayButton];
-
-    _volumeGestureEnabled = [[defaults objectForKey:kVLCSettingVolumeGesture] boolValue];
-    _playPauseGestureEnabled = [[defaults objectForKey:kVLCSettingPlayPauseGesture] boolValue];
-    _brightnessGestureEnabled = [[defaults objectForKey:kVLCSettingBrightnessGesture] boolValue];
-    _seekGestureEnabled = [[defaults objectForKey:kVLCSettingSeekGesture] boolValue];
-    _closeGestureEnabled = [[defaults objectForKey:kVLCSettingCloseGesture] boolValue];
-    _variableJumpDurationEnabled = [[defaults objectForKey:kVLCSettingVariableJumpDuration] boolValue];
-}
-
 #pragma mark - controls visibility
 
 - (void)handlePinchGesture:(UIPinchGestureRecognizer *)recognizer
 {
     LOCKCHECK;
 
-    if (!_closeGestureEnabled)
+    if (!_swipeGesturesEnabled)
         return;
 
     if (recognizer.velocity < 0.)
@@ -542,6 +564,8 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     if (!_controlsHidden) {
         _controllerPanel.alpha = 0.0f;
         _controllerPanel.hidden = !_videoFiltersHidden;
+        _controllerPanelLandscape.alpha = 0.0f;
+        _controllerPanelLandscape.hidden = !_videoFiltersHidden;
         _toolbar.alpha = 0.0f;
         _toolbar.hidden = NO;
         _videoFilterView.alpha = 0.0f;
@@ -566,6 +590,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
     void (^animationBlock)() = ^() {
         _controllerPanel.alpha = alpha;
+        _controllerPanelLandscape.alpha = alpha;
         _toolbar.alpha = alpha;
         _videoFilterView.alpha = alpha;
         _playbackSpeedView.alpha = alpha;
@@ -583,6 +608,7 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
     void (^completionBlock)(BOOL finished) = ^(BOOL finished) {
         _controllerPanel.hidden = _videoFiltersHidden ? _controlsHidden : NO;
+        _controllerPanelLandscape.hidden = _videoFiltersHidden ? _controlsHidden : NO;
         _toolbar.hidden = _controlsHidden;
         _videoFilterView.hidden = _videoFiltersHidden;
         _playbackSpeedView.hidden = _playbackSpeedViewHidden;
@@ -602,6 +628,8 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
 
     [[UIApplication sharedApplication] setStatusBarHidden:_viewAppeared ? _controlsHidden : NO withAnimation:animationType];
     [UIView animateWithDuration:animationDuration animations:animationBlock completion:completionBlock];
+
+    _volumeView.hidden = _volumeViewLandscape.hidden = _controllerPanel.hidden;
 }
 
 - (void)toggleControlsVisible
@@ -743,7 +771,34 @@ typedef NS_ENUM(NSInteger, VLCPanType) {
     [self _resetIdleTimer];
 }
 
+- (void)playPauseLongPress:(UILongPressGestureRecognizer *)recognizer
+{
+    switch (recognizer.state) {
+        case UIGestureRecognizerStateBegan:
+        {   UIImage *image = [UIImage imageNamed:@"stopIcon"];
+            [_playPauseButton setImage:image forState:UIControlStateNormal];
+            [_playPauseButtonLandscape setImage:image forState:UIControlStateNormal];
+        }
+            break;
+        case UIGestureRecognizerStateEnded:
+            [self.playbackController stopPlayback];
+            break;
+        case UIGestureRecognizerStateCancelled:
+        case UIGestureRecognizerStateFailed:
+            [self updatePlayPauseButton];
+            break;
+        default:
+            break;
+    }
+}
 
+- (void)updatePlayPauseButton
+{
+    const BOOL isPlaying = self.playbackController.isPlaying;
+    UIImage *playPauseImage = isPlaying ? [UIImage imageNamed:@"pauseIcon"] : [UIImage imageNamed:@"playIcon"];
+    [_playPauseButton setImage:playPauseImage forState:UIControlStateNormal];
+    [_playPauseButtonLandscape setImage:playPauseImage forState:UIControlStateNormal];
+}
 
 - (void)updateTimeDisplayButton
 {
@@ -835,9 +890,20 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     if (currentState == VLCMediaPlayerStateError)
         [self.statusLabel showStatusMessage:NSLocalizedString(@"PLAYBACK_FAILED", nil)];
 
-    [self.controlPanelController updateButtons];
+    [self updatePlayPauseButton];
 
-    _multiSelectionView.mediaHasChapters = currentMediaHasChapters;
+    if (currentMediaHasTrackToChooseFrom) {
+        self.trackSwitcherButton.hidden = NO;
+        self.trackSwitcherButtonLandscape.hidden = NO;
+    } else {
+        self.trackSwitcherButton.hidden = YES;
+        self.trackSwitcherButtonLandscape.hidden = YES;
+    }
+
+    if (currentMediaHasChapters)
+        _multiSelectionView.mediaHasChapters = YES;
+    else
+        _multiSelectionView.mediaHasChapters = NO;
 }
 
 - (void)showStatusMessage:(NSString *)statusMessage forPlaybackController:(VLCPlaybackController *)controller
@@ -866,8 +932,8 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     self.timeNavigationTitleView.hideAspectRatio = audioOnly;
     self.timeNavigationTitleView.positionSlider.hidden = NO;
 
-    [[self controlPanelController] updateButtons];
-    
+    self.videoFilterButton.hidden = audioOnly;
+
     _audioOnly = audioOnly;
 }
 
@@ -913,6 +979,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
             if (!_controlsHidden) {
                 self.controllerPanel.hidden = _controlsHidden = YES;
+                self.controllerPanelLandscape.hidden = YES;
                 self.toolbar.hidden = YES;
             }
         }
@@ -950,6 +1017,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (!_controlsHidden) {
             self.controllerPanel.hidden = _controlsHidden = YES;
+            self.controllerPanelLandscape.hidden = YES;
         }
     }
 
@@ -972,7 +1040,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     }
 }
 
-- (void)moreActions:(UIButton *)sender
+- (void)moreActions:(id)sender
 {
     if (_multiSelectionView.hidden == NO) {
         [UIView animateWithDuration:.3
@@ -993,7 +1061,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 
     CGRect workFrame = _multiSelectionView.frame;
     workFrame.size = [_multiSelectionView proposedDisplaySize];
-    workFrame.origin.x = CGRectGetMaxX(sender.frame) - workFrame.size.width;
+    workFrame.origin.x = self.toolbar.frame.size.width - workFrame.size.width;
 
     _multiSelectionView.alpha = 1.0f;
 
@@ -1035,6 +1103,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
             if (!_controlsHidden) {
                 self.controllerPanel.hidden = _controlsHidden = YES;
+                self.controllerPanelLandscape.hidden = YES;
                 self.toolbar.hidden = YES;
             }
         }
@@ -1068,10 +1137,12 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
             if (!_controlsHidden) {
                 self.controllerPanel.hidden = _controlsHidden = YES;
+                self.controllerPanelLandscape.hidden = YES;
             }
         }
 
-        _sleepTimerContainer.hidden = YES;
+        if (SYSTEM_RUNS_IOS7_OR_LATER)
+            _sleepTimerContainer.hidden = YES;
 
         self.videoFilterView.hidden = _videoFiltersHidden = YES;
     } else {
@@ -1100,13 +1171,6 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     _multiSelectionView.repeatMode = nextRepeatMode;
 }
 
-- (void)toggleShuffleMode
-{
-    LOCKCHECK;
-
-    // FIXME: missing implementation
-}
-
 - (void)hideMenu
 {
     [UIView animateWithDuration:.2
@@ -1131,10 +1195,10 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
         if (mediaPlayer.videoSubTitlesIndexes.count > 1)
             ret++;
     } else {
-        if ([mediaPlayer numberOfTitles] > 1)
+        if ([mediaPlayer countOfTitles] > 1)
             ret++;
 
-        if ([mediaPlayer numberOfChaptersForTitle:mediaPlayer.currentTitleIndex] > 1)
+        if ([mediaPlayer chaptersForTitleIndex:mediaPlayer.currentTitleIndex].count > 1)
             ret++;
     }
 
@@ -1162,10 +1226,10 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
         if (mediaPlayer.videoSubTitlesIndexes.count > 1)
             return NSLocalizedString(@"CHOOSE_SUBTITLE_TRACK", nil);
     } else {
-        if ([mediaPlayer numberOfTitles] > 1 && section == 0)
+        if ([mediaPlayer countOfTitles] > 1 && section == 0)
             return NSLocalizedString(@"CHOOSE_TITLE", nil);
 
-        if ([mediaPlayer numberOfChaptersForTitle:mediaPlayer.currentTitleIndex] > 1)
+        if ([mediaPlayer chaptersForTitleIndex:mediaPlayer.currentTitleIndex].count > 1)
             return NSLocalizedString(@"CHOOSE_CHAPTER", nil);
     }
 
@@ -1186,39 +1250,35 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 
     if (_switchingTracksNotChapters == YES) {
         NSArray *indexArray;
-        NSString *trackName;
         if ([mediaPlayer numberOfAudioTracks] > 2 && section == 0) {
             indexArray = mediaPlayer.audioTrackIndexes;
 
             if ([indexArray indexOfObject:[NSNumber numberWithInt:mediaPlayer.currentAudioTrackIndex]] == row)
                 cellShowsCurrentTrack = YES;
 
-            trackName = mediaPlayer.audioTrackNames[row];
+            NSArray *trackNames = mediaPlayer.audioTrackNames;
+            if (row < trackNames.count)
+                cell.textLabel.text = [NSString stringWithFormat:@"%@", trackNames[row]];
         } else {
             indexArray = mediaPlayer.videoSubTitlesIndexes;
 
             if ([indexArray indexOfObject:[NSNumber numberWithInt:mediaPlayer.currentVideoSubTitleIndex]] == row)
                 cellShowsCurrentTrack = YES;
 
-            trackName = mediaPlayer.videoSubTitlesNames[row];
-        }
-
-        if (trackName != nil) {
-            if ([trackName isEqualToString:@"Disable"])
-                cell.textLabel.text = NSLocalizedString(@"DISABLE_LABEL", nil);
-            else
-                cell.textLabel.text = trackName;
+            NSArray *trackNames = mediaPlayer.videoSubTitlesNames;
+            if (row < trackNames.count)
+                cell.textLabel.text = [NSString stringWithFormat:@"%@", trackNames[row]];
         }
     } else {
-        if ([mediaPlayer numberOfTitles] > 1 && section == 0) {
-            NSDictionary *description = mediaPlayer.titleDescriptions[row];
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", description[VLCTitleDescriptionName], [[VLCTime timeWithNumber:description[VLCTitleDescriptionDuration]] stringValue]];
+        if ([mediaPlayer countOfTitles] > 1 && section == 0) {
+            cell.textLabel.text = mediaPlayer.titles[row];
 
             if (row == mediaPlayer.currentTitleIndex)
                 cellShowsCurrentTrack = YES;
         } else {
-            NSDictionary *description = [mediaPlayer chapterDescriptionsOfTitle:mediaPlayer.currentTitleIndex][row];
-            cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", description[VLCChapterDescriptionName], [[VLCTime timeWithNumber:description[VLCChapterDescriptionDuration]] stringValue]];
+            NSArray *chapters = [mediaPlayer chaptersForTitleIndex:mediaPlayer.currentTitleIndex];
+            if (row < chapters.count)
+                cell.textLabel.text = chapters[row];
 
             if (row == mediaPlayer.currentChapterIndex)
                 cellShowsCurrentTrack = YES;
@@ -1241,10 +1301,10 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 
         return mediaPlayer.videoSubTitlesIndexes.count;
     } else {
-        if ([mediaPlayer numberOfTitles] > 1 && section == 0)
-            return [mediaPlayer numberOfTitles];
+        if ([mediaPlayer countOfTitles] > 1 && section == 0)
+            return [mediaPlayer countOfTitles];
         else
-            return [mediaPlayer numberOfChaptersForTitle:mediaPlayer.currentTitleIndex];
+            return [mediaPlayer chaptersForTitleIndex:mediaPlayer.currentTitleIndex].count;
     }
 }
 
@@ -1267,7 +1327,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
                 mediaPlayer.currentVideoSubTitleIndex = [indexArray[index] intValue];
         }
     } else {
-        if ([mediaPlayer numberOfTitles] > 1 && indexPath.section == 0)
+        if ([mediaPlayer countOfTitles] > 1 && indexPath.section == 0)
             mediaPlayer.currentTitleIndex = (int)index;
         else
             mediaPlayer.currentChapterIndex = (int)index;
@@ -1296,7 +1356,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 {
     LOCKCHECK;
 
-    if (!_playPauseGestureEnabled)
+    if (!_swipeGesturesEnabled)
         return;
 
     VLCPlaybackController *vpc = self.playbackController;
@@ -1313,12 +1373,19 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 - (VLCPanType)detectPanTypeForPan:(UIPanGestureRecognizer*)panRecognizer
 {
     NSString *deviceType = [[UIDevice currentDevice] model];
-    UIWindow *window = [[UIApplication sharedApplication] keyWindow];
-    CGFloat windowWidth = CGRectGetWidth(window.bounds);
-    CGPoint location = [panRecognizer locationInView:window];
+    CGPoint location = [panRecognizer locationInView:self.view];
+    CGFloat position = location.x;
+
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenWidth = .0;
+    if (orientation == UIDeviceOrientationPortrait)
+        screenWidth = screenRect.size.width;
+    else
+        screenWidth = screenRect.size.height;
 
     VLCPanType panType = VLCPanTypeVolume; // default or right side of the screen
-    if (location.x < windowWidth / 2)
+    if (position < screenWidth / 2)
         panType = VLCPanTypeBrightness;
 
     // only check for seeking gesture if on iPad , will overwrite last statements if true
@@ -1334,6 +1401,9 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 {
     LOCKCHECK;
 
+    if (!_swipeGesturesEnabled)
+        return;
+
     CGFloat panDirectionX = [panRecognizer velocityInView:self.view].x;
     CGFloat panDirectionY = [panRecognizer velocityInView:self.view].y;
 
@@ -1341,8 +1411,6 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
         _currentPanType = [self detectPanTypeForPan:panRecognizer];
 
     if (_currentPanType == VLCPanTypeSeek) {
-        if (!_seekGestureEnabled)
-            return;
         VLCMediaPlayer *mediaPlayer = self.playbackController.mediaPlayer;
         double timeRemainingDouble = (-mediaPlayer.remainingTime.intValue*0.001);
         int timeRemaining = timeRemainingDouble;
@@ -1353,21 +1421,12 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
         } else
             [mediaPlayer jumpBackward:1];
     } else if (_currentPanType == VLCPanTypeVolume) {
-        if (!_volumeGestureEnabled)
-            return;
         MPMusicPlayerController *musicPlayer = [MPMusicPlayerController applicationMusicPlayer];
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wdeprecated"
-        // there is no replacement for .volume which we want to use since Apple's susggestion is to not use their overlays
-        // but switch to the volume slider exclusively. meh.
         if (panDirectionY > 0)
             musicPlayer.volume -= 0.01;
         else
             musicPlayer.volume += 0.01;
-#pragma clang diagnostic pop
     } else if (_currentPanType == VLCPanTypeBrightness) {
-        if (!_brightnessGestureEnabled)
-            return;
         CGFloat brightness = [UIScreen mainScreen].brightness;
 
         if (panDirectionY > 0)
@@ -1402,37 +1461,28 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 {
     LOCKCHECK;
 
-    if (!_seekGestureEnabled)
+    if (!_swipeGesturesEnabled)
         return;
 
     NSString * hudString = @" ";
     VLCPlaybackController *vpc = self.playbackController;
     VLCMediaPlayer *mediaPlayer = vpc.mediaPlayer;
-    int swipeForwardDuration = (_variableJumpDurationEnabled) ? ((int)(_mediaDuration*0.001*0.05)) : FORWARD_SWIPE_DURATION;
-    int swipeBackwardDuration = (_variableJumpDurationEnabled) ? ((int)(_mediaDuration*0.001*0.05)) : BACKWARD_SWIPE_DURATION;
 
     if (swipeRecognizer.direction == UISwipeGestureRecognizerDirectionRight) {
         double timeRemainingDouble = (-mediaPlayer.remainingTime.intValue*0.001);
         int timeRemaining = timeRemainingDouble;
 
-        if (swipeForwardDuration < timeRemaining) {
-            if (swipeForwardDuration < 1)
-                swipeForwardDuration = 1;
-            [mediaPlayer jumpForward:swipeForwardDuration];
-            hudString = [NSString stringWithFormat:@"⇒ %is", swipeForwardDuration];
+        if (FORWARD_SWIPE_DURATION < timeRemaining) {
+            [mediaPlayer jumpForward:FORWARD_SWIPE_DURATION];
+            hudString = [NSString stringWithFormat:@"⇒ %is", FORWARD_SWIPE_DURATION];
         } else {
             [mediaPlayer jumpForward:(timeRemaining - 5)];
             hudString = [NSString stringWithFormat:@"⇒ %is",(timeRemaining - 5)];
         }
     }
     else if (swipeRecognizer.direction == UISwipeGestureRecognizerDirectionLeft) {
-        [mediaPlayer jumpBackward:swipeBackwardDuration];
-        hudString = [NSString stringWithFormat:@"⇐ %is",swipeBackwardDuration];
-    }else if (swipeRecognizer.direction == UISwipeGestureRecognizerDirectionUp) {
-        [self backward:self];
-    }
-    else if (swipeRecognizer.direction == UISwipeGestureRecognizerDirectionDown) {
-        [self forward:self];
+        [mediaPlayer jumpBackward:BACKWARD_SWIPE_DURATION];
+        hudString = [NSString stringWithFormat:@"⇐ %is",BACKWARD_SWIPE_DURATION];
     }
 
     if (swipeRecognizer.state == UIGestureRecognizerStateEnded) {
@@ -1463,6 +1513,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone) {
         if (!_controlsHidden) {
             self.controllerPanel.hidden = _controlsHidden = YES;
+            self.controllerPanelLandscape.hidden = YES;
         }
     }
 
@@ -1545,25 +1596,22 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 
 - (IBAction)videoDimensionAction:(id)sender
 {
-    if (sender == self.timeNavigationTitleView.aspectRatioButton) {
+    LOCKCHECK;
+
+    if (sender == self.playbackSpeedButton || sender == self.playbackSpeedButtonLandscape) {
+        if (!_videoFiltersHidden)
+            self.videoFilterView.hidden = _videoFiltersHidden = YES;
+
+        if (_equalizerView.hidden == NO)
+            _equalizerView.hidden = YES;
+
+        self.playbackSpeedView.hidden = !_playbackSpeedViewHidden;
+        _playbackSpeedViewHidden = self.playbackSpeedView.hidden;
+        [self _resetIdleTimer];
+    } else if (sender == self.timeNavigationTitleView.aspectRatioButton) {
         [self.playbackController switchAspectRatio];
     }
 }
-
-- (IBAction)showPlaybackSpeedView {
-    LOCKCHECK;
-
-    if (!_videoFiltersHidden)
-        self.videoFilterView.hidden = _videoFiltersHidden = YES;
-
-    if (_equalizerView.hidden == NO)
-        _equalizerView.hidden = YES;
-
-    self.playbackSpeedView.hidden = !_playbackSpeedViewHidden;
-    _playbackSpeedViewHidden = self.playbackSpeedView.hidden;
-    [self _resetIdleTimer];
-}
-
 
 #pragma mark - autorotation
 

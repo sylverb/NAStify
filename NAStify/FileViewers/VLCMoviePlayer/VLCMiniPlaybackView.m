@@ -12,14 +12,8 @@
 
 #import "VLCMiniPlaybackView.h"
 #import "VLCPlaybackController.h"
-#import "appDelegate.h"
-#if 0
-#import "VLCLibraryViewController.h"
-#endif
+#import "AppDelegate.h"
 #import "VLCPlayerDisplayController.h"
-#if 0
-#import "VLCKeychainCoordinator.h"
-#endif
 
 @interface VLCMiniPlaybackView () <VLCPlaybackControllerDelegate, UIGestureRecognizerDelegate>
 {
@@ -49,6 +43,9 @@
     self = [super initWithFrame:viewFrame];
     if (!self)
         return self;
+
+    self.backgroundColor = [UIColor blackColor];
+    self.opaque = YES;
 
     CGRect previousRect;
     CGFloat buttonSize = 44.;
@@ -105,6 +102,8 @@
     _metaDataLabel.textColor = [UIColor VLCLightTextColor];
     _metaDataLabel.numberOfLines = 0;
     _metaDataLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    _metaDataLabel.backgroundColor = [UIColor blackColor];
+    _metaDataLabel.opaque = YES;
     [self addSubview:_metaDataLabel];
 
     _labelTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized)];
@@ -130,6 +129,7 @@
                    name:VLCPasscodeValidated
                  object:nil];
 #endif
+    
     return self;
 }
 

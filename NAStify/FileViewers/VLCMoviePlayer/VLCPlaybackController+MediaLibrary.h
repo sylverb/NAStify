@@ -14,5 +14,4 @@
 @class NSManagedObject;
 @interface VLCPlaybackController (MediaLibrary)
 - (void)playMediaLibraryObject:(NSManagedObject *)mediaObject;
-- (void)openMediaLibraryObject:(NSManagedObject *)mediaObject;
 @end

@@ -16,13 +16,8 @@
 #import "VLCThumbnailsCache.h"
 #import <CommonCrypto/CommonDigest.h>
 #import "UIImage+Blur.h"
+#import "UIImage+Scaling.h"
 #import <WatchKit/WatchKit.h>
-#import <CoreData/CoreData.h>
-#import <MediaLibraryKit/MediaLibraryKit.h>
-#import <MediaLibraryKit/UIImage+MLKit.h>
-#if TARGET_OS_IOS
-#import <UIKit/UIKit.h>
-#endif
 
 @interface VLCThumbnailsCache() {
     NSInteger MaxCacheSize;
@@ -42,8 +37,6 @@
 {
     self = [super init];
     if (self) {
-// TODO: correct for watch
-#if TARGET_OS_IOS
         _currentDeviceIdiom = [[UIDevice currentDevice] userInterfaceIdiom];
         MaxCacheSize = 0;
 
@@ -59,9 +52,7 @@
                 MaxCacheSize = MAX_CACHE_SIZE_WATCH;
                 break;
         }
-#else
-        MaxCacheSize = MAX_CACHE_SIZE_WATCH;
-#endif
+
         _thumbnailCache = [[NSCache alloc] init];
         _thumbnailCacheMetadata = [[NSCache alloc] init];
         [_thumbnailCache setCountLimit: MaxCacheSize];
@@ -108,17 +99,16 @@
     return thumbnail;
 }
 
-+ (UIImage *)thumbnailForManagedObject:(NSManagedObject *)object refreshCache:(BOOL)refreshCache toFitRect:(CGRect)rect scale:(CGFloat)scale shouldReplaceCache:(BOOL)replaceCache;
++ (UIImage *)thumbnailForManagedObject:(NSManagedObject *)object toFitRect:(CGRect)rect shouldReplaceCache:(BOOL)replaceCache
 {
-    UIImage *rawThumbnail = [self thumbnailForManagedObject:object refreshCache:refreshCache];
+    UIImage *rawThumbnail = [self thumbnailForManagedObject:object];
     CGSize rawSize = rawThumbnail.size;
-    CGFloat rawScale = rawThumbnail.scale;
 
     /* scaling is potentially expensive, so we should avoid re-doing it for the same size over and over again */ 
-    if (rawSize.width*rawScale <= rect.size.width*scale && rawSize.height*rawScale <= rect.size.height*scale)
+    if (rawSize.width <= rect.size.width && rawSize.height <= rect.size.height)
         return rawThumbnail;
 
-    UIImage *scaledImage = [UIImage scaleImage:rawThumbnail toFitRect:rect scale:scale];
+    UIImage *scaledImage = [UIImage scaleImage:rawThumbnail toFitRect:rect];
 
     if (replaceCache)
         [[VLCThumbnailsCache sharedThumbnailCache] _setThumbnail:scaledImage forObjectId:object.objectID];
@@ -227,8 +217,10 @@
 
     NSUInteger fileNumber = count > 3 ? 3 : count;
     NSArray *files = [mediaLabel.files allObjects];
-
-    displayedImage = [self clusterThumbFromFiles:files andNumber:fileNumber blur:YES];
+    BOOL blur = NO;
+    if (SYSTEM_RUNS_IOS7_OR_LATER)
+        blur = YES;
+    displayedImage = [self clusterThumbFromFiles:files andNumber:fileNumber blur:blur];
     if (displayedImage) {
         [_thumbnailCache setObject:displayedImage forKey:objID];
         [_thumbnailCacheMetadata setObject:@(count) forKey:objID];
@@ -255,7 +247,7 @@
 {
     __block MLFile *anyFileFromAnyTrack = nil;
     void (^getFileBlock)(void) = ^(){
-        anyFileFromAnyTrack = [albumTrack anyFileFromTrack];
+        anyFileFromAnyTrack = [albumTrack files].anyObject;
     };
     if ([NSThread isMainThread])
         getFileBlock();
@@ -267,23 +259,26 @@
 - (UIImage *)clusterThumbFromFiles:(NSArray *)files andNumber:(NSUInteger)fileNumber blur:(BOOL)blurImage
 {
     UIImage *clusterThumb;
-    CGSize imageSize = CGSizeZero;
-    // TODO: correct for watch
-#ifndef TARGET_OS_WATCH
+    CGSize imageSize;
     if (_currentDeviceIdiom == UIUserInterfaceIdiomPad) {
         if ([UIScreen mainScreen].scale==2.0)
             imageSize = CGSizeMake(682., 384.);
         else
             imageSize = CGSizeMake(341., 192.);
     } else if (_currentDeviceIdiom == UIUserInterfaceIdiomPhone) {
-        if ([UIScreen mainScreen].scale==2.0)
-            imageSize = CGSizeMake(480., 270.);
-        else
-            imageSize = CGSizeMake(720., 405.);
-    } else
-#endif
-    {
-        if ([WKInterfaceDevice class]) {
+        if (SYSTEM_RUNS_IOS7_OR_LATER) {
+            if ([UIScreen mainScreen].scale==2.0)
+                imageSize = CGSizeMake(480., 270.);
+            else
+                imageSize = CGSizeMake(720., 405.);
+        } else {
+            if ([UIScreen mainScreen].scale==2.0)
+                imageSize = CGSizeMake(258., 145.);
+            else
+                imageSize = CGSizeMake(129., 73.);
+        }
+    } else {
+        if (SYSTEM_RUNS_IOS82_OR_LATER) {
             if (WKInterfaceDevice.currentDevice != nil) {
                 CGRect screenRect = WKInterfaceDevice.currentDevice.screenBounds;
                 imageSize = CGSizeMake(screenRect.size.width * WKInterfaceDevice.currentDevice.screenScale, 120.);

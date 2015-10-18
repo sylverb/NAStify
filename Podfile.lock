@@ -27,13 +27,13 @@ PODS:
   - CocoaHTTPServer (2.3):
     - CocoaAsyncSocket
     - CocoaLumberjack
-  - CocoaLumberjack (2.0.1):
-    - CocoaLumberjack/Default (= 2.0.1)
-    - CocoaLumberjack/Extensions (= 2.0.1)
-  - CocoaLumberjack/Core (2.0.1)
-  - CocoaLumberjack/Default (2.0.1):
+  - CocoaLumberjack (2.0.3):
+    - CocoaLumberjack/Default (= 2.0.3)
+    - CocoaLumberjack/Extensions (= 2.0.3)
+  - CocoaLumberjack/Core (2.0.3)
+  - CocoaLumberjack/Default (2.0.3):
     - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.0.1):
+  - CocoaLumberjack/Extensions (2.0.3):
     - CocoaLumberjack/Default
   - DACircularProgress (2.2.0)
   - ELCImagePickerController (0.2.0)
@@ -122,7 +122,7 @@ SPEC CHECKSUMS:
   box-ios-sdk-v2: e6833ca786bf93da1dbe63e3d0a945b1e1fe1f42
   CocoaAsyncSocket: f5783bdedd232d91b89769bc4b5a1580aed518ad
   CocoaHTTPServer: 5624681fc3473d43b18202f635f9b3abb013b530
-  CocoaLumberjack: 019d1361244274a6138c788c6cb80baabc13fb8f
+  CocoaLumberjack: f58d8a19629f4d8379ae14bb3534def24161430e
   DACircularProgress: c602fd7d0c4417c27054536cb1e3cc0087312481
   ELCImagePickerController: b1b7084434a7d49f2cfc916bde1f3ba353d38de9
   Google-API-Client: 015d6f9303fa910f91f42300a088eac5fac5dd25
@@ -141,4 +141,4 @@ SPEC CHECKSUMS:
   upnpx: 790dcf9598818385d881ca39a5b77b184b7d291a
   XMLDictionary: f9f51601ba76678b594ab485f2b00ec1fed23724
 
-COCOAPODS: 0.38.2
+COCOAPODS: 0.39.0

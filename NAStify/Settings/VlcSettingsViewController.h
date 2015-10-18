@@ -58,6 +58,7 @@
 #define kVLCSettingPlaybackBackwardSkipLengthDefaultValue @(60)
 #define kVLCSettingOpenAppForPlayback @"open-app-for-playback"
 #define kVLCSettingOpenAppForPlaybackDefaultValue @YES
+#define kVLCSettingPlaybackGestures @"EnableGesturesToControlPlayback"
 
 #define kVLCShowRemainingTime @"show-remaining-time"
 #define kVLCRecentURLs @"recent-urls"

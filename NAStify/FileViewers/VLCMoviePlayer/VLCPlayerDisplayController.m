@@ -235,16 +235,11 @@ static inline void commonSetup(VLCPlayerDisplayController *self)
 - (void)_presentMovieViewControllerAnimated:(BOOL)animated
 {
     VLCMovieViewController *movieViewController = self.movieViewController;
-    [movieViewController prepareForMediaPlayback:self.playbackController];
-#if !TARGET_TV_OS
     UINavigationController *navCon = [[VLCPlaybackNavigationController alloc] initWithRootViewController:movieViewController];
+    [movieViewController prepareForMediaPlayback:self.playbackController];
     navCon.modalPresentationStyle = UIModalPresentationFullScreen;
     UIWindow *window = [[UIApplication sharedApplication] keyWindow];
     [window.rootViewController presentViewController:navCon animated:animated completion:nil];
-#else
-    UIViewController *view = [(AppDelegate *)[UIApplication sharedApplication].delegate viewForVLC];
-    [view presentViewController:movieViewController animated:YES completion:nil];
-#endif
 
 }
 

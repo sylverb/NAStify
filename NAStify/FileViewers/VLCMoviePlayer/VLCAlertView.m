@@ -10,7 +10,6 @@
  * Refer to the COPYING file of the official project for license.
  *****************************************************************************/
 
-#if !TARGET_OS_TV
 @interface VLCAlertView () <UIAlertViewDelegate>
 
 @end
@@ -54,35 +53,3 @@
 }
 
 @end
-#else
-@interface VLCAlertView ()
-
-@end
-
-// via http://stackoverflow.com/a/10082549/928646
-
-@implementation VLCAlertView
-
-- (void)dealloc
-{
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
-
-- (id)initWithTitle:(NSString *)title message:(NSString *)message cancelButtonTitle:(NSString *)cancelButtonTitle otherButtonTitles:(NSArray *)otherButtonTitles {
-    
-    //FIXME : tvOS alerts
-    return nil;
-}
-
-- (void)appWillResignActive:(NSNotification *)aNotification
-{
-//    [self dismissWithClickedButtonIndex:self.cancelButtonIndex animated:NO];
-}
-
-- (void)show
-{
-    //FIXME: tvOS alerts
-}
-
-@end
-#endif

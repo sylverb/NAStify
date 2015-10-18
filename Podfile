@@ -19,7 +19,6 @@ pod 'SSKeychain', '1.2.2'
 pod 'upnpx', '1.3.4'
 pod 'XMLDictionary', '1.4'
 pod 'Google-API-Client/Drive', '1.0.418'
-pod 'GHSidebarNav', '1.0.0'
 # patched SDWebImage is depending on libRaw, need to find a way to include this in CocoaPod
 #pod 'MWPhotoBrowser', :git => 'https://github.com/mwaterfall/MWPhotoBrowser.git', :commit => 'd68f9cd'
 #pod 'SDWebImage', :git => 'https://github.com/rs/SDWebImage.git', :commit => 'd2da4d0'

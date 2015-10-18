@@ -19,7 +19,7 @@
 
 @implementation VLCPlaybackNavigationController
 
-- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+- (NSUInteger)supportedInterfaceOrientations
 {
     return [self.topViewController supportedInterfaceOrientations];
 }

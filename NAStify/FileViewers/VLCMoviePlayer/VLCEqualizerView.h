@@ -12,9 +12,7 @@
 
 #import <UIKit/UIKit.h>
 #import "VLCFrostedGlasView.h"
-#if !TARGET_OS_TV
 #import "VLCSlider.h"
-#endif
 
 @protocol VLCEqualizerViewDelegate <NSObject>
 
