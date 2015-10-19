@@ -44,6 +44,7 @@ PODS:
     - Google-API-Client/Common
     - gtm-http-fetcher (~> 1.0.141)
     - gtm-oauth2 (~> 1.0.125)
+  - Google-Mobile-Ads-SDK (7.5.2)
   - gtm-http-fetcher (1.0.141)
   - gtm-oauth2 (1.0.126):
     - gtm-http-fetcher (~> 1.0.141)
@@ -69,6 +70,7 @@ DEPENDENCIES:
   - ELCImagePickerController (from `https://github.com/B-Sides/ELCImagePickerController.git`,
     commit `b57e2f3`)
   - Google-API-Client/Drive (= 1.0.418)
+  - Google-Mobile-Ads-SDK (~> 7.0)
   - iRate (= 1.11.3)
   - ISO8601DateFormatter (= 0.7)
   - LTHPasscodeViewController (= 3.3.3)
@@ -126,6 +128,7 @@ SPEC CHECKSUMS:
   DACircularProgress: c602fd7d0c4417c27054536cb1e3cc0087312481
   ELCImagePickerController: b1b7084434a7d49f2cfc916bde1f3ba353d38de9
   Google-API-Client: 015d6f9303fa910f91f42300a088eac5fac5dd25
+  Google-Mobile-Ads-SDK: 24a8ddfc0bcfec281960c5d88f75327df0d86b00
   gtm-http-fetcher: 6d4617e7d343b6e4c082b777541c334eb6f5d81e
   gtm-oauth2: 2a18b824e4f8a02df6cfe987beb59ae9d9697f9d
   iRate: 09ef501c74ade02013348bc33225ea48f7aa4e55
