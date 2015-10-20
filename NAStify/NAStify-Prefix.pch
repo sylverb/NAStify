@@ -33,7 +33,7 @@
     #import "UIDevice+SpeedCategory.h"
     #import "UIColor+Presets.h"
     #import "VLCAlertView.h"
-    #import "VlcSettingsViewController.h"
+    #import "NAStifyConstants.h"
 
 #define SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(v)  ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] != NSOrderedAscending)
 

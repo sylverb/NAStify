@@ -1433,6 +1433,7 @@
 		957BD3511BD5913C00A2610C /* MediaLibrary-2.1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MediaLibrary-2.1.xcdatamodel"; sourceTree = "<group>"; };
 		957BD3521BD5913C00A2610C /* MediaLibrary-2.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MediaLibrary-2.5.xcdatamodel"; sourceTree = "<group>"; };
 		957BD3531BD5913C00A2610C /* MediaLibrary-2.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MediaLibrary-2.6.xcdatamodel"; sourceTree = "<group>"; };
+		957BD3941BD6C2BB00A2610C /* NAStifyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NAStifyConstants.h; path = Settings/NAStifyConstants.h; sourceTree = "<group>"; };
 		95DFB6FF1B0BA5D40002C830 /* CMPydio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMPydio.h; sourceTree = "<group>"; };
 		95DFB7001B0BA5D40002C830 /* CMPydio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMPydio.m; sourceTree = "<group>"; };
 		95DFB7061B0BA6250002C830 /* AuthorizationClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorizationClient.h; sourceTree = "<group>"; };
@@ -3791,6 +3792,7 @@
 		D5D302D818FDE3810087F4C6 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				957BD3941BD6C2BB00A2610C /* NAStifyConstants.h */,
 				D5AFBAF119D02097001C14CC /* AboutViewController.h */,
 				D5AFBAF219D02097001C14CC /* AboutViewController.m */,
 				D546B87F1A704436001AF141 /* PurchaseServerViewController.h */,

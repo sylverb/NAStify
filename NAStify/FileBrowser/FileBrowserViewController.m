@@ -26,9 +26,7 @@
 #import "VLCPlaybackNavigationController.h"
 #import "VLCMovieViewController.h"
 
-// Settings
-#import "SettingsViewController.h"
-
+// Constants
 #import "private.h"
 
 @interface FileBrowserViewController (Private)
