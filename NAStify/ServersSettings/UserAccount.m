@@ -7,7 +7,9 @@
 //
 
 #import "UserAccount.h"
+#ifndef APP_EXTENSION
 #import "MKStoreKit.h"
+#endif
 
 @implementation UserAccount
 
@@ -92,6 +94,7 @@
 
 - (BOOL)shouldShowAds
 {
+#ifndef APP_EXTENSION
     if ([[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads"])
     {
         return FALSE;
@@ -171,6 +174,9 @@
         }
     }
     return showAds;
+#else
+    return FALSE;
+#endif
 }
 
 @end
