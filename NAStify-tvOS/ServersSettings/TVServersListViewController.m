@@ -315,7 +315,7 @@
                 rootFolder.path = @"/";
                 rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
                 
-                FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+                FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] initWithStyle:UITableViewStyleGrouped];
                 fileBrowserViewController.userAccount = [self.accounts objectAtIndex:indexPath.row];
                 fileBrowserViewController.currentFolder = rootFolder;
                 
@@ -346,7 +346,7 @@
                 rootFolder.path = @"/";
                 rootFolder.objectIds = [NSArray arrayWithObject:@"0"];
                 
-                FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+                FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] initWithStyle:UITableViewStyleGrouped];
                 fileBrowserViewController.userAccount = account;
                 fileBrowserViewController.currentFolder = rootFolder;
                 
@@ -365,7 +365,7 @@
             rootFolder.path = @"/";
             rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
             
-            FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+            FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] initWithStyle:UITableViewStyleGrouped];
             fileBrowserViewController.userAccount = account;
             fileBrowserViewController.currentFolder = rootFolder;
             

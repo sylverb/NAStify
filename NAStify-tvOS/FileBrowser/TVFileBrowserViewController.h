@@ -19,7 +19,7 @@ typedef enum
     DOWNLOAD_ACTION_PREVIEW,
 } DOWNLOAD_ACTION;
 
-@interface FileBrowserViewController : UIViewController <CMDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UINavigationBarDelegate>
+@interface FileBrowserViewController : UITableViewController <CMDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UINavigationBarDelegate>
 {
 }
 
@@ -31,10 +31,11 @@ typedef enum
 
 @property(nonatomic, strong) NSMutableArray *filesArray;
 @property(nonatomic, strong) NSMutableArray *filteredFilesArray;
+@property(nonatomic) BOOL filesListIsValid;
 
 
 /* Multiple Selection handling */
-@property(nonatomic, strong) UITableView *multipleSelectionTableView;
+//@property(nonatomic, strong) UITableView *multipleSelectionTableView;
 
 /* sorting handling */
 @property(nonatomic) FileItemSortType sortingType;

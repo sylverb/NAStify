@@ -30,12 +30,13 @@
 
 @implementation FileBrowserViewController
 
-- (id)init
+- (id)initWithStyle:(UITableViewStyle)style
 {
-    self = [super init];
+    self = [super initWithStyle:style];
     if (self)
     {
         self.isConnected = FALSE;
+        self.filesListIsValid = FALSE;
     }
     
     return self;
@@ -54,12 +55,16 @@
     }
 
     // Setup tableView
-    self.multipleSelectionTableView = [[UITableView alloc] initWithFrame:[[self view] bounds] style:UITableViewStylePlain];
-	[self.multipleSelectionTableView setDelegate:self];
-	[self.multipleSelectionTableView setDataSource:self];
-    [self.view addSubview:self.multipleSelectionTableView];
+//    self.tableView = [[UITableView alloc] initWithFrame:[[self view] bounds] style:UITableViewStylePlain];
+//	[self.tableView setDelegate:self];
+//	[self.tableView setDataSource:self];
+//    [self.view addSubview:self.tableView];
 
     NSString *title = [[self.currentFolder.path componentsSeparatedByString:@"/"] lastObject];
+    if ([title isEqualToString:@""])
+    {
+        title = @"/";
+    }
     self.navigationItem.title = title;
     
     self.navigationController.navigationBar.tintColor = [UIColor blackColor];
@@ -89,7 +94,7 @@
     if ([self.filesArray count] != 0)
     {
         [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
-        [self.multipleSelectionTableView reloadData];
+        [self.tableView reloadData];
     }
     
     // Delete cached files if needed
@@ -226,7 +231,7 @@
 - (UITableView *)activeTableView
 {
     UITableView *tableView = nil;
-    tableView = self.multipleSelectionTableView;
+    tableView = self.tableView;
     
     return tableView;
 }
@@ -240,75 +245,78 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.filesArray count];
+    if ((self.filesListIsValid) && ([self.filesArray count] == 0))
+    {
+        // No files here, put a cell to tell it
+        return 1;
+    }
+    else
+    {
+        return [self.filesArray count];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *FileBrowserCellIdentifier = @"FileBrowserCell";
-    
-    FileItem *fileItem = nil;
-    fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
-    
-    FileBrowserCell *fileBrowserCell = (FileBrowserCell *)[tableView dequeueReusableCellWithIdentifier:FileBrowserCellIdentifier];
-    if (fileBrowserCell == nil)
-    {
-        fileBrowserCell = [[FileBrowserCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                 reuseIdentifier:FileBrowserCellIdentifier];
-    }
-#if 0
-    // Remove long tap gesture recognizer if present
-    NSArray *gestureList = [fileBrowserCell gestureRecognizers];
-    for (id gesture in gestureList)
-    {
-        if ([gesture isKindOfClass:[UILongPressGestureRecognizer class]])
-        {
-            [fileBrowserCell removeGestureRecognizer:gesture];
-            break;
-        }
-    }
-    
-    // Long tap recognizer
-    UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressAction:)];
-    [fileBrowserCell addGestureRecognizer:longPressRecognizer];
-#endif
-    
-    // Configure the cell...
-    [fileBrowserCell setFileItem:fileItem
-                    withDelegate:self
-                          andTag:TAG_TEXTFIELD_FILENAME];
-    
-    return fileBrowserCell;
-}
+    static NSString * TableViewCellIdentifier = @"TableViewCell";
 
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    BOOL result = NO;
-    if (tableView.isEditing)
+    if ((self.filesListIsValid) && ([self.filesArray count] == 0))
     {
-        result = YES;
+        UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:TableViewCellIdentifier];
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                          reuseIdentifier:TableViewCellIdentifier];
+        }
+        
+        // Configure the cell...
+        cell.textLabel.text = NSLocalizedString(@"No file here", nil);
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        return cell;
     }
     else
     {
-        NSMutableArray *sourceArray = nil;
-        sourceArray = self.filesArray;
-
-        FileItem *fileItem = (FileItem *)([sourceArray objectAtIndex:indexPath.row]);
-        // Check if the server supports deleting this kind of file
-        if (((fileItem.isDir)&&(ServerSupportsFeature(FolderDelete))) ||
-            ((!fileItem.isDir)&&(ServerSupportsFeature(FileDelete))))
+        FileItem *fileItem = nil;
+        fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
+        
+        FileBrowserCell *fileBrowserCell = (FileBrowserCell *)[tableView dequeueReusableCellWithIdentifier:FileBrowserCellIdentifier];
+        if (fileBrowserCell == nil)
         {
-            result = fileItem.writeAccess;
+            fileBrowserCell = [[FileBrowserCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                     reuseIdentifier:FileBrowserCellIdentifier];
         }
+#if 0
+        // Remove long tap gesture recognizer if present
+        NSArray *gestureList = [fileBrowserCell gestureRecognizers];
+        for (id gesture in gestureList)
+        {
+            if ([gesture isKindOfClass:[UILongPressGestureRecognizer class]])
+            {
+                [fileBrowserCell removeGestureRecognizer:gesture];
+                break;
+            }
+        }
+        
+        // Long tap recognizer
+        UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressAction:)];
+        [fileBrowserCell addGestureRecognizer:longPressRecognizer];
+#endif
+        
+        // Configure the cell...
+        [fileBrowserCell setFileItem:fileItem
+                        withDelegate:self
+                              andTag:TAG_TEXTFIELD_FILENAME];
+        
+        return fileBrowserCell;
     }
-    return result;
 }
 
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([self.filesArray count] != 0)
     {
         FileItem *fileItem = nil;
         fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
@@ -317,7 +325,7 @@
         if (![self openFile:fileItem])
         {
             // For not handled types, show action menu
-//            [self showActionMenuForItemAtIndexPath:indexPath];
+//          [self showActionMenuForItemAtIndexPath:indexPath];
         }
         // deselect the cell
         [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -569,6 +577,7 @@
     {
         if ([[dict objectForKey:@"success"] boolValue])
         {
+            self.filesListIsValid = TRUE;
             self.isConnected = TRUE;
 
             NSArray *filesList = [dict objectForKey:@"filesList"];
@@ -684,9 +693,9 @@
             [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
             
             // Refresh tableView
-            [self.multipleSelectionTableView reloadData];
+            [self.tableView reloadData];
 
-//            [self.multipleSelectionTableView performSelectorOnMainThread:@selector(reloadData)
+//            [self.tableView performSelectorOnMainThread:@selector(reloadData)
 //                                                              withObject:nil
 //                                                           waitUntilDone:NO];
         }
@@ -722,12 +731,12 @@
     {
         if (self.spaceInfo == nil)
         {
-            CGRect tableViewFrame = self.multipleSelectionTableView.frame;
+            CGRect tableViewFrame = self.tableView.frame;
             tableViewFrame.size.height -= 30;
-            [self.multipleSelectionTableView setFrame:tableViewFrame];
+            [self.tableView setFrame:tableViewFrame];
             
             self.spaceInfo = [[UILabel alloc] initWithFrame:CGRectMake(0,
-                                                                       self.multipleSelectionTableView.bounds.size.height,
+                                                                       self.tableView.bounds.size.height,
                                                                        self.view.bounds.size.width,
                                                                        30)];
             self.spaceInfo.textAlignment = NSTextAlignmentCenter;
@@ -908,7 +917,7 @@
 - (void)dealloc
 {
     // To fix "-[UIView release]: message sent to deallocated instance xxxxx"
-    self.multipleSelectionTableView.tableHeaderView = nil;
+    self.tableView.tableHeaderView = nil;
 }
 
 @end
