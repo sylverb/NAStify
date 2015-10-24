@@ -16,7 +16,7 @@ struct CurlMemoryStruct {
     size_t size;
 };
 
-@interface CMFtp : NSObject <CM,UIAlertViewDelegate> {
+@interface CMFtp : NSObject <CM> {
     // GCD queue
     dispatch_queue_t backgroundQueue;
 

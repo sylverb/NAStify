@@ -27,7 +27,7 @@
 #define SYNOLOGY_DSM_5_0 5.0f
 #define SYNOLOGY_DSM_5_1 5.1f
 
-@interface CMSynology : NSObject <CM,UIAlertViewDelegate> {
+@interface CMSynology : NSObject <CM> {
     NSInteger protocolVersion;
     float dsmVersion;
     // Server detailed info

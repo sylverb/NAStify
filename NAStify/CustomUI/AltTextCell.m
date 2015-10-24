@@ -31,7 +31,7 @@
         self.label.backgroundColor = [UIColor clearColor];
 		self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin ;
         
-		[self addSubview:label];
+		[self.contentView addSubview:label];
         
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
@@ -54,7 +54,7 @@
 		self.textField.clearsOnBeginEditing = NO;
 		self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		
-		[self addSubview:textField];
+		[self.contentView addSubview:textField];
     }
     return self;
 }

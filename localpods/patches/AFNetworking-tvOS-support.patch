@@ -1,0 +1,22 @@
+Binary files a/Pods/AFNetworking/.DS_Store and b/Pods/AFNetworking/.DS_Store differ
+diff -Nur a/Pods/AFNetworking/AFNetworking/AFSecurityPolicy.m b/Pods/AFNetworking/AFNetworking/AFSecurityPolicy.m
+--- a/Pods/AFNetworking/AFNetworking/AFSecurityPolicy.m	2015-10-21 23:43:48.000000000 +0200
++++ b/Pods/AFNetworking/AFNetworking/AFSecurityPolicy.m	2015-10-21 23:44:08.000000000 +0200
+@@ -23,7 +23,7 @@
+ 
+ #import <AssertMacros.h>
+ 
+-#if !TARGET_OS_IOS && !TARGET_OS_WATCH
++#if !TARGET_OS_IOS && !TARGET_OS_WATCH && !TARGET_OS_TV
+ static NSData * AFSecKeyGetData(SecKeyRef key) {
+     CFDataRef data = NULL;
+ 
+@@ -41,7 +41,7 @@
+ #endif
+ 
+ static BOOL AFSecKeyIsEqualToKey(SecKeyRef key1, SecKeyRef key2) {
+-#if TARGET_OS_IOS || TARGET_OS_WATCH
++#if TARGET_OS_IOS || TARGET_OS_WATCH || TARGET_OS_TV
+     return [(__bridge id)key1 isEqual:(__bridge id)key2];
+ #else
+     return [AFSecKeyGetData(key1) isEqual:AFSecKeyGetData(key2)];

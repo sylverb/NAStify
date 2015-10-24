@@ -97,7 +97,7 @@
         default:
             break;
     }
-    [self addSubview:self.serverTypeImage];
+    [self.contentView addSubview:self.serverTypeImage];
 }
 
 - (void)layoutSubviews

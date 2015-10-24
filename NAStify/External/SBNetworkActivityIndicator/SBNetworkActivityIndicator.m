@@ -32,7 +32,7 @@
 
 - (void)beginActivity:(id)identifier
 {
-#ifndef APP_EXTENSION
+#if !defined(APP_EXTENSION) && TARGET_OS_IOS
     if (totalCount == 0)
     {
         [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
@@ -48,7 +48,7 @@
 
 - (void)endActivity:(id)identifier
 {
-#ifndef APP_EXTENSION
+#if !defined(APP_EXTENSION) && TARGET_OS_IOS
     NSString *ident = [NSString stringWithFormat:@"%@",identifier];
     if ([identifierDictionnary objectForKey:ident])
     {
@@ -81,7 +81,7 @@
 
 - (void)removeActivity:(id)identifier
 {
-#ifndef APP_EXTENSION
+#if !defined(APP_EXTENSION) && TARGET_OS_IOS
     NSString *ident = [NSString stringWithFormat:@"%@",identifier];
     if ([identifierDictionnary objectForKey:ident])
     {

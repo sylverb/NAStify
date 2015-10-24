@@ -7,7 +7,7 @@
 //
 
 #import "UserAccount.h"
-#ifndef APP_EXTENSION
+#if !defined(APP_EXTENSION) && TARGET_OS_IOS
 #import "MKStoreKit.h"
 #endif
 
@@ -94,7 +94,7 @@
 
 - (BOOL)shouldShowAds
 {
-#ifndef APP_EXTENSION
+#if !defined(APP_EXTENSION) && TARGET_OS_IOS
     if ([[MKStoreKit sharedKit] isProductPurchased:@"com.sylver.NAStify.no_ads"])
     {
         return FALSE;
@@ -175,6 +175,7 @@
     }
     return showAds;
 #else
+    // No ads on document provider or AppleTV
     return FALSE;
 #endif
 }

@@ -30,7 +30,7 @@
         label.backgroundColor = [UIColor clearColor];
 		label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin ;
 		
-		[self addSubview:label];
+		[self.contentView addSubview:label];
 		
 		textButton = [UIButton buttonWithType:UIButtonTypeCustom];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
@@ -47,7 +47,7 @@
         UIColor *textFieldColor = [[UIColor alloc] initWithRed:96.0/255 green:140.0/255 blue:189.0/255 alpha:1.0];
         [textButton setTitleColor:textFieldColor forState:UIControlStateNormal];
         [textButton setTitleColor:textFieldColor forState:UIControlStateSelected];
-		[self addSubview:textButton];
+		[self.contentView addSubview:textButton];
     }
     return self;
 }

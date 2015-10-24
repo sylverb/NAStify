@@ -15,35 +15,53 @@
 {
     if((self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]))
 	{
+#if TARGET_OS_IOS
 #define textXOffset 50
+#define CellHeight 50
 		NSInteger firstLineYOffset = 3;
 		NSInteger secondLineYOffset = 32;
 		NSInteger firstLineHeight = 26;
 		NSInteger secondLineHeight = 14;
 		NSInteger firstLineFontSize = 17;
 		NSInteger secondLineFontSize = 12;
-        
+        NSInteger cellHeight = 50;
+#elif TARGET_OS_TV
+#define textXOffset 70
+#define CellHeight 80
+        NSInteger firstLineYOffset = 3;
+        NSInteger secondLineYOffset = 50;
+        NSInteger firstLineHeight = 50;
+        NSInteger secondLineHeight = 27;
+        NSInteger firstLineFontSize = 45;
+        NSInteger secondLineFontSize = 23;
+#endif
+#if TARGET_OS_IOS
 		self.nameLabel = [[UITextField alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,250,firstLineHeight)];
-		self.nameLabel.font = [UIFont fontWithName:@"Helvetica" size:firstLineFontSize];
-		self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-		[self addSubview:self.nameLabel];
+        self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         self.nameLabel.autocorrectionType = UITextAutocorrectionTypeNo;
+#elif TARGET_OS_TV
+        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,250,firstLineHeight)];
+        self.nameLabel.textColor = [UIColor blackColor];
+#endif
+		self.nameLabel.font = [UIFont boldSystemFontOfSize:firstLineFontSize];
+		[self.contentView addSubview:self.nameLabel];
 		
 		self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(textXOffset,secondLineYOffset,130,secondLineHeight)];
         self.dateLabel.backgroundColor = [UIColor clearColor];
 		self.dateLabel.font = [UIFont systemFontOfSize:secondLineFontSize];
 		self.dateLabel.textColor = [UIColor lightGrayColor];
 		self.dateLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-		[self addSubview:self.dateLabel];
+		[self.contentView addSubview:self.dateLabel];
 		
-		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+		if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ||
+            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV))
         {
 			self.ownerLabel = [[UILabel alloc] initWithFrame:CGRectMake(270,secondLineYOffset,200,secondLineHeight)];
             self.ownerLabel.backgroundColor = [UIColor clearColor];
 			self.ownerLabel.font = [UIFont systemFontOfSize:secondLineFontSize];
 			self.ownerLabel.textColor = [UIColor lightGrayColor];
 			self.ownerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-			[self addSubview:self.ownerLabel];
+			[self.contentView addSubview:self.ownerLabel];
 		}
         else
         {
@@ -56,15 +74,15 @@
 		self.sizeLabel.textColor = [UIColor lightGrayColor];
 		self.sizeLabel.textAlignment = NSTextAlignmentRight;
 		self.sizeLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-		[self addSubview:self.sizeLabel];
+		[self.contentView addSubview:self.sizeLabel];
 		
 		self.fileTypeImage = [[UIImageView alloc] initWithFrame:CGRectMake(3, 3, 44, 44)];
 		self.fileTypeImage.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-		[self addSubview:self.fileTypeImage];
+		[self.contentView addSubview:self.fileTypeImage];
 
         self.ejectableImage = [[UIImageView alloc] initWithFrame:CGRectMake(18, 22, 15, 15)];
 		self.ejectableImage.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-		[self addSubview:self.ejectableImage];
+		[self.contentView addSubview:self.ejectableImage];
 
         self.selectedBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.5];
@@ -87,7 +105,9 @@
     self.fileTypeImage.alpha = 0.65;
 	self.oldName = fileItem.name;
 	self.nameLabel.text = fileItem.name;
+#if TARGET_OS_IOS
 	self.nameLabel.delegate = delegate;
+#endif
 	self.nameLabel.tag = tag;
 	self.nameLabel.enabled = NO;
 	self.dateLabel.text = fileItem.fileDate;
@@ -155,9 +175,8 @@
     
     CGContextSetLineWidth(context, 1);
     CGContextBeginPath(context);
-    CGContextMoveToPoint(context, 15, 49.5);
-    CGContextAddLineToPoint(context, CGRectGetMaxX(rect) - 15, 49.5);
-    
+    CGContextMoveToPoint(context, 15, CellHeight - .5);
+    CGContextAddLineToPoint(context, CGRectGetMaxX(rect) - 15, CellHeight - .5);
     CGContextStrokePath(context);
 }
 

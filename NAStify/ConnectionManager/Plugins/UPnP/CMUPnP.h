@@ -17,7 +17,7 @@
 #import "MediaServer1ContainerObject.h"
 #import "MediaServer1Device.h"
 
-@interface CMUPnP : NSObject <CM,UIAlertViewDelegate> {
+@interface CMUPnP : NSObject <CM> {
     /* generic data storage */
     NSString *_listTitle;
     NSArray *_objectList;

@@ -27,7 +27,7 @@
         self.label.textAlignment = NSTextAlignmentCenter;
 		self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin ;
 
-		[self addSubview:self.label];
+		[self.contentView addSubview:self.label];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
@@ -51,7 +51,7 @@
 //		self.textView.clearButtonMode = UITextFieldViewModeWhileEditing;
 		self.textView.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		
-		[self addSubview:self.textView];
+		[self.contentView addSubview:self.textView];
     }
     return self;
 }

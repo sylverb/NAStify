@@ -13,7 +13,7 @@
 #import "AFNetworking.h"
 #import "AFURLRequestSerialization.h"
 
-@interface CMFreeboxRev : NSObject <CM,UIAlertViewDelegate> {
+@interface CMFreeboxRev : NSObject <CM> {
     // To monitor tasks action progress
     NSInteger deleteTaskID;
     NSInteger copyTaskID;

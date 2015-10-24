@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "TextCell.h"
-#import "SwitchCell.h"
 #import "UserAccount.h"
 
 @interface ServerSettingsSynologyViewController : UITableViewController<UITextFieldDelegate>
@@ -37,5 +36,4 @@
 
 - (id)initWithStyle:(UITableViewStyle)style andAccount:(UserAccount *)account andIndex:(NSInteger)index;
 - (void)switchValueChanged:(id)sender;
-
 @end

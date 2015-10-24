@@ -26,7 +26,7 @@
 		self.nameLabel = [[UITextField alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,250,firstLineHeight)];
 		self.nameLabel.font = [UIFont fontWithName:@"Helvetica" size:firstLineFontSize];
 		self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-		[self addSubview:self.nameLabel];
+		[self.contentView addSubview:self.nameLabel];
         self.nameLabel.autocorrectionType = UITextAutocorrectionTypeNo;
 		
 		self.pathLabel = [[UILabel alloc] initWithFrame:CGRectMake(textXOffset,secondLineYOffset,210,secondLineHeight)];
@@ -34,7 +34,7 @@
 		self.pathLabel.font = [UIFont systemFontOfSize:secondLineFontSize];
 		self.pathLabel.textColor = [UIColor lightGrayColor];
 		self.pathLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-		[self addSubview:self.pathLabel];
+		[self.contentView addSubview:self.pathLabel];
 		
         self.sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(240,secondLineYOffset,70,secondLineHeight)];
         self.sizeLabel.backgroundColor = [UIColor clearColor];
@@ -42,11 +42,11 @@
 		self.sizeLabel.textColor = [UIColor lightGrayColor];
 		self.sizeLabel.textAlignment = NSTextAlignmentRight;
 		self.sizeLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-		[self addSubview:self.sizeLabel];
+		[self.contentView addSubview:self.sizeLabel];
 		
 		self.fileTypeImage = [[UIImageView alloc] initWithFrame:CGRectMake(3, 3, 44, 44)];
 		self.fileTypeImage.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-		[self addSubview:self.fileTypeImage];
+		[self.contentView addSubview:self.fileTypeImage];
 
         self.selectedBackgroundView = [[UIView alloc] initWithFrame:CGRectZero];
         self.selectedBackgroundView.backgroundColor = [UIColor colorWithRed:0.2 green:0.2 blue:0.2 alpha:0.5];

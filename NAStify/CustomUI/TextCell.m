@@ -17,30 +17,45 @@
 {
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
 	{
+#if !TARGET_OS_IOS
+        self.backgroundColor = [UIColor clearColor];
+#endif
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
 			self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,112,21)];
 		}
-        else
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         {
 			self.label = [[UILabel alloc] initWithFrame:CGRectMake(15,11,140,21)];
 		}
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
+        {
+            self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,112,21)];
+        }
         self.label.backgroundColor = [UIColor clearColor];
 		self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin ;
 
-		[self addSubview:self.label];
+		[self.contentView addSubview:self.label];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
 			self.textField = [[UITextField alloc] initWithFrame:CGRectMake(60,1,205,43)];
 		}
-        else
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         {
 			self.textField = [[UITextField alloc] initWithFrame:CGRectMake(160,1,125,43)];
 		}
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
+        {
+            self.textField = [[UITextField alloc] initWithFrame:CGRectMake(60,1,205,43)];
+        }
 		//Set properties
 		self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
+#if TARGET_OS_IOS
 		self.textField.textAlignment = NSTextAlignmentRight;
+#elif TARGET_OS_TV
+        self.textField.textAlignment = NSTextAlignmentLeft;
+#endif
 		UIColor *textFieldColor = [[UIColor alloc] initWithRed:96.0/255 green:140.0/255 blue:189.0/255 alpha:1.0];
 		self.textField.textColor = textFieldColor;
 		self.textField.borderStyle = UITextBorderStyleNone;
@@ -52,7 +67,7 @@
 		self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
 		self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		
-		[self addSubview:self.textField];
+		[self.contentView addSubview:self.textField];
     }
     return self;
 }
@@ -70,10 +85,18 @@
 	self.textField.tag = fieldTag;
 }
 
-- (BOOL)resignFirstResponder {
+- (BOOL)resignFirstResponder
+{
 	[self.textField resignFirstResponder];
 	return [super resignFirstResponder];	
 }
+
+#if TARGET_OS_TV
+- (BOOL)canBecomeFocused
+{
+    return NO;
+}
+#endif
 
 @end
 

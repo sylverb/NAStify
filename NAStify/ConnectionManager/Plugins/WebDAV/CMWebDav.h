@@ -25,7 +25,7 @@
 #include "ne_dates.h"
 #include "ne_locks.h"
 
-@interface CMWebDav : NSObject <CM,UIAlertViewDelegate>
+@interface CMWebDav : NSObject <CM>
 {
     // GCD queue
     dispatch_queue_t backgroundQueue;

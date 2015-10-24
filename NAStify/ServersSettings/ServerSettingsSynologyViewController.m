@@ -7,9 +7,11 @@
 //
 
 #import "ServerSettingsSynologyViewController.h"
-#import "AppDelegate.h"
 #import "UserAccount.h"
 #import "SSKeychain.h"
+#if TARGET_OS_IOS
+#import "SwitchCell.h"
+#endif
 
 typedef enum _SETTINGS_TAG
 {
@@ -45,6 +47,7 @@ typedef enum _SETTINGS_TAG
 {
     [super viewDidLoad];
     
+#if TARGET_OS_IOS
     [self.navigationItem setHidesBackButton:YES];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
                                                                                           target:self 
@@ -53,7 +56,7 @@ typedef enum _SETTINGS_TAG
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
                                                                                            target:self 
                                                                                            action:@selector(cancelButtonAction)];
-    
+#endif
     // Load custom tableView
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
@@ -84,7 +87,11 @@ typedef enum _SETTINGS_TAG
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+#if TARGET_OS_IOS
     return 4;
+#else
+    return 3;
+#endif
 }
 
 
@@ -248,6 +255,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#if TARGET_OS_IOS
         case 3:
         {
             switch (indexPath.row)
@@ -285,6 +293,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#endif
     }
     
     return cell;
@@ -438,6 +447,7 @@ typedef enum _SETTINGS_TAG
 #pragma mark -
 #pragma mark UISwitch responder
 
+#if TARGET_OS_IOS
 - (void)switchValueChanged:(id)sender
 {
     NSInteger tag = ((UISwitch *)sender).tag;
@@ -456,6 +466,6 @@ typedef enum _SETTINGS_TAG
     }
     [self.tableView reloadData];
 }
-
+#endif
 @end
 

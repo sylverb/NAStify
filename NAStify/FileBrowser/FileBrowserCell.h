@@ -15,7 +15,11 @@
 @interface FileBrowserCell : UITableViewCell
 
 @property(nonatomic, strong) NSString * oldName;
+#if TARGET_OS_IOS
 @property(nonatomic, strong) UITextField * nameLabel;
+#elif TARGET_OS_TV
+@property(nonatomic, strong) UILabel * nameLabel;
+#endif
 @property(nonatomic, strong) UILabel * dateLabel;
 @property(nonatomic, strong) UILabel * sizeLabel;
 @property(nonatomic, strong) UILabel * ownerLabel;

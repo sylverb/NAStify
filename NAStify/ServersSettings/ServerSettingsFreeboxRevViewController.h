@@ -11,7 +11,11 @@
 #import "SwitchCell.h"
 #import "UserAccount.h"
 
+#if TARGET_OS_IOS
 @interface ServerSettingsFreeboxRevViewController : UITableViewController<UITextFieldDelegate, UIAlertViewDelegate>
+#elif TARGET_OS_TV
+@interface ServerSettingsFreeboxRevViewController : UITableViewController<UITextFieldDelegate>
+#endif
 {
     @private
     UserAccount * userAccount;

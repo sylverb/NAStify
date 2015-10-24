@@ -31,7 +31,7 @@
 		self.label.minimumScaleFactor = 10.0/[UIFont labelFontSize];
 		self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
-		[self addSubview:self.label];
+		[self.contentView addSubview:self.label];
 
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
@@ -46,7 +46,7 @@
 		self.switchButton.userInteractionEnabled = YES;
 		self.switchButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 
-		[self addSubview:self.switchButton];
+		[self.contentView addSubview:self.switchButton];
     }
     return self;
 }

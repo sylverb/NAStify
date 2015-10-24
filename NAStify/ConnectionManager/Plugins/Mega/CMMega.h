@@ -14,7 +14,7 @@
 #import "SBNetworkActivityIndicator.h"
 #import "MEGASdk.h"
 
-@interface CMMega : NSObject <CM,MEGARequestDelegate,MEGATransferDelegate,UIAlertViewDelegate>
+@interface CMMega : NSObject <CM,MEGARequestDelegate,MEGATransferDelegate>
 
 @property(nonatomic, strong) UserAccount *userAccount;
 @property(nonatomic, weak)   id <CMDelegate> delegate;

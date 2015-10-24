@@ -7,7 +7,6 @@
 //
 
 #import "ServerSettingsWebDavViewController.h"
-#import "AppDelegate.h"
 #import "UserAccount.h"
 #import "SSKeychain.h"
 
@@ -25,9 +24,6 @@ typedef enum _SETTINGS_TAG
 
 @implementation ServerSettingsWebDavViewController
 
-@synthesize textCellProfile, textCellAddress, textCellPort, textCellPath, textCellUsername, textCellPassword;
-@synthesize userAccount, accountIndex;
-
 - (id)initWithStyle:(UITableViewStyle)style andAccount:(UserAccount *)account andIndex:(NSInteger)index
 {
     if ((self = [super initWithStyle:style])) {
@@ -36,7 +32,7 @@ typedef enum _SETTINGS_TAG
         
         // If it's a new account, create a new one
         if (self.accountIndex == -1) {
-            userAccount = [[UserAccount alloc] init];
+            self.userAccount = [[UserAccount alloc] init];
         }
         self.localSettings = [NSMutableDictionary dictionaryWithDictionary:self.userAccount.settings];
     }
@@ -47,6 +43,7 @@ typedef enum _SETTINGS_TAG
 {
     [super viewDidLoad];
     
+#if TARGET_OS_IOS
     [self.navigationItem setHidesBackButton:YES];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
                                                                                           target:self 
@@ -55,7 +52,7 @@ typedef enum _SETTINGS_TAG
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
                                                                                            target:self 
                                                                                            action:@selector(cancelButtonAction)];
-    
+#endif
     // Load custom tableView
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
     self.tableView.dataSource = self;
@@ -82,11 +79,15 @@ typedef enum _SETTINGS_TAG
     // Release anything that's not essential, such as cached data
 }
 
-#pragma mark Table view methods
+#pragma mark - Table view methods
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+#if TARGET_OS_IOS
     return 4;
+#elif TARGET_OS_TV
+    return 5; // Add cell to save settings
+#endif
 }
 
 
@@ -124,6 +125,13 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#if TARGET_OS_TV
+        case 4:
+        {
+            numberOfRows = 1;
+            break;
+        }
+#endif
     }
     return numberOfRows;
 }
@@ -133,8 +141,12 @@ typedef enum _SETTINGS_TAG
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *TextCellIdentifier = @"TextCell";
+#if TARGET_OS_IOS
     static NSString *SwitchCellIdentifier = @"SwitchCell";
-
+#elif TARGET_OS_TV
+    static NSString *TableCellIdentifier = @"TableCell";
+    static NSString *SegmentedCellIdentifier = @"SegmentedCell";
+#endif
     UITableViewCell *cell = nil;
 
     switch (indexPath.section)
@@ -145,20 +157,20 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
-                    textCellProfile = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
-                    if (textCellProfile == nil)
+                    self.textCellProfile = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (self.textCellProfile == nil)
                     {
-                        textCellProfile = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                           reuseIdentifier:TextCellIdentifier];
+                        self.textCellProfile = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                               reuseIdentifier:TextCellIdentifier];
                     }
-                    [textCellProfile setCellDataWithLabelString:NSLocalizedString(@"Profile Name:",@"")
-                                                withText:userAccount.accountName
-                                         withPlaceHolder:NSLocalizedString(@"Description",@"")
-                                                isSecure:NO
-                                        withKeyboardType:UIKeyboardTypeDefault
-                                            withDelegate:self
-                                                  andTag:ACCOUNT_NAME_TAG];
-                    cell = textCellProfile;
+                    [self.textCellProfile setCellDataWithLabelString:NSLocalizedString(@"Profile Name:",@"")
+                                                            withText:self.userAccount.accountName
+                                                     withPlaceHolder:NSLocalizedString(@"Description",@"")
+                                                            isSecure:NO
+                                                    withKeyboardType:UIKeyboardTypeDefault
+                                                        withDelegate:self
+                                                              andTag:ACCOUNT_NAME_TAG];
+                    cell = self.textCellProfile;
                     break;
                 }
             }
@@ -170,56 +182,56 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
-                    textCellAddress = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
-                    if (textCellAddress == nil)
+                    self.textCellAddress = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (self.textCellAddress == nil)
                     {
-                        textCellAddress = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                           reuseIdentifier:TextCellIdentifier];
+                        self.textCellAddress = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                               reuseIdentifier:TextCellIdentifier];
                     }
-                    [textCellAddress setCellDataWithLabelString:NSLocalizedString(@"Address:",@"")
-                                                withText:userAccount.server
-                                         withPlaceHolder:NSLocalizedString(@"Hostname or IP",@"")
-                                                isSecure:NO
-                                        withKeyboardType:UIKeyboardTypeURL
-                                            withDelegate:self
-                                                  andTag:ADDRESS_TAG];
-                    cell = textCellAddress;
+                    [self.textCellAddress setCellDataWithLabelString:NSLocalizedString(@"Address:",@"")
+                                                            withText:self.userAccount.server
+                                                     withPlaceHolder:NSLocalizedString(@"Hostname or IP",@"")
+                                                            isSecure:NO
+                                                    withKeyboardType:UIKeyboardTypeURL
+                                                        withDelegate:self
+                                                              andTag:ADDRESS_TAG];
+                    cell = self.textCellAddress;
                     break;
                 }
                 case 1:
                 {
-                    textCellPort = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
-                    if (textCellPort == nil)
+                    self.textCellPort = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (self.textCellPort == nil)
                     {
-                        textCellPort = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                        reuseIdentifier:TextCellIdentifier];
+                        self.textCellPort = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                            reuseIdentifier:TextCellIdentifier];
                     }
-                    [textCellPort setCellDataWithLabelString:NSLocalizedString(@"Port:",@"")
-                                                withText:userAccount.port
-                                         withPlaceHolder:NSLocalizedString(@"Port number",@"")
-                                                isSecure:NO
-                                        withKeyboardType:UIKeyboardTypePhonePad
-                                            withDelegate:self
-                                                  andTag:PORT_TAG];
-                    cell = textCellPort;
+                    [self.textCellPort setCellDataWithLabelString:NSLocalizedString(@"Port:",@"")
+                                                         withText:self.userAccount.port
+                                                  withPlaceHolder:NSLocalizedString(@"Port number",@"")
+                                                         isSecure:NO
+                                                 withKeyboardType:UIKeyboardTypePhonePad
+                                                     withDelegate:self
+                                                           andTag:PORT_TAG];
+                    cell = self.textCellPort;
                     break;
                 }
                 case 2:
                 {
-                    textCellPath = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
-                    if (textCellPath == nil)
+                    self.textCellPath = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (self.textCellPath == nil)
                     {
-                        textCellPath = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                        self.textCellPath = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                        reuseIdentifier:TextCellIdentifier];
                     }
-                    [textCellPath setCellDataWithLabelString:NSLocalizedString(@"Path:",@"")
-                                                    withText:[self.localSettings objectForKey:@"path"]
-                                             withPlaceHolder:NSLocalizedString(@"Root path",@"")
-                                                    isSecure:NO
-                                            withKeyboardType:UIKeyboardTypeDefault
-                                                withDelegate:self
-                                                      andTag:PATH_TAG];
-                    cell = textCellPath;
+                    [self.textCellPath setCellDataWithLabelString:NSLocalizedString(@"Path:",@"")
+                                                         withText:[self.localSettings objectForKey:@"path"]
+                                                  withPlaceHolder:NSLocalizedString(@"Root path",@"")
+                                                         isSecure:NO
+                                                 withKeyboardType:UIKeyboardTypeDefault
+                                                     withDelegate:self
+                                                           andTag:PATH_TAG];
+                    cell = self.textCellPath;
                     break;
                 }
             }
@@ -231,38 +243,38 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
-                    textCellUsername = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
-                    if (textCellUsername == nil)
+                    self.textCellUsername = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (self.textCellUsername == nil)
                     {
-                        textCellUsername = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                            reuseIdentifier:TextCellIdentifier];
+                        self.textCellUsername = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                reuseIdentifier:TextCellIdentifier];
                     }
-                    [textCellUsername setCellDataWithLabelString:NSLocalizedString(@"Username:",@"")
-                                                withText:userAccount.userName
-                                         withPlaceHolder:NSLocalizedString(@"Username",@"")
-                                                isSecure:NO
-                                        withKeyboardType:UIKeyboardTypeDefault
-                                            withDelegate:self
-                                                  andTag:UNAME_TAG];
-                    cell = textCellUsername;
+                    [self.textCellUsername setCellDataWithLabelString:NSLocalizedString(@"Username:",@"")
+                                                             withText:self.userAccount.userName
+                                                      withPlaceHolder:NSLocalizedString(@"Username",@"")
+                                                             isSecure:NO
+                                                     withKeyboardType:UIKeyboardTypeDefault
+                                                         withDelegate:self
+                                                               andTag:UNAME_TAG];
+                    cell = self.textCellUsername;
                     break;
                 }
                 case 1:
                 {
-                    textCellPassword = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
-                    if (textCellPassword == nil)
+                    self.textCellPassword = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (self.textCellPassword == nil)
                     {
-                        textCellPassword = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                            reuseIdentifier:TextCellIdentifier];
+                        self.textCellPassword = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                reuseIdentifier:TextCellIdentifier];
                     }
-                    [textCellPassword setCellDataWithLabelString:NSLocalizedString(@"Password:",@"")
-                                                withText:self.localPassword
-                                         withPlaceHolder:NSLocalizedString(@"Password",@"")
-                                                isSecure:YES
-                                        withKeyboardType:UIKeyboardTypeDefault
-                                            withDelegate:self
-                                                  andTag:PWD_TAG];
-                    cell = textCellPassword;
+                    [self.textCellPassword setCellDataWithLabelString:NSLocalizedString(@"Password:",@"")
+                                                             withText:self.localPassword
+                                                      withPlaceHolder:NSLocalizedString(@"Password",@"")
+                                                             isSecure:YES
+                                                     withKeyboardType:UIKeyboardTypeDefault
+                                                         withDelegate:self
+                                                               andTag:PWD_TAG];
+                    cell = self.textCellPassword;
                     break;
                 }
             }
@@ -274,6 +286,7 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     SwitchCell *switchCell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
                     if (switchCell == nil)
                     {
@@ -285,10 +298,40 @@ typedef enum _SETTINGS_TAG
                                                      andTag:SSL_TAG];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
+#else
+                    NSInteger selectedIndex;
+
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedCellIdentifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if (self.userAccount.boolSSL)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"SSL",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:SSL_TAG];
+                    
+                    cell = segCtrlCell;
+#endif
                     break;
                 }
                 case 1:
                 {
+#if TARGET_OS_IOS
                     SwitchCell *switchCell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
                     if (switchCell == nil)
                     {
@@ -300,15 +343,116 @@ typedef enum _SETTINGS_TAG
                                                      andTag:ACCEPT_UNTRUSTED_CERT_TAG];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
+#else
+                    NSInteger selectedIndex;
+                    
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedCellIdentifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if (self.userAccount.acceptUntrustedCertificate)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Allow untrusted certificate",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:ACCEPT_UNTRUSTED_CERT_TAG];
+                    
+                    cell = segCtrlCell;
+#endif
                     break;
                 }
             }
             break;
         }
+#if TARGET_OS_TV
+        case 4:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:TableCellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                          reuseIdentifier:TableCellIdentifier];
+                    }
+                    cell.textLabel.text = NSLocalizedString(@"Save", nil);
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                    break;
+                }
+            }
+            break;
+        }
+#endif
     }
     
     return cell;
 }
+
+#if TARGET_OS_TV
+ - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section)
+    {
+        case 3:
+        {
+            switch (indexPath.row)
+            {
+                case 0: // SSL
+                {
+                    self.userAccount.boolSSL = !self.userAccount.boolSSL;
+                    [self.tableView reloadData];
+                    break;
+                }
+                case 1: // Certificate
+                {
+                    self.userAccount.acceptUntrustedCertificate = !self.userAccount.acceptUntrustedCertificate;
+                    [self.tableView reloadData];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+        case 4:
+        {
+            switch (indexPath.row)
+            {
+                case 0: // Save button
+                {
+                    [self saveButtonAction];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+            
+        default:
+            break;
+    }
+    if ((indexPath.section == 4) && (indexPath.row == 0))
+    {
+        [self saveButtonAction];
+    }
+}
+#endif
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -338,8 +482,7 @@ typedef enum _SETTINGS_TAG
     return title;
 }
 
-#pragma mark -
-#pragma mark TextField Delegate Methods
+#pragma mark - TextField Delegate Methods
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     self.currentFirstResponder = textField;
@@ -348,29 +491,29 @@ typedef enum _SETTINGS_TAG
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
 	[textField resignFirstResponder];
-    if (textField == textCellProfile.textField)
+    if (textField == self.textCellProfile.textField)
     {
-        [textCellAddress.textField becomeFirstResponder];
+        [self.textCellAddress.textField becomeFirstResponder];
     }
-    else if (textField == textCellAddress.textField)
+    else if (textField == self.textCellAddress.textField)
     {
-        [textCellPort.textField becomeFirstResponder];
+        [self.textCellPort.textField becomeFirstResponder];
     }
-    else if (textField == textCellPort.textField)
+    else if (textField == self.textCellPort.textField)
     {
-        [textCellPath.textField becomeFirstResponder];
+        [self.textCellPath.textField becomeFirstResponder];
     }
-    else if (textField == textCellPath.textField)
+    else if (textField == self.textCellPath.textField)
     {
-        [textCellUsername.textField becomeFirstResponder];
+        [self.textCellUsername.textField becomeFirstResponder];
     }
-    else if (textField == textCellUsername.textField)
+    else if (textField == self.textCellUsername.textField)
     {
-        [textCellPassword.textField becomeFirstResponder];
+        [self.textCellPassword.textField becomeFirstResponder];
     }
-    else if (textField == textCellPassword.textField)
+    else if (textField == self.textCellPassword.textField)
     {
-        [textCellAddress.textField becomeFirstResponder];
+        [self.textCellAddress.textField becomeFirstResponder];
     }
 	return YES;
 }
@@ -432,13 +575,14 @@ typedef enum _SETTINGS_TAG
     }
 }
 
-- (void)saveButtonAction {
-    [textCellProfile resignFirstResponder];
-    [textCellAddress resignFirstResponder];
-    [textCellPort resignFirstResponder];
-    [textCellPath resignFirstResponder];
-    [textCellUsername resignFirstResponder];
-    [textCellPassword resignFirstResponder];
+- (void)saveButtonAction
+{
+    [self.textCellProfile resignFirstResponder];
+    [self.textCellAddress resignFirstResponder];
+    [self.textCellPort resignFirstResponder];
+    [self.textCellPath resignFirstResponder];
+    [self.textCellUsername resignFirstResponder];
+    [self.textCellPassword resignFirstResponder];
     self.userAccount.settings = [NSDictionary dictionaryWithDictionary:self.localSettings];
     [SSKeychain setPassword:self.localPassword
                  forService:self.userAccount.uuid
@@ -447,7 +591,7 @@ typedef enum _SETTINGS_TAG
     {
         NSNotification* notification = [NSNotification notificationWithName:@"ADDACCOUNT"
                                                                      object:self
-                                                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userAccount,@"account",nil]];
+                                                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.userAccount,@"account",nil]];
         
         [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
     }
@@ -455,7 +599,7 @@ typedef enum _SETTINGS_TAG
     {
         NSNotification* notification = [NSNotification notificationWithName:@"UPDATEACCOUNT"
                                                                      object:self
-                                                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userAccount,@"account",[NSNumber numberWithLong:self.accountIndex],@"accountIndex",nil]];
+                                                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:self.userAccount,@"account",[NSNumber numberWithLong:self.accountIndex],@"accountIndex",nil]];
         
         [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
     }
@@ -468,9 +612,9 @@ typedef enum _SETTINGS_TAG
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-#pragma mark -
-#pragma mark UISwitch responder
+#pragma mark - UISwitch responder
 
+#if TARGET_OS_IOS
 - (void)switchValueChanged:(id)sender
 {
     NSInteger tag = ((UISwitch *)sender).tag;
@@ -489,6 +633,7 @@ typedef enum _SETTINGS_TAG
     }
     [self.tableView reloadData];
 }
+#endif
 
 @end
 

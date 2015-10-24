@@ -1,0 +1,31 @@
+//
+//  NAStify_Prefix.pch
+//  NAStify-tvOS
+//
+//  Created by Sylver B.
+//  Copyright © 2015 Sylver B. All rights reserved.
+//
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import "NSMutableArrayAdditions.h"
+#import "NSStringAdditions.h"
+#import "NSNumberAdditions.h"
+
+#import <TVVLCKit/TVVLCKit.h>
+
+#import "UIColor+Presets.h"
+#import "NAStifyConstants.h"
+
+#ifndef NDEBUG
+#define APLog(format, ...) NSLog(format, ## __VA_ARGS__)
+#else
+#define APLog(format, ...)
+#endif
+#endif
+
+
+#endif /* PrefixHeader_pch */

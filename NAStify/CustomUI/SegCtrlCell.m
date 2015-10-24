@@ -22,18 +22,24 @@
         {
 			self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,175,21)];
 		}
-        else
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         {
 			self.label = [[UILabel alloc] initWithFrame:CGRectMake(15,11,175,21)];
 		}
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
+        {
+            self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,175,21)];
+        }
         self.label.backgroundColor = [UIColor clearColor];
 		
 		//Set properties
 		self.label.adjustsFontSizeToFitWidth = YES;
+#if TARGET_OS_IOS
 		self.label.minimumFontSize = 10;
+#endif
 		self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		
-		[self addSubview:label];
+		[self.contentView addSubview:label];
 		
         if (items)
         {
@@ -47,17 +53,21 @@
         {
 			self.segmentedControl.frame = CGRectMake(90,5,180,35);
 		}
-        else
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
         {
 			self.segmentedControl.frame = CGRectMake(125,5,180,35);
 		}
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
+        {
+            self.segmentedControl.frame = CGRectMake(90,5,180,35);
+        }
 		
 		//Set properties
 		self.segmentedControl.userInteractionEnabled = YES;
 		self.segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 		self.segmentedControl.selectedSegmentIndex = 1;
 		
-		[self addSubview:segmentedControl];
+		[self.contentView addSubview:segmentedControl];
     }
     return self;
 }
@@ -76,5 +86,12 @@
 	self.segmentedControl.selectedSegmentIndex = idx;
 	self.segmentedControl.tag = fieldTag;
 }
+
+#if TARGET_OS_TV
+- (BOOL)canBecomeFocused
+{
+    return YES;
+}
+#endif
 
 @end

@@ -8,6 +8,7 @@
 
 #import "ServerTypeViewController.h"
 #import "ServerSettingsWebDavViewController.h"
+#if TARGET_OS_IOS
 #import "ServerSettingsFreeboxRevViewController.h"
 #import "ServerSettingsFtpViewController.h"
 #import "ServerSettingsBoxViewController.h"
@@ -16,16 +17,24 @@
 #ifdef SAMBA
 #import "ServerSettingsSambaViewController.h"
 #endif
+#endif
+#if TARGET_OS_IOS
 #import "ServerSettingsSynologyViewController.h"
+#elif TARGET_OS_TV
+#import "TVServerSettingsSynologyViewController.h"
+#endif
+#if TARGET_OS_IOS
 #import "ServerSettingsMegaViewController.h"
 #import "ServerSettingsOneDriveViewController.h"
 #import "ServerSettingsOwnCloudViewController.h"
 #import "ServerSettingsQnapViewController.h"
+#endif
 
 #import "ServerTypeCell.h"
 
 @implementation ServerTypeViewController
 
+#if TARGET_OS_IOS
 #define ROW_INDEX_BOX           0
 #define ROW_INDEX_DROPBOX       1
 #define ROW_INDEX_FREEBOX       2
@@ -48,16 +57,25 @@
 #else
 #define NUMBER_OF_ROWS      ROW_INDEX_WEBDAV + 1
 #endif
+#else
+// AppleTV
+#define ROW_INDEX_SYNOLOGY      0
+#define ROW_INDEX_WEBDAV        1
+// Update this when adding new server types !!!
+#define NUMBER_OF_ROWS      ROW_INDEX_WEBDAV + 1
+#endif
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
+#if TARGET_OS_IOS
     [self.navigationItem setHidesBackButton:YES];
     
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
                                                                                           target:self 
                                                                                           action:@selector(cancelButtonAction)];
+#endif
     
     self.navigationItem.title = NSLocalizedString(@"Server Type",nil);
 }
@@ -67,6 +85,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+#if TARGET_OS_IOS
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         return 120.0;
@@ -75,6 +94,9 @@
     {
         return 60.0;
     }
+#elif TARGET_OS_TV
+    return 120;
+#endif
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -105,22 +127,26 @@
     }
     
     // Configure the cell...
-    switch (indexPath.row) {
+    switch (indexPath.row)
+    {
         case ROW_INDEX_WEBDAV:
         {
             cell.serverType = SERVER_TYPE_WEBDAV;
             break;
         }
+#if TARGET_OS_IOS
         case ROW_INDEX_FTP:
         {
             cell.serverType = SERVER_TYPE_FTP;
             break;
         }
+#endif
         case ROW_INDEX_SYNOLOGY:
         {
             cell.serverType = SERVER_TYPE_SYNOLOGY;
             break;
         }
+#if TARGET_OS_IOS
         case ROW_INDEX_FREEBOX:
         {
             cell.serverType = SERVER_TYPE_FREEBOX_REVOLUTION;
@@ -173,6 +199,7 @@
 //            cell.serverType = SERVER_TYPE_PYDIO;
 //            break;
 //        }
+#endif
         default:
             break;
     }
@@ -185,7 +212,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.row) {
+    switch (indexPath.row)
+    {
         case ROW_INDEX_WEBDAV:
         {
             ServerSettingsWebDavViewController * svc = [[ServerSettingsWebDavViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -195,6 +223,7 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
+#if TARGET_OS_IOS
         case ROW_INDEX_FTP:
         {
             ServerSettingsFtpViewController * svc = [[ServerSettingsFtpViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -204,15 +233,24 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
+#endif
         case ROW_INDEX_SYNOLOGY:
         {
+#if TARGET_OS_IOS
             ServerSettingsSynologyViewController * svc = [[ServerSettingsSynologyViewController alloc] initWithStyle:UITableViewStyleGrouped
                                                                                                           andAccount:nil
                                                                                                             andIndex:-1];
             svc.userAccount.serverType = SERVER_TYPE_SYNOLOGY;
             [self.navigationController pushViewController:svc animated:YES];
+#elif TARGET_OS_TV
+            TVServerSettingsSynologyViewController * svc = [[TVServerSettingsSynologyViewController alloc] initWithAccount:nil
+                                                                                                                  andIndex:-1];
+            svc.userAccount.serverType = SERVER_TYPE_SYNOLOGY;
+            [self.navigationController pushViewController:svc animated:YES];
+#endif
             break;
         }
+#if TARGET_OS_IOS
         case ROW_INDEX_FREEBOX:
         {
             ServerSettingsFreeboxRevViewController * svc = [[ServerSettingsFreeboxRevViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -307,6 +345,7 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
+#endif
 #endif
         default:
             break;

@@ -31,12 +31,12 @@
         self.serverLabel.font = [UIFont fontWithName:@"Helvetica" size:firstLineFontSize];
         self.serverLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         self.serverLabel.userInteractionEnabled = NO;
-        [self addSubview:self.serverLabel];
+        [self.contentView addSubview:self.serverLabel];
         
         // Images shall be a 90x90 sized square for retina and 45x45 for non retina
         self.fileTypeImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 3, 45, 45)];
         self.fileTypeImage.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-        [self addSubview:self.fileTypeImage];
+        [self.contentView addSubview:self.fileTypeImage];
     }
     return self;
 }

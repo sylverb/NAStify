@@ -7,21 +7,24 @@
 //
 
 #import "ConnectionManager.h"
-#import "AppDelegate.h"
 #import "UserAccount.h"
 #import "SBNetworkActivityIndicator.h"
 
 // Import for plugins
+#if TARGET_OS_IOS
 #import "CMLocal.h"
 #import "CMBox.h"
 #import "CMDropbox.h"
+#endif
 #import "CMFreeboxRev.h"
 #import "CMFtp.h"
+#if TARGET_OS_IOS
 #import "CMGoogleDrive.h"
 #import "CMMega.h"
 #import "CMOneDrive.h"
 #import "CMOwnCloud.h"
 #import "CMPydio.h"
+#endif
 #import "CMQnap.h"
 #import "CMSamba.h"
 #import "CMSynology.h"
@@ -46,11 +49,13 @@
     {
         switch (self.userAccount.serverType)
         {
+#if TARGET_OS_IOS
             case SERVER_TYPE_LOCAL:
             {
                 cmPlugin = [[CMLocal alloc] init];
                 break;
             }
+#endif
             case SERVER_TYPE_WEBDAV:
             {
                 cmPlugin = [[CMWebDav alloc] init];
@@ -67,16 +72,19 @@
                 cmPlugin = [[CMSynology alloc] init];
                 break;
             }
+#if TARGET_OS_IOS
             case SERVER_TYPE_DROPBOX:
             {
                 cmPlugin = [[CMDropbox alloc] init];
                 break;
             }
+#endif
             case SERVER_TYPE_FREEBOX_REVOLUTION:
             {
                 cmPlugin = [[CMFreeboxRev alloc] init];
                 break;
             }
+#if TARGET_OS_IOS
             case SERVER_TYPE_MEGA:
             {
                 cmPlugin = [[CMMega alloc] init];
@@ -97,6 +105,7 @@
                 cmPlugin = [[CMPydio alloc] init];
                 break;
             }
+#endif
             case SERVER_TYPE_QNAP:
             {
                 cmPlugin = [[CMQnap alloc] init];
@@ -116,6 +125,7 @@
                 break;
             }
 #endif
+#if TARGET_OS_IOS
             case SERVER_TYPE_BOX:
             {
                 cmPlugin = [[CMBox alloc] init];
@@ -126,6 +136,7 @@
                 cmPlugin = [[CMGoogleDrive alloc] init];
                 break;
             }
+#endif
             default:
             {
                 break;

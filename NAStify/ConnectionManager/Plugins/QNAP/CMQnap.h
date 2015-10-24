@@ -12,7 +12,7 @@
 
 #import "AFNetworking.h"
 
-@interface CMQnap : NSObject <CM,UIAlertViewDelegate> {
+@interface CMQnap : NSObject <CM> {
     NSString *sID; // Session id
     
     // To monitor tasks action progress
