@@ -8,7 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "TextCell.h"
+#if TARGET_OS_IOS
 #import "SwitchCell.h"
+#elif TARGET_OS_TV
+#import "SegCtrlCell.h"
+#endif
 #import "UserAccount.h"
 
 @interface ServerSettingsQnapViewController : UITableViewController<UITextFieldDelegate>
@@ -37,6 +41,8 @@
 @property(nonatomic, strong) id currentFirstResponder;
 
 - (id)initWithStyle:(UITableViewStyle)style andAccount:(UserAccount *)account andIndex:(NSInteger)index;
+#if TARGET_OS_IOS
 - (void)switchValueChanged:(id)sender;
+#endif
 
 @end

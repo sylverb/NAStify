@@ -9,6 +9,7 @@
 #import "TVServersListViewController.h"
 #import "ConnectionManager.h"
 #import "TVFileBrowserViewController.h"
+#import "ServerSettingsQnapViewController.h"
 #import "ServerSettingsSynologyViewController.h"
 #import "ServerSettingsWebDavViewController.h"
 #import "ServerTypeViewController.h"
@@ -574,20 +575,22 @@
     // delete entries in keychain
     switch (account.serverType)
     {
-            case SERVER_TYPE_DROPBOX:
+#if 0
+        case SERVER_TYPE_DROPBOX:
         {
             if (account.userName != nil)
             {
                 // unlink account if it's a dropbox account
-                //                        [[DBSession sharedSession] unlinkUserId:account.userName];
+                [[DBSession sharedSession] unlinkUserId:account.userName];
             }
             break;
         }
-            case SERVER_TYPE_GOOGLEDRIVE:
+        case SERVER_TYPE_GOOGLEDRIVE:
         {
-            //                    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:account.uuid];
+            [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:account.uuid];
             break;
         }
+#endif
         default:
         {
             [SSKeychain deletePasswordForService:account.uuid
@@ -659,6 +662,7 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
+#endif
                 case SERVER_TYPE_QNAP:
                 {
                     ServerSettingsQnapViewController *svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -668,6 +672,7 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
+#if 0
                 case SERVER_TYPE_FREEBOX_REVOLUTION:
                 {
                     ServerSettingsFreeboxRevViewController *svc = [[ServerSettingsFreeboxRevViewController alloc] initWithStyle:UITableViewStyleGrouped

@@ -404,6 +404,7 @@
 		957322811BDAFAA8008D8AD0 /* tvos-libneon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957322801BDAFAA8008D8AD0 /* tvos-libneon.a */; };
 		957322821BDB7025008D8AD0 /* SegCtrlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F943559115FD1DAD00307556 /* SegCtrlCell.m */; };
 		957322831BDB8ADF008D8AD0 /* ServerSettingsSynologyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54EBF461950290A008AC4BB /* ServerSettingsSynologyViewController.m */; };
+		957322841BDB94A4008D8AD0 /* ServerSettingsQnapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EBAAE41A6C592C00905450 /* ServerSettingsQnapViewController.m */; };
 		957BD32E1BD447F400A2610C /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD32D1BD447F400A2610C /* GoogleMobileAds.framework */; };
 		957BD3461BD44CB000A2610C /* libMobileVLCKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3451BD44CB000A2610C /* libMobileVLCKit.a */; };
 		957BD3491BD44D3700A2610C /* libMediaLibraryKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3471BD44CED00A2610C /* libMediaLibraryKit.a */; };
@@ -7327,6 +7328,7 @@
 				954872BB1BD6F4640097225C /* VLCMiniPlaybackView.m in Sources */,
 				95486E161BD6E07E0097225C /* TVFileBrowserViewController.m in Sources */,
 				954872C81BD6FA3C0097225C /* VLCPlaybackController.m in Sources */,
+				957322841BDB94A4008D8AD0 /* ServerSettingsQnapViewController.m in Sources */,
 				954872B71BD6F4640097225C /* UIDevice+VLC.m in Sources */,
 				954872BC1BD6F4640097225C /* VLCPlaybackNavigationController.m in Sources */,
 				954872B91BD6F4640097225C /* VLCFullscreenMovieTVViewController.m in Sources */,
