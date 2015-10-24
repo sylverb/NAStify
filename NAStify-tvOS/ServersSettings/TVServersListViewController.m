@@ -385,63 +385,6 @@
     return UITableViewCellEditingStyleNone;
 }
 
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (editingStyle == UITableViewCellEditingStyleDelete)
-    {
-        if (indexPath.section == 0)
-        {
-            UserAccount *account = [self.accounts objectAtIndex:indexPath.row];
-#if 0
-            switch (account.serverType) {
-                case SERVER_TYPE_DROPBOX:
-                {
-                    if (account.userName != nil)
-                    {
-                        // unlink account if it's a dropbox account
-                        [[DBSession sharedSession] unlinkUserId:account.userName];
-                    }
-                    break;
-                }
-                    
-                default:
-                    break;
-            }
-#endif
-            // delete entries in keychain
-            switch (account.serverType)
-            {
-#if 0
-                case SERVER_TYPE_GOOGLEDRIVE:
-                {
-                    [GTMOAuth2ViewControllerTouch removeAuthFromKeychainForName:account.uuid];
-                    break;
-                }
-#endif
-                default:
-                {
-                    [SSKeychain deletePasswordForService:account.uuid
-                                                 account:@"password"];
-                    [SSKeychain deletePasswordForService:account.uuid
-                                                 account:@"token"];
-                    [SSKeychain deletePasswordForService:account.uuid
-                                                 account:@"pubCert"];
-                    [SSKeychain deletePasswordForService:account.uuid
-                                                 account:@"privCert"];
-                    break;
-                }
-            }
-            
-            [self.accounts removeObjectAtIndex:indexPath.row];
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
-            [self save];
-            // Update
-            [self.tableView reloadData];
-        }
-    }
-}
-
 #if 0
 - (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -566,22 +509,62 @@
                                                                   handler:^(UIAlertAction * action) {
                                                                       [self editServerAtIndexPath:indexPath];
                                                                   }];
+            UIAlertAction *moveUpAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Move up in list",nil)
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * action) {
+                                                                     [self moveUpServerAtIndexPath:indexPath];
+                                                                 }];
+            UIAlertAction *moveDownAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Move down in list",nil)
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * action) {
+                                                                     [self moveDownServerAtIndexPath:indexPath];
+                                                                 }];
             UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete",nil)
                                                                  style:UIAlertActionStyleDestructive
                                                                handler:^(UIAlertAction * action) {
                                                                    [self deleteServerAtIndexPath:indexPath];
                                                                }];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil)
-                                                                   style:UIAlertActionStyleDefault
+                                                                   style:UIAlertActionStyleCancel
                                                                  handler:^(UIAlertAction * action) {
-                                                                     [self editServerAtIndexPath:indexPath];
+                                                                     // Do nothing
                                                                  }];
             [alert addAction:editAction];
+            // If not first server, allow to move up
+            if (indexPath.row > 0)
+            {
+                [alert addAction:moveUpAction];
+            }
+            // If not last server, allow to move down
+            if (indexPath.row < self.accounts.count - 1)
+            {
+                [alert addAction:moveDownAction];
+            }
             [alert addAction:deleteAction];
             [alert addAction:cancelAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
     }
+}
+
+- (void)moveUpServerAtIndexPath:(NSIndexPath *)indexPath
+{
+    UserAccount *accountToMove = [self.accounts objectAtIndex:indexPath.row];
+    [self.accounts removeObjectAtIndex:indexPath.row];
+    [self.accounts insertObject:accountToMove atIndex:indexPath.row - 1];
+    [self save];
+    // Update
+    [self.tableView reloadData];
+}
+
+- (void)moveDownServerAtIndexPath:(NSIndexPath *)indexPath
+{
+    UserAccount *accountToMove = [self.accounts objectAtIndex:indexPath.row];
+    [self.accounts removeObjectAtIndex:indexPath.row];
+    [self.accounts insertObject:accountToMove atIndex:indexPath.row + 1];
+    [self save];
+    // Update
+    [self.tableView reloadData];
 }
 
 - (void)deleteServerAtIndexPath:(NSIndexPath *)indexPath
