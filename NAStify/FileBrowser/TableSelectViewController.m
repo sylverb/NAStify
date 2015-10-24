@@ -43,16 +43,21 @@
     [self.view addSubview:self.tableView];
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSIndexPath *scrollIndexPath = [NSIndexPath indexPathForRow:self.selectedElement inSection:0];
     [[self tableView] reloadData];
+    [[self tableView] scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionMiddle animated:NO];
+    [super viewWillAppear:animated];
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+#if TARGET_OS_TV
+- (UIView *)preferredFocusedView
+{
     NSIndexPath *scrollIndexPath = [NSIndexPath indexPathForRow:self.selectedElement inSection:0];
-    [[self tableView] scrollToRowAtIndexPath:scrollIndexPath atScrollPosition:UITableViewScrollPositionBottom animated:YES];
+    return [self.tableView cellForRowAtIndexPath:scrollIndexPath];
 }
+#endif
 
 #pragma mark Table view methods
 

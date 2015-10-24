@@ -9,8 +9,8 @@
 #import "ServerTypeViewController.h"
 #import "ServerSettingsWebDavViewController.h"
 #import "ServerSettingsFreeboxRevViewController.h"
-#if TARGET_OS_IOS
 #import "ServerSettingsFtpViewController.h"
+#if TARGET_OS_IOS
 #import "ServerSettingsBoxViewController.h"
 #import "ServerSettingsGoogleDriveViewController.h"
 #import "ServerSettingsDropboxViewController.h"
@@ -56,9 +56,10 @@
 #else
 // AppleTV
 #define ROW_INDEX_FREEBOX       0
-#define ROW_INDEX_SYNOLOGY      1
-#define ROW_INDEX_QNAP          2
-#define ROW_INDEX_WEBDAV        3
+#define ROW_INDEX_FTP           1
+#define ROW_INDEX_SYNOLOGY      2
+#define ROW_INDEX_QNAP          3
+#define ROW_INDEX_WEBDAV        4
 // Update this when adding new server types !!!
 #define NUMBER_OF_ROWS      ROW_INDEX_WEBDAV + 1
 #endif
@@ -132,13 +133,11 @@
             cell.serverType = SERVER_TYPE_WEBDAV;
             break;
         }
-#if TARGET_OS_IOS
         case ROW_INDEX_FTP:
         {
             cell.serverType = SERVER_TYPE_FTP;
             break;
         }
-#endif
         case ROW_INDEX_SYNOLOGY:
         {
             cell.serverType = SERVER_TYPE_SYNOLOGY;
@@ -221,7 +220,6 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
-#if TARGET_OS_IOS
         case ROW_INDEX_FTP:
         {
             ServerSettingsFtpViewController * svc = [[ServerSettingsFtpViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -231,7 +229,6 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
-#endif
         case ROW_INDEX_SYNOLOGY:
         {
             ServerSettingsSynologyViewController * svc = [[ServerSettingsSynologyViewController alloc] initWithStyle:UITableViewStyleGrouped

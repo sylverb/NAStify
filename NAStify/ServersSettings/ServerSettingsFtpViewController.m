@@ -7,7 +7,6 @@
 //
 
 #import "ServerSettingsFtpViewController.h"
-#import "AppDelegate.h"
 #import "UserAccount.h"
 #import "SSKeychain.h"
 
@@ -18,6 +17,7 @@
 #define SECTION_TRANSFERT_MODE_INDEX    4
 #define SECTION_CERTIFICATES_INDEX      5
 #define SECTION_CODING_INDEX            6
+#define SECTION_SAVE_INDEX              7
 
 typedef enum _SETTINGS_TAG
 {
@@ -48,7 +48,9 @@ typedef enum _SETTINGS_TAG
 
 @synthesize textCellProfile, textCellAddress, textCellPort, textCellUsername, textCellPassword;
 @synthesize userAccount, accountIndex;
+#if TARGET_OS_IOS
 @synthesize textViewCellPrivateCert, textViewCellPublicCert;
+#endif
 
 - (id)initWithStyle:(UITableViewStyle)style andAccount:(UserAccount *)account andIndex:(NSInteger)index
 {
@@ -70,6 +72,7 @@ typedef enum _SETTINGS_TAG
 {
     [super viewDidLoad];
     
+#if TARGET_OS_IOS
     [self.navigationItem setHidesBackButton:YES];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave 
                                                                                           target:self 
@@ -78,6 +81,7 @@ typedef enum _SETTINGS_TAG
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel 
                                                                                            target:self 
                                                                                            action:@selector(cancelButtonAction)];
+#endif
     
     // Load custom tableView
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -283,7 +287,11 @@ typedef enum _SETTINGS_TAG
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+#if TARGET_OS_IOS
     return 7;
+#else
+    return 8;
+#endif
 }
 
 
@@ -329,6 +337,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#if TARGET_OS_IOS
         case SECTION_CERTIFICATES_INDEX:
         {
             if ((self.userAccount.serverType == SERVER_TYPE_FTP) &&
@@ -342,6 +351,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#endif
         case SECTION_CODING_INDEX:
         {
             if (self.userAccount.serverType == SERVER_TYPE_FTP)
@@ -354,6 +364,13 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#if TARGET_OS_TV
+        case SECTION_SAVE_INDEX:
+        {
+            numberOfRows = 1;
+            break;
+        }
+#endif
     }
     return numberOfRows;
 }
@@ -416,8 +433,10 @@ typedef enum _SETTINGS_TAG
 {
     static NSString *CellIdentifier = @"Cell";
     static NSString *TextCellIdentifier = @"TextCell";
+#if TARGET_OS_IOS
     static NSString *TextViewCellIdentifier = @"TextViewCell";
     static NSString *SwitchCellIdentifier = @"SwitchCell";
+#endif
     static NSString *SegmentedControllerCellIdentifier = @"SegmentedControllerCell";
     static NSString *SegmentedControllerCell2Identifier = @"SegmentedControllerCell2";
     static NSString *SegmentedControllerCell3Identifier = @"SegmentedControllerCell3";
@@ -458,16 +477,16 @@ typedef enum _SETTINGS_TAG
                 case 0:
                 {
                     NSInteger selectedIndex = PROTOCOL_SEGMENT_FTP;
-                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCellIdentifier];
-                    if (segCtrlCell == nil)
+                    self.protocolSegCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCellIdentifier];
+                    if (self.protocolSegCtrlCell == nil)
                     {
-                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                         reuseIdentifier:SegmentedControllerCellIdentifier
-                                                               withItems:[NSArray arrayWithObjects:
-                                                                          NSLocalizedString(@"FTP",nil),
-                                                                          NSLocalizedString(@"FTPS",nil),
-                                                                          NSLocalizedString(@"SFTP",nil),
-                                                                          nil]];
+                        self.protocolSegCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                      reuseIdentifier:SegmentedControllerCellIdentifier
+                                                                            withItems:[NSArray arrayWithObjects:
+                                                                                       NSLocalizedString(@"FTP",nil),
+                                                                                       NSLocalizedString(@"FTPS",nil),
+                                                                                       NSLocalizedString(@"SFTP",nil),
+                                                                                       nil]];
                     }
                     
                     if (self.userAccount.serverType == SERVER_TYPE_SFTP)
@@ -479,13 +498,19 @@ typedef enum _SETTINGS_TAG
                         selectedIndex = PROTOCOL_SEGMENT_FTPS;
                     }
                         
-                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Protocol:",nil)
-                                          withSelectedIndex:selectedIndex
-                                                     andTag:PROTOCOL_TAG];
+                    [self.protocolSegCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Protocol:",nil)
+                                                       withSelectedIndex:selectedIndex
+                                                                  andTag:PROTOCOL_TAG];
                     
-                    [segCtrlCell.segmentedControl addTarget:self action:@selector(segmentedValueChanged:) forControlEvents:UIControlEventValueChanged];
+#if TARGET_OS_IOS
+                    [self.protocolSegCtrlCell.segmentedControl addTarget:self action:@selector(segmentedValueChanged:) forControlEvents:UIControlEventValueChanged];
+#elif TARGET_OS_TV
+//                    [self.protocolSegCtrlCell.segmentedControl setWidth:100.0 forSegmentAtIndex:0];
+//                    [self.protocolSegCtrlCell.segmentedControl setWidth:100.0 forSegmentAtIndex:1];
+//                    [self.protocolSegCtrlCell.segmentedControl setWidth:100.0 forSegmentAtIndex:2];
+#endif
                     
-                    cell = segCtrlCell;
+                    cell = self.protocolSegCtrlCell;
                     
                     
                     break;
@@ -571,7 +596,9 @@ typedef enum _SETTINGS_TAG
                                           withSelectedIndex:selectedIndex
                                                      andTag:AUTHENTICATION_TYPE_TAG];
                     
+#if TARGET_OS_IOS
                     [segCtrlCell.segmentedControl addTarget:self action:@selector(segmentedValueChanged:) forControlEvents:UIControlEventValueChanged];
+#endif
                     
                     cell = segCtrlCell;
                     
@@ -615,6 +642,7 @@ typedef enum _SETTINGS_TAG
                                                               andTag:PWD_TAG];
                         cell = textCellPassword;
                     }
+#if TARGET_OS_IOS
                     else
                     {
                         textViewCellPublicCert = (TextViewCell *)[tableView dequeueReusableCellWithIdentifier:TextViewCellIdentifier];
@@ -632,8 +660,10 @@ typedef enum _SETTINGS_TAG
                         [self.tableView beginUpdates];
                         [self.tableView endUpdates];
                     }
+#endif
                     break;
                 }
+#if TARGET_OS_IOS
                 case 3:
                 {
                     textViewCellPrivateCert = (TextViewCell *)[tableView dequeueReusableCellWithIdentifier:TextViewCellIdentifier];
@@ -652,6 +682,7 @@ typedef enum _SETTINGS_TAG
                     [self.tableView endUpdates];
                     break;
                 }
+#endif
             }
             break;
         }
@@ -661,16 +692,16 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
-                    NSInteger selectedIndex = TRANSFERT_MODE_SEGMENT_PASSIVE;
-                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell3Identifier];
-                    if (segCtrlCell == nil)
+                    NSInteger selectedIndex;
+                    self.transfertModeSegCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell3Identifier];
+                    if (self.transfertModeSegCtrlCell == nil)
                     {
-                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                         reuseIdentifier:SegmentedControllerCell3Identifier
-                                                               withItems:[NSArray arrayWithObjects:
-                                                                          NSLocalizedString(@"Passive",nil),
-                                                                          NSLocalizedString(@"Active",nil),
-                                                                          nil]];
+                        self.transfertModeSegCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                                           reuseIdentifier:SegmentedControllerCell3Identifier
+                                                                                 withItems:[NSArray arrayWithObjects:
+                                                                                            NSLocalizedString(@"Passive",nil),
+                                                                                            NSLocalizedString(@"Active",nil),
+                                                                                            nil]];
                     }
                     
                     if (self.userAccount.transfertMode == TRANSFERT_MODE_FTP_PASSIVE)
@@ -682,13 +713,15 @@ typedef enum _SETTINGS_TAG
                         selectedIndex = TRANSFERT_MODE_SEGMENT_ACTIVE;
                     }
                     
-                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Mode:",nil)
-                                          withSelectedIndex:selectedIndex
-                                                     andTag:TRANSFERT_MODE_TAG];
+                    [self.transfertModeSegCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Mode:",nil)
+                                                            withSelectedIndex:selectedIndex
+                                                                       andTag:TRANSFERT_MODE_TAG];
                     
+#if TARGET_OS_IOS
                     [segCtrlCell.segmentedControl addTarget:self action:@selector(segmentedValueChanged:) forControlEvents:UIControlEventValueChanged];
+#endif
                     
-                    cell = segCtrlCell;
+                    cell = self.transfertModeSegCtrlCell;
                     
                     
                     break;
@@ -696,6 +729,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#if TARGET_OS_IOS
         case SECTION_CERTIFICATES_INDEX:
         {
             switch (indexPath.row)
@@ -718,6 +752,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#endif
         case SECTION_CODING_INDEX:
         {
             cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -729,6 +764,27 @@ typedef enum _SETTINGS_TAG
             cell.textLabel.text = [self.codingOptions objectAtIndex:self.codingIndex];
             break;
         }
+#if TARGET_OS_TV
+        case SECTION_SAVE_INDEX:
+        {
+            switch (indexPath.row)
+            {
+                    case 0:
+                {
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:CellIdentifier];
+                    }
+                    cell.textLabel.text = NSLocalizedString(@"Save", nil);
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                    break;
+                }
+            }
+            break;
+        }
+#endif
     }
     
     return cell;
@@ -736,40 +792,162 @@ typedef enum _SETTINGS_TAG
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == SECTION_CODING_INDEX)
+    switch (indexPath.section)
     {
-        TableSelectViewController *tableSelectViewController;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+#if TARGET_OS_TV
+        case SECTION_PROTOCOL_INDEX:
         {
-            tableSelectViewController = [[TableSelectViewController alloc] initWithStyle:UITableViewStylePlain];
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    self.protocolSegCtrlCell.segmentedControl.selectedSegmentIndex = (self.protocolSegCtrlCell.segmentedControl.selectedSegmentIndex + 1)%3;
+                    switch (self.protocolSegCtrlCell.segmentedControl.selectedSegmentIndex)
+                    {
+                        case PROTOCOL_SEGMENT_FTP:
+                        {
+                            self.userAccount.serverType = SERVER_TYPE_FTP;
+                            self.userAccount.boolSSL = FALSE;
+                            break;
+                        }
+                        case PROTOCOL_SEGMENT_FTPS:
+                        {
+                            self.userAccount.serverType = SERVER_TYPE_FTP;
+                            self.userAccount.boolSSL = TRUE;
+                            break;
+                        }
+                        case PROTOCOL_SEGMENT_SFTP:
+                        {
+                            self.userAccount.serverType = SERVER_TYPE_SFTP;
+                            break;
+                        }
+                    }
+                    [self.tableView reloadData];
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+            break;
         }
-        else
+        case SECTION_AUTHENTICATION_INDEX:
         {
-            tableSelectViewController = [[TableSelectViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    if (self.userAccount.authenticationType == AUTHENTICATION_TYPE_PASSWORD)
+                    {
+                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                                                       message:NSLocalizedString(@"Certificate enter is not supported on AppleTV", nil)
+                                                                                preferredStyle:UIAlertControllerStyleAlert];
+                        
+                        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
+                                                                                style:UIAlertActionStyleDefault
+                                                                              handler:^(UIAlertAction * action) {
+                                                                              }];
+                        [alert addAction:defaultAction];
+                        [self presentViewController:alert animated:YES completion:nil];
+                    }
+                    else
+                    {
+                        self.userAccount.authenticationType = AUTHENTICATION_TYPE_PASSWORD;
+                    }
+                    [self.tableView reloadData];
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+            break;
         }
-        tableSelectViewController.elements = self.codingOptions;
-        tableSelectViewController.selectedElement = self.codingIndex;
-        tableSelectViewController.delegate = self;
-
-#if 0
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        case SECTION_TRANSFERT_MODE_INDEX:
         {
-            CGRect rect = button.frame;
-            self.sortingOptionPopoverController = [[UIPopoverController alloc] initWithContentViewController:tableSelectViewController];
-            self.sortingOptionPopoverController.popoverContentSize = CGSizeMake(320.0, MIN([self.codingOptions count] * 44.0,700));
-            [self.sortingOptionPopoverController presentPopoverFromRect:rect
-                                                                 inView:button.superview
-                                               permittedArrowDirections:UIPopoverArrowDirectionDown|UIPopoverArrowDirectionUp|UIPopoverArrowDirectionRight
-                                                               animated:YES];
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    NSLog(@"%ld",self.transfertModeSegCtrlCell.segmentedControl.selectedSegmentIndex);
+                    switch (self.transfertModeSegCtrlCell.segmentedControl.selectedSegmentIndex)
+                    {
+                        case TRANSFERT_MODE_SEGMENT_ACTIVE:
+                        {
+                            self.userAccount.transfertMode = TRANSFERT_MODE_FTP_PASSIVE;
+                            break;
+                        }
+                        case TRANSFERT_MODE_SEGMENT_PASSIVE:
+                        {
+                            self.userAccount.transfertMode = TRANSFERT_MODE_FTP_ACTIVE;
+                            break;
+                        }
+                    }
+                    [self.tableView reloadData];
+                    break;
+                }
+                default:
+                {
+                    break;
+                }
+            }
+            break;
         }
-        else
 #endif
+        case SECTION_CODING_INDEX:
         {
-            [self presentViewController:tableSelectViewController animated:YES completion:nil];
+            TableSelectViewController *tableSelectViewController;
+            if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ||
+                (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV))
+            {
+                tableSelectViewController = [[TableSelectViewController alloc] initWithStyle:UITableViewStylePlain];
+            }
+            else
+            {
+                tableSelectViewController = [[TableSelectViewController alloc] initWithStyle:UITableViewStyleGrouped];
+            }
+            tableSelectViewController.elements = self.codingOptions;
+            tableSelectViewController.selectedElement = self.codingIndex;
+            tableSelectViewController.delegate = self;
+            
+#if 0
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+            {
+                CGRect rect = button.frame;
+                self.sortingOptionPopoverController = [[UIPopoverController alloc] initWithContentViewController:tableSelectViewController];
+                self.sortingOptionPopoverController.popoverContentSize = CGSizeMake(320.0, MIN([self.codingOptions count] * 44.0,700));
+                [self.sortingOptionPopoverController presentPopoverFromRect:rect
+                                                                     inView:button.superview
+                                                   permittedArrowDirections:UIPopoverArrowDirectionDown|UIPopoverArrowDirectionUp|UIPopoverArrowDirectionRight
+                                                                   animated:YES];
+            }
+            else
+#endif
+            {
+                [self presentViewController:tableSelectViewController animated:YES completion:nil];
+            }
+            break;
+        }
+        case SECTION_SAVE_INDEX:
+        {
+            switch (indexPath.row)
+            {
+                case 0: // Save button
+                {
+                    [self saveButtonAction];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
         }
     }
 }
 
+#if TARGET_OS_IOS
 - (CGFloat) tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ((indexPath.section == SECTION_AUTHENTICATION_INDEX) &&
@@ -814,6 +992,7 @@ typedef enum _SETTINGS_TAG
         return self.tableView.rowHeight;
     }
 }
+#endif
 
 #pragma mark -
 #pragma mark TextField Delegate Methods
@@ -916,15 +1095,18 @@ typedef enum _SETTINGS_TAG
     }
 }
 
-- (void)saveButtonAction {
+- (void)saveButtonAction
+{
     [textCellProfile resignFirstResponder];
     [textCellAddress resignFirstResponder];
     [textCellPort resignFirstResponder];
     [textCellUsername resignFirstResponder];
     [textCellPassword resignFirstResponder];
+#if TARGET_OS_IOS
     [textViewCellPrivateCert resignFirstResponder];
     [textViewCellPublicCert resignFirstResponder];
-
+#endif
+    
     // Save secret information in keychain
     [SSKeychain setPassword:self.localPassword
                  forService:self.userAccount.uuid
@@ -964,6 +1146,7 @@ typedef enum _SETTINGS_TAG
 #pragma mark -
 #pragma mark UISwitch responder
 
+#if TARGET_OS_IOS
 - (void)switchValueChanged:(id)sender
 {
     NSInteger tag = ((UISwitch *)sender).tag;
@@ -977,7 +1160,9 @@ typedef enum _SETTINGS_TAG
     }
     [self.tableView reloadData];
 }
+#endif
 
+#if TARGET_OS_IOS
 - (void)segmentedValueChanged:(id)sender {
 	NSInteger tag = ((UISegmentedControl *)sender).tag;
 	switch (tag)
@@ -1062,6 +1247,7 @@ typedef enum _SETTINGS_TAG
 	}
     [self.tableView reloadData];
 }
+#endif
 
 - (void)textViewDidChange:(UITextView *)textView
 {

@@ -407,6 +407,8 @@
 		957322841BDB94A4008D8AD0 /* ServerSettingsQnapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EBAAE41A6C592C00905450 /* ServerSettingsQnapViewController.m */; };
 		957322851BDB9698008D8AD0 /* ServerSettingsFreeboxRevViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F98D89831820E5200053D5CF /* ServerSettingsFreeboxRevViewController.m */; };
 		957322861BDB9F48008D8AD0 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F98D89A41820F7290053D5CF /* NSDataAdditions.m */; };
+		957322871BDBA0E9008D8AD0 /* ServerSettingsFtpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54EBF491954A7A5008AC4BB /* ServerSettingsFtpViewController.m */; };
+		957322891BDBBA60008D8AD0 /* TableSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9401E5E15F53B0D00AF40B2 /* TableSelectViewController.m */; };
 		957BD32E1BD447F400A2610C /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD32D1BD447F400A2610C /* GoogleMobileAds.framework */; };
 		957BD3461BD44CB000A2610C /* libMobileVLCKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3451BD44CB000A2610C /* libMobileVLCKit.a */; };
 		957BD3491BD44D3700A2610C /* libMediaLibraryKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3471BD44CED00A2610C /* libMediaLibraryKit.a */; };
@@ -7313,6 +7315,7 @@
 				9548731E1BD712450097225C /* NSMutableArrayAdditions.m in Sources */,
 				9548731B1BD70FBF0097225C /* SBNetworkActivityIndicator.m in Sources */,
 				954872EA1BD706C40097225C /* CMFreeboxRev.m in Sources */,
+				957322871BDBA0E9008D8AD0 /* ServerSettingsFtpViewController.m in Sources */,
 				954872EB1BD706C40097225C /* CMQnap.m in Sources */,
 				954872EC1BD706C40097225C /* CMSynology.m in Sources */,
 				954872ED1BD706C40097225C /* CMUPnP.m in Sources */,
@@ -7326,6 +7329,7 @@
 				954872CD1BD6FCE60097225C /* FileItem.m in Sources */,
 				95486E171BD6E07E0097225C /* TVCustomMoviePlayerViewController.m in Sources */,
 				957322821BDB7025008D8AD0 /* SegCtrlCell.m in Sources */,
+				957322891BDBBA60008D8AD0 /* TableSelectViewController.m in Sources */,
 				95486DD01BD6D9E50097225C /* AppDelegate.m in Sources */,
 				95486E2B1BD6E07E0097225C /* TVServersListViewController.m in Sources */,
 				954872BB1BD6F4640097225C /* VLCMiniPlaybackView.m in Sources */,

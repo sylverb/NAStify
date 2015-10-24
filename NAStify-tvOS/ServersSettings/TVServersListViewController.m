@@ -14,6 +14,7 @@
 
 // Servers settings views
 #import "ServerSettingsFreeboxRevViewController.h"
+#import "ServerSettingsFtpViewController.h"
 #import "ServerSettingsQnapViewController.h"
 #import "ServerSettingsSynologyViewController.h"
 #import "ServerSettingsWebDavViewController.h"
@@ -230,8 +231,6 @@
                 [serverCell addGestureRecognizer:gesture];
 
                 // Configure the cell...
-                serverCell.editingAccessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                serverCell.showsReorderControl = YES;
                 [serverCell setAccount:[self.accounts objectAtIndex:indexPath.row]];
                 cell = serverCell;
             }
@@ -241,7 +240,7 @@
                 cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:TableViewCellIdentifier];
                 if (cell == nil)
                 {
-                    cell = [[ServerCell alloc] initWithStyle:UITableViewCellStyleDefault
+                    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                              reuseIdentifier:TableViewCellIdentifier];
                 }
                 
@@ -388,36 +387,6 @@
     }
     return UITableViewCellEditingStyleNone;
 }
-
-#if 0
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    BOOL canMove = NO;
-    if (indexPath.section == 0)
-    {
-        if ([self.accounts count] > 1)
-        {
-            canMove = YES;
-        }
-    }
-    return canMove;
-}
-
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath
-{
-    if ((sourceIndexPath.section == 0) && (destinationIndexPath.section == 0))
-    {
-        UserAccount *accountToMove = [self.accounts objectAtIndex:sourceIndexPath.row];
-        [self.accounts removeObjectAtIndex:sourceIndexPath.row];
-        [self.accounts insertObject:accountToMove atIndex:destinationIndexPath.row];
-        [self save];
-    }
-    else
-    {
-        [self.tableView reloadData];
-    }
-}
-#endif
 
 #pragma mark - Notification Methods
 
@@ -634,7 +603,6 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
-#if 0
                 case SERVER_TYPE_FTP:
                 case SERVER_TYPE_SFTP:
                 {
@@ -645,7 +613,6 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
-#endif
                 case SERVER_TYPE_SYNOLOGY:
                 {
                     ServerSettingsSynologyViewController *svc = [[ServerSettingsSynologyViewController alloc] initWithStyle:UITableViewStyleGrouped

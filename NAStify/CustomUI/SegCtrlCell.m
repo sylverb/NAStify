@@ -61,13 +61,15 @@
 		}
         else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
         {
-            self.segmentedControl.frame = CGRectMake(90,1,180,64);
+            self.segmentedControl.frame = CGRectMake(412,1,380,64);
         }
 		
 		//Set properties
 		self.segmentedControl.userInteractionEnabled = YES;
+#if TARGET_OS_IOS
 		self.segmentedControl.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
-		self.segmentedControl.selectedSegmentIndex = 1;
+#endif
+		self.segmentedControl.selectedSegmentIndex = 0;
 		
 		[self.contentView addSubview:segmentedControl];
     }

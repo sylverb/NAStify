@@ -8,9 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "TextCell.h"
+#if TARGET_OS_IOS
 #import "SwitchCell.h"
+#endif
 #import "SegCtrlCell.h"
+#if TARGET_OS_IOS
 #import "TextViewCell.h"
+#endif
 #import "UserAccount.h"
 #import "TableSelectViewController.h"
 
@@ -25,8 +29,10 @@
     TextCell * textCellPort;
     TextCell * textCellUsername;
     TextCell * textCellPassword;
+#if TARGET_OS_IOS
     TextViewCell * textViewCellPrivateCert;
     TextViewCell * textViewCellPublicCert;
+#endif
 }
 
 @property(nonatomic, copy) UserAccount * userAccount;
@@ -35,8 +41,13 @@
 @property(nonatomic, strong) TextCell * textCellPort;
 @property(nonatomic, strong) TextCell * textCellUsername;
 @property(nonatomic, strong) TextCell * textCellPassword;
+@property(nonatomic, strong) SegCtrlCell *protocolSegCtrlCell;
+@property(nonatomic, strong) SegCtrlCell *transfertModeSegCtrlCell;
+
+#if TARGET_OS_IOS
 @property(nonatomic, strong) TextViewCell * textViewCellPrivateCert;
 @property(nonatomic, strong) TextViewCell * textViewCellPublicCert;
+#endif
 @property(nonatomic) NSInteger    accountIndex;
 @property(nonatomic, strong) NSString *localPassword;
 @property(nonatomic, strong) NSString *localPubCert;
@@ -49,6 +60,7 @@
 @property(nonatomic, strong) id currentFirstResponder;
 
 - (id)initWithStyle:(UITableViewStyle)style andAccount:(UserAccount *)account andIndex:(NSInteger)index;
+#if TARGET_OS_IOS
 - (void)switchValueChanged:(id)sender;
-
+#endif
 @end
