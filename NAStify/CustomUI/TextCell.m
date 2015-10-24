@@ -17,9 +17,6 @@
 {
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier])
 	{
-#if !TARGET_OS_IOS
-        self.backgroundColor = [UIColor clearColor];
-#endif
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
 			self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,112,21)];
@@ -30,8 +27,12 @@
 		}
         else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
         {
-            self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,112,21)];
+            self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,1,112,64)];
+
         }
+#if !TARGET_OS_IOS
+        self.label.font = [UIFont systemFontOfSize:30.0];
+#endif
         self.label.backgroundColor = [UIColor clearColor];
 		self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleRightMargin ;
 
@@ -47,20 +48,20 @@
 		}
         else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
         {
-            self.textField = [[UITextField alloc] initWithFrame:CGRectMake(60,1,205,43)];
+            self.textField = [[UITextField alloc] initWithFrame:CGRectMake(60,1,205,64)];
         }
 		//Set properties
 		self.textField.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleLeftMargin;
 #if TARGET_OS_IOS
 		self.textField.textAlignment = NSTextAlignmentRight;
+        self.textField.font = [UIFont systemFontOfSize:17.0];
+        self.textField.minimumFontSize = 20;
 #elif TARGET_OS_TV
         self.textField.textAlignment = NSTextAlignmentLeft;
 #endif
 		UIColor *textFieldColor = [[UIColor alloc] initWithRed:96.0/255 green:140.0/255 blue:189.0/255 alpha:1.0];
 		self.textField.textColor = textFieldColor;
 		self.textField.borderStyle = UITextBorderStyleNone;
-		self.textField.font = [UIFont systemFontOfSize:17.0];
-		self.textField.minimumFontSize = 20;
 		self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
 		self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 		self.textField.clearsOnBeginEditing = NO;

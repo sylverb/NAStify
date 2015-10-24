@@ -28,14 +28,16 @@
 		}
         else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
         {
-            self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,11,175,21)];
+            self.label = [[UILabel alloc] initWithFrame:CGRectMake(20,1,175,64)];
         }
+        
+        //Set properties
         self.label.backgroundColor = [UIColor clearColor];
-		
-		//Set properties
 		self.label.adjustsFontSizeToFitWidth = YES;
 #if TARGET_OS_IOS
 		self.label.minimumFontSize = 10;
+#elif TARGET_OS_TV
+        self.label.font = [UIFont systemFontOfSize:30.0];
 #endif
 		self.label.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 		
@@ -59,7 +61,7 @@
 		}
         else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
         {
-            self.segmentedControl.frame = CGRectMake(90,5,180,35);
+            self.segmentedControl.frame = CGRectMake(90,1,180,64);
         }
 		
 		//Set properties
