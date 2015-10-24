@@ -394,17 +394,17 @@ typedef enum _SETTINGS_TAG
 {
     switch (indexPath.section)
     {
-            case 3:
+        case 3:
         {
             switch (indexPath.row)
             {
-                    case 0: // SSL
+                case 0: // SSL
                 {
                     self.userAccount.boolSSL = !self.userAccount.boolSSL;
                     [self.tableView reloadData];
                     break;
                 }
-                    case 1: // Certificate
+                case 1: // Certificate
                 {
                     self.userAccount.acceptUntrustedCertificate = !self.userAccount.acceptUntrustedCertificate;
                     [self.tableView reloadData];
@@ -415,11 +415,11 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-            case 4:
+        case 4:
         {
             switch (indexPath.row)
             {
-                    case 0: // Save button
+                case 0: // Save button
                 {
                     [self saveButtonAction];
                     break;

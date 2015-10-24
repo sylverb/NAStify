@@ -131,11 +131,13 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#if TARGET_OS_TV
         case 4:
         {
             numberOfRows = 1;
             break;
         }
+#endif
     }
     return numberOfRows;
 }
