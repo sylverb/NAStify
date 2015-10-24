@@ -14,6 +14,7 @@
 #import "NSMutableArrayAdditions.h"
 #import "NSStringAdditions.h"
 #import "NSNumberAdditions.h"
+#import "NSDataAdditions.h"
 
 #import <TVVLCKit/TVVLCKit.h>
 

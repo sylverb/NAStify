@@ -9,11 +9,14 @@
 #import "TVServersListViewController.h"
 #import "ConnectionManager.h"
 #import "TVFileBrowserViewController.h"
+#import "ServerTypeViewController.h"
+#import "SSKeychain.h"
+
+// Servers settings views
+#import "ServerSettingsFreeboxRevViewController.h"
 #import "ServerSettingsQnapViewController.h"
 #import "ServerSettingsSynologyViewController.h"
 #import "ServerSettingsWebDavViewController.h"
-#import "ServerTypeViewController.h"
-#import "SSKeychain.h"
 
 @interface ServersListViewController ()
 @property(nonatomic) NSInteger timeCounter;
@@ -672,7 +675,6 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
-#if 0
                 case SERVER_TYPE_FREEBOX_REVOLUTION:
                 {
                     ServerSettingsFreeboxRevViewController *svc = [[ServerSettingsFreeboxRevViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -682,6 +684,7 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
+#if 0
                 case SERVER_TYPE_SAMBA:
                 {
                     ServerSettingsSambaViewController *svc = [[ServerSettingsSambaViewController alloc] initWithStyle:UITableViewStyleGrouped

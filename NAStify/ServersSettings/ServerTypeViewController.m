@@ -8,8 +8,8 @@
 
 #import "ServerTypeViewController.h"
 #import "ServerSettingsWebDavViewController.h"
-#if TARGET_OS_IOS
 #import "ServerSettingsFreeboxRevViewController.h"
+#if TARGET_OS_IOS
 #import "ServerSettingsFtpViewController.h"
 #import "ServerSettingsBoxViewController.h"
 #import "ServerSettingsGoogleDriveViewController.h"
@@ -55,9 +55,10 @@
 #endif
 #else
 // AppleTV
-#define ROW_INDEX_SYNOLOGY      0
-#define ROW_INDEX_QNAP          1
-#define ROW_INDEX_WEBDAV        2
+#define ROW_INDEX_FREEBOX       0
+#define ROW_INDEX_SYNOLOGY      1
+#define ROW_INDEX_QNAP          2
+#define ROW_INDEX_WEBDAV        3
 // Update this when adding new server types !!!
 #define NUMBER_OF_ROWS      ROW_INDEX_WEBDAV + 1
 #endif
@@ -143,13 +144,11 @@
             cell.serverType = SERVER_TYPE_SYNOLOGY;
             break;
         }
-#if TARGET_OS_IOS
         case ROW_INDEX_FREEBOX:
         {
             cell.serverType = SERVER_TYPE_FREEBOX_REVOLUTION;
             break;
         }
-#endif
         case ROW_INDEX_QNAP:
         {
             cell.serverType = SERVER_TYPE_QNAP;
@@ -242,7 +241,6 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
-#if TARGET_OS_IOS
         case ROW_INDEX_FREEBOX:
         {
             ServerSettingsFreeboxRevViewController * svc = [[ServerSettingsFreeboxRevViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -251,6 +249,7 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
+#if TARGET_OS_IOS
 //        case ROW_INDEX_PYDIO:
 //        {
 //            ServerSettingsQnapViewController * svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped

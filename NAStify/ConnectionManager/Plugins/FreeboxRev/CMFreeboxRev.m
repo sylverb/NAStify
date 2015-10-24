@@ -191,7 +191,7 @@
         };
         
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:[self bundleName],@"app_id",
-                                [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleDisplayName"],@"app_name",
+                                [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleName"],@"app_name",
                                 [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"],@"app_version",
                                 [[UIDevice currentDevice] name],@"device_name",
                                 nil];

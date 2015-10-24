@@ -405,6 +405,8 @@
 		957322821BDB7025008D8AD0 /* SegCtrlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F943559115FD1DAD00307556 /* SegCtrlCell.m */; };
 		957322831BDB8ADF008D8AD0 /* ServerSettingsSynologyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54EBF461950290A008AC4BB /* ServerSettingsSynologyViewController.m */; };
 		957322841BDB94A4008D8AD0 /* ServerSettingsQnapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5EBAAE41A6C592C00905450 /* ServerSettingsQnapViewController.m */; };
+		957322851BDB9698008D8AD0 /* ServerSettingsFreeboxRevViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F98D89831820E5200053D5CF /* ServerSettingsFreeboxRevViewController.m */; };
+		957322861BDB9F48008D8AD0 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F98D89A41820F7290053D5CF /* NSDataAdditions.m */; };
 		957BD32E1BD447F400A2610C /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD32D1BD447F400A2610C /* GoogleMobileAds.framework */; };
 		957BD3461BD44CB000A2610C /* libMobileVLCKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3451BD44CB000A2610C /* libMobileVLCKit.a */; };
 		957BD3491BD44D3700A2610C /* libMediaLibraryKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3471BD44CED00A2610C /* libMediaLibraryKit.a */; };
@@ -7304,6 +7306,7 @@
 				957224361BD9A187009495DF /* CMWebDav.m in Sources */,
 				95BD825C1BD82749000520B8 /* FileBrowserCell.m in Sources */,
 				954874801BD776550097225C /* ServerTypeCell.m in Sources */,
+				957322861BDB9F48008D8AD0 /* NSDataAdditions.m in Sources */,
 				9548747F1BD7755C0097225C /* TextCell.m in Sources */,
 				9548747D1BD771BA0097225C /* ServerTypeViewController.m in Sources */,
 				9548731F1BD712C10097225C /* NSNumberAdditions.m in Sources */,
@@ -7334,6 +7337,7 @@
 				954872B91BD6F4640097225C /* VLCFullscreenMovieTVViewController.m in Sources */,
 				95486DCD1BD6D9E50097225C /* main.m in Sources */,
 				954872B61BD6F4640097225C /* UIColor+Presets.m in Sources */,
+				957322851BDB9698008D8AD0 /* ServerSettingsFreeboxRevViewController.m in Sources */,
 				954872C91BD6FA3C0097225C /* VLCPlayerDisplayController.m in Sources */,
 				954872B81BD6F4640097225C /* VLCFrostedGlasView.m in Sources */,
 			);
