@@ -18,11 +18,7 @@
 #import "ServerSettingsSambaViewController.h"
 #endif
 #endif
-#if TARGET_OS_IOS
 #import "ServerSettingsSynologyViewController.h"
-#elif TARGET_OS_TV
-#import "TVServerSettingsSynologyViewController.h"
-#endif
 #if TARGET_OS_IOS
 #import "ServerSettingsMegaViewController.h"
 #import "ServerSettingsOneDriveViewController.h"
@@ -236,18 +232,11 @@
 #endif
         case ROW_INDEX_SYNOLOGY:
         {
-#if TARGET_OS_IOS
             ServerSettingsSynologyViewController * svc = [[ServerSettingsSynologyViewController alloc] initWithStyle:UITableViewStyleGrouped
                                                                                                           andAccount:nil
                                                                                                             andIndex:-1];
             svc.userAccount.serverType = SERVER_TYPE_SYNOLOGY;
             [self.navigationController pushViewController:svc animated:YES];
-#elif TARGET_OS_TV
-            TVServerSettingsSynologyViewController * svc = [[TVServerSettingsSynologyViewController alloc] initWithAccount:nil
-                                                                                                                  andIndex:-1];
-            svc.userAccount.serverType = SERVER_TYPE_SYNOLOGY;
-            [self.navigationController pushViewController:svc animated:YES];
-#endif
             break;
         }
 #if TARGET_OS_IOS

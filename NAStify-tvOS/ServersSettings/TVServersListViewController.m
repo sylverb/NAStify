@@ -9,7 +9,7 @@
 #import "TVServersListViewController.h"
 #import "ConnectionManager.h"
 #import "TVFileBrowserViewController.h"
-#import "TVServerSettingsSynologyViewController.h"
+#import "ServerSettingsSynologyViewController.h"
 #import "ServerSettingsWebDavViewController.h"
 #import "ServerTypeViewController.h"
 #import "SSKeychain.h"
@@ -301,225 +301,77 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (self.editing)
+    switch (indexPath.section)
     {
-#if 0
-        switch (indexPath.section)
+        case 0: // Servers
         {
-            case 0: // Servers
+            if (indexPath.row != [self.accounts count])
             {
-                // Edit account
-                UserAccount *account = [self.accounts objectAtIndex:indexPath.row];
-                switch (account.serverType)
-                {
-                    case SERVER_TYPE_WEBDAV:
-                    {
-                        ServerSettingsWebDavViewController *svc = [[ServerSettingsWebDavViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                                 andAccount:account
-                                                                                                                   andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_FTP:
-                    case SERVER_TYPE_SFTP:
-                    {
-                        ServerSettingsFtpViewController *svc = [[ServerSettingsFtpViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                           andAccount:account
-                                                                                                             andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_SYNOLOGY:
-                    {
-                        ServerSettingsSynologyViewController *svc = [[ServerSettingsSynologyViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                                     andAccount:account
-                                                                                                                       andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_PYDIO:
-                    {
-                        ServerSettingsQnapViewController *svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                             andAccount:account
-                                                                                                               andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_QNAP:
-                    {
-                        ServerSettingsQnapViewController *svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                             andAccount:account
-                                                                                                               andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_FREEBOX_REVOLUTION:
-                    {
-                        ServerSettingsFreeboxRevViewController *svc = [[ServerSettingsFreeboxRevViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                                         andAccount:account
-                                                                                                                           andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_SAMBA:
-                    {
-                        ServerSettingsSambaViewController *svc = [[ServerSettingsSambaViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                               andAccount:account
-                                                                                                                 andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_DROPBOX:
-                    {
-                        ServerSettingsDropboxViewController *svc = [[ServerSettingsDropboxViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                                   andAccount:account
-                                                                                                                     andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_BOX:
-                    {
-                        ServerSettingsBoxViewController *svc = [[ServerSettingsBoxViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                           andAccount:account
-                                                                                                             andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_GOOGLEDRIVE:
-                    {
-                        ServerSettingsGoogleDriveViewController *svc =
-                        [[ServerSettingsGoogleDriveViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                            andAccount:account
-                                                                              andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_MEGA:
-                    {
-                        ServerSettingsMegaViewController *svc = [[ServerSettingsMegaViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                             andAccount:account
-                                                                                                               andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_ONEDRIVE:
-                    {
-                        ServerSettingsOneDriveViewController *svc = [[ServerSettingsOneDriveViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                                     andAccount:account
-                                                                                                                       andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_OWNCLOUD:
-                    {
-                        ServerSettingsOwnCloudViewController *svc = [[ServerSettingsOwnCloudViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                                     andAccount:account
-                                                                                                                       andIndex:indexPath.row];
-                        svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                        [self.navigationController pushViewController:svc animated:YES];
-                        break;
-                    }
-                    case SERVER_TYPE_UNKNOWN:
-                    case SERVER_TYPE_LOCAL:
-                    case SERVER_TYPE_UPNP:
-                    {
-                        // Nothing to do
-                        break;
-                    }
-                }
-                break;
-            }
-        }
-#endif
-    }
-    else
-    {
-        switch (indexPath.section)
-        {
-            case 0: // Servers
-            {
-                if (indexPath.row != [self.accounts count])
-                {
-//                 [self save];
-                    
-                    FileItem *rootFolder = [[FileItem alloc] init];
-                    rootFolder.isDir = YES;
-                    rootFolder.path = @"/";
-                    rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
-                    
-                    FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
-                    fileBrowserViewController.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                    fileBrowserViewController.currentFolder = rootFolder;
-                    
-                    [self.navigationController pushViewController:fileBrowserViewController animated:YES];
-
-                }
-                else
-                {
-                    ServerTypeViewController * stc = [[ServerTypeViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                    [self.navigationController pushViewController:stc animated:YES];
-                }
-
-                break;
-            }
-            case 1: // UPnP
-            {
-                BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
-                if ([[device urn] isEqualToString:@"urn:schemas-upnp-org:device:MediaServer:1"])
-                {
-                    MediaServer1Device *server = (MediaServer1Device*)device;
-                    
-                    UserAccount *account = [[UserAccount alloc] init];
-                    account.serverType = SERVER_TYPE_UPNP;
-                    account.serverObject = server;
-                    
-                    FileItem *rootFolder = [[FileItem alloc] init];
-                    rootFolder.isDir = YES;
-                    rootFolder.path = @"/";
-                    rootFolder.objectIds = [NSArray arrayWithObject:@"0"];
-                    
-                    FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
-                    fileBrowserViewController.userAccount = account;
-                    fileBrowserViewController.currentFolder = rootFolder;
-                    
-                    [self.navigationController pushViewController:fileBrowserViewController animated:YES];
-                }
-                break;
-            }
-#ifdef SAMBA
-            case 2: // SMB/CIFS
-            {
-                UserAccount *account = [[UserAccount alloc] init];
-                account.serverType = SERVER_TYPE_SAMBA;
-                
                 FileItem *rootFolder = [[FileItem alloc] init];
                 rootFolder.isDir = YES;
                 rootFolder.path = @"/";
                 rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
                 
                 FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+                fileBrowserViewController.userAccount = [self.accounts objectAtIndex:indexPath.row];
+                fileBrowserViewController.currentFolder = rootFolder;
+                
+                [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                
+            }
+            else
+            {
+                ServerTypeViewController * stc = [[ServerTypeViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                [self.navigationController pushViewController:stc animated:YES];
+            }
+            
+            break;
+        }
+        case 1: // UPnP
+        {
+            BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
+            if ([[device urn] isEqualToString:@"urn:schemas-upnp-org:device:MediaServer:1"])
+            {
+                MediaServer1Device *server = (MediaServer1Device*)device;
+                
+                UserAccount *account = [[UserAccount alloc] init];
+                account.serverType = SERVER_TYPE_UPNP;
+                account.serverObject = server;
+                
+                FileItem *rootFolder = [[FileItem alloc] init];
+                rootFolder.isDir = YES;
+                rootFolder.path = @"/";
+                rootFolder.objectIds = [NSArray arrayWithObject:@"0"];
+                
+                FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
                 fileBrowserViewController.userAccount = account;
                 fileBrowserViewController.currentFolder = rootFolder;
                 
                 [self.navigationController pushViewController:fileBrowserViewController animated:YES];
-                break;
             }
-#endif
-            default:
-                break;
+            break;
         }
+#ifdef SAMBA
+        case 2: // SMB/CIFS
+        {
+            UserAccount *account = [[UserAccount alloc] init];
+            account.serverType = SERVER_TYPE_SAMBA;
+            
+            FileItem *rootFolder = [[FileItem alloc] init];
+            rootFolder.isDir = YES;
+            rootFolder.path = @"/";
+            rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
+            
+            FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] init];
+            fileBrowserViewController.userAccount = account;
+            fileBrowserViewController.currentFolder = rootFolder;
+            
+            [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+            break;
+        }
+#endif
+        default:
+            break;
     }
     [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -804,6 +656,7 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
+#endif
                 case SERVER_TYPE_SYNOLOGY:
                 {
                     ServerSettingsSynologyViewController *svc = [[ServerSettingsSynologyViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -813,6 +666,7 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
+#if 0
                 case SERVER_TYPE_PYDIO:
                 {
                     ServerSettingsQnapViewController *svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped

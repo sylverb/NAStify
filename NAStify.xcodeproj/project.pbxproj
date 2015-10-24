@@ -403,6 +403,7 @@
 		9573227F1BDAFA9B008D8AD0 /* tvos-libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9573227E1BDAFA9B008D8AD0 /* tvos-libcurl.a */; };
 		957322811BDAFAA8008D8AD0 /* tvos-libneon.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957322801BDAFAA8008D8AD0 /* tvos-libneon.a */; };
 		957322821BDB7025008D8AD0 /* SegCtrlCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F943559115FD1DAD00307556 /* SegCtrlCell.m */; };
+		957322831BDB8ADF008D8AD0 /* ServerSettingsSynologyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54EBF461950290A008AC4BB /* ServerSettingsSynologyViewController.m */; };
 		957BD32E1BD447F400A2610C /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD32D1BD447F400A2610C /* GoogleMobileAds.framework */; };
 		957BD3461BD44CB000A2610C /* libMobileVLCKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3451BD44CB000A2610C /* libMobileVLCKit.a */; };
 		957BD3491BD44D3700A2610C /* libMediaLibraryKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3471BD44CED00A2610C /* libMediaLibraryKit.a */; };
@@ -413,8 +414,6 @@
 		95AF2E111BDAE5D600C3A81D /* tvos-libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */; };
 		95AF2E121BDAE5D600C3A81D /* tvos-libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF2E101BDAE5D600C3A81D /* tvos-libssl.a */; };
 		95BD825C1BD82749000520B8 /* FileBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F82415D8390A0059428E /* FileBrowserCell.m */; };
-		95BD829B1BD8491F000520B8 /* TVServerSettingsSynologyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BD82991BD8491F000520B8 /* TVServerSettingsSynologyViewController.m */; };
-		95BD829C1BD8491F000520B8 /* TVServerSettingsSynologyViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95BD829A1BD8491F000520B8 /* TVServerSettingsSynologyViewController.xib */; };
 		95DFB7011B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
 		95DFB7021B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
 		95DFB7561B0BA6260002C830 /* AuthorizationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7071B0BA6250002C830 /* AuthorizationClient.m */; };
@@ -1845,9 +1844,6 @@
 		957BD3941BD6C2BB00A2610C /* NAStifyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NAStifyConstants.h; path = Settings/NAStifyConstants.h; sourceTree = "<group>"; };
 		95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libcrypto.a"; path = "external/openssl/lib/tvos-libcrypto.a"; sourceTree = "<group>"; };
 		95AF2E101BDAE5D600C3A81D /* tvos-libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libssl.a"; path = "external/openssl/lib/tvos-libssl.a"; sourceTree = "<group>"; };
-		95BD82981BD8491F000520B8 /* TVServerSettingsSynologyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVServerSettingsSynologyViewController.h; sourceTree = "<group>"; };
-		95BD82991BD8491F000520B8 /* TVServerSettingsSynologyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVServerSettingsSynologyViewController.m; sourceTree = "<group>"; };
-		95BD829A1BD8491F000520B8 /* TVServerSettingsSynologyViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TVServerSettingsSynologyViewController.xib; sourceTree = "<group>"; };
 		95DFB6FF1B0BA5D40002C830 /* CMPydio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMPydio.h; sourceTree = "<group>"; };
 		95DFB7001B0BA5D40002C830 /* CMPydio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMPydio.m; sourceTree = "<group>"; };
 		95DFB7061B0BA6250002C830 /* AuthorizationClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorizationClient.h; sourceTree = "<group>"; };
@@ -3401,7 +3397,6 @@
 		95486E121BD6E07E0097225C /* ServersSettings */ = {
 			isa = PBXGroup;
 			children = (
-				95BD828F1BD84794000520B8 /* Synology */,
 				95486E131BD6E07E0097225C /* TVServersListViewController.h */,
 				95486E141BD6E07E0097225C /* TVServersListViewController.m */,
 			);
@@ -3421,16 +3416,6 @@
 			children = (
 			);
 			name = External;
-			sourceTree = "<group>";
-		};
-		95BD828F1BD84794000520B8 /* Synology */ = {
-			isa = PBXGroup;
-			children = (
-				95BD82981BD8491F000520B8 /* TVServerSettingsSynologyViewController.h */,
-				95BD82991BD8491F000520B8 /* TVServerSettingsSynologyViewController.m */,
-				95BD829A1BD8491F000520B8 /* TVServerSettingsSynologyViewController.xib */,
-			);
-			name = Synology;
 			sourceTree = "<group>";
 		};
 		95DFB6FE1B0BA5D40002C830 /* Pydio */ = {
@@ -6216,7 +6201,6 @@
 				954873251BD71B3F0097225C /* 3gp@3x.png in Resources */,
 				954873261BD71B3F0097225C /* 7z.png in Resources */,
 				954873271BD71B3F0097225C /* 7z@2x.png in Resources */,
-				95BD829C1BD8491F000520B8 /* TVServerSettingsSynologyViewController.xib in Resources */,
 				954873281BD71B3F0097225C /* 7z@3x.png in Resources */,
 				954873291BD71B3F0097225C /* aa3.png in Resources */,
 				9548732A1BD71B3F0097225C /* aa3@2x.png in Resources */,
@@ -7334,6 +7318,7 @@
 				954872E91BD706310097225C /* NSStringAdditions.m in Sources */,
 				954872E81BD705B70097225C /* UserAccount.m in Sources */,
 				954872CF1BD6FD880097225C /* ServerCell.m in Sources */,
+				957322831BDB8ADF008D8AD0 /* ServerSettingsSynologyViewController.m in Sources */,
 				954872CD1BD6FCE60097225C /* FileItem.m in Sources */,
 				95486E171BD6E07E0097225C /* TVCustomMoviePlayerViewController.m in Sources */,
 				957322821BDB7025008D8AD0 /* SegCtrlCell.m in Sources */,
@@ -7346,7 +7331,6 @@
 				954872BC1BD6F4640097225C /* VLCPlaybackNavigationController.m in Sources */,
 				954872B91BD6F4640097225C /* VLCFullscreenMovieTVViewController.m in Sources */,
 				95486DCD1BD6D9E50097225C /* main.m in Sources */,
-				95BD829B1BD8491F000520B8 /* TVServerSettingsSynologyViewController.m in Sources */,
 				954872B61BD6F4640097225C /* UIColor+Presets.m in Sources */,
 				954872C91BD6FA3C0097225C /* VLCPlayerDisplayController.m in Sources */,
 				954872B81BD6F4640097225C /* VLCFrostedGlasView.m in Sources */,

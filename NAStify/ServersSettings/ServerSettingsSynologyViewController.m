@@ -11,6 +11,8 @@
 #import "SSKeychain.h"
 #if TARGET_OS_IOS
 #import "SwitchCell.h"
+#elif TARGET_OS_TV
+#import "SegCtrlCell.h"
 #endif
 
 typedef enum _SETTINGS_TAG
@@ -90,7 +92,7 @@ typedef enum _SETTINGS_TAG
 #if TARGET_OS_IOS
     return 4;
 #else
-    return 3;
+    return 5;
 #endif
 }
 
@@ -129,6 +131,11 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+        case 4:
+        {
+            numberOfRows = 1;
+            break;
+        }
     }
     return numberOfRows;
 }
@@ -138,7 +145,12 @@ typedef enum _SETTINGS_TAG
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *TextCellIdentifier = @"TextCell";
+#if TARGET_OS_IOS
     static NSString *SwitchCellIdentifier = @"SwitchCell";
+#elif TARGET_OS_TV
+    static NSString *TableCellIdentifier = @"TableCell";
+    static NSString *SegmentedCellIdentifier = @"SegmentedCell";
+#endif
 
     UITableViewCell *cell = nil;
 
@@ -255,13 +267,13 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-#if TARGET_OS_IOS
         case 3:
         {
             switch (indexPath.row)
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     SwitchCell *switchCell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
                     if (switchCell == nil)
                     {
@@ -273,10 +285,40 @@ typedef enum _SETTINGS_TAG
                                                      andTag:SSL_TAG];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
+#else
+                    NSInteger selectedIndex;
+                    
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedCellIdentifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if (self.userAccount.boolSSL)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"SSL",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:SSL_TAG];
+                    
+                    cell = segCtrlCell;
+#endif
                     break;
                 }
                 case 1:
                 {
+#if TARGET_OS_IOS
                     SwitchCell *switchCell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
                     if (switchCell == nil)
                     {
@@ -288,6 +330,55 @@ typedef enum _SETTINGS_TAG
                                                      andTag:ACCEPT_UNTRUSTED_CERT_TAG];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
+#else
+                    NSInteger selectedIndex;
+                    
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedCellIdentifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if (self.userAccount.acceptUntrustedCertificate)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Allow untrusted certificate",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:ACCEPT_UNTRUSTED_CERT_TAG];
+                    
+                    cell = segCtrlCell;
+#endif
+                    break;
+                }
+            }
+            break;
+        }
+#if TARGET_OS_TV
+            case 4:
+        {
+            switch (indexPath.row)
+            {
+                    case 0:
+                {
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:TableCellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:TableCellIdentifier];
+                    }
+                    cell.textLabel.text = NSLocalizedString(@"Save", nil);
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
                     break;
                 }
             }
@@ -298,6 +389,57 @@ typedef enum _SETTINGS_TAG
     
     return cell;
 }
+
+#if TARGET_OS_TV
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section)
+    {
+        case 3:
+        {
+            switch (indexPath.row)
+            {
+                case 0: // SSL
+                {
+                    self.userAccount.boolSSL = !self.userAccount.boolSSL;
+                    [self.tableView reloadData];
+                    break;
+                }
+                case 1: // Certificate
+                {
+                    self.userAccount.acceptUntrustedCertificate = !self.userAccount.acceptUntrustedCertificate;
+                    [self.tableView reloadData];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+        case 4:
+        {
+            switch (indexPath.row)
+            {
+                    case 0: // Save button
+                {
+                    [self saveButtonAction];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+            
+        default:
+            break;
+    }
+    if ((indexPath.section == 4) && (indexPath.row == 0))
+    {
+        [self saveButtonAction];
+    }
+}
+#endif
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
