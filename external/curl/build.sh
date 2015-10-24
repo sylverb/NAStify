@@ -22,24 +22,33 @@ fi
 #build armv7s
 ./build-curl.sh -a armv7s -k $SDK
 #build arm64
-./build-curl.sh -a arm64 -k $SDK
+./build-curl.sh -a aarch64 -k $SDK
 #build i386
 ./build-curl.sh -a i386 -s -k $SDK
 #build x86_64
 ./build-curl.sh -a x86_64 -s -k $SDK
 
+#build arm64 tvOS
+./build-curl.sh -a aarch64 -t
+#build x86_64 tvOS
+./build-curl.sh -a x86_64 -s -t
+
 #create universal libray
 mkdir -p lib
-lipo -create curl-${LIBCURL_VERSION}/install-ios-OS/armv7/lib/libcurl.a \
-             curl-${LIBCURL_VERSION}/install-ios-OS/armv7s/lib/libcurl.a \
-             curl-${LIBCURL_VERSION}/install-ios-OS/arm64/lib/libcurl.a \
-             curl-${LIBCURL_VERSION}/install-ios-Simulator/i386/lib/libcurl.a \
-             curl-${LIBCURL_VERSION}/install-ios-Simulator/x86_64/lib/libcurl.a \
-             -output lib/licurl.a
+lipo -create curl-${LIBCURL_VERSION}/install-ios-iPhoneOS/armv7/lib/libcurl.a \
+             curl-${LIBCURL_VERSION}/install-ios-iPhoneOS/armv7s/lib/libcurl.a \
+             curl-${LIBCURL_VERSION}/install-ios-iPhoneOS/arm64/lib/libcurl.a \
+             curl-${LIBCURL_VERSION}/install-ios-iPhoneSimulator/i386/lib/libcurl.a \
+             curl-${LIBCURL_VERSION}/install-ios-iPhoneSimulator/x86_64/lib/libcurl.a \
+             -output lib/libcurl.a
+
+lipo -create curl-${LIBCURL_VERSION}/install-ios-AppleTVOS/arm64/lib/libcurl.a \
+             curl-${LIBCURL_VERSION}/install-ios-AppleTVSimulator/x86_64/lib/libcurl.a \
+-output lib/tvos-libcurl.a
 
 #create include folder
 mkdir -p lib/include/curl
-cp -r curl-${LIBCURL_VERSION}/install-ios-OS/armv7/include lib/
+cp -r curl-${LIBCURL_VERSION}/install-ios-iPhoneOS/armv7/include lib/
 
 #Apply patch
 patch -Np1 -i curl_arm64_header_fix.patch

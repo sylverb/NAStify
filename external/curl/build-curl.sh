@@ -5,9 +5,19 @@ set -e
 
 PLATFORM=OS
 VERBOSE=no
-SDK_VERSION=8.3
+DEBUG=no
+SDK_VERSION=`xcrun --sdk iphoneos --show-sdk-version`
 SDK_MIN=7.0
+SIXTYFOURBIT_SDK_MIN=7.0
 ARCH=armv7
+SCARY=yes
+TVOS=no
+OSSTYLE=iPhone
+OSVERSIONMINCFLAG=miphoneos-version-min
+OSVERSIONMINLDFLAG=ios_version_min
+
+CORE_COUNT=`sysctl -n machdep.cpu.core_count`
+let MAKE_JOBS=$CORE_COUNT+1
 
 usage()
 {
@@ -17,7 +27,10 @@ usage: $0 [-s] [-k sdk]
 OPTIONS
    -k <sdk version>      Specify which sdk to use ('xcodebuild -showsdks', current: ${SDK_VERSION})
    -s            Build for simulator
+   -t            Build for tvOS
    -a <arch>     Specify which arch to use (current: ${ARCH})
+   -d            Enable debug
+   -v            Enable verbose command-line output
 EOF
 }
 
@@ -38,7 +51,7 @@ info()
     echo "[${blue}info${normal}] $1"
 }
 
-while getopts "hvsk:a:" OPTION
+while getopts "hvdstk:a:" OPTION
 do
      case $OPTION in
          h)
@@ -51,11 +64,21 @@ do
          s)
              PLATFORM=Simulator
              ;;
+         d)
+             DEBUG=yes
+             ;;
          k)
              SDK_VERSION=$OPTARG
              ;;
          a)
              ARCH=$OPTARG
+             ;;
+         t)
+             TVOS=yes
+             SDK_VERSION=`xcrun --sdk appletvos --show-sdk-version`
+             OSVERSIONMINCFLAG=mtvos-version-min
+             OSVERSIONMINLDFLAG=tvos_version_min
+             SIXTYFOURBIT_SDK_MIN=9.0
              ;;
          ?)
              usage
@@ -75,16 +98,30 @@ if [ "$VERBOSE" = "yes" ]; then
    out="/dev/stdout"
 fi
 
-info "Building curl for iOS"
+TARGET="${ARCH}-apple-darwin11"
 
-if [ "$PLATFORM" = "Simulator" ]; then
-    TARGET="${ARCH}-apple-darwin11"
-    OPTIM="-O3 -g"
+# apple doesn't call AArch64 that way, but arm64 (a contrario to all libraries)
+# so we need to translate it..
+
+if [ "$ARCH" = "aarch64" ]; then
+ACTUAL_ARCH="arm64"
 else
-    TARGET="arm-apple-darwin11"
-    OPTIM="-O3 -g"
+ACTUAL_ARCH="$ARCH"
 fi
 
+if [ "$DEBUG" = "yes" ]; then
+OPTIM="-O0 -g"
+else
+OPTIM="-O3 -g"
+fi
+
+if [ "$TVOS" = "yes" ]; then
+OSSTYLE=AppleTV
+export BUILDFORTVOS="yes"
+fi
+export BUILDFORIOS="yes"
+
+info "Building curl for '${OSSTYLE}'"
 info "Using ${ARCH} with SDK version ${SDK_VERSION}"
 
 THIS_SCRIPT_PATH=`pwd`/$0
@@ -95,7 +132,7 @@ spopd
 
 if test -z "$SDKROOT"
 then
-    SDKROOT=`xcode-select -print-path`/Platforms/iPhone${PLATFORM}.platform/Developer/SDKs/iPhone${PLATFORM}${SDK_VERSION}.sdk
+    SDKROOT=`xcode-select -print-path`/Platforms/${OSSTYLE}${PLATFORM}.platform/Developer/SDKs/${OSSTYLE}${PLATFORM}${SDK_VERSION}.sdk
     echo "SDKROOT not specified, assuming $SDKROOT"
 fi
 
@@ -105,11 +142,8 @@ then
     exit 1
 fi
 
-BUILDDIR="${CURLROOT}/build-ios-${PLATFORM}/${ARCH}"
-
-PREFIX="${CURLROOT}/install-ios-${PLATFORM}/${ARCH}"
-
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin:/usr/X11/bin"
+BUILDDIR="${CURLROOT}/build-ios-${OSSTYLE}${PLATFORM}/${ACTUAL_ARCH}"
+PREFIX="${CURLROOT}/install-ios-${OSSTYLE}${PLATFORM}/${ACTUAL_ARCH}"
 
 # The contrib will read the following
 export AR="xcrun ar"
@@ -125,44 +159,55 @@ export STRIP="xcrun strip"
 export PLATFORM=$PLATFORM
 export SDK_VERSION=$SDK_VERSION
 
+CFLAGS="-isysroot ${SDKROOT} -arch ${ACTUAL_ARCH} ${OPTIM}"
+
 if [ "$PLATFORM" = "OS" ]; then
-export CFLAGS="-isysroot ${SDKROOT} -arch ${ARCH} -miphoneos-version-min=${SDK_MIN} -fembed-bitcode ${OPTIM}"
-if [ "$ARCH" != "arm64" ]; then
-export CFLAGS="${CFLAGS} -mcpu=cortex-a8"
+if [ "$ARCH" != "aarch64" ]; then
+CFLAGS+=" -mcpu=cortex-a8 -${OSVERSIONMINCFLAG}=${SDK_MIN}"
+else
+CFLAGS+=" -${OSVERSIONMINCFLAG}=${SIXTYFOURBIT_SDK_MIN}"
 fi
 else
-export CFLAGS="-isysroot ${SDKROOT} -arch ${ARCH} -miphoneos-version-min=${SDK_MIN} ${OPTIM}"
+CFLAGS+=" -${OSVERSIONMINCFLAG}=${SIXTYFOURBIT_SDK_MIN}"
 fi
+
+# Enable bitcode
+CFLAGS+=" -fembed-bitcode"
+
 export CFLAGS="${CFLAGS} -Wno-error=implicit-function-declaration"
-export CPPFLAGS="${CFLAGS}"
 export CXXFLAGS="${CFLAGS}"
-export OBJCFLAGS="${CFLAGS}"
+export CPPFLAGS="${CFLAGS}"
 
 export CPP="xcrun cc -E"
 export CXXCPP="xcrun c++ -E"
 
-export BUILDFORIOS="yes"
-
 if [ "$PLATFORM" = "Simulator" ]; then
-    # Use the new ABI on simulator, else we can't build
-    export OBJCFLAGS="-fobjc-abi-version=2 -fobjc-legacy-dispatch ${OBJCFLAGS}"
+# Use the new ABI on simulator, else we can't build
+export OBJCFLAGS="-fobjc-abi-version=2 -fobjc-legacy-dispatch ${OBJCFLAGS}"
 fi
 
-export LDFLAGS="-L${SDKROOT}/usr/lib -arch ${ARCH} -isysroot ${SDKROOT} -miphoneos-version-min=${SDK_MIN}"
+export LDFLAGS="-isysroot ${SDKROOT} -L${SDKROOT}/usr/lib -arch ${ACTUAL_ARCH}"
 
 if [ "$PLATFORM" = "OS" ]; then
-    EXTRA_CFLAGS="-arch ${ARCH}"
-if [ "$ARCH" != "arm64" ]; then
-    EXTRA_CFLAGS+=" -mcpu=cortex-a8"
-fi
-    EXTRA_LDFLAGS="-arch ${ARCH}"
+EXTRA_CFLAGS="-arch ${ACTUAL_ARCH}"
+EXTRA_LDFLAGS="-arch ${ACTUAL_ARCH}"
+if [ "$ARCH" != "aarch64" ]; then
+EXTRA_CFLAGS+=" -mcpu=cortex-a8"
+EXTRA_CFLAGS+=" -${OSVERSIONMINCFLAG}=${SDK_MIN}"
+EXTRA_LDFLAGS+=" -Wl,-${OSVERSIONMINLDFLAG},${SDK_MIN}"
+export LDFLAGS="${LDFLAGS} -Wl,-${OSVERSIONMINLDFLAG},${SDK_MIN}"
 else
-    EXTRA_CFLAGS="-arch ${ARCH}"
-    EXTRA_LDFLAGS="-arch ${ARCH}"
+EXTRA_CFLAGS+=" -${OSVERSIONMINCFLAG}=${SIXTYFOURBIT_SDK_MIN}"
+EXTRA_LDFLAGS+=" -Wl,-${OSVERSIONMINLDFLAG},${SIXTYFOURBIT_SDK_MIN}"
+export LDFLAGS="${LDFLAGS} -Wl,-${OSVERSIONMINLDFLAG},${SIXTYFOURBIT_SDK_MIN}"
+fi
+else
+EXTRA_CFLAGS="-arch ${ARCH}"
+EXTRA_CFLAGS+=" -${OSVERSIONMINCFLAG}=${SIXTYFOURBIT_SDK_MIN}"
+EXTRA_LDFLAGS=" -Wl,-${OSVERSIONMINLDFLAG},${SIXTYFOURBIT_SDK_MIN}"
+export LDFLAGS="${LDFLAGS} -v -Wl,-${OSVERSIONMINLDFLAG},${SIXTYFOURBIT_SDK_MIN}"
 fi
 
-EXTRA_CFLAGS+=" -miphoneos-version-min=${SDK_MIN}"
-EXTRA_LDFLAGS+=" -miphoneos-version-min=${SDK_MIN}"
 
 info "LD FLAGS SELECTED = '${LDFLAGS}'"
 
@@ -177,9 +222,9 @@ ${CURLROOT}/configure \
     --disable-debug \
     --enable-static \
     --disable-shared \
-    --with-ssl="${CURLROOT}/../../openssl/bin/openssl-${OPENSSL_VERSION}-${ARCH}" \
-    --with-libssh2="${CURLROOT}/../../libssh2/libssh2-${LIBSSH2_VERSION}/install-ios-${PLATFORM}/${ARCH}" \
-    --with-libidn="${CURLROOT}/../../libidn/libidn-${LIBIDN_VERSION}/install-ios-${PLATFORM}/${ARCH}" \
+    --with-ssl="${CURLROOT}/../../openssl/bin/openssl-${OPENSSL_VERSION}-${OSSTYLE}-${ACTUAL_ARCH}" \
+    --with-libssh2="${CURLROOT}/../../libssh2/libssh2-${LIBSSH2_VERSION}/install-ios-${OSSTYLE}${PLATFORM}/${ACTUAL_ARCH}" \
+    --with-libidn="${CURLROOT}/../../libidn/libidn-${LIBIDN_VERSION}/install-ios-${OSSTYLE}${PLATFORM}/${ACTUAL_ARCH}" \
     --enable-ipv6 \
     --disable-ldap \
     --disable-ldaps \
@@ -193,13 +238,10 @@ ${CURLROOT}/configure \
     --disable-smtp \
     --disable-gopher \
     --disable-manual \
+    --disable-ntlm-wb \
     --disable-file > ${out}
 
 #    --enable-ares="${CURLROOT}/../../cares/c-ares-${CARES_VERSION}/install-ios-iPhone${PLATFORM}/${ARCH}"
-
-
-CORE_COUNT=`sysctl -n machdep.cpu.core_count`
-let MAKE_JOBS=$CORE_COUNT+1
 
 #info "Building curl"
 make -j$MAKE_JOBS > ${out}

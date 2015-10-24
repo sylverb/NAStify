@@ -1,8 +1,6 @@
 #!/bin/sh
 set -e
 
-SDK=`xcrun --sdk iphoneos --show-sdk-version`
-
 . ../versions
 
 # create curl lib
@@ -43,31 +41,43 @@ fi
 
 
 #build armv7
-./build-libraw.sh -a armv7 -k $SDK
+./build-libraw.sh -a armv7
 #build armv7s
-./build-libraw.sh -a armv7s -k $SDK
-#build arm64
-./build-libraw.sh -a arm64 -k $SDK
+./build-libraw.sh -a armv7s
+#build aarch64
+./build-libraw.sh -a aarch64
 #build i386
-./build-libraw.sh -a i386 -s -k $SDK
+./build-libraw.sh -a i386 -s
 #build x86_64
-./build-libraw.sh -a x86_64 -s -k $SDK
+./build-libraw.sh -a x86_64 -s
+
+#build tvOS aarch64
+./build-libraw.sh -a aarch64 -t
+#build tvOS x86_64
+./build-libraw.sh -a x86_64 -t -s
 
 #create universal library
 mkdir -p lib
-lipo -create LibRaw-${LIBRAW_VERSION}/install-ios-OS/armv7/lib/libraw.a \
-             LibRaw-${LIBRAW_VERSION}/install-ios-OS/armv7s/lib/libraw.a \
-             LibRaw-${LIBRAW_VERSION}/install-ios-OS/arm64/lib/libraw.a \
-             LibRaw-${LIBRAW_VERSION}/install-ios-Simulator/i386/lib/libraw.a \
-             LibRaw-${LIBRAW_VERSION}/install-ios-Simulator/x86_64/lib/libraw.a \
+lipo -create LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneOS/armv7/lib/libraw.a \
+             LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneOS/armv7s/lib/libraw.a \
+             LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneOS/arm64/lib/libraw.a \
+             LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneSimulator/i386/lib/libraw.a \
+             LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneSimulator/x86_64/lib/libraw.a \
              -output lib/libraw.a
-lipo -create LibRaw-${LIBRAW_VERSION}/install-ios-OS/armv7/lib/libraw_r.a \
-             LibRaw-${LIBRAW_VERSION}/install-ios-OS/armv7s/lib/libraw_r.a \
-             LibRaw-${LIBRAW_VERSION}/install-ios-OS/arm64/lib/libraw_r.a \
-             LibRaw-${LIBRAW_VERSION}/install-ios-Simulator/i386/lib/libraw_r.a \
-             LibRaw-${LIBRAW_VERSION}/install-ios-Simulator/x86_64/lib/libraw_r.a \
+lipo -create LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneOS/armv7/lib/libraw_r.a \
+             LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneOS/armv7s/lib/libraw_r.a \
+             LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneOS/arm64/lib/libraw_r.a \
+             LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneSimulator/i386/lib/libraw_r.a \
+             LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneSimulator/x86_64/lib/libraw_r.a \
              -output lib/libraw_r.a
 
+lipo -create LibRaw-${LIBRAW_VERSION}/install-ios-AppleTVOS/arm64/lib/libraw.a \
+             LibRaw-${LIBRAW_VERSION}/install-ios-AppleTVSimulator/x86_64/lib/libraw.a \
+             -output lib/tvos_libraw.a
+lipo -create LibRaw-${LIBRAW_VERSION}/install-ios-AppleTVOS/arm64/lib/libraw_r.a \
+             LibRaw-${LIBRAW_VERSION}/install-ios-AppleTVSimulator/x86_64/lib/libraw_r.a \
+             -output lib/tvos_libraw_r.a
+
 #create include folder
-cp -r LibRaw-${LIBRAW_VERSION}/install-ios-OS/armv7/include lib/
+cp -r LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneOS/armv7/include lib/
 
