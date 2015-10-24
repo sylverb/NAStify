@@ -11,6 +11,7 @@
 
 @implementation ServerCell
 
+#if TARGET_OS_IOS
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
@@ -24,8 +25,16 @@
         {
             firstLineFontSize = 25;
             self.serverLabel = [[UITextField alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,253,firstLineHeight)];
-        } else {
+        }
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+        {
             self.serverLabel = [[UITextField alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,260,firstLineHeight)];
+        }
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
+        {
+            firstLineHeight = 64;
+            firstLineFontSize = 45;
+            self.serverLabel = [[UITextField alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,253,firstLineHeight)];
         }
         
         self.serverLabel.font = [UIFont fontWithName:@"Helvetica" size:firstLineFontSize];
@@ -55,101 +64,105 @@
     b.origin.x = self.contentView.frame.origin.x + 5;
     [self.fileTypeImage setFrame:b];
 }
+#endif
 
 - (void)setAccount:(UserAccount *)account
 {
+    UIImage *serverImage = nil;
     switch (account.serverType)
     {
         case SERVER_TYPE_WEBDAV:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"webdav_small.png"];
+            serverImage = [UIImage imageNamed:@"webdav_small.png"];
             break;
         }
         case SERVER_TYPE_FTP:
         {
             if (account.boolSSL)
             {
-                self.fileTypeImage.image = [UIImage imageNamed:@"ftps_small.png"];
+                serverImage = [UIImage imageNamed:@"ftps_small.png"];
             }
             else
             {
-                self.fileTypeImage.image = [UIImage imageNamed:@"ftp_small.png"];
+                serverImage = [UIImage imageNamed:@"ftp_small.png"];
             }
             break;
         }
         case SERVER_TYPE_SFTP:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"sftp_small.png"];
+            serverImage = [UIImage imageNamed:@"sftp_small.png"];
             break;
         }
         case SERVER_TYPE_SYNOLOGY:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"synology_small.png"];
+            serverImage = [UIImage imageNamed:@"synology_small.png"];
             break;
         }
         case SERVER_TYPE_FREEBOX_REVOLUTION:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"freebox_small.png"];
+            serverImage = [UIImage imageNamed:@"freebox_small.png"];
             break;
         }
         case SERVER_TYPE_DROPBOX:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"dropbox_small.png"];
+            serverImage = [UIImage imageNamed:@"dropbox_small.png"];
             break;
         }
         case SERVER_TYPE_PYDIO:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"pydio_small.png"];
+            serverImage = [UIImage imageNamed:@"pydio_small.png"];
             break;
         }
         case SERVER_TYPE_QNAP:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"qnap_small.png"];
+            serverImage = [UIImage imageNamed:@"qnap_small.png"];
             break;
         }
         case SERVER_TYPE_BOX:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"box_small.png"];
+            serverImage = [UIImage imageNamed:@"box_small.png"];
             break;
         }
         case SERVER_TYPE_LOCAL:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"local-storage.png"];
+            serverImage = [UIImage imageNamed:@"local-storage.png"];
             break;
         }
         case SERVER_TYPE_GOOGLEDRIVE:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"googledrive_small.png"];
+            serverImage = [UIImage imageNamed:@"googledrive_small.png"];
             break;
         }
         case SERVER_TYPE_MEGA:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"mega_small.png"];
+            serverImage = [UIImage imageNamed:@"mega_small.png"];
             break;
         }
         case SERVER_TYPE_ONEDRIVE:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"onedrive_small.png"];
+            serverImage = [UIImage imageNamed:@"onedrive_small.png"];
             break;
         }
         case SERVER_TYPE_OWNCLOUD:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"owncloud_small.png"];
+            serverImage = [UIImage imageNamed:@"owncloud_small.png"];
             break;
         }
 #ifdef SAMBA
         case SERVER_TYPE_SAMBA:
         {
-            self.fileTypeImage.image = [UIImage imageNamed:@"samba_small.png"];
+            sserverImage = [UIImage imageNamed:@"samba_small.png"];
             break;
         }
 #endif
         default:
         {
-            self.fileTypeImage.image = nil;
             break;
         }
     }
+#if TARGET_OS_IOS
+    self.fileTypeImage.image = serverImage;
+    
     if (([account.accountName isEqualToString:@""]) || (account.accountName == nil))
     {
         self.serverLabel.text = NSLocalizedString(@"Unknown", @"");
@@ -158,6 +171,18 @@
     {
         self.serverLabel.text = account.accountName;
     }
+#elif TARGET_OS_TV
+    self.imageView.image = serverImage;
+    
+    if (([account.accountName isEqualToString:@""]) || (account.accountName == nil))
+    {
+        self.textLabel.text = NSLocalizedString(@"Unknown", @"");
+    }
+    else
+    {
+        self.textLabel.text = account.accountName;
+    }
+#endif
 }
 
 @end

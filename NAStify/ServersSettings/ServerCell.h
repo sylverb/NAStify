@@ -11,9 +11,10 @@
 
 @interface ServerCell : UITableViewCell
 
+#if TARGET_OS_IOS
 @property(nonatomic, strong) UITextField * serverLabel;
 @property(nonatomic, strong) UIImageView * fileTypeImage;
-
+#endif
 - (void)setAccount:(UserAccount *)account;
 
 @end
