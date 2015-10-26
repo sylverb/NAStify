@@ -3,7 +3,7 @@
 //  NAStify
 //
 //  Created by Sylver Bruneau.
-//  Copyright (c) 2012 CodeIsALie. All rights reserved.
+//  Copyright (c) 2015 CodeIsALie. All rights reserved.
 //
 
 #import "TVCustomMoviePlayerViewController.h"
@@ -19,13 +19,18 @@
 
 @implementation CustomMoviePlayerViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
+    AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:self.url];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaDidFinishPlaying:) name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
+
     AVPlayerViewController *playerViewController = [[AVPlayerViewController alloc] init];
-    playerViewController.player = [AVPlayer playerWithURL:self.url];
+    playerViewController.player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
     playerViewController.view.frame = self.view.frame;
     
+
     self.avPlayerViewcontroller = playerViewController;
     
     [self.view addSubview:playerViewController.view];
@@ -34,7 +39,22 @@
     [self.avPlayerViewcontroller.player play];
 }
 
-- (void)didReceiveMemoryWarning {
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self.avPlayerViewcontroller.player pause];
+}
+
+#pragma mark - Notifications management
+
+-(void)mediaDidFinishPlaying:(NSNotification *) notification
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark - Memory management
+
+- (void)didReceiveMemoryWarning
+{
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
