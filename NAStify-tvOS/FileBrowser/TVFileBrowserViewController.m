@@ -118,27 +118,23 @@
                 self.isConnected = YES;
                 
                 [self.connectionManager listForPath:self.currentFolder];
-                [self.connectionManager spaceInfoAtPath:self.currentFolder];
             }
         }
         else if (self.userAccount.serverType == SERVER_TYPE_LOCAL)
         {
             // Get file list
             [self.connectionManager listForPath:self.currentFolder];
-            [self.connectionManager spaceInfoAtPath:self.currentFolder];
         }
 	}
     else if ([self.filesArray count] == 0)
     {
 		// Get file list
 		[self.connectionManager listForPath:self.currentFolder];
-        [self.connectionManager spaceInfoAtPath:self.currentFolder];
 	}
     else if (self.userAccount.serverType == SERVER_TYPE_LOCAL)
     {
 		// Get file list (we are with local files, it costs nothing to reload here)
 		[self.connectionManager listForPath:self.currentFolder];
-        [self.connectionManager spaceInfoAtPath:self.currentFolder];
     }
     
     [super viewDidAppear:animated];
@@ -497,7 +493,6 @@
         // Request list
         self.isConnected = TRUE;
         [self.connectionManager listForPath:self.currentFolder];
-        [self.connectionManager spaceInfoAtPath:self.currentFolder];
     }
     else
     {
@@ -732,36 +727,6 @@
     }
 }
 
-- (void)CMSpaceInfo:(NSDictionary *)dict
-{
-    if ([[dict objectForKey:@"success"] boolValue])
-    {
-        if (self.spaceInfo == nil)
-        {
-            CGRect tableViewFrame = self.tableView.frame;
-            tableViewFrame.size.height -= 30;
-            [self.tableView setFrame:tableViewFrame];
-            
-            self.spaceInfo = [[UILabel alloc] initWithFrame:CGRectMake(0,
-                                                                       self.tableView.bounds.size.height,
-                                                                       self.view.bounds.size.width,
-                                                                       30)];
-            self.spaceInfo.textAlignment = NSTextAlignmentCenter;
-            self.spaceInfo.textColor = [UIColor whiteColor];
-            self.spaceInfo.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth;
-            self.spaceInfo.backgroundColor = [UIColor colorWithRed:0.0
-                                                             green:0.0
-                                                              blue:0.0
-                                                             alpha:0.65];
-            self.spaceInfo.font = [UIFont fontWithName:@"Helvetica" size:17];
-            [self.navigationController.view addSubview:self.spaceInfo];
-        }
-        self.spaceInfo.text = [NSString stringWithFormat:@"Free/Total : %@ / %@",
-                               [[dict objectForKey:@"freespace"] stringForNumberOfBytes],
-                               [[dict objectForKey:@"totalspace"] stringForNumberOfBytes]];
-    }
-}
-
 - (void)CMCredentialRequest:(NSDictionary *)dict
 {
     // Hide current alert to show the new one
@@ -789,7 +754,6 @@
                                                    if (!needToWaitLogin)
                                                    {
                                                        [self.connectionManager listForPath:self.currentFolder];
-                                                       [self.connectionManager spaceInfoAtPath:self.currentFolder];
                                                    }
                                                    
                                                    [alert dismissViewControllerAnimated:YES completion:nil];
