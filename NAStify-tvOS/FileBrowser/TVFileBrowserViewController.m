@@ -46,19 +46,11 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
-
     if (!self.connectionManager)
     {
         self.connectionManager = [[ConnectionManager alloc] init];
         self.connectionManager.userAccount = self.userAccount;
     }
-
-    // Setup tableView
-//    self.tableView = [[UITableView alloc] initWithFrame:[[self view] bounds] style:UITableViewStylePlain];
-//	[self.tableView setDelegate:self];
-//	[self.tableView setDataSource:self];
-//    [self.view addSubview:self.tableView];
 
     NSString *title = [[self.currentFolder.path componentsSeparatedByString:@"/"] lastObject];
     if ([title isEqualToString:@""])
@@ -67,8 +59,6 @@
     }
     self.navigationItem.title = title;
     
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
-
     self.filteredFilesArray = [[NSMutableArray alloc] init];
 }
 
@@ -764,7 +754,7 @@
                                                               blue:0.0
                                                              alpha:0.65];
             self.spaceInfo.font = [UIFont fontWithName:@"Helvetica" size:17];
-            [self.view addSubview:self.spaceInfo];
+            [self.navigationController.view addSubview:self.spaceInfo];
         }
         self.spaceInfo.text = [NSString stringWithFormat:@"Free/Total : %@ / %@",
                                [[dict objectForKey:@"freespace"] stringForNumberOfBytes],

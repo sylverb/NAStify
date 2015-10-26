@@ -45,9 +45,7 @@
     
     ServersListViewController *userAccountsViewController = [[ServersListViewController alloc] init];
     self.serversNavController = [[UINavigationController alloc] initWithRootViewController:userAccountsViewController];
-    self.serversNavController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Servers",nil)
-                                                                         image:[UIImage imageNamed:@"network-disk.png"]
-                                                                           tag:0];
+    self.serversNavController.title = NSLocalizedString(@"Servers",nil);
 
 //    SecondViewController *view = [[SecondViewController alloc] init];
 //    self.settingsNavController = [[UINavigationController alloc] initWithRootViewController:view];

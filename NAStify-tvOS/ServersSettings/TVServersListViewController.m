@@ -44,8 +44,6 @@
     {
         self.accounts = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:accountsData]];
     }
-    self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
     
     // Register account changes notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
