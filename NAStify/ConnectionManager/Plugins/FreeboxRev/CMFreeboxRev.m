@@ -50,7 +50,7 @@
 - (void)deleteTask:(NSInteger)taskID;
 
 - (void)serverData;
-#ifndef APP_EXTENSION
+#if !defined(APP_EXTENSION) && TARGET_OS_IOS
 - (void)connectionInfo;
 #endif
 @end
@@ -378,7 +378,7 @@
             [self.manager.requestSerializer setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
             
             [self serverData];
-#ifndef APP_EXTENSION
+#if !defined(APP_EXTENSION) && TARGET_OS_IOS
             if ([self.userAccount.server isEqualToString:@"mafreebox.freebox.fr"])
             {
                 // If we are connected, we are checking if we can get public IP and port info to replace them in
@@ -2502,7 +2502,7 @@
 
 // connectionInfo will replace default server access info with public access info
 // to enable connection from external networks (public wifi/3G/4G/...)
-#ifndef APP_EXTENSION
+#if !defined(APP_EXTENSION) && TARGET_OS_IOS
 - (void)connectionInfo
 {
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
