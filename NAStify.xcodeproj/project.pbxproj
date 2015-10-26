@@ -7929,12 +7929,8 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(CONFIGURATION_BUILD_DIR)",
-					"${SRCROOT}/NAStify-tvOS/External",
-					"${SRCROOT}/NAStify/External/mega-sdk/third_party/utf8proc",
 					"$(SRCROOT)/external/curl/lib/include",
-					"$(SRCROOT)/external/cryptopp/include",
 					"${SRCROOT}/external/openssl/lib/include",
-					"$(SRCROOT)/external/cares/include/cares",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 				);
 				INFOPLIST_FILE = "NAStify-tvOS/Info.plist";
@@ -7959,7 +7955,7 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Debug;
 		};
@@ -7994,13 +7990,10 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(CONFIGURATION_BUILD_DIR)",
-					"${SRCROOT}/NAStify-tvOS/External",
-					"${SRCROOT}/NAStify/External/mega-sdk/third_party/utf8proc",
 					"$(SRCROOT)/external/curl/lib/include",
-					"$(SRCROOT)/external/cryptopp/include",
 					"${SRCROOT}/external/openssl/lib/include",
-					"$(SRCROOT)/external/cares/include/cares",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/Pods/**",
 				);
 				INFOPLIST_FILE = "NAStify-tvOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -8025,7 +8018,7 @@
 				SDKROOT = appletvos;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 9.0;
-				USER_HEADER_SEARCH_PATHS = "${SRCROOT}/NAStify/External/mega-sdk/include ${SRCROOT}/NAStify/External/mega-sdk/bindings/ios";
+				USER_HEADER_SEARCH_PATHS = "";
 			};
 			name = Release;
 		};

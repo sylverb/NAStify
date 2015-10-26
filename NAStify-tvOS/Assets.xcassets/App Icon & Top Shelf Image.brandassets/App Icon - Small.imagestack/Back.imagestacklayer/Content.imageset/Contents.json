@@ -2,7 +2,7 @@
   "images" : [
     {
       "idiom" : "tv",
-      "filename" : "logo-small-back.png",
+      "filename" : "small-back.png",
       "scale" : "1x"
     }
   ],
