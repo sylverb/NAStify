@@ -452,6 +452,12 @@
     // If there is a message, show it
     if ([dict objectForKey:@"message"])
     {
+        // Hide current alert to show the new one
+        if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
+        {
+            [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+        }
+
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:[dict objectForKey:@"title"]
                                                                        message:[dict objectForKey:@"message"]
                                                                 preferredStyle:UIAlertControllerStyleAlert];
@@ -505,6 +511,11 @@
     }
     else
     {
+        // Hide current alert to show the new one
+        if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
+        {
+            [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+        }
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Login",nil)
                                                                        message:NSLocalizedString([dict objectForKey:@"error"],nil)
                                                                 preferredStyle:UIAlertControllerStyleAlert];
@@ -538,6 +549,11 @@
 
 - (void)CMRequestOTP:(NSNotification *)notification
 {
+    // Hide current alert to show the new one
+    if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
+    {
+        [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    }
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"2-Factor Authentication",nil)
                                                                    message:NSLocalizedString(@"Enter 6-digit code or 8-digit emergency code",nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -694,13 +710,14 @@
             
             // Refresh tableView
             [self.tableView reloadData];
-
-//            [self.tableView performSelectorOnMainThread:@selector(reloadData)
-//                                                              withObject:nil
-//                                                           waitUntilDone:NO];
         }
         else
         {
+            // Hide current alert to show the new one
+            if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
+            {
+                [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+            }
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Browse",nil)
                                                                            message:NSLocalizedString([dict objectForKey:@"error"],nil)
                                                                     preferredStyle:UIAlertControllerStyleAlert];
@@ -757,6 +774,11 @@
 
 - (void)CMCredentialRequest:(NSDictionary *)dict
 {
+    // Hide current alert to show the new one
+    if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
+    {
+        [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    }
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Authentication",nil)
                                                                    message:NSLocalizedString(@"Enter login/password",nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -899,6 +921,11 @@
     MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
     [hud hide:YES];
 #endif
+    // Hide current alert to show the new one
+    if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
+    {
+        [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+    }
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Connection error",nil)
                                                                    message:NSLocalizedString([dict objectForKey:@"error"],nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
