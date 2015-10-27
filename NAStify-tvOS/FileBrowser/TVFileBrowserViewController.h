@@ -59,7 +59,6 @@ typedef enum
 - (void)CMRequestOTP:(NSNotification *)notification;
 - (void)CMFilesList:(NSDictionary *)dict;
 - (void)CMRootObject:(NSDictionary *)dict;
-- (void)CMSpaceInfo:(NSNotification*)notification;
 - (void)CMAction:(NSNotification*)notification;
 - (void)CMCredentialRequest:(NSDictionary *)dict;
 - (void)CMConnectionError:(NSNotification*)notification;
