@@ -28,6 +28,7 @@
 
     AVPlayerViewController *playerViewController = [[AVPlayerViewController alloc] init];
     playerViewController.player = [[AVPlayer alloc] initWithPlayerItem:playerItem];
+    playerViewController.player.allowsExternalPlayback = self.allowsAirPlay;
     playerViewController.view.frame = self.view.frame;
     
 
@@ -42,6 +43,7 @@
 - (void)viewWillDisappear:(BOOL)animated
 {
     [self.avPlayerViewcontroller.player pause];
+    self.avPlayerViewcontroller.player = nil;
 }
 
 #pragma mark - Notifications management
