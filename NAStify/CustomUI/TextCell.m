@@ -56,11 +56,11 @@
 		self.textField.textAlignment = NSTextAlignmentRight;
         self.textField.font = [UIFont systemFontOfSize:17.0];
         self.textField.minimumFontSize = 20;
+        UIColor *textFieldColor = [[UIColor alloc] initWithRed:96.0/255 green:140.0/255 blue:189.0/255 alpha:1.0];
+        self.textField.textColor = textFieldColor;
 #elif TARGET_OS_TV
         self.textField.textAlignment = NSTextAlignmentLeft;
 #endif
-		UIColor *textFieldColor = [[UIColor alloc] initWithRed:96.0/255 green:140.0/255 blue:189.0/255 alpha:1.0];
-		self.textField.textColor = textFieldColor;
 		self.textField.borderStyle = UITextBorderStyleNone;
 		self.textField.autocorrectionType = UITextAutocorrectionTypeNo;
 		self.textField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
@@ -69,6 +69,10 @@
 		self.textField.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		
 		[self.contentView addSubview:self.textField];
+        
+#if TARGET_OS_TV
+        self.canFocusContent = YES;
+#endif
     }
     return self;
 }
@@ -95,7 +99,7 @@
 #if TARGET_OS_TV
 - (BOOL)canBecomeFocused
 {
-    return NO;
+    return !self.canFocusContent;
 }
 #endif
 

@@ -409,6 +409,8 @@
 		957322861BDB9F48008D8AD0 /* NSDataAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F98D89A41820F7290053D5CF /* NSDataAdditions.m */; };
 		957322871BDBA0E9008D8AD0 /* ServerSettingsFtpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54EBF491954A7A5008AC4BB /* ServerSettingsFtpViewController.m */; };
 		957322891BDBBA60008D8AD0 /* TableSelectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F9401E5E15F53B0D00AF40B2 /* TableSelectViewController.m */; };
+		957322CE1BDF7A92008D8AD0 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D302DA18FDE4EE0087F4C6 /* SettingsViewController.m */; };
+		957322D01BDF8131008D8AD0 /* VlcSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D54042FE197C44E000A902DA /* VlcSettingsViewController.m */; };
 		957BD32E1BD447F400A2610C /* GoogleMobileAds.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD32D1BD447F400A2610C /* GoogleMobileAds.framework */; };
 		957BD3461BD44CB000A2610C /* libMobileVLCKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3451BD44CB000A2610C /* libMobileVLCKit.a */; };
 		957BD3491BD44D3700A2610C /* libMediaLibraryKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3471BD44CED00A2610C /* libMediaLibraryKit.a */; };
@@ -4319,8 +4321,8 @@
 				D5AFBAF219D02097001C14CC /* AboutViewController.m */,
 				D546B87F1A704436001AF141 /* PurchaseServerViewController.h */,
 				D546B8801A704436001AF141 /* PurchaseServerViewController.m */,
-				D5D302DA18FDE4EE0087F4C6 /* SettingsViewController.m */,
 				D5D302D918FDE4EE0087F4C6 /* SettingsViewController.h */,
+				D5D302DA18FDE4EE0087F4C6 /* SettingsViewController.m */,
 				D54042FD197C44E000A902DA /* VlcSettingsViewController.h */,
 				D54042FE197C44E000A902DA /* VlcSettingsViewController.m */,
 			);
@@ -7337,7 +7339,9 @@
 				954872C81BD6FA3C0097225C /* VLCPlaybackController.m in Sources */,
 				957322841BDB94A4008D8AD0 /* ServerSettingsQnapViewController.m in Sources */,
 				954872B71BD6F4640097225C /* UIDevice+VLC.m in Sources */,
+				957322D01BDF8131008D8AD0 /* VlcSettingsViewController.m in Sources */,
 				954872BC1BD6F4640097225C /* VLCPlaybackNavigationController.m in Sources */,
+				957322CE1BDF7A92008D8AD0 /* SettingsViewController.m in Sources */,
 				954872B91BD6F4640097225C /* VLCFullscreenMovieTVViewController.m in Sources */,
 				95486DCD1BD6D9E50097225C /* main.m in Sources */,
 				954872B61BD6F4640097225C /* UIColor+Presets.m in Sources */,

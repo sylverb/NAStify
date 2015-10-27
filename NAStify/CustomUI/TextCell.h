@@ -16,8 +16,9 @@
 
 @property (nonatomic, strong) UILabel *label;
 @property (nonatomic, strong) UITextField *textField;
+@property (nonatomic) BOOL canFocusContent;
 
-- (void)setCellDataWithLabelString:(NSString *)labelText 
+- (void)setCellDataWithLabelString:(NSString *)labelText
 						  withText:(NSString *)text
 				   withPlaceHolder:(NSString *)placeHolder
 						  isSecure:(BOOL)secure 

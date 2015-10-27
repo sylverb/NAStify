@@ -8,6 +8,7 @@
 
 #import "TVAppDelegate.h"
 #import "VLCPlayerDisplayController.h"
+#import "SettingsViewController.h"
 
 @interface AppDelegate ()
 
@@ -35,7 +36,7 @@
                                   kVLCSettingPlaybackForwardSkipLength : kVLCSettingPlaybackForwardSkipLengthDefaultValue,
                                   kVLCSettingPlaybackBackwardSkipLength : kVLCSettingPlaybackBackwardSkipLengthDefaultValue,
                                   kNASTifySettingPlayerType : @(kNASTifySettingPlayerTypeInternal),
-                                  kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeVLCOnly)};
+                                  kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeQTVLC)};
     [defaults registerDefaults:appDefaults];
 }
 
@@ -47,16 +48,13 @@
     self.serversNavController = [[UINavigationController alloc] initWithRootViewController:userAccountsViewController];
     self.serversNavController.title = NSLocalizedString(@"Servers",nil);
 
-//    SecondViewController *view = [[SecondViewController alloc] init];
-//    self.settingsNavController = [[UINavigationController alloc] initWithRootViewController:view];
-//    self.settingsNavController.tabBarItem = [[UITabBarItem alloc] initWithTitle:NSLocalizedString(@"Settings",nil)
-//                                                                         image:[UIImage imageNamed:@"setup.png"]
-//                                                                           tag:0];
-    
-    
+    SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
+    self.settingsNavController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
+    self.settingsNavController.title = NSLocalizedString(@"Settings",nil);
+
     NSArray *navControllersArray = [NSArray arrayWithObjects:
                                     self.serversNavController,
-//                                    self.settingsNavController,
+                                    self.settingsNavController,
                                     nil];
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = navControllersArray;

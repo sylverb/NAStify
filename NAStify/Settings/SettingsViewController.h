@@ -12,13 +12,21 @@
 
 // In APP Purchase
 #import <StoreKit/StoreKit.h>
+#if TARGET_OS_IOS
 #import "MKStoreKit.h"
+#endif
 
 // GoogleCast support
+#if TARGET_OS_IOS
 #import "GoogleCastController.h"
+#endif
 
+#if TARGET_OS_IOS
 @interface SettingsViewController : UITableViewController <TableSelectViewControllerDelegate,UIActionSheetDelegate,GCControllerDelegate>
-
+#elif TARGET_OS_TV
+@interface SettingsViewController : UITableViewController <TableSelectViewControllerDelegate>
+#endif
+#if TARGET_OS_IOS
 @property (nonatomic, strong) NSArray *delayOptions;
 @property (nonatomic, strong) NSArray *delayShortOptions;
 @property (nonatomic, strong) NSArray *delayValues;
@@ -33,5 +41,13 @@
 @property(nonatomic, strong) UIActionSheet * gcActionSheet;
 - (void)didDiscoverDeviceOnNetwork;
 - (void)updateGCState;
+#elif TARGET_OS_TV
+/* File sorting */
+@property(nonatomic) FileItemSortType sortingType;
+@property(nonatomic, strong) NSArray *sortingOptions;
+@property(nonatomic) BOOL descending;
+@property(nonatomic) BOOL foldersFirst;
+@property(nonatomic) NSInteger selectedSortingOptionIndex;
+#endif
 
 @end

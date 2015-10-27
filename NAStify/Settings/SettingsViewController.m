@@ -8,8 +8,9 @@
 
 #import "SettingsViewController.h"
 #import "SegCtrlCell.h"
-#import "SwitchCell.h"
 #import "TextCell.h"
+#if TARGET_OS_IOS
+#import "SwitchCell.h"
 #import "SDImageCache.h"
 #import "LTHPasscodeViewController.h"
 #import <LocalAuthentication/LocalAuthentication.h>
@@ -18,7 +19,9 @@
 #import "MAConfirmButton.h"
 #import "SBNetworkActivityIndicator.h"
 #import "PurchaseServerViewController.h"
+#endif
 
+#if TARGET_OS_IOS
 #define SETTINGS_PURCHASE_SECTION_INDEX 0
 #define SETTINGS_ABOUT_SECTION_INDEX 1
 #define SETTINGS_FILEBROWSER_SECTION_INDEX 2
@@ -27,13 +30,18 @@
 #define SETTINGS_MEDIA_PLAYER_EXTERNAL_SECTION_INDEX 5
 #define SETTINGS_PASSCODE_SECTION_INDEX 6
 #define SETTINGS_GCAST_SECTION_INDEX 7
-
+#elif TARGET_OS_TV
+//#define SETTINGS_ABOUT_SECTION_INDEX 1
+#define SETTINGS_FILEBROWSER_SECTION_INDEX 0
+#define SETTINGS_MEDIA_PLAYER_INTERNAL_SECTION_INDEX 1
+#endif
 #define TAG_BROWSER_GCAST       0
 #define TAG_MEDIA_PLAYER        1
 #define TAG_MEDIA_PLAYER_TYPE   2
 #define TAG_SIMPLECODE          3
 #define TAG_CODEDELAY           4
 #define TAG_TOUCHID             5
+#define TAG_SORTING_TYPE        6
 
 @interface SettingsViewController ()
 
@@ -53,11 +61,12 @@
 
 - (void)viewDidLoad
 {
-    NSInteger index;
     [super viewDidLoad];
     
     self.title = NSLocalizedString(@"Settings", nil);
     
+#if TARGET_OS_IOS
+    NSInteger index;
     // Require Passcode : Immediately, After 1 minute, After 5 minutes, After 15 minutes, After 1 hour, After 4 hours
     self.delayOptions = [NSArray arrayWithObjects:
                          NSLocalizedString(@"Immediately", nil),
@@ -185,6 +194,148 @@
                                                           [self.tableView reloadData];
                                                       });
                                                   }];
+#endif
+#if TARGET_OS_TV
+    // Init sorting type info
+    self.foldersFirst = NO;
+    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+    
+    if ([defaults objectForKey:@"sortingType"])
+    {
+        self.sortingType = (FileItemSortType)[[defaults objectForKey:@"sortingType"] integerValue];
+    }
+    else
+    {
+        self.sortingType = SORT_BY_NAME_DESC_FOLDER_FIRST;
+    }
+
+    switch (self.sortingType)
+    {
+        case SORT_BY_NAME_DESC_FOLDER_FIRST:
+        {
+            self.selectedSortingOptionIndex = 0;
+            self.foldersFirst = YES;
+            self.descending = YES;
+            break;
+        }
+        case SORT_BY_NAME_DESC:
+        {
+            self.selectedSortingOptionIndex = 0;
+            self.foldersFirst = NO;
+            self.descending = YES;
+            break;
+        }
+        case SORT_BY_NAME_ASC_FOLDER_FIRST:
+        {
+            self.selectedSortingOptionIndex = 0;
+            self.foldersFirst = YES;
+            self.descending = NO;
+            break;
+        }
+        case SORT_BY_NAME_ASC:
+        {
+            self.selectedSortingOptionIndex = 0;
+            self.foldersFirst = NO;
+            self.descending = NO;
+            break;
+        }
+        case SORT_BY_DATE_DESC_FOLDER_FIRST:
+        {
+            self.selectedSortingOptionIndex = 1;
+            self.foldersFirst = YES;
+            self.descending = YES;
+            break;
+        }
+        case SORT_BY_DATE_DESC:
+        {
+            self.selectedSortingOptionIndex = 1;
+            self.foldersFirst = NO;
+            self.descending = YES;
+            break;
+        }
+        case SORT_BY_DATE_ASC_FOLDER_FIRST:
+        {
+            self.selectedSortingOptionIndex = 1;
+            self.foldersFirst = YES;
+            self.descending = NO;
+            break;
+        }
+        case SORT_BY_DATE_ASC:
+        {
+            self.selectedSortingOptionIndex = 1;
+            self.foldersFirst = NO;
+            self.descending = NO;
+            break;
+        }
+        case SORT_BY_TYPE_DESC_FOLDER_FIRST:
+        {
+            self.selectedSortingOptionIndex = 2;
+            self.foldersFirst = YES;
+            self.descending = YES;
+            break;
+        }
+        case SORT_BY_TYPE_DESC:
+        {
+            self.selectedSortingOptionIndex = 2;
+            self.foldersFirst = NO;
+            self.descending = YES;
+            break;
+        }
+        case SORT_BY_TYPE_ASC_FOLDER_FIRST:
+        {
+            self.selectedSortingOptionIndex = 2;
+            self.foldersFirst = YES;
+            self.descending = NO;
+            break;
+        }
+        case SORT_BY_TYPE_ASC:
+        {
+            self.selectedSortingOptionIndex = 2;
+            self.foldersFirst = NO;
+            self.descending = NO;
+            break;
+        }
+        case SORT_BY_SIZE_DESC_FOLDER_FIRST:
+        {
+            self.selectedSortingOptionIndex = 3;
+            self.foldersFirst = YES;
+            self.descending = YES;
+            break;
+        }
+        case SORT_BY_SIZE_DESC:
+        {
+            self.selectedSortingOptionIndex = 3;
+            self.foldersFirst = NO;
+            self.descending = YES;
+            break;
+        }
+        case SORT_BY_SIZE_ASC_FOLDER_FIRST:
+        {
+            self.selectedSortingOptionIndex = 3;
+            self.foldersFirst = YES;
+            self.descending = NO;
+            break;
+        }
+        case SORT_BY_SIZE_ASC:
+        {
+            self.selectedSortingOptionIndex = 3;
+            self.foldersFirst = NO;
+            self.descending = NO;
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+    
+    self.sortingOptions = [NSArray arrayWithObjects:
+                           NSLocalizedString(@"name", nil),
+                           NSLocalizedString(@"date", nil),
+                           NSLocalizedString(@"type", nil),
+                           NSLocalizedString(@"size", nil),
+                           nil];
+#endif
 }
 
 - (void)didReceiveMemoryWarning
@@ -197,7 +348,9 @@
 {
     [super viewWillAppear:animated];
     [self.tableView reloadData];
+#if TARGET_OS_IOS
     self.gcController.delegate = self;
+#endif
 }
 
 #pragma mark - Table view data source
@@ -214,19 +367,25 @@
     // Return the number of rows in the section.
     NSInteger numberOfRows = 0;
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-
+    
     switch (section)
     {
         case SETTINGS_FILEBROWSER_SECTION_INDEX:
         {
+#if TARGET_OS_IOS
             numberOfRows = 1;
+#elif TARGET_OS_TV
+            numberOfRows = 3;
+#endif
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_MEDIA_PLAYER_TYPE_SECTION_INDEX:
         {
             numberOfRows = 1;
             break;
         }
+#endif
         case SETTINGS_MEDIA_PLAYER_INTERNAL_SECTION_INDEX:
         {
             if ([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeInternal)
@@ -235,6 +394,7 @@
             }
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_MEDIA_PLAYER_EXTERNAL_SECTION_INDEX:
         {
             if ([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeExternal)
@@ -286,6 +446,7 @@
                 }
             }
         }
+#endif
         default:
         {
             break;
@@ -306,19 +467,26 @@
             title = NSLocalizedString(@"File Browser",nil);
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_MEDIA_PLAYER_TYPE_SECTION_INDEX:
         {
             title = NSLocalizedString(@"Media player Selection",nil);
             break;
         }
+#endif
         case SETTINGS_MEDIA_PLAYER_INTERNAL_SECTION_INDEX:
         {
             if ([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeInternal)
             {
+#if TARGET_OS_IOS
                 title = NSLocalizedString(@"Internal media player",nil);
+#elif TARGET_OS_TV
+                title = NSLocalizedString(@"Media player configuration",nil);
+#endif
             }
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_MEDIA_PLAYER_EXTERNAL_SECTION_INDEX:
         {
             if ([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeExternal)
@@ -350,6 +518,7 @@
             }
             break;
         }
+#endif
     }
     return title;
 }
@@ -358,20 +527,29 @@
 {
 	static NSString *CellIdentifier = @"Cell";
 	static NSString *TextCellIdentifier = @"TextCell";
-	static NSString *SwitchCellIdentifier = @"SwitchCell";
+#if TARGET_OS_IOS
     static NSString *SegmentedControllerCell1Identifier = @"SegmentedControllerCell1";
-    static NSString *SegmentedControllerCell2Identifier = @"SegmentedControllerCell2";
+	static NSString *SwitchCellIdentifier = @"SwitchCell";
     static NSString *PurchaseCellIdentifier = @"PurchaseCell";
+#endif
+    static NSString *SegmentedControllerCell2Identifier = @"SegmentedControllerCell2";
+#if TARGET_OS_TV
+    static NSString *SegmentedControllerCell3Identifier = @"SegmentedControllerCell3";
+    static NSString *SegmentedControllerCell4Identifier = @"SegmentedControllerCell4";
+#endif
     UITableViewCell *cell = nil;
     
+#if TARGET_OS_IOS
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-
+#endif
+    
     switch (indexPath.section)
     {
         case SETTINGS_FILEBROWSER_SECTION_INDEX:
         {
             switch (indexPath.row)
             {
+#if TARGET_OS_IOS
                 case 0:
                 {
                     cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -388,6 +566,94 @@
                     
                     break;
                 }
+#elif TARGET_OS_TV
+                case 0:
+                {
+                    TextCell *textCell = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (textCell == nil)
+                    {
+                        textCell = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                   reuseIdentifier:TextCellIdentifier];
+                    }
+                    [textCell setCellDataWithLabelString:NSLocalizedString(@"Sorting by:",nil)
+                                                withText:[self.sortingOptions objectAtIndex:self.selectedSortingOptionIndex]
+                                         withPlaceHolder:nil
+                                                isSecure:NO
+                                        withKeyboardType:UIKeyboardTypeDefault
+                                            withDelegate:nil
+                                                  andTag:0];
+                    textCell.textField.enabled = NO;
+                    textCell.canFocusContent = NO;
+
+                    cell = textCell;
+                    
+                    break;
+                }
+                case 1:
+                {
+                    NSInteger selectedIndex = 0;
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell3Identifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedControllerCell3Identifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if (self.foldersFirst)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Folders first:",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:0];
+                    
+                    cell = segCtrlCell;
+                    
+                    break;
+                }
+                case 2:
+                {
+                    NSInteger selectedIndex = 0;
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell4Identifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedControllerCell4Identifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Asc.",nil),
+                                                                          NSLocalizedString(@"Desc.",nil),
+                                                                          nil]];
+                    }
+                    
+                    if (self.descending)
+                    {
+                        selectedIndex = 1;
+                    }
+                    else
+                    {
+                        selectedIndex = 0;
+                    }
+                    
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Order :",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:0];
+                    
+                    cell = segCtrlCell;
+                    
+                    break;
+                }
+#endif
                 default:
                 {
                     break;
@@ -395,6 +661,7 @@
             }
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_MEDIA_PLAYER_TYPE_SECTION_INDEX:
         {
             switch (indexPath.row)
@@ -429,6 +696,7 @@
             }
             break;
         }
+#endif
         case SETTINGS_MEDIA_PLAYER_INTERNAL_SECTION_INDEX:
         {
             switch (indexPath.row)
@@ -452,7 +720,9 @@
                                           withSelectedIndex:[[defaults objectForKey:kNASTifySettingInternalPlayer] integerValue]
                                                      andTag:TAG_MEDIA_PLAYER];
                     
+#if TARGET_OS_IOS
                     [segCtrlCell.segmentedControl addTarget:self action:@selector(segmentedValueChanged:) forControlEvents:UIControlEventValueChanged];
+#endif
                     
                     cell = segCtrlCell;
                     
@@ -483,6 +753,7 @@
             }
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_MEDIA_PLAYER_EXTERNAL_SECTION_INDEX:
         {
             switch (indexPath.row)
@@ -847,7 +1118,6 @@
                     break;
                 }
             }
-            
             break;
         }
         case SETTINGS_PURCHASE_SECTION_INDEX:
@@ -951,6 +1221,7 @@
             }
             break;
         }
+#endif
         default:
         {
             break;
@@ -959,6 +1230,7 @@
     return cell;
 }
 
+#if TARGET_OS_IOS
 - (void)tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
 {
     switch (indexPath.section)
@@ -991,6 +1263,7 @@
         }
     }
 }
+#endif
 
 /*
 // Override to support conditional editing of the table view.
@@ -1041,6 +1314,7 @@
         {
             switch (indexPath.row)
             {
+#if TARGET_OS_IOS
                 case 0:
                 {
                     [[SDImageCache sharedImageCache] clearDisk];
@@ -1048,6 +1322,41 @@
                     [self.tableView reloadData];
                     break;
                 }
+#elif TARGET_OS_TV
+                case 0:
+                {
+                    TableSelectViewController *tableSelectViewController;
+                    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+                    {
+                        tableSelectViewController = [[TableSelectViewController alloc] initWithStyle:UITableViewStylePlain];
+                    }
+                    else
+                    {
+                        tableSelectViewController = [[TableSelectViewController alloc] initWithStyle:UITableViewStyleGrouped];
+                    }
+                    tableSelectViewController.elements = self.sortingOptions;
+                    tableSelectViewController.selectedElement = self.selectedSortingOptionIndex;
+                    tableSelectViewController.delegate = self;
+                    tableSelectViewController.tag = TAG_SORTING_TYPE;
+                    
+                    [self presentViewController:tableSelectViewController animated:YES completion:nil];
+                    break;
+                }
+                case 1:
+                {
+                    self.foldersFirst = !self.foldersFirst;
+                    [self saveSorting];
+                    [self.tableView reloadData];
+                    break;
+                }
+                case 2:
+                {
+                    self.descending = !self.descending;
+                    [self saveSorting];
+                    [self.tableView reloadData];
+                    break;
+                }
+#endif
             }
             break;
         }
@@ -1055,6 +1364,29 @@
         {
             switch (indexPath.row)
             {
+#if TARGET_OS_TV
+                case 0:
+                {
+                    switch ([[defaults objectForKey:kNASTifySettingInternalPlayer] integerValue])
+                    {
+                        case kNASTifySettingInternalPlayerTypeQTVLC:
+                        {
+                            [defaults setObject:[NSNumber numberWithLong:kNASTifySettingInternalPlayerTypeVLCOnly]
+                                         forKey:kNASTifySettingInternalPlayer];
+                            break;
+                        }
+                        case kNASTifySettingInternalPlayerTypeVLCOnly:
+                        {
+                            [defaults setObject:[NSNumber numberWithLong:kNASTifySettingInternalPlayerTypeQTVLC]
+                                         forKey:kNASTifySettingInternalPlayer];
+                            break;
+                        }
+                    }
+                    [self.tableView reloadData];
+
+                    break;
+                }
+#endif
                 case 1:
                 {
                     VlcSettingsViewController *viewController;
@@ -1073,6 +1405,7 @@
             }
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_MEDIA_PLAYER_EXTERNAL_SECTION_INDEX:
         {
             switch (indexPath.row)
@@ -1283,6 +1616,7 @@
             }
             break;
         }
+#endif
         default:
             break;
     }
@@ -1310,6 +1644,7 @@
     [self.tableView reloadData];
 }
 
+#if TARGET_OS_IOS
 - (void)switchValueChanged:(id)sender
 {
 	NSInteger tag = ((UISwitch *)sender).tag;
@@ -1336,7 +1671,9 @@
     [defaults synchronize];
     [self.tableView reloadData];
 }
+#endif
 
+#if TARGET_OS_IOS
 - (void)selectedElementIndex:(NSInteger)elementIndex forTag:(NSInteger)tag
 {
 	switch (tag)
@@ -1351,9 +1688,11 @@
     }
     [self.tableView reloadData];
 }
+#endif
 
 #pragma mark - GoogleCast support
 
+#if TARGET_OS_IOS
 - (void)updateGCState
 {
     [self.tableView reloadData];
@@ -1372,9 +1711,11 @@
 {
     [self.tableView reloadData];
 }
+#endif
 
 #pragma mark - UIActionSheetDelegate
 
+#if TARGET_OS_IOS
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (self.gcController.selectedDevice == nil)
@@ -1387,9 +1728,11 @@
         }
     }
 }
+#endif
 
 #pragma mark - MAConfirmButton action button
 
+#if TARGET_OS_IOS
 - (void)confirmAction:(id)sender
 {
     MAConfirmButton *button = (MAConfirmButton *)sender;
@@ -1402,15 +1745,159 @@
 
     [[MKStoreKit sharedKit] initiatePaymentRequestForProductWithIdentifier:product.productIdentifier];
 }
+#endif
+
+#pragma mark - TableSelectViewController Delegate
+
+#if TARGET_OS_TV
+- (void)selectedElementIndex:(NSInteger)elementIndex forTag:(NSInteger)tag
+{
+    switch (tag)
+    {
+        case TAG_SORTING_TYPE:
+        {
+            self.selectedSortingOptionIndex = elementIndex;
+            [self saveSorting];
+            [self.tableView reloadData];
+            break;
+        }
+        default:
+        {
+            break;
+        }
+    }
+}
+#endif
+
+#pragma mark - Sorting method saving
+#if TARGET_OS_TV
+- (void)saveSorting
+{
+    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+    FileItemSortType selectedSorting;
+    switch (self.selectedSortingOptionIndex)
+    {
+            case 0: // name
+        {
+            if (self.foldersFirst)
+            {
+                if (self.descending)
+                {
+                    selectedSorting = SORT_BY_NAME_DESC_FOLDER_FIRST;
+                }
+                else
+                {
+                    selectedSorting = SORT_BY_NAME_ASC_FOLDER_FIRST;
+                }
+            }
+            else
+            {
+                if (self.descending)
+                {
+                    selectedSorting = SORT_BY_NAME_DESC;
+                }
+                else
+                {
+                    selectedSorting = SORT_BY_NAME_ASC;
+                }
+            }
+            break;
+        }
+            case 1: // date
+        {
+            if (self.foldersFirst)
+            {
+                if (self.descending)
+                {
+                    selectedSorting = SORT_BY_DATE_DESC_FOLDER_FIRST;
+                }
+                else
+                {
+                    selectedSorting = SORT_BY_DATE_ASC_FOLDER_FIRST;
+                }
+            }
+            else
+            {
+                if (self.descending)
+                {
+                    selectedSorting = SORT_BY_DATE_DESC;
+                }
+                else
+                {
+                    selectedSorting = SORT_BY_DATE_ASC;
+                }
+            }
+            break;
+        }
+            case 2: // type
+        {
+            if (self.foldersFirst)
+            {
+                if (self.descending)
+                {
+                    selectedSorting = SORT_BY_TYPE_DESC_FOLDER_FIRST;
+                }
+                else
+                {
+                    selectedSorting = SORT_BY_TYPE_ASC_FOLDER_FIRST;
+                }
+            }
+            else
+            {
+                if (self.descending)
+                {
+                    selectedSorting = SORT_BY_TYPE_DESC;
+                }
+                else
+                {
+                    selectedSorting = SORT_BY_TYPE_ASC;
+                }
+            }
+            break;
+        }
+            case 3: // size
+        {
+            if (self.foldersFirst)
+            {
+                if (self.descending)
+                {
+                    selectedSorting = SORT_BY_SIZE_DESC_FOLDER_FIRST;
+                }
+                else
+                {
+                    selectedSorting = SORT_BY_SIZE_ASC_FOLDER_FIRST;
+                }
+            }
+            else
+            {
+                if (self.descending)
+                {
+                    selectedSorting = SORT_BY_SIZE_DESC;
+                }
+                else
+                {
+                    selectedSorting = SORT_BY_SIZE_ASC;
+                }
+            }
+            break;
+        }
+        default:
+            break;
+    }
+    [defaults setInteger:selectedSorting forKey:@"sortingType"];
+}
+#endif
 
 #pragma mark - Memory management
 
 - (void)dealloc
 {
+#if TARGET_OS_IOS
     if (self.gcController.delegate == self)
     {
         self.gcController.delegate = nil;
     }
+#endif
 }
 
 @end

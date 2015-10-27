@@ -7,8 +7,11 @@
 //
 
 #import "VlcSettingsViewController.h"
-#import "SegCtrlCell.h"
+#if TARGET_OS_IOS
 #import "SwitchCell.h"
+#elif TARGET_OS_TV
+#import "SegCtrlCell.h"
+#endif
 #import "TextCell.h"
 #import "SDImageCache.h"
 
@@ -416,7 +419,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString *TextCellIdentifier = @"TextCell";
+#if TARGET_OS_IOS
 	static NSString *SwitchCellIdentifier = @"SwitchCell";
+#elif TARGET_OS_TV
+    static NSString *SegmentedCellIdentifier = @"SegmentedCell";
+#endif
     UITableViewCell *cell = nil;
     
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
@@ -444,6 +451,8 @@
                                                   andTag:-1];
                     textCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     textCell.textField.enabled = NO;
+                    textCell.canFocusContent = NO;
+
                     cell = textCell;
                     break;
                 }
@@ -475,11 +484,13 @@
                                                   andTag:-1];
                     textCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     textCell.textField.enabled = NO;
+                    textCell.canFocusContent = NO;
                     cell = textCell;
                     break;
                 }
                 case 1:
                 {
+#if TARGET_OS_IOS
                     SwitchCell *switchCell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
                     if (switchCell == nil)
                     {
@@ -491,7 +502,35 @@
                                                     andTag:TAG_DEINTERLACE];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
+#elif TARGET_OS_TV
+                    NSInteger selectedIndex;
                     
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedCellIdentifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if ([[defaults objectForKey:kVLCSettingDeinterlace] boolValue])
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Deinterlace",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:TAG_DEINTERLACE];
+                    
+                    cell = segCtrlCell;
+#endif
                     break;
                 }
                 default:
@@ -522,6 +561,7 @@
                                                   andTag:-1];
                     textCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     textCell.textField.enabled = NO;
+                    textCell.canFocusContent = NO;
                     cell = textCell;
                     break;
                 }
@@ -542,11 +582,13 @@
                                                   andTag:-1];
                     textCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     textCell.textField.enabled = NO;
+                    textCell.canFocusContent = NO;
                     cell = textCell;
                     break;
                 }
                 case 2:
                 {
+#if TARGET_OS_IOS
                     SwitchCell *switchCell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
                     if (switchCell == nil)
                     {
@@ -558,7 +600,35 @@
                                                     andTag:TAG_FONT_BOLD];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
+#elif TARGET_OS_TV
+                    NSInteger selectedIndex;
                     
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedCellIdentifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if ([[defaults objectForKey:kVLCSettingSubtitlesBoldFont] boolValue])
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Use Bold font",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:TAG_FONT_BOLD];
+                    
+                    cell = segCtrlCell;
+#endif
                     break;
                 }
                 case 3:
@@ -578,6 +648,7 @@
                                                   andTag:-1];
                     textCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     textCell.textField.enabled = NO;
+                    textCell.canFocusContent = NO;
                     cell = textCell;
                     break;
                 }
@@ -598,6 +669,7 @@
                                                   andTag:-1];
                     textCell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
                     textCell.textField.enabled = NO;
+                    textCell.canFocusContent = NO;
                     cell = textCell;
                     break;
                 }
@@ -614,6 +686,7 @@
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     SwitchCell *switchCell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
                     if (switchCell == nil)
                     {
@@ -625,11 +698,40 @@
                                                     andTag:TAG_AUDIO_STRETCHING];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
+#elif TARGET_OS_TV
+                    NSInteger selectedIndex;
                     
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedCellIdentifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if ([[defaults objectForKey:kVLCSettingStretchAudio] boolValue])
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Time-stretching audio",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:TAG_AUDIO_STRETCHING];
+                    
+                    cell = segCtrlCell;
+#endif
                     break;
                 }
                 case 1:
                 {
+#if TARGET_OS_IOS
                     SwitchCell *switchCell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
                     if (switchCell == nil)
                     {
@@ -641,7 +743,35 @@
                                                     andTag:TAG_AUDIO_BACKGROUND];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
+#elif TARGET_OS_TV
+                    NSInteger selectedIndex;
                     
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedCellIdentifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if ([[defaults objectForKey:kVLCSettingContinueAudioInBackgroundKey] boolValue])
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Audio playback in background",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:TAG_AUDIO_BACKGROUND];
+                    
+                    cell = segCtrlCell;
+#endif
                     break;
                 }
                 default:
@@ -700,6 +830,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+#if TARGET_OS_TV
+    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+#endif
+
     switch (indexPath.section)
     {
         case SETTINGS_GENERIC_SECTION_INDEX:
@@ -751,6 +885,15 @@
                     [self.navigationController pushViewController:tableSelectViewController animated:YES];
                     break;
                 }
+#if TARGET_OS_TV
+                case 1:
+                {
+                    [defaults setObject:[NSNumber numberWithBool:![[defaults objectForKey:kVLCSettingDeinterlace] boolValue]]
+                                 forKey:kVLCSettingDeinterlace];
+                    [self.tableView reloadData];
+                    break;
+                }
+#endif
             }
             break;
         }
@@ -796,6 +939,15 @@
                     [self.navigationController pushViewController:tableSelectViewController animated:YES];
                     break;
                 }
+#if TARGET_OS_TV
+                case 2:
+                {
+                    [defaults setObject:[NSNumber numberWithBool:![[defaults objectForKey:kVLCSettingSubtitlesBoldFont] boolValue]]
+                                 forKey:kVLCSettingSubtitlesBoldFont];
+                    [self.tableView reloadData];
+                    break;
+                }
+#endif
                 case 3:
                 {
                     TableSelectViewController *tableSelectViewController;
@@ -837,6 +989,29 @@
             }
             break;
         }
+#if TARGET_OS_TV
+        case SETTINGS_AUDIO_SECTION_INDEX:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    [defaults setObject:[NSNumber numberWithBool:![[defaults objectForKey:kVLCSettingStretchAudio] boolValue]]
+                                 forKey:kVLCSettingStretchAudio];
+                    [self.tableView reloadData];
+                    break;
+                }
+                case 1:
+                {
+                    [defaults setObject:[NSNumber numberWithBool:![[defaults objectForKey:kVLCSettingContinueAudioInBackgroundKey] boolValue]]
+                                 forKey:kVLCSettingContinueAudioInBackgroundKey];
+                    [self.tableView reloadData];
+                    break;
+                }
+            }
+            break;
+        }
+#endif
         default:
         {
             break;
@@ -855,6 +1030,7 @@
 }
 */
 
+#if TARGET_OS_IOS
 - (void)switchValueChanged:(id)sender
 {
 	NSInteger tag = ((UISwitch *)sender).tag;
@@ -890,6 +1066,7 @@
     [defaults synchronize];
     [self.tableView reloadData];
 }
+#endif
 
 - (void)selectedElementIndex:(NSInteger)elementIndex forTag:(NSInteger)tag
 {
