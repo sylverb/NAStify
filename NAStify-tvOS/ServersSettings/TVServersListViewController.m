@@ -33,7 +33,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
     NSData * accountsData = [defaults objectForKey:@"accounts"];
     if (!accountsData)
@@ -44,6 +43,9 @@
     {
         self.accounts = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:accountsData]];
     }
+    
+    self.navigationItem.title = NSLocalizedString(@"Servers", nil);
+
     
     // Register account changes notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
