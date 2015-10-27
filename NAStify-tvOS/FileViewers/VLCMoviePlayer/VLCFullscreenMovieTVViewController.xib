@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.AppleTV.XIB" version="3.0" toolsVersion="9058" systemVersion="14F27" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder.AppleTV.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="AppleTV" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9048"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VLCFullscreenMovieTVViewController">
@@ -13,6 +13,7 @@
                 <outlet property="playedTimeLabel" destination="Qph-m8-iCR" id="iRZ-62-zrZ"/>
                 <outlet property="preferredFocusedView" destination="iN0-l3-epB" id="obT-bV-VZv"/>
                 <outlet property="remainingTimeLabel" destination="rIg-pG-JWA" id="kfd-Dm-yho"/>
+                <outlet property="swipeSettingsLabel" destination="UMS-U5-q1Y" id="uQL-D5-j2d"/>
                 <outlet property="titleLabel" destination="epY-iV-5FH" id="7pR-09-6Fu"/>
                 <outlet property="view" destination="iN0-l3-epB" id="Eym-vH-oyN"/>
             </connections>
@@ -28,6 +29,12 @@
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Buffering" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yaX-qU-D4t">
                     <rect key="frame" x="870" y="506" width="234" height="69"/>
+                    <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Swipe down for settings" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UMS-U5-q1Y">
+                    <rect key="frame" x="653" y="506" width="613" height="69"/>
                     <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
                     <color key="textColor" red="1" green="1" blue="1" alpha="0.59999999999999998" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
