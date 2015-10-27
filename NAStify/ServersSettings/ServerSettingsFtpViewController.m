@@ -34,10 +34,14 @@ typedef enum _SETTINGS_TAG
     TRANSFERT_MODE_TAG,
 } SETTINGS_TAG;
 
+#if TARGET_OS_IOS
 #define PROTOCOL_SEGMENT_FTP    0
 #define PROTOCOL_SEGMENT_FTPS   1
 #define PROTOCOL_SEGMENT_SFTP   2
-
+#elif TARGET_OS_TV
+#define PROTOCOL_SEGMENT_FTP    0
+#define PROTOCOL_SEGMENT_SFTP   1
+#endif
 #define AUTHENTICATION_SEGMENT_PASSWORD     0
 #define AUTHENTICATION_SEGMENT_CERTIFICATE  1
 
@@ -484,7 +488,9 @@ typedef enum _SETTINGS_TAG
                                                                       reuseIdentifier:SegmentedControllerCellIdentifier
                                                                             withItems:[NSArray arrayWithObjects:
                                                                                        NSLocalizedString(@"FTP",nil),
+#if TARGET_OS_IOS
                                                                                        NSLocalizedString(@"FTPS",nil),
+#endif
                                                                                        NSLocalizedString(@"SFTP",nil),
                                                                                        nil]];
                     }
@@ -493,11 +499,13 @@ typedef enum _SETTINGS_TAG
                     {
                         selectedIndex = PROTOCOL_SEGMENT_SFTP;
                     }
+#if TARGET_OS_IOS
                     else if (self.userAccount.boolSSL == TRUE)
                     {
                         selectedIndex = PROTOCOL_SEGMENT_FTPS;
                     }
-                        
+#endif
+                    
                     [self.protocolSegCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Protocol:",nil)
                                                        withSelectedIndex:selectedIndex
                                                                   andTag:PROTOCOL_TAG];
@@ -801,7 +809,11 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     self.protocolSegCtrlCell.segmentedControl.selectedSegmentIndex = (self.protocolSegCtrlCell.segmentedControl.selectedSegmentIndex + 1)%3;
+#elif TARGET_OS_TV
+                    self.protocolSegCtrlCell.segmentedControl.selectedSegmentIndex = (self.protocolSegCtrlCell.segmentedControl.selectedSegmentIndex + 1)%2;
+#endif
                     switch (self.protocolSegCtrlCell.segmentedControl.selectedSegmentIndex)
                     {
                         case PROTOCOL_SEGMENT_FTP:
@@ -810,12 +822,14 @@ typedef enum _SETTINGS_TAG
                             self.userAccount.boolSSL = FALSE;
                             break;
                         }
+#if TARGET_OS_IOS
                         case PROTOCOL_SEGMENT_FTPS:
                         {
                             self.userAccount.serverType = SERVER_TYPE_FTP;
                             self.userAccount.boolSSL = TRUE;
                             break;
                         }
+#endif
                         case PROTOCOL_SEGMENT_SFTP:
                         {
                             self.userAccount.serverType = SERVER_TYPE_SFTP;
