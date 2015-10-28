@@ -433,10 +433,6 @@ typedef enum _SETTINGS_TAG
         default:
             break;
     }
-    if ((indexPath.section == 4) && (indexPath.row == 0))
-    {
-        [self saveButtonAction];
-    }
 }
 #endif
 
