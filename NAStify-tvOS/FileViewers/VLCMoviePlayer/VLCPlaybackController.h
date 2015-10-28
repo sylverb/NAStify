@@ -99,6 +99,8 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 - (void)playMediaList:(VLCMediaList *)mediaList firstIndex:(int)index;
 - (void)playURL:(NSURL *)url successCallback:(NSURL*)successCallback errorCallback:(NSURL *)errorCallback;
 - (void)playURL:(NSURL *)url subtitlesFilePath:(NSString *)subsFilePath;
+#if TARGET_OS_IOS
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event;
+#endif
 
 @end

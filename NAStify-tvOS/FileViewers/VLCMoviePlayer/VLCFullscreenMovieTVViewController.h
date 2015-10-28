@@ -13,7 +13,7 @@
 
 #import "VLCPlaybackController.h"
 
-@interface VLCFullscreenMovieTVViewController : UIViewController <VLCPlaybackControllerDelegate>
+@interface VLCFullscreenMovieTVViewController : UIViewController <VLCPlaybackControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 @property (readwrite, nonatomic, weak) IBOutlet UIView *movieView;
 

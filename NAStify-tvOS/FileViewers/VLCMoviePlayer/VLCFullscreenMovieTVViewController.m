@@ -27,11 +27,18 @@
     BOOL _playerIsSetup;
     BOOL _viewAppeared;
     
+    UISwipeGestureRecognizer *_swipeRecognizerUp;
     UISwipeGestureRecognizer *_swipeRecognizerDown;
     UISwipeGestureRecognizer *_swipeRecognizerLeft;
     UISwipeGestureRecognizer *_swipeRecognizerRight;
     UITapGestureRecognizer *_touchRecognizer;
     UITapGestureRecognizer *_playRecognizer;
+    
+    UITabBarController *_settingsTabBar;
+    
+    BOOL _switchingTracksNotChapters;
+    UITableView *_trackSelectorTableView;
+    VLCFrostedGlasView *_trackSelectorContainer;
 }
 @end
 
@@ -39,6 +46,8 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (_swipeRecognizerUp)
+        [self.view removeGestureRecognizer:_swipeRecognizerUp];
     if (_swipeRecognizerDown)
         [self.view removeGestureRecognizer:_swipeRecognizerDown];
     if (_swipeRecognizerLeft)
@@ -50,6 +59,7 @@
     if (_playRecognizer)
         [self.view removeGestureRecognizer:_playRecognizer];
 
+    _swipeRecognizerUp = nil;
     _swipeRecognizerDown = nil;
     _swipeRecognizerLeft = nil;
     _swipeRecognizerRight = nil;
@@ -82,6 +92,11 @@
     self.bottomOverlayView.hidden = YES;
     
     // Register gestures
+    _swipeRecognizerUp = [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                                                   action:@selector(swipe:)];
+    _swipeRecognizerUp.direction = UISwipeGestureRecognizerDirectionUp;
+    [self.view addGestureRecognizer:_swipeRecognizerUp];
+    
     _swipeRecognizerDown = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                  action:@selector(swipe:)];
     _swipeRecognizerDown.direction = UISwipeGestureRecognizerDirectionDown;
@@ -112,6 +127,37 @@
     SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
     UINavigationController *settingsNavController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
     settingsNavController.title = NSLocalizedString(@"Settings",nil);
+
+    _settingsTabBar = [[UITabBarController alloc] init];
+    NSArray *navControllersArray = [NSArray arrayWithObjects:
+                                    settingsNavController,
+                                    nil];
+    _settingsTabBar.viewControllers = navControllersArray;
+    _settingsTabBar.view.frame = CGRectMake(0.0f, 0.0f, self.view.frame.size.width, self.view.frame.size.height / 2);
+    _settingsTabBar.view.backgroundColor = [UIColor grayColor];
+    _settingsTabBar.tabBar.backgroundColor = [UIColor grayColor];
+    [_settingsTabBar.tabBar setValue:@(YES) forKeyPath:@"_hidesShadow"];
+    
+    // Setup views
+    _trackSelectorTableView = [[UITableView alloc] initWithFrame:CGRectMake(0., 0., 1920.0, 450.0) style:UITableViewStylePlain];
+    _trackSelectorTableView.delegate = self;
+    _trackSelectorTableView.dataSource = self;
+    _trackSelectorTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+    _trackSelectorTableView.rowHeight = 44.;
+    _trackSelectorTableView.sectionHeaderHeight = 28.;
+    [_trackSelectorTableView registerClass:[VLCTrackSelectorTableViewCell class] forCellReuseIdentifier:TRACK_SELECTOR_TABLEVIEW_CELL];
+    [_trackSelectorTableView registerClass:[VLCTrackSelectorHeaderView class] forHeaderFooterViewReuseIdentifier:TRACK_SELECTOR_TABLEVIEW_SECTIONHEADER];
+    _trackSelectorTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    
+    _trackSelectorContainer = [[VLCFrostedGlasView alloc] initWithFrame:CGRectMake(0, 0, 1920, 1080)];
+    [_trackSelectorContainer addSubview:_trackSelectorTableView];
+    _trackSelectorContainer.hidden = YES;
+    
+    _trackSelectorTableView.opaque = NO;
+    _trackSelectorTableView.backgroundColor = [UIColor grayColor];
+    _trackSelectorTableView.allowsMultipleSelection = YES;
+    
+    _switchingTracksNotChapters = YES;
 }
 
 #pragma mark - view events
@@ -127,8 +173,6 @@
     VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
     vpc.delegate = self;
     [vpc recoverPlaybackState];
-    
-    [self.view setNeedsFocusUpdate];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -155,9 +199,9 @@
     _viewAppeared = NO;
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 
+    [vpc stopPlayback];
+    
     [super viewWillDisappear:animated];
-
-    [[UIApplication sharedApplication] sendAction:@selector(closeFullscreenPlayback) to:nil from:self forEvent:nil];
 }
 
 #pragma mark - playback controller delegation
@@ -266,11 +310,15 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
             }
             case UISwipeGestureRecognizerDirectionDown:
             {
-                // TODO : show settings menu
+                //FIXME : show settings menu animated
+                [self.view addSubview:_trackSelectorTableView];
                 break;
             }
-            default:
+            case UISwipeGestureRecognizerDirectionUp:
             {
+                // Hide settings menu if focus is on first cell
+                if ([_trackSelectorTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].isFocused)
+                    [_trackSelectorTableView removeFromSuperview];
                 break;
             }
         }
@@ -327,5 +375,178 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     if (!_controlsHidden)
         [self toggleControlsVisible];
 }
+
+#pragma mark - track selector table view
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    NSInteger ret = 0;
+    VLCMediaPlayer *mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
+    
+    if (_switchingTracksNotChapters == YES) {
+        if (mediaPlayer.audioTrackIndexes.count > 2)
+            ret++;
+        
+        if (mediaPlayer.videoSubTitlesIndexes.count > 1)
+            ret++;
+    } else {
+        if ([mediaPlayer numberOfTitles] > 1)
+            ret++;
+        
+        if ([mediaPlayer numberOfChaptersForTitle:mediaPlayer.currentTitleIndex] > 1)
+            ret++;
+    }
+    
+    return ret;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    UITableViewHeaderFooterView *view = [tableView dequeueReusableHeaderFooterViewWithIdentifier:TRACK_SELECTOR_TABLEVIEW_SECTIONHEADER];
+    
+    if (!view)
+        view = [[VLCTrackSelectorHeaderView alloc] initWithReuseIdentifier:TRACK_SELECTOR_TABLEVIEW_SECTIONHEADER];
+    
+    return view;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    VLCMediaPlayer *mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
+    
+    if (_switchingTracksNotChapters == YES) {
+        if (mediaPlayer.audioTrackIndexes.count > 2 && section == 0)
+            return NSLocalizedString(@"CHOOSE_AUDIO_TRACK", nil);
+        
+        if (mediaPlayer.videoSubTitlesIndexes.count > 1)
+            return NSLocalizedString(@"CHOOSE_SUBTITLE_TRACK", nil);
+    } else {
+        if ([mediaPlayer numberOfTitles] > 1 && section == 0)
+            return NSLocalizedString(@"CHOOSE_TITLE", nil);
+        
+        if ([mediaPlayer numberOfChaptersForTitle:mediaPlayer.currentTitleIndex] > 1)
+            return NSLocalizedString(@"CHOOSE_CHAPTER", nil);
+    }
+    
+    return @"unknown track type";
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    VLCTrackSelectorTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:TRACK_SELECTOR_TABLEVIEW_CELL];
+    
+    if (!cell)
+        cell = [[VLCTrackSelectorTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:TRACK_SELECTOR_TABLEVIEW_CELL];
+    
+    NSInteger row = indexPath.row;
+    NSInteger section = indexPath.section;
+    VLCMediaPlayer *mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
+    BOOL cellShowsCurrentTrack = NO;
+    
+    if (_switchingTracksNotChapters == YES) {
+        NSArray *indexArray;
+        NSString *trackName;
+        if ([mediaPlayer numberOfAudioTracks] > 2 && section == 0) {
+            indexArray = mediaPlayer.audioTrackIndexes;
+            
+            if ([indexArray indexOfObject:[NSNumber numberWithInt:mediaPlayer.currentAudioTrackIndex]] == row)
+                cellShowsCurrentTrack = YES;
+            
+            trackName = mediaPlayer.audioTrackNames[row];
+        } else {
+            indexArray = mediaPlayer.videoSubTitlesIndexes;
+            
+            if ([indexArray indexOfObject:[NSNumber numberWithInt:mediaPlayer.currentVideoSubTitleIndex]] == row)
+                cellShowsCurrentTrack = YES;
+            
+            trackName = mediaPlayer.videoSubTitlesNames[row];
+        }
+        
+        if (trackName != nil) {
+            if ([trackName isEqualToString:@"Disable"])
+                cell.textLabel.text = NSLocalizedString(@"DISABLE_LABEL", nil);
+            else
+                cell.textLabel.text = trackName;
+        }
+    } else {
+        if ([mediaPlayer numberOfTitles] > 1 && section == 0) {
+            NSDictionary *description = mediaPlayer.titleDescriptions[row];
+            cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", description[VLCTitleDescriptionName], [[VLCTime timeWithNumber:description[VLCTitleDescriptionDuration]] stringValue]];
+            
+            if (row == mediaPlayer.currentTitleIndex)
+                cellShowsCurrentTrack = YES;
+        } else {
+            NSDictionary *description = [mediaPlayer chapterDescriptionsOfTitle:mediaPlayer.currentTitleIndex][row];
+            cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", description[VLCChapterDescriptionName], [[VLCTime timeWithNumber:description[VLCChapterDescriptionDuration]] stringValue]];
+            
+            if (row == mediaPlayer.currentChapterIndex)
+                cellShowsCurrentTrack = YES;
+        }
+    }
+    [cell setShowsCurrentTrack:cellShowsCurrentTrack];
+    
+    return cell;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    VLCMediaPlayer *mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
+    
+    if (_switchingTracksNotChapters == YES) {
+        NSInteger audioTrackCount = mediaPlayer.audioTrackIndexes.count;
+        
+        if (audioTrackCount > 2 && section == 0)
+            return audioTrackCount;
+        
+        return mediaPlayer.videoSubTitlesIndexes.count;
+    } else {
+        if ([mediaPlayer numberOfTitles] > 1 && section == 0)
+            return [mediaPlayer numberOfTitles];
+        else
+            return [mediaPlayer numberOfChaptersForTitle:mediaPlayer.currentTitleIndex];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    NSInteger index = indexPath.row;
+    VLCMediaPlayer *mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
+    
+    if (_switchingTracksNotChapters == YES) {
+        NSArray *indexArray;
+        if (mediaPlayer.audioTrackIndexes.count > 2 && indexPath.section == 0) {
+            indexArray = mediaPlayer.audioTrackIndexes;
+            if (index <= indexArray.count)
+                mediaPlayer.currentAudioTrackIndex = [indexArray[index] intValue];
+            
+        } else {
+            indexArray = mediaPlayer.videoSubTitlesIndexes;
+            if (index <= indexArray.count)
+                mediaPlayer.currentVideoSubTitleIndex = [indexArray[index] intValue];
+        }
+    } else {
+        if ([mediaPlayer numberOfTitles] > 1 && indexPath.section == 0)
+            mediaPlayer.currentTitleIndex = (int)index;
+        else
+            mediaPlayer.currentChapterIndex = (int)index;
+    }
+    
+    CGFloat alpha = 0.0f;
+    _trackSelectorContainer.alpha = 1.0f;
+    
+    void (^animationBlock)() = ^() {
+        _trackSelectorContainer.alpha = alpha;
+    };
+    
+    void (^completionBlock)(BOOL finished) = ^(BOOL finished) {
+        for (UIGestureRecognizer *recognizer in self.view.gestureRecognizers)
+            [recognizer setEnabled:YES];
+        _trackSelectorContainer.hidden = YES;
+    };
+    
+    NSTimeInterval animationDuration = .3;
+    [UIView animateWithDuration:animationDuration animations:animationBlock completion:completionBlock];
+}
+
 
 @end

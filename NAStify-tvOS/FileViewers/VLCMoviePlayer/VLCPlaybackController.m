@@ -309,8 +309,9 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
     _currentAspectRatioMask = 0;
     _mediaPlayer.videoAspectRatio = NULL;
 
+#if TARGET_IOS_IOS
     [self subscribeRemoteCommands];
-
+#endif
     _playerIsSetup = YES;
 
     [[NSNotificationCenter defaultCenter] postNotificationName:VLCPlaybackControllerPlaybackDidStart object:self];
@@ -367,7 +368,9 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
         [[UIApplication sharedApplication] openURL:self.successCallback];
 
     [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = nil;
+#if TARGET_IOS_IOS
     [self unsubscribeFromRemoteCommand];
+#endif
     _activeSession = NO;
 
     if (_playbackFailed) {
@@ -1029,6 +1032,7 @@ setstuff:
 
 #pragma mark - remote events
 
+#if TARGET_IOS_IOS
 static inline NSArray * RemoteCommandCenterCommandsToHandle(MPRemoteCommandCenter *cc)
 {
     /* commmented out other available commands which we don't support now but may
@@ -1181,6 +1185,7 @@ static inline NSArray * RemoteCommandCenterCommandsToHandle(MPRemoteCommandCente
             break;
     }
 }
+#endif
 
 #pragma mark - background interaction
 
