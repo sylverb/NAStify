@@ -22,7 +22,6 @@
 @interface ServersListViewController ()
 @property(nonatomic) NSInteger timeCounter;
 @property(nonatomic, strong) NSTimer *longTapTimer;
-@property(nonatomic, strong) UITapGestureRecognizer *tapGesture;
 
 - (void)longPressAction:(UILongPressGestureRecognizer*)longPressRecognizer;
 
