@@ -143,8 +143,6 @@
     _trackSelectorTableView.delegate = self;
     _trackSelectorTableView.dataSource = self;
     _trackSelectorTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-    _trackSelectorTableView.rowHeight = 44.;
-    _trackSelectorTableView.sectionHeaderHeight = 28.;
     [_trackSelectorTableView registerClass:[VLCTrackSelectorTableViewCell class] forCellReuseIdentifier:TRACK_SELECTOR_TABLEVIEW_CELL];
     [_trackSelectorTableView registerClass:[VLCTrackSelectorHeaderView class] forHeaderFooterViewReuseIdentifier:TRACK_SELECTOR_TABLEVIEW_SECTIONHEADER];
     _trackSelectorTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -200,6 +198,8 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
 
     [vpc stopPlayback];
+    
+    [_trackSelectorTableView removeFromSuperview];
     
     [super viewWillDisappear:animated];
 }
@@ -311,7 +311,13 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
             case UISwipeGestureRecognizerDirectionDown:
             {
                 //FIXME : show settings menu animated
-                [self.view addSubview:_trackSelectorTableView];
+                VLCMediaPlayer *mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
+                if (([mediaPlayer numberOfAudioTracks] > 2) ||
+                    ([mediaPlayer numberOfSubtitlesTracks] > 0))
+                {
+                    [self.view addSubview:_trackSelectorTableView];
+                }
+                
                 break;
             }
             case UISwipeGestureRecognizerDirectionUp:
@@ -546,6 +552,8 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     
     NSTimeInterval animationDuration = .3;
     [UIView animateWithDuration:animationDuration animations:animationBlock completion:completionBlock];
+    
+    [tableView reloadData];
 }
 
 
