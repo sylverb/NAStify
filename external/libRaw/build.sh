@@ -73,10 +73,10 @@ lipo -create LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneOS/armv7/lib/libraw_r.a 
 
 lipo -create LibRaw-${LIBRAW_VERSION}/install-ios-AppleTVOS/arm64/lib/libraw.a \
              LibRaw-${LIBRAW_VERSION}/install-ios-AppleTVSimulator/x86_64/lib/libraw.a \
-             -output lib/tvos_libraw.a
+             -output lib/tvos-libraw.a
 lipo -create LibRaw-${LIBRAW_VERSION}/install-ios-AppleTVOS/arm64/lib/libraw_r.a \
              LibRaw-${LIBRAW_VERSION}/install-ios-AppleTVSimulator/x86_64/lib/libraw_r.a \
-             -output lib/tvos_libraw_r.a
+             -output lib/tvos-libraw_r.a
 
 #create include folder
 cp -r LibRaw-${LIBRAW_VERSION}/install-ios-iPhoneOS/armv7/include lib/
