@@ -370,7 +370,7 @@
                             [VLCPlayerDisplayController sharedInstance].displayMode = VLCPlayerDisplayControllerDisplayModeFullscreen;
                             
                             VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                            [vpc playURL:[self.connectionManager urlForVideo:fileItem].url subtitlesFilePath:nil];
+                            [vpc playURL:self.videoNetworkConnection.url subtitlesFilePath:nil];
                         }
                     }
                     else if (ServerSupportsFeature(QTPlayer))
@@ -379,7 +379,7 @@
                         // Internal player can handle this media
                         CustomMoviePlayerViewController *mp = [[CustomMoviePlayerViewController alloc] init];
                         mp.allowsAirPlay = NO;
-                        mp.url = [self.connectionManager urlForVideo:fileItem].url;
+                        mp.url = self.videoNetworkConnection.url;
                         if (mp)
                         {
                             [self presentViewController:mp animated:YES completion:nil];
