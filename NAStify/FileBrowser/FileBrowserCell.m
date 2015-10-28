@@ -40,21 +40,25 @@
         self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         self.nameLabel.autocorrectionType = UITextAutocorrectionTypeNo;
 #elif TARGET_OS_TV
-        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,250,firstLineHeight)];
+        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,1920-100,firstLineHeight)];
         self.nameLabel.textColor = [UIColor blackColor];
+
 #endif
 		self.nameLabel.font = [UIFont boldSystemFontOfSize:firstLineFontSize];
 		[self.contentView addSubview:self.nameLabel];
 		
+#if TARGET_OS_IOS
 		self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(textXOffset,secondLineYOffset,130,secondLineHeight)];
+#elif TARGET_OS_TV
+        self.dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(textXOffset,secondLineYOffset,300,secondLineHeight)];
+#endif
         self.dateLabel.backgroundColor = [UIColor clearColor];
 		self.dateLabel.font = [UIFont systemFontOfSize:secondLineFontSize];
 		self.dateLabel.textColor = [UIColor lightGrayColor];
 		self.dateLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
 		[self.contentView addSubview:self.dateLabel];
 		
-		if ((UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) ||
-            (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV))
+		if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
         {
 			self.ownerLabel = [[UILabel alloc] initWithFrame:CGRectMake(270,secondLineYOffset,200,secondLineHeight)];
             self.ownerLabel.backgroundColor = [UIColor clearColor];
@@ -63,17 +67,33 @@
 			self.ownerLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 			[self.contentView addSubview:self.ownerLabel];
 		}
+        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
+        {
+            self.ownerLabel = [[UILabel alloc] initWithFrame:CGRectMake(350,secondLineYOffset,200,secondLineHeight)];
+            self.ownerLabel.backgroundColor = [UIColor clearColor];
+            self.ownerLabel.font = [UIFont systemFontOfSize:secondLineFontSize];
+            self.ownerLabel.textColor = [UIColor lightGrayColor];
+            [self.contentView addSubview:self.ownerLabel];
+        }
         else
         {
 			self.ownerLabel = nil;
 		}
 		
-		self.sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(240,secondLineYOffset,70,secondLineHeight)];
+#if TARGET_OS_IOS
+        self.sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(240,secondLineYOffset,70,secondLineHeight)];
+#elif TARGET_OS_TV
+        self.sizeLabel = [[UILabel alloc] initWithFrame:CGRectMake(700,secondLineYOffset,130,secondLineHeight)];
+#endif
         self.sizeLabel.backgroundColor = [UIColor clearColor];
 		self.sizeLabel.font = [UIFont systemFontOfSize:secondLineFontSize];
 		self.sizeLabel.textColor = [UIColor lightGrayColor];
+#if TARGET_OS_IOS
 		self.sizeLabel.textAlignment = NSTextAlignmentRight;
-		self.sizeLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        self.sizeLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+#elif TARGET_OS_TV
+        self.sizeLabel.textAlignment = NSTextAlignmentLeft;
+#endif
 		[self.contentView addSubview:self.sizeLabel];
 		
 		self.fileTypeImage = [[UIImageView alloc] initWithFrame:CGRectMake(3, 3, 44, 44)];
@@ -140,6 +160,7 @@
 	self.nameLabel.enabled = NO;
 }
 
+#if TARGET_OS_IOS
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -166,6 +187,7 @@
 	b.origin.x = self.contentView.frame.origin.x + 18;
 	[self.ejectableImage setFrame:b];
 }
+#endif
 
 - (void)drawRect:(CGRect)rect
 {
