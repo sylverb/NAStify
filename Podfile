@@ -18,7 +18,7 @@ pod 'Google-API-Client/Drive', '1.0.418'
 target 'NAStify' do
     pod 'Google-Mobile-Ads-SDK', '~> 7.0'
     pod 'upnpx', :podspec => 'localpods/vendor/upnpx.podspec'
-    pod 'SSKeychain', '1.2.2'
+    pod 'SSKeychain', :podspec => 'localpods/vendor/SSKeychain.podspec'
     pod 'AFNetworking', :podspec => 'localpods/vendor/AFNetworking.podspec'
     pod 'XMLDictionary', :podspec => 'localpods/vendor/XMLDictionary.podspec'
     pod 'ISO8601DateFormatter', :podspec => 'localpods/vendor/ISO8601DateFormatter.podspec'
@@ -26,7 +26,7 @@ end
 
 target 'NAStify-DocProvider' do
     pod 'upnpx', :podspec => 'localpods/vendor/upnpx.podspec'
-    pod 'SSKeychain', '1.2.2'
+    pod 'SSKeychain', :podspec => 'localpods/vendor/SSKeychain.podspec'
     pod 'AFNetworking', :podspec => 'localpods/vendor/AFNetworking.podspec'
     pod 'XMLDictionary', :podspec => 'localpods/vendor/XMLDictionary.podspec'
     pod 'ISO8601DateFormatter', :podspec => 'localpods/vendor/ISO8601DateFormatter.podspec'
@@ -35,7 +35,7 @@ end
 target 'NAStify-tvOS' do
     platform :tvos, '9.0'
 	pod 'upnpx', :podspec => 'localpods/vendor/upnpx.podspec'
-    pod 'SSKeychain', '1.2.2'
+    pod 'SSKeychain', :podspec => 'localpods/vendor/SSKeychain.podspec'
     pod 'AFNetworking', :podspec => 'localpods/vendor/AFNetworking.podspec'
     pod 'XMLDictionary', :podspec => 'localpods/vendor/XMLDictionary.podspec'
     pod 'ISO8601DateFormatter', :podspec => 'localpods/vendor/ISO8601DateFormatter.podspec'

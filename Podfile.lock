@@ -81,7 +81,7 @@ DEPENDENCIES:
   - objective-zip (= 0.8.3)
   - OBSlider (= 1.1.0)
   - PSTCollectionView (= 1.2.3)
-  - SSKeychain (= 1.2.2)
+  - SSKeychain (from `localpods/vendor/SSKeychain.podspec`)
   - upnpx (from `localpods/vendor/upnpx.podspec`)
   - XMLDictionary (from `localpods/vendor/XMLDictionary.podspec`)
 
@@ -105,6 +105,8 @@ EXTERNAL SOURCES:
   MBProgressHUD:
     :commit: fc1903f
     :git: https://github.com/jdg/MBProgressHUD.git
+  SSKeychain:
+    :podspec: localpods/vendor/SSKeychain.podspec
   upnpx:
     :podspec: localpods/vendor/upnpx.podspec
   XMLDictionary:
@@ -148,7 +150,7 @@ SPEC CHECKSUMS:
   objective-zip: a27d4b3c060eead4325159e49178e7f0ad5ee808
   OBSlider: 490f108007bfdd5414a38650b211fe403a95b8a0
   PSTCollectionView: 6749df92885353521f55279a7ce2b293762e2be4
-  SSKeychain: 88767e903ee8d274ed380e364d96b7a101235286
+  SSKeychain: 48c51483169e558bbfd62d1ac157bf7ecee283ba
   upnpx: 3871694c582473825400a248fac96b6e58cbbb80
   XMLDictionary: 24e1b84f2b86532ea3c5f6e6283470e8ac4a5cb1
 
