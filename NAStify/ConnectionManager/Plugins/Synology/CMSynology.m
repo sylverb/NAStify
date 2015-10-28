@@ -311,7 +311,6 @@
 - (void)getServerFromQuickconnect
 {
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
-        quickConnectRequestsLeft --;
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
         if ([[JSON objectForKey:@"errno"] intValue] == 0)
@@ -336,7 +335,7 @@
                                         nil]];
             });
         }
-        else if ((quickConnectRequestsLeft == 0) && (quickConnectServer == nil))
+        else if (quickConnectServer == nil)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -369,28 +368,10 @@
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
     
-    quickConnectRequestsLeft = 3;
-    
     self.manager.securityPolicy.allowInvalidCertificates = self.userAccount.acceptUntrustedCertificate;
     self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
 
-    [self.manager POST:[NSString stringWithFormat:@"http://%@.quickconnect.to/ukc/Serv.php",self.userAccount.server]
-            parameters:params
-               success:successBlock
-               failure:failureBlock];
-
-    // Start the network activity spinner
-    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-
-    [self.manager POST:[NSString stringWithFormat:@"http://%@.quickconnect.to/usc/Serv.php",self.userAccount.server]
-            parameters:params
-               success:successBlock
-               failure:failureBlock];
-
-    // Start the network activity spinner
-    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-
-    [self.manager POST:[NSString stringWithFormat:@"http://%@.quickconnect.to/twc/Serv.php",self.userAccount.server]
+    [self.manager POST:@"http://global.quickconnect.to/Serv.php"
             parameters:params
                success:successBlock
                failure:failureBlock];

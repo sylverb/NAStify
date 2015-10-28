@@ -42,7 +42,6 @@
     NSString *quickConnectPort;
     NSString *quickConnectServerExternal;
     NSString *quickConnectPortExternal;
-    NSInteger quickConnectRequestsLeft;
     
     // To monitor tasks action progress
 #ifndef APP_EXTENSION
