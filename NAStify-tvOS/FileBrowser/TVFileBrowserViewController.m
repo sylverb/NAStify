@@ -378,6 +378,7 @@
                         itemHandled = YES;
                         // Internal player can handle this media
                         CustomMoviePlayerViewController *mp = [[CustomMoviePlayerViewController alloc] init];
+                        mp.filename = fileItem.name;
                         mp.allowsAirPlay = NO;
                         mp.url = self.videoNetworkConnection.url;
                         if (mp)

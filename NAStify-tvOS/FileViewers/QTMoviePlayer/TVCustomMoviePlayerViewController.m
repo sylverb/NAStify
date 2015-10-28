@@ -19,11 +19,31 @@
 
 @implementation CustomMoviePlayerViewController
 
+- (instancetype)initWithFilename:(NSString *)filename
+{
+    if (self = [super init])
+    {
+        self.filename = filename;
+    }
+    return self;
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:self.url];
     
-    AVPlayerItem* playerItem = [AVPlayerItem playerItemWithURL:self.url];
+    if (self.filename)
+    {
+        AVMutableMetadataItem *title = [[AVMutableMetadataItem alloc] init];
+        title.key = AVMetadataCommonKeyTitle;
+        title.keySpace = AVMetadataKeySpaceCommon;
+        title.value = self.filename;
+        title.locale = NSLocale.currentLocale;
+        
+        playerItem.externalMetadata = @[title];
+    }
+
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mediaDidFinishPlaying:) name:AVPlayerItemDidPlayToEndTimeNotification object:playerItem];
 
     AVPlayerViewController *playerViewController = [[AVPlayerViewController alloc] init];
@@ -31,7 +51,6 @@
     playerViewController.player.allowsExternalPlayback = self.allowsAirPlay;
     playerViewController.view.frame = self.view.frame;
     
-
     self.avPlayerViewcontroller = playerViewController;
     
     [self.view addSubview:playerViewController.view];
