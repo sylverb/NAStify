@@ -400,6 +400,22 @@
         [self.accounts addObject:[[notification userInfo] objectForKey:@"account"]];
         [self save];
         [self.tableView reloadData];
+        if (self.accounts.count == 1)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Information", nil)
+                                                                               message:NSLocalizedString(@"You can manage servers by performing a long tap on them",nil)
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * action) {
+                                                                     [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                 }];
+                [alert addAction:okAction];
+                [self presentViewController:alert animated:YES completion:nil];
+            });
+        }
     }
 }
 
