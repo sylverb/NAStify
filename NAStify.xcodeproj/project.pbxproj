@@ -420,6 +420,9 @@
 		95AF2E0E1BD9FF1E00C3A81D /* ServerSettingsWebDavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F7ED15D7CA060059428E /* ServerSettingsWebDavViewController.m */; };
 		95AF2E111BDAE5D600C3A81D /* tvos-libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */; };
 		95AF2E121BDAE5D600C3A81D /* tvos-libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF2E101BDAE5D600C3A81D /* tvos-libssl.a */; };
+		95BD7B3A1BE036AD005BC784 /* VLCTrackSelectorHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BD7B371BE036AD005BC784 /* VLCTrackSelectorHeaderView.m */; };
+		95BD7B3B1BE036AD005BC784 /* VLCTrackSelectorTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 95BD7B391BE036AD005BC784 /* VLCTrackSelectorTableViewCell.m */; };
+		95BD7B401BE0C654005BC784 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 95BD7B3E1BE0C654005BC784 /* Localizable.strings */; };
 		95BD825C1BD82749000520B8 /* FileBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F82415D8390A0059428E /* FileBrowserCell.m */; };
 		95DFB7011B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
 		95DFB7021B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
@@ -1851,6 +1854,11 @@
 		957BD3941BD6C2BB00A2610C /* NAStifyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NAStifyConstants.h; path = Settings/NAStifyConstants.h; sourceTree = "<group>"; };
 		95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libcrypto.a"; path = "external/openssl/lib/tvos-libcrypto.a"; sourceTree = "<group>"; };
 		95AF2E101BDAE5D600C3A81D /* tvos-libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libssl.a"; path = "external/openssl/lib/tvos-libssl.a"; sourceTree = "<group>"; };
+		95BD7B361BE036AD005BC784 /* VLCTrackSelectorHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCTrackSelectorHeaderView.h; sourceTree = "<group>"; };
+		95BD7B371BE036AD005BC784 /* VLCTrackSelectorHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCTrackSelectorHeaderView.m; sourceTree = "<group>"; };
+		95BD7B381BE036AD005BC784 /* VLCTrackSelectorTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCTrackSelectorTableViewCell.h; sourceTree = "<group>"; };
+		95BD7B391BE036AD005BC784 /* VLCTrackSelectorTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCTrackSelectorTableViewCell.m; sourceTree = "<group>"; };
+		95BD7B3F1BE0C654005BC784 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
 		95DFB6FF1B0BA5D40002C830 /* CMPydio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMPydio.h; sourceTree = "<group>"; };
 		95DFB7001B0BA5D40002C830 /* CMPydio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMPydio.m; sourceTree = "<group>"; };
 		95DFB7061B0BA6250002C830 /* AuthorizationClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorizationClient.h; sourceTree = "<group>"; };
@@ -3335,6 +3343,7 @@
 				95486DCF1BD6D9E50097225C /* AppDelegate.m */,
 				95486DD71BD6D9E50097225C /* Main.storyboard */,
 				95486DDA1BD6D9E50097225C /* Info.plist */,
+				95BD7B3C1BE0C639005BC784 /* Ressources */,
 				95486DCB1BD6D9E50097225C /* Supporting Files */,
 			);
 			path = "NAStify-tvOS";
@@ -3397,6 +3406,10 @@
 				954872B31BD6F4640097225C /* VLCMiniPlaybackView.m */,
 				954872B41BD6F4640097225C /* VLCPlaybackNavigationController.h */,
 				954872B51BD6F4640097225C /* VLCPlaybackNavigationController.m */,
+				95BD7B361BE036AD005BC784 /* VLCTrackSelectorHeaderView.h */,
+				95BD7B371BE036AD005BC784 /* VLCTrackSelectorHeaderView.m */,
+				95BD7B381BE036AD005BC784 /* VLCTrackSelectorTableViewCell.h */,
+				95BD7B391BE036AD005BC784 /* VLCTrackSelectorTableViewCell.m */,
 			);
 			path = VLCMoviePlayer;
 			sourceTree = "<group>";
@@ -3424,6 +3437,23 @@
 			);
 			name = External;
 			sourceTree = "<group>";
+		};
+		95BD7B3C1BE0C639005BC784 /* Ressources */ = {
+			isa = PBXGroup;
+			children = (
+				95BD7B3D1BE0C654005BC784 /* en.lproj */,
+			);
+			name = Ressources;
+			sourceTree = "<group>";
+		};
+		95BD7B3D1BE0C654005BC784 /* en.lproj */ = {
+			isa = PBXGroup;
+			children = (
+				95BD7B3E1BE0C654005BC784 /* Localizable.strings */,
+			);
+			name = en.lproj;
+			path = NAStify/Ressources/en.lproj;
+			sourceTree = SOURCE_ROOT;
 		};
 		95DFB6FE1B0BA5D40002C830 /* Pydio */ = {
 			isa = PBXGroup;
@@ -6271,6 +6301,7 @@
 				954873631BD71B3F0097225C /* dng@2x.png in Resources */,
 				954873641BD71B3F0097225C /* dng@3x.png in Resources */,
 				954873651BD71B3F0097225C /* doc.png in Resources */,
+				95BD7B401BE0C654005BC784 /* Localizable.strings in Resources */,
 				954873661BD71B3F0097225C /* doc@2x.png in Resources */,
 				954873671BD71B3F0097225C /* doc@3x.png in Resources */,
 				954873681BD71B3F0097225C /* dts.png in Resources */,
@@ -7322,6 +7353,7 @@
 				954872EC1BD706C40097225C /* CMSynology.m in Sources */,
 				954872ED1BD706C40097225C /* CMUPnP.m in Sources */,
 				9548731D1BD711AA0097225C /* dummy.mm in Sources */,
+				95BD7B3B1BE036AD005BC784 /* VLCTrackSelectorTableViewCell.m in Sources */,
 				954872EE1BD706C40097225C /* ConnectionManager.m in Sources */,
 				954872EF1BD706C40097225C /* NetworkConnection.m in Sources */,
 				954872E91BD706310097225C /* NSStringAdditions.m in Sources */,
@@ -7340,6 +7372,7 @@
 				957322841BDB94A4008D8AD0 /* ServerSettingsQnapViewController.m in Sources */,
 				954872B71BD6F4640097225C /* UIDevice+VLC.m in Sources */,
 				957322D01BDF8131008D8AD0 /* VlcSettingsViewController.m in Sources */,
+				95BD7B3A1BE036AD005BC784 /* VLCTrackSelectorHeaderView.m in Sources */,
 				954872BC1BD6F4640097225C /* VLCPlaybackNavigationController.m in Sources */,
 				957322CE1BDF7A92008D8AD0 /* SettingsViewController.m in Sources */,
 				954872B91BD6F4640097225C /* VLCFullscreenMovieTVViewController.m in Sources */,
@@ -7883,6 +7916,14 @@
 				95486DD81BD6D9E50097225C /* Base */,
 			);
 			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		95BD7B3E1BE0C654005BC784 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				95BD7B3F1BE0C654005BC784 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 		D5551C14190184B100652A08 /* Localizable.strings */ = {
