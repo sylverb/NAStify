@@ -466,6 +466,7 @@ typedef enum _SETTINGS_TAG
 
 #pragma mark -
 #pragma mark TextField Delegate Methods
+#if TARGET_OS_IOS
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     self.currentFirstResponder = textField;
@@ -496,6 +497,7 @@ typedef enum _SETTINGS_TAG
     }
 	return YES;
 }
+#endif
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
