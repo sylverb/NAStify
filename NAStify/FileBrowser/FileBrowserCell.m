@@ -96,8 +96,12 @@
 #endif
 		[self.contentView addSubview:self.sizeLabel];
 		
+#if TARGET_OS_IOS
 		self.fileTypeImage = [[UIImageView alloc] initWithFrame:CGRectMake(3, 3, 44, 44)];
 		self.fileTypeImage.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+#elif TARGET_OS_TV
+        self.fileTypeImage = [[UIImageView alloc] initWithFrame:CGRectMake(3, 8, 64, 64)];
+#endif
 		[self.contentView addSubview:self.fileTypeImage];
 
         self.ejectableImage = [[UIImageView alloc] initWithFrame:CGRectMake(18, 22, 15, 15)];
