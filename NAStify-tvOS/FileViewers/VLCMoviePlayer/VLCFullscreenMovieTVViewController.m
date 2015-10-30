@@ -38,6 +38,7 @@
     
     BOOL _switchingTracksNotChapters;
     UITableView *_trackSelectorTableView;
+    BOOL _trackSelectorVisible;
     VLCFrostedGlasView *_trackSelectorContainer;
 }
 @end
@@ -139,10 +140,12 @@
     [_settingsTabBar.tabBar setValue:@(YES) forKeyPath:@"_hidesShadow"];
     
     // Setup views
-    _trackSelectorTableView = [[UITableView alloc] initWithFrame:CGRectMake(0., 0., 1920.0, 450.0) style:UITableViewStylePlain];
+    _trackSelectorTableView = [[UITableView alloc] initWithFrame:CGRectMake(0., -450., 1920., 450.) style:UITableViewStylePlain];
     _trackSelectorTableView.delegate = self;
     _trackSelectorTableView.dataSource = self;
     _trackSelectorTableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+//    _trackSelectorTableView.rowHeight = 44.;
+//    _trackSelectorTableView.sectionHeaderHeight = 28.;
     [_trackSelectorTableView registerClass:[VLCTrackSelectorTableViewCell class] forCellReuseIdentifier:TRACK_SELECTOR_TABLEVIEW_CELL];
     [_trackSelectorTableView registerClass:[VLCTrackSelectorHeaderView class] forHeaderFooterViewReuseIdentifier:TRACK_SELECTOR_TABLEVIEW_SECTIONHEADER];
     _trackSelectorTableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
@@ -155,6 +158,9 @@
     _trackSelectorTableView.backgroundColor = [UIColor grayColor];
     _trackSelectorTableView.allowsMultipleSelection = YES;
     
+    [self.view addSubview:_trackSelectorTableView];
+
+    _trackSelectorVisible = NO;
     _switchingTracksNotChapters = YES;
 }
 
@@ -241,6 +247,17 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
             self.bottomOverlayView.hidden = NO;
         }];
     }
+    if (controller.isPlaying)
+    {
+        VLCMediaPlayer *mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
+        if ([self disableAudioForRescrictedCodecsForTrackIndex:mediaPlayer.currentAudioTrackIndex])
+        {
+            // Disable audio
+            NSArray *indexArray;
+            indexArray = mediaPlayer.audioTrackIndexes;
+            mediaPlayer.currentAudioTrackIndex = [indexArray[0] intValue];
+        }
+    }
 }
 
 - (void)displayMetadataForPlaybackController:(VLCPlaybackController *)controller
@@ -310,21 +327,35 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
             }
             case UISwipeGestureRecognizerDirectionDown:
             {
-                //FIXME : show settings menu animated
-                VLCMediaPlayer *mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
-                if (([mediaPlayer numberOfAudioTracks] > 2) ||
-                    ([mediaPlayer numberOfSubtitlesTracks] > 0))
+                if (!_trackSelectorVisible)
                 {
-                    [self.view addSubview:_trackSelectorTableView];
+                    VLCMediaPlayer *mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
+                    if (([mediaPlayer numberOfAudioTracks] > 2) ||
+                        ([mediaPlayer numberOfSubtitlesTracks] > 0))
+                    {
+                        _trackSelectorVisible = YES;
+                        [_trackSelectorTableView reloadData];
+                        [_trackSelectorTableView setFrame:CGRectMake( 0.0f, -450.0f, 1920.0f, 450.0f)];
+                        [UIView beginAnimations:@"animateTableView" context:nil];
+                        [UIView setAnimationDuration:0.4];
+                        [_trackSelectorTableView setFrame:CGRectMake( 0.0f, 0.0f, 1920.0f, 450.0f)];
+                        [UIView commitAnimations];
+                    }
                 }
-                
                 break;
             }
             case UISwipeGestureRecognizerDirectionUp:
             {
                 // Hide settings menu if focus is on first cell
-                if ([_trackSelectorTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].isFocused)
-                    [_trackSelectorTableView removeFromSuperview];
+                if (_trackSelectorVisible && ([_trackSelectorTableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0]].isFocused))
+                {
+                    [_trackSelectorTableView setFrame:CGRectMake( 0.0f, 0.0f, 1920.0f, 450.0f)];
+                    [UIView beginAnimations:@"animateTableView" context:nil];
+                    [UIView setAnimationDuration:0.4];
+                    [_trackSelectorTableView setFrame:CGRectMake( 0.0f, -450.0f, 1920.0f, 450.0f)];
+                    [UIView commitAnimations];
+                    _trackSelectorVisible = NO;
+                }
                 break;
             }
         }
@@ -523,7 +554,20 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
         if (mediaPlayer.audioTrackIndexes.count > 2 && indexPath.section == 0) {
             indexArray = mediaPlayer.audioTrackIndexes;
             if (index <= indexArray.count)
-                mediaPlayer.currentAudioTrackIndex = [indexArray[index] intValue];
+            {
+                if ([self disableAudioForRescrictedCodecsForTrackIndex:index])
+                {
+                    // Disable audio
+                    NSArray *indexArray;
+                    indexArray = mediaPlayer.audioTrackIndexes;
+                    mediaPlayer.currentAudioTrackIndex = [indexArray[0] intValue];
+                }
+                else
+                {
+                    mediaPlayer.currentAudioTrackIndex = [indexArray[index] intValue];
+                }
+
+            }
             
         } else {
             indexArray = mediaPlayer.videoSubTitlesIndexes;
@@ -554,6 +598,46 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     [UIView animateWithDuration:animationDuration animations:animationBlock completion:completionBlock];
     
     [tableView reloadData];
+}
+
+#pragma mark - DTS/AC3
+
+- (BOOL)disableAudioForRescrictedCodecsForTrackIndex:(NSInteger)trackIndex
+{
+    BOOL disabledAudio = NO;
+    VLCMediaPlayer *_mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
+
+    if (_mediaPlayer.currentAudioTrackIndex < [[_mediaPlayer audioTrackNames] count])
+    {
+        NSString *tzName = [[NSTimeZone systemTimeZone] name];
+        NSArray *tzNames = @[@"America/Adak", @"America/Anchorage", @"America/Boise", @"America/Chicago", @"America/Denver", @"America/Detroit", @"America/Indiana/Indianapolis", @"America/Indiana/Knox", @"America/Indiana/Marengo", @"America/Indiana/Petersburg", @"America/Indiana/Tell_City", @"America/Indiana/Vevay", @"America/Indiana/Vincennes", @"America/Indiana/Winamac", @"America/Juneau", @"America/Kentucky/Louisville", @"America/Kentucky/Monticello", @"America/Los_Angeles", @"America/Menominee", @"America/Metlakatla", @"America/New_York", @"America/Nome", @"America/North_Dakota/Beulah", @"America/North_Dakota/Center", @"America/North_Dakota/New_Salem", @"America/Phoenix", @"America/Puerto_Rico", @"America/Shiprock", @"America/Sitka", @"America/St_Thomas", @"America/Thule", @"America/Yakutat", @"Pacific/Guam", @"Pacific/Honolulu", @"Pacific/Johnston", @"Pacific/Kwajalein", @"Pacific/Midway", @"Pacific/Pago_Pago", @"Pacific/Saipan", @"Pacific/Wake"];
+        
+        if ([tzNames containsObject:tzName] || [[tzName stringByDeletingLastPathComponent] isEqualToString:@"US"]) {
+            NSArray *tracksInfo = _mediaPlayer.media.tracksInformation;
+            if ([[tracksInfo[_mediaPlayer.currentAudioTrackIndex] objectForKey:VLCMediaTracksInformationType] isEqualToString:VLCMediaTracksInformationTypeAudio])
+            {
+                NSInteger fourcc = [[tracksInfo[_mediaPlayer.currentAudioTrackIndex] objectForKey:VLCMediaTracksInformationCodec] integerValue];
+                
+                switch (fourcc) {
+                    case 540161377:
+                    case 1647457633:
+                    case 858612577:
+                    case 862151027:
+                    case 862151013:
+                    case 1684566644:
+                    case 2126701:
+                    {
+                        disabledAudio = YES;
+                        break;
+                    }
+                        
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    return disabledAudio;
 }
 
 
