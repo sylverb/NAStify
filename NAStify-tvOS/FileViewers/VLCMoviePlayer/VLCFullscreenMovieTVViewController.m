@@ -35,6 +35,7 @@
     UITapGestureRecognizer *_playRecognizer;
     
     UITabBarController *_settingsTabBar;
+    UILabel *_swipeSettingsLabel;
     
     BOOL _switchingTracksNotChapters;
     UITableView *_trackSelectorTableView;
@@ -139,6 +140,14 @@
     _settingsTabBar.tabBar.backgroundColor = [UIColor grayColor];
     [_settingsTabBar.tabBar setValue:@(YES) forKeyPath:@"_hidesShadow"];
     
+    // Swipe for settings view
+    _swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 1920, 40)];
+    _swipeSettingsLabel.text = NSLocalizedString(@"Swipe down for Settings", nil);
+    _swipeSettingsLabel.textColor = [UIColor whiteColor];
+    _swipeSettingsLabel.font = [UIFont systemFontOfSize:30.0];
+    _swipeSettingsLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:_swipeSettingsLabel];
+
     // Setup views
     _trackSelectorTableView = [[UITableView alloc] initWithFrame:CGRectMake(0., -450., 1920., 450.) style:UITableViewStylePlain];
     _trackSelectorTableView.delegate = self;
@@ -369,17 +378,17 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     
     if (!_controlsHidden) {
         self.bottomOverlayView.alpha = 0.0f;
-        self.swipeSettingsLabel.alpha = 0.0f;
+        _swipeSettingsLabel.alpha = 0.0f;
     }
     
     void (^animationBlock)() = ^() {
         self.bottomOverlayView.alpha = alpha;
-        self.swipeSettingsLabel.alpha = alpha;
+        _swipeSettingsLabel.alpha = alpha;
     };
     
     void (^completionBlock)(BOOL finished) = ^(BOOL finished) {
         self.bottomOverlayView.hidden = _controlsHidden;
-        self.swipeSettingsLabel.hidden = _controlsHidden;
+        _swipeSettingsLabel.hidden = _controlsHidden;
     };
     
     NSTimeInterval animationDuration = animated? 0.3: 0.0;
