@@ -142,7 +142,7 @@
     
     // Swipe for settings view
     _swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 1920, 40)];
-    _swipeSettingsLabel.text = NSLocalizedString(@"Swipe down for Settings", nil);
+    _swipeSettingsLabel.text = nil;
     _swipeSettingsLabel.textColor = [UIColor whiteColor];
     _swipeSettingsLabel.font = [UIFont systemFontOfSize:30.0];
     _swipeSettingsLabel.textAlignment = NSTextAlignmentCenter;
@@ -167,8 +167,6 @@
     _trackSelectorTableView.backgroundColor = [UIColor grayColor];
     _trackSelectorTableView.allowsMultipleSelection = YES;
     
-    [self.view addSubview:_trackSelectorTableView];
-
     _trackSelectorVisible = NO;
     _switchingTracksNotChapters = YES;
 }
@@ -259,6 +257,14 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     if (controller.isPlaying)
     {
         VLCMediaPlayer *mediaPlayer = [VLCPlaybackController sharedInstance].mediaPlayer;
+        if ((mediaPlayer.audioTrackIndexes.count > 2) || (mediaPlayer.videoSubTitlesIndexes.count > 0))
+        {
+            _swipeSettingsLabel.text = NSLocalizedString(@"Swipe down for Settings", nil);
+        }
+        else
+        {
+            _swipeSettingsLabel.text = nil;
+        }
         if ([self disableAudioForRescrictedCodecsForTrackIndex:mediaPlayer.currentAudioTrackIndex])
         {
             // Disable audio
@@ -342,6 +348,8 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
                     if (([mediaPlayer numberOfAudioTracks] > 2) ||
                         ([mediaPlayer numberOfSubtitlesTracks] > 0))
                     {
+                        [self.view addSubview:_trackSelectorTableView];
+                        
                         _trackSelectorVisible = YES;
                         [_trackSelectorTableView reloadData];
                         [_trackSelectorTableView setFrame:CGRectMake( 0.0f, -450.0f, 1920.0f, 450.0f)];
@@ -364,6 +372,10 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
                     [_trackSelectorTableView setFrame:CGRectMake( 0.0f, -450.0f, 1920.0f, 450.0f)];
                     [UIView commitAnimations];
                     _trackSelectorVisible = NO;
+                    
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (NSTimeInterval)0.4 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                        [_trackSelectorTableView removeFromSuperview];
+                    });
                 }
                 break;
             }
