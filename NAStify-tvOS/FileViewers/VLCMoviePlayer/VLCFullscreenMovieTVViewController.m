@@ -350,13 +350,17 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
                     {
                         [self.view addSubview:_trackSelectorTableView];
                         
-                        _trackSelectorVisible = YES;
                         [_trackSelectorTableView reloadData];
                         [_trackSelectorTableView setFrame:CGRectMake( 0.0f, -450.0f, 1920.0f, 450.0f)];
                         [UIView beginAnimations:@"animateTableView" context:nil];
                         [UIView setAnimationDuration:0.4];
                         [_trackSelectorTableView setFrame:CGRectMake( 0.0f, 0.0f, 1920.0f, 450.0f)];
                         [UIView commitAnimations];
+                        
+                        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (NSTimeInterval)0.4 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
+                            _trackSelectorVisible = YES;
+                        });
+
                     }
                 }
                 break;
@@ -371,10 +375,10 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
                     [UIView setAnimationDuration:0.4];
                     [_trackSelectorTableView setFrame:CGRectMake( 0.0f, -450.0f, 1920.0f, 450.0f)];
                     [UIView commitAnimations];
-                    _trackSelectorVisible = NO;
                     
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (NSTimeInterval)0.4 * NSEC_PER_SEC), dispatch_get_main_queue(), ^{
                         [_trackSelectorTableView removeFromSuperview];
+                        _trackSelectorVisible = NO;
                     });
                 }
                 break;
