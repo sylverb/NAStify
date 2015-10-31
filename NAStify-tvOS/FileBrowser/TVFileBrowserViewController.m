@@ -373,6 +373,9 @@
                 {
                     // Use VLC player
                     itemHandled = YES;
+                    
+                    self.videoFile = fileItem;
+
                     if (![self getSubtitleFileForMedia:fileItem])
                     {
                         [self showVLCPlayerForFile:fileItem withSubtitles:nil];
@@ -694,9 +697,6 @@
             
             // Sort files array
             [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
-            
-            // Refresh tableView
-            [self.tableView reloadData];
         }
         else
         {
@@ -717,6 +717,8 @@
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
+        // Refresh tableView
+        [self.tableView reloadData];
     }
 }
 
