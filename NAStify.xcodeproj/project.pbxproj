@@ -123,6 +123,8 @@
 		95562DDF1BE41D11006222C3 /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F80715D7E9B50059428E /* ConnectionManager.m */; };
 		95562DE01BE41D11006222C3 /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F80715D7E9B50059428E /* ConnectionManager.m */; };
 		95562DE21BE5065A006222C3 /* ServerSettingsSambaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */; };
+		95562DE41BE50C5B006222C3 /* samba_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562DE31BE50C5B006222C3 /* samba_small.png */; };
+		95562DE61BE50FB9006222C3 /* samba.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562DE51BE50FB9006222C3 /* samba.png */; };
 		957224361BD9A187009495DF /* CMWebDav.m in Sources */ = {isa = PBXBuildFile; fileRef = F9115D2D15DA9047004259D3 /* CMWebDav.m */; };
 		9572243F1BD9A2D5009495DF /* CMFtp.m in Sources */ = {isa = PBXBuildFile; fileRef = F9345CAE15DC6321004035A9 /* CMFtp.m */; };
 		957322741BDAED6F008D8AD0 /* tvos-libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957322731BDAED6F008D8AD0 /* tvos-libssh2.a */; };
@@ -1624,6 +1626,8 @@
 		95562DB81BE2BAA6006222C3 /* ftp-ftps-sftp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ftp-ftps-sftp.png"; sourceTree = "<group>"; };
 		95562DB91BE2BAA6006222C3 /* qnap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = qnap.png; sourceTree = "<group>"; };
 		95562DBA1BE2BAA6006222C3 /* webdav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webdav.png; sourceTree = "<group>"; };
+		95562DE31BE50C5B006222C3 /* samba_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = samba_small.png; sourceTree = "<group>"; };
+		95562DE51BE50FB9006222C3 /* samba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = samba.png; sourceTree = "<group>"; };
 		9572243A1BD9A280009495DF /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = external/libidn/lib/libidn.a; sourceTree = "<group>"; };
 		957322731BDAED6F008D8AD0 /* tvos-libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libssh2.a"; path = "external/libssh2/lib/tvos-libssh2.a"; sourceTree = "<group>"; };
 		9573227A1BDAF4FC008D8AD0 /* tvos_libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = tvos_libcurl.a; path = external/curl/lib/tvos_libcurl.a; sourceTree = "<group>"; };
@@ -3297,6 +3301,8 @@
 				95562DA91BE2B687006222C3 /* freebox_small.png */,
 				95562DAA1BE2B687006222C3 /* ftp_small.png */,
 				95562DAB1BE2B687006222C3 /* qnap_small.png */,
+				95562DE51BE50FB9006222C3 /* samba.png */,
+				95562DE31BE50C5B006222C3 /* samba_small.png */,
 				95562DAC1BE2B687006222C3 /* sftp_small.png */,
 				95562DA71BE2A1DD006222C3 /* synology_small.png */,
 				95562DAD1BE2B687006222C3 /* upnp_small.png */,
@@ -6007,6 +6013,7 @@
 				95562D7F1BE29C1F006222C3 /* m4v.png in Resources */,
 				95562D7D1BE29C1F006222C3 /* m2ts.png in Resources */,
 				95562D761BE29C1F006222C3 /* flv.png in Resources */,
+				95562DE61BE50FB9006222C3 /* samba.png in Resources */,
 				95562D6F1BE29C1F006222C3 /* dts.png in Resources */,
 				95562D9D1BE29C1F006222C3 /* ts.png in Resources */,
 				95562D981BE29C1F006222C3 /* ram.png in Resources */,
@@ -6060,6 +6067,7 @@
 				95562D611BE29C1F006222C3 /* alaw.png in Resources */,
 				95BD7B401BE0C654005BC784 /* Localizable.strings in Resources */,
 				954872BA1BD6F4640097225C /* VLCFullscreenMovieTVViewController.xib in Resources */,
+				95562DE41BE50C5B006222C3 /* samba_small.png in Resources */,
 				95562DBB1BE2BAA6006222C3 /* freebox.png in Resources */,
 				95486DD91BD6D9E50097225C /* Main.storyboard in Resources */,
 				95562DA21BE29C1F006222C3 /* wma.png in Resources */,

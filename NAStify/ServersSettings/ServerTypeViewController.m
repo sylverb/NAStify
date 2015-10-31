@@ -150,15 +150,15 @@
             cell.serverType = SERVER_TYPE_QNAP;
             break;
         }
+        case ROW_INDEX_SAMBA:
+        {
+            cell.serverType = SERVER_TYPE_SAMBA;
+            break;
+        }
 #if TARGET_OS_IOS
         case ROW_INDEX_DROPBOX:
         {
             cell.serverType = SERVER_TYPE_DROPBOX;
-            break;
-        }
-        case ROW_INDEX_SAMBA:
-        {
-            cell.serverType = SERVER_TYPE_SAMBA;
             break;
         }
         case ROW_INDEX_BOX:
