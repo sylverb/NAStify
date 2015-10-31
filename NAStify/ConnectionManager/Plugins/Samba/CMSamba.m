@@ -36,6 +36,35 @@ char c_password[255];
     return self;
 }
 
+- (BOOL)isIPAddress:(NSString *)address
+{
+    BOOL isIPAddress = NO;
+    NSArray *components = [address componentsSeparatedByString:@"."];
+    NSCharacterSet *invalidCharacters = [[NSCharacterSet characterSetWithCharactersInString:@"1234567890"] invertedSet];
+    
+    if ([components count] == 4) {
+        NSString *part1 = [components objectAtIndex:0];
+        NSString *part2 = [components objectAtIndex:1];
+        NSString *part3 = [components objectAtIndex:2];
+        NSString *part4 = [components objectAtIndex:3];
+        
+        if ([part1 rangeOfCharacterFromSet:invalidCharacters].location == NSNotFound &&
+            [part2 rangeOfCharacterFromSet:invalidCharacters].location == NSNotFound &&
+            [part3 rangeOfCharacterFromSet:invalidCharacters].location == NSNotFound &&
+            [part4 rangeOfCharacterFromSet:invalidCharacters].location == NSNotFound ) {
+            
+            if ([part1 intValue] < 255 &&
+                [part2 intValue] < 255 &&
+                [part3 intValue] < 255 &&
+                [part4 intValue] < 255) {
+                isIPAddress = YES;
+            }
+        }
+    }
+    
+    return isIPAddress;
+}
+
 #pragma mark - Server Info
 
 - (NSArray *)serverInfo
@@ -66,20 +95,26 @@ char c_password[255];
     
     self.ns = netbios_ns_new();
     
-    if (!netbios_ns_resolve(self.ns,
-                            [self.userAccount.server cStringUsingEncoding:NSUTF8StringEncoding],
-                            NETBIOS_FILESERVER,
-                            &addr.s_addr))
+    if ([self isIPAddress:self.userAccount.server])
     {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
-                                    [NSNumber numberWithBool:NO],@"success",
-                                    NSLocalizedString(@"Unable to find server", nil),@"error",
-                                    nil]];
-        });
-        return YES;
+        inet_aton([self.userAccount.server cStringUsingEncoding:NSUTF8StringEncoding], &addr);
     }
-    
+    else
+    {
+        if (!netbios_ns_resolve(self.ns,
+                                [self.userAccount.server cStringUsingEncoding:NSUTF8StringEncoding],
+                                NETBIOS_FILESERVER,
+                                &addr.s_addr))
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithBool:NO],@"success",
+                                        NSLocalizedString(@"Unable to find server", nil),@"error",
+                                        nil]];
+            });
+            return YES;
+        }
+    }
     self.hostIP = addr.s_addr;
     
     self.session = smb_session_new();
