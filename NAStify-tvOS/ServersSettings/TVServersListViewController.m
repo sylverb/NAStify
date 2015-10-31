@@ -76,6 +76,7 @@
     
     __weak __typeof(self)weakSelf = self;
     __weak __typeof(_filteredUPNPDevices)weakFilteredUPNPDevices = _filteredUPNPDevices;
+    __weak __typeof(self.smbDevices)weakSmbDevices = self.smbDevices;
     
     [self.manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         __strong __typeof(weakFilteredUPNPDevices)strongFilteredUPNPDevices = weakFilteredUPNPDevices;
@@ -87,6 +88,8 @@
             default:
                 [weakSelf stopUPNPDiscovery];
                 strongFilteredUPNPDevices = nil;
+                [weakSelf stopNetbiosDiscovery];
+                [weakSmbDevices removeAllObjects];
                 [weakSelf.tableView reloadData];
                 break;
         }
@@ -684,11 +687,12 @@
     }
 }
 
-#pragma mark - uPnP support
+#pragma mark - Background management
 
 - (void)handleEnteredBackground:(NSNotification *)notification
 {
     [self stopUPNPDiscovery];
+    [self stopNetbiosDiscovery];
 }
 
 - (void)handleBecomeActive:(NSNotification *)notification
@@ -696,8 +700,11 @@
     if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
     {
         [self performSelectorInBackground:@selector(startUPNPDiscovery) withObject:nil];
+        [self performSelectorInBackground:@selector(startNetbiosDiscovery) withObject:nil];
     }
 }
+
+#pragma mark - uPnP support
 
 - (void)startUPNPDiscovery
 {
