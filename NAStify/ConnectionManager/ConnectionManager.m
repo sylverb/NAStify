@@ -111,13 +111,11 @@
                 cmPlugin = [[CMQnap alloc] init];
                 break;
             }
-#ifdef SAMBA
             case SERVER_TYPE_SAMBA:
             {
                 cmPlugin = [[CMSamba alloc] init];
                 break;
             }
-#endif
 #ifndef APP_EXTENSION
             case SERVER_TYPE_UPNP:
             {

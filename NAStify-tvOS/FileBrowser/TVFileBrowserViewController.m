@@ -318,6 +318,21 @@
     }
 }
 
+- (void)showVLCPlayerForFile:(FileItem *)fileItem withSubtitles:(NSString *)subPath
+{
+    [VLCPlayerDisplayController sharedInstance].displayMode = VLCPlayerDisplayControllerDisplayModeFullscreen;
+    
+    NetworkConnection *connection = [self.connectionManager urlForVideo:fileItem];
+    VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+    if (connection.urlType == URLTYPE_SMB)
+    {
+        vpc.customMediaOptionsDictionary = @{@"smb-user" : connection.user ?: @"",
+                                             @"smb-pwd" : connection.password ?: @"",
+                                             @"smb-domain" : connection.workgroup ?: @"WORKGROUP"};
+    }
+    [vpc playURL:connection.url subtitlesFilePath:subPath];
+}
+
 - (BOOL)openFile:(FileItem *)fileItem
 {
     BOOL itemHandled = NO;
@@ -339,15 +354,11 @@
             if (ServerSupportsFeature(VLCPlayer))
             {
                 itemHandled = YES;
-                self.videoNetworkConnection = [self.connectionManager urlForVideo:fileItem];
+                self.videoFile = fileItem;
 
                 if (![self getSubtitleFileForMedia:fileItem])
                 {
-                    [VLCPlayerDisplayController sharedInstance].displayMode = VLCPlayerDisplayControllerDisplayModeFullscreen;
-                    
-                    VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                    vpc.url = self.videoNetworkConnection.url;
-                    [vpc playURL:[self.connectionManager urlForVideo:fileItem].url subtitlesFilePath:nil];
+                    [self showVLCPlayerForFile:fileItem withSubtitles:nil];
                 }
             }
             break;
@@ -358,45 +369,35 @@
                 ([self.connectionManager pluginRespondsToSelector:@selector(urlForVideo:)]))
             {
                 NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-                self.videoNetworkConnection = [self.connectionManager urlForVideo:fileItem];
-                
+                if ((([[defaults objectForKey:kNASTifySettingInternalPlayer] integerValue] == kNASTifySettingInternalPlayerTypeVLCOnly) && (ServerSupportsFeature(VLCPlayer))))
                 {
-                    if ((([[defaults objectForKey:kNASTifySettingInternalPlayer] integerValue] == kNASTifySettingInternalPlayerTypeVLCOnly) && (ServerSupportsFeature(VLCPlayer))))
+                    // Use VLC player
+                    itemHandled = YES;
+                    if (![self getSubtitleFileForMedia:fileItem])
                     {
-                        // Use VLC player
-                        itemHandled = YES;
-                        if (![self getSubtitleFileForMedia:fileItem])
-                        {
-                            [VLCPlayerDisplayController sharedInstance].displayMode = VLCPlayerDisplayControllerDisplayModeFullscreen;
-                            
-                            VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                            [vpc playURL:self.videoNetworkConnection.url subtitlesFilePath:nil];
-                        }
+                        [self showVLCPlayerForFile:fileItem withSubtitles:nil];
                     }
-                    else if (ServerSupportsFeature(QTPlayer))
+                }
+                else if (ServerSupportsFeature(QTPlayer))
+                {
+                    itemHandled = YES;
+                    // Internal player can handle this media
+                    CustomMoviePlayerViewController *mp = [[CustomMoviePlayerViewController alloc] init];
+                    mp.filename = fileItem.name;
+                    mp.allowsAirPlay = NO;
+                    mp.url = [self.connectionManager urlForVideo:fileItem].url;
+                    if (mp)
                     {
-                        itemHandled = YES;
-                        // Internal player can handle this media
-                        CustomMoviePlayerViewController *mp = [[CustomMoviePlayerViewController alloc] init];
-                        mp.filename = fileItem.name;
-                        mp.allowsAirPlay = NO;
-                        mp.url = self.videoNetworkConnection.url;
-                        if (mp)
-                        {
-                            [self presentViewController:mp animated:YES completion:nil];
-                        }
+                        [self presentViewController:mp animated:YES completion:nil];
                     }
-                    else if (ServerSupportsFeature(VLCPlayer))
+                }
+                else if (ServerSupportsFeature(VLCPlayer))
+                {
+                    itemHandled = YES;
+                    // Fallback to VLC media player
+                    if (![self getSubtitleFileForMedia:fileItem])
                     {
-                        itemHandled = YES;
-                        // Fallback to VLC media player
-                        if (![self getSubtitleFileForMedia:fileItem])
-                        {
-                            [VLCPlayerDisplayController sharedInstance].displayMode = VLCPlayerDisplayControllerDisplayModeFullscreen;
-                            
-                            VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                            [vpc playURL:self.videoNetworkConnection.url subtitlesFilePath:nil];
-                        }
+                        [self showVLCPlayerForFile:fileItem withSubtitles:nil];
                     }
                 }
             }
@@ -818,10 +819,7 @@
         {
             case DOWNLOAD_ACTION_SUBTITLE:
             {
-                [VLCPlayerDisplayController sharedInstance].displayMode = VLCPlayerDisplayControllerDisplayModeFullscreen;
-                
-                VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                [vpc playURL:self.videoNetworkConnection.url subtitlesFilePath:self.dlFilePath];
+                [self showVLCPlayerForFile:self.videoFile withSubtitles:self.dlFilePath];
                 break;
             }
             case DOWNLOAD_ACTION_PREVIEW:
@@ -843,9 +841,6 @@
                 // Nothing to do
                 break;
             }
-        }
-        if (self.videoNetworkConnection)
-        {
         }
     }
     else

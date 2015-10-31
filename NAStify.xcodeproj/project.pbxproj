@@ -119,6 +119,9 @@
 		95562DBC1BE2BAA6006222C3 /* ftp-ftps-sftp.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562DB81BE2BAA6006222C3 /* ftp-ftps-sftp.png */; };
 		95562DBD1BE2BAA6006222C3 /* qnap.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562DB91BE2BAA6006222C3 /* qnap.png */; };
 		95562DBE1BE2BAA6006222C3 /* webdav.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562DBA1BE2BAA6006222C3 /* webdav.png */; };
+		95562DDE1BE418C2006222C3 /* CMSamba.m in Sources */ = {isa = PBXBuildFile; fileRef = F98D8980181F8AD80053D5CF /* CMSamba.m */; };
+		95562DDF1BE41D11006222C3 /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F80715D7E9B50059428E /* ConnectionManager.m */; };
+		95562DE01BE41D11006222C3 /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F80715D7E9B50059428E /* ConnectionManager.m */; };
 		957224361BD9A187009495DF /* CMWebDav.m in Sources */ = {isa = PBXBuildFile; fileRef = F9115D2D15DA9047004259D3 /* CMWebDav.m */; };
 		9572243F1BD9A2D5009495DF /* CMFtp.m in Sources */ = {isa = PBXBuildFile; fileRef = F9345CAE15DC6321004035A9 /* CMFtp.m */; };
 		957322741BDAED6F008D8AD0 /* tvos-libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957322731BDAED6F008D8AD0 /* tvos-libssh2.a */; };
@@ -1137,7 +1140,6 @@
 		D5E4737C1A0045A800A02A1A /* FileProviderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D5E473791A0045A800A02A1A /* FileProviderViewController.m */; };
 		D5E4738C1A00C70600A02A1A /* ServerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F7E715D7CA060059428E /* ServerCell.m */; };
 		D5E4738D1A00C70C00A02A1A /* UserAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F7EF15D7CA060059428E /* UserAccount.m */; };
-		D5E4738E1A00C71900A02A1A /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F80715D7E9B50059428E /* ConnectionManager.m */; };
 		D5E4738F1A00C72000A02A1A /* NetworkConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F80C15D7E9B50059428E /* NetworkConnection.m */; };
 		D5E473901A00C72B00A02A1A /* CMBox.m in Sources */ = {isa = PBXBuildFile; fileRef = D5D3CC4B19A8F5040083EA08 /* CMBox.m */; };
 		D5E473911A00C73200A02A1A /* CMSamba.m in Sources */ = {isa = PBXBuildFile; fileRef = F98D8980181F8AD80053D5CF /* CMSamba.m */; };
@@ -1205,7 +1207,6 @@
 		F901F7F615D7CA060059428E /* UserAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F7EF15D7CA060059428E /* UserAccount.m */; };
 		F901F7F715D7CA060059428E /* ServersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F7F115D7CA060059428E /* ServersListViewController.m */; };
 		F901F80015D7D0040059428E /* TextCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F7FF15D7D0040059428E /* TextCell.m */; };
-		F901F81015D7E9B50059428E /* ConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F80715D7E9B50059428E /* ConnectionManager.m */; };
 		F901F81215D7E9B50059428E /* NetworkConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F80C15D7E9B50059428E /* NetworkConnection.m */; };
 		F901F81C15D7F73E0059428E /* FileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F81B15D7F73E0059428E /* FileBrowserViewController.m */; };
 		F901F81F15D8337B0059428E /* FileItem.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F81E15D8337B0059428E /* FileItem.m */; };
@@ -6951,6 +6952,7 @@
 				954872CF1BD6FD880097225C /* ServerCell.m in Sources */,
 				957322831BDB8ADF008D8AD0 /* ServerSettingsSynologyViewController.m in Sources */,
 				954872CD1BD6FCE60097225C /* FileItem.m in Sources */,
+				95562DDE1BE418C2006222C3 /* CMSamba.m in Sources */,
 				95486E171BD6E07E0097225C /* TVCustomMoviePlayerViewController.m in Sources */,
 				957322821BDB7025008D8AD0 /* SegCtrlCell.m in Sources */,
 				957322891BDBBA60008D8AD0 /* TableSelectViewController.m in Sources */,
@@ -6979,6 +6981,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D56507631A47577E000EC977 /* CMOneDrive.m in Sources */,
+				95562DE01BE41D11006222C3 /* ConnectionManager.m in Sources */,
 				D565082C1A51D7D0000EC977 /* MEGAShare.mm in Sources */,
 				D56508341A51D7D0000EC977 /* MEGAUser.mm in Sources */,
 				D5E473D31A00E79900A02A1A /* ftpparse.c in Sources */,
@@ -7026,7 +7029,6 @@
 				D5E4738D1A00C70C00A02A1A /* UserAccount.m in Sources */,
 				D56507B81A4A0392000EC977 /* JsonWriter.m in Sources */,
 				D56507DC1A4A0392000EC977 /* LiveConnectClient.m in Sources */,
-				D5E4738E1A00C71900A02A1A /* ConnectionManager.m in Sources */,
 				D56507B61A4A0392000EC977 /* JsonParser.m in Sources */,
 				D56507D41A4A0392000EC977 /* LiveDownloadOperationCore.m in Sources */,
 				D56508DB1A51DA25000EC977 /* base64.cpp in Sources */,
@@ -7148,7 +7150,6 @@
 				95DFB77A1B0BA6260002C830 /* FailingResponseSerializer.m in Sources */,
 				F901F7F715D7CA060059428E /* ServersListViewController.m in Sources */,
 				F901F80015D7D0040059428E /* TextCell.m in Sources */,
-				F901F81015D7E9B50059428E /* ConnectionManager.m in Sources */,
 				F901F81215D7E9B50059428E /* NetworkConnection.m in Sources */,
 				D551BB5118A81FC100AB26A6 /* ReaderDocumentOutline.m in Sources */,
 				F901F81C15D7F73E0059428E /* FileBrowserViewController.m in Sources */,
@@ -7399,6 +7400,7 @@
 				D56508331A51D7D0000EC977 /* MEGAUser.mm in Sources */,
 				F943565F15FD54F800307556 /* HuffEnc.c in Sources */,
 				D501D6F119FFEB7F0032AACD /* MWPhoto.m in Sources */,
+				95562DDF1BE41D11006222C3 /* ConnectionManager.m in Sources */,
 				F943566015FD54F800307556 /* LzFind.c in Sources */,
 				F943566215FD54F800307556 /* Lzma2Dec.c in Sources */,
 				F943566315FD54F800307556 /* Lzma2Enc.c in Sources */,
@@ -7567,6 +7569,7 @@
 					"$(SRCROOT)/external/curl/lib/include",
 					"${SRCROOT}/external/openssl/lib/include",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/external/VLCKit/MobileVLCKit/ImportedSources/vlc/install-ios-AppleTVOS/arm64/contribs/include/",
 				);
 				INFOPLIST_FILE = "NAStify-tvOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -7629,6 +7632,7 @@
 					"${SRCROOT}/external/openssl/lib/include",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/Pods/**",
+					"$(SRCROOT)/external/VLCKit/MobileVLCKit/ImportedSources/vlc/install-ios-AppleTVOS/arm64/contribs/include/",
 				);
 				INFOPLIST_FILE = "NAStify-tvOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

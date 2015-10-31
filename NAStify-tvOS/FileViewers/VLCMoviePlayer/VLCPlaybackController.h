@@ -78,6 +78,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 @property (nonatomic, readonly) BOOL audioOnlyPlaybackSession;
 @property (nonatomic, readwrite) BOOL fullscreenSessionRequested;
 @property (nonatomic, readonly) NSDictionary *mediaOptionsDictionary;
+@property (nonatomic, readwrite) NSDictionary *customMediaOptionsDictionary;
 @property (nonatomic, readonly) NSTimer* sleepTimer;
 
 + (VLCPlaybackController *)sharedInstance;

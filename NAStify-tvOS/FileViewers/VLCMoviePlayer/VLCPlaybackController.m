@@ -245,6 +245,7 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
         media.delegate = self;
         [media synchronousParse];
         [media addOptions:self.mediaOptionsDictionary];
+        [media addOptions:self.customMediaOptionsDictionary];
     }
     
     if (self.mediaList) {
