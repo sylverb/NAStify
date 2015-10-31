@@ -578,9 +578,9 @@
     if ((([dict objectForKey:@"path"]) && ([self.currentFolder.path isEqualToString:[dict objectForKey:@"path"]])) ||
         (([dict objectForKey:@"id"]) && ([[self.currentFolder.objectIds lastObject] isEqual:[dict objectForKey:@"id"]])))
     {
+        self.filesListIsValid = TRUE;
         if ([[dict objectForKey:@"success"] boolValue])
         {
-            self.filesListIsValid = TRUE;
             self.isConnected = TRUE;
 
             NSArray *filesList = [dict objectForKey:@"filesList"];
@@ -846,17 +846,29 @@
     }
     else
     {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"File download",nil)
-                                                                       message:NSLocalizedString([dict objectForKey:@"error"],nil)
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
-                                                                style:UIAlertActionStyleDefault
-                                                              handler:^(UIAlertAction * action) {
-                                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                              }];
-        [alert addAction:defaultAction];
-        [self presentViewController:alert animated:YES completion:nil];
+        switch (self.downloadAction)
+        {
+            case DOWNLOAD_ACTION_SUBTITLE:
+            {
+                [self showVLCPlayerForFile:self.videoFile withSubtitles:nil];
+                break;
+            }
+            default:
+            {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"File download",nil)
+                                                                               message:NSLocalizedString([dict objectForKey:@"error"],nil)
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
+                                                                        style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction * action) {
+                                                                          [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                      }];
+                [alert addAction:defaultAction];
+                [self presentViewController:alert animated:YES completion:nil];
+                break;
+            }
+        }
     }
     
 #if 0
