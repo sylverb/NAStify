@@ -764,6 +764,7 @@
     UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action) {
                                                        [alert dismissViewControllerAnimated:YES completion:nil];
+                                                       [self.navigationController popViewControllerAnimated:YES];
                                                    }];
     
     [alert addAction:ok];
