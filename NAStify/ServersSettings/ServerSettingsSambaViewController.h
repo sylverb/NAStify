@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "TextCell.h"
-#import "SwitchCell.h"
 #import "UserAccount.h"
 
 @interface ServerSettingsSambaViewController : UITableViewController<UITextFieldDelegate>

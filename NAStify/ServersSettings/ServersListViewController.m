@@ -295,7 +295,6 @@
             cell = serverCell;
             break;
         }
-#ifdef SAMBA
         case 2: // SMB/CIFS
         {
             ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:ServerCellIdentifier];
@@ -315,7 +314,6 @@
             cell = serverCell;
             break;
         }
-#endif
         default:
             break;
     }

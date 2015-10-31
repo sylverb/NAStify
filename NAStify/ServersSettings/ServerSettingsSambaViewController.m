@@ -7,7 +7,6 @@
 //
 
 #import "ServerSettingsSambaViewController.h"
-#import "AppDelegate.h"
 #import "UserAccount.h"
 #import "SSKeychain.h"
 
@@ -42,6 +41,7 @@ typedef enum _SETTINGS_TAG
 {
     [super viewDidLoad];
     
+#if TARGET_OS_IOS
     [self.navigationItem setHidesBackButton:YES];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
                                                                                            target:self
@@ -50,6 +50,7 @@ typedef enum _SETTINGS_TAG
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                           target:self
                                                                                           action:@selector(cancelButtonAction)];
+#endif
     
     // Load custom tableView
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -81,7 +82,11 @@ typedef enum _SETTINGS_TAG
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+#if TARGET_OS_IOS
     return 3;
+#elif TARGET_OS_TV
+    return 4;
+#endif
 }
 
 
@@ -107,6 +112,13 @@ typedef enum _SETTINGS_TAG
             numberOfRows = 2;
             break;
         }
+#if TARGET_OS_TV
+        case 3:
+        {
+            numberOfRows = 1;
+            break;
+        }
+#endif
     }
     return numberOfRows;
 }
@@ -116,6 +128,9 @@ typedef enum _SETTINGS_TAG
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *TextCellIdentifier = @"TextCell";
+#if TARGET_OS_TV
+    static NSString *TableCellIdentifier = @"TableCell";
+#endif
     
     UITableViewCell *cell = nil;
     
@@ -214,10 +229,57 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#if TARGET_OS_TV
+        case 3:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:TableCellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:TableCellIdentifier];
+                    }
+                    cell.textLabel.text = NSLocalizedString(@"Save", nil);
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                    break;
+                }
+            }
+            break;
+        }
+#endif
     }
     
     return cell;
 }
+
+#if TARGET_OS_TV
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section)
+    {
+        case 3:
+        {
+            switch (indexPath.row)
+            {
+                case 0: // Save button
+                {
+                    [self saveButtonAction];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+#endif
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -244,6 +306,8 @@ typedef enum _SETTINGS_TAG
 
 #pragma mark -
 #pragma mark TextField Delegate Methods
+
+#if TARGET_OS_IOS
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     self.currentFirstResponder = textField;
@@ -270,6 +334,7 @@ typedef enum _SETTINGS_TAG
     }
     return YES;
 }
+#endif
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {

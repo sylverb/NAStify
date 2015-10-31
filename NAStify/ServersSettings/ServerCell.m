@@ -148,13 +148,11 @@
             serverImage = [UIImage imageNamed:@"owncloud_small.png"];
             break;
         }
-#ifdef SAMBA
         case SERVER_TYPE_SAMBA:
         {
-            sserverImage = [UIImage imageNamed:@"samba_small.png"];
+            serverImage = [UIImage imageNamed:@"samba_small.png"];
             break;
         }
-#endif
         default:
         {
             break;

@@ -16,6 +16,7 @@
 #import "ServerSettingsFreeboxRevViewController.h"
 #import "ServerSettingsFtpViewController.h"
 #import "ServerSettingsQnapViewController.h"
+#import "ServerSettingsSambaViewController.h"
 #import "ServerSettingsSynologyViewController.h"
 #import "ServerSettingsWebDavViewController.h"
 
@@ -645,17 +646,6 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
-#if 0
-                case SERVER_TYPE_PYDIO:
-                {
-                    ServerSettingsQnapViewController *svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                         andAccount:account
-                                                                                                           andIndex:indexPath.row];
-                    svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                    [self.navigationController pushViewController:svc animated:YES];
-                    break;
-                }
-#endif
                 case SERVER_TYPE_QNAP:
                 {
                     ServerSettingsQnapViewController *svc = [[ServerSettingsQnapViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -674,7 +664,6 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
-#if 0
                 case SERVER_TYPE_SAMBA:
                 {
                     ServerSettingsSambaViewController *svc = [[ServerSettingsSambaViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -684,65 +673,6 @@
                     [self.navigationController pushViewController:svc animated:YES];
                     break;
                 }
-                case SERVER_TYPE_DROPBOX:
-                {
-                    ServerSettingsDropboxViewController *svc = [[ServerSettingsDropboxViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                               andAccount:account
-                                                                                                                 andIndex:indexPath.row];
-                    svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                    [self.navigationController pushViewController:svc animated:YES];
-                    break;
-                }
-                case SERVER_TYPE_BOX:
-                {
-                    ServerSettingsBoxViewController *svc = [[ServerSettingsBoxViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                       andAccount:account
-                                                                                                         andIndex:indexPath.row];
-                    svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                    [self.navigationController pushViewController:svc animated:YES];
-                    break;
-                }
-                case SERVER_TYPE_GOOGLEDRIVE:
-                {
-                    ServerSettingsGoogleDriveViewController *svc =
-                    [[ServerSettingsGoogleDriveViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                        andAccount:account
-                                                                          andIndex:indexPath.row];
-                    svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                    [self.navigationController pushViewController:svc animated:YES];
-                    break;
-                }
-                case SERVER_TYPE_MEGA:
-                {
-                    ServerSettingsMegaViewController *svc = [[ServerSettingsMegaViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                         andAccount:account
-                                                                                                           andIndex:indexPath.row];
-                    svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                    [self.navigationController pushViewController:svc animated:YES];
-                    break;
-                }
-                case SERVER_TYPE_ONEDRIVE:
-                {
-                    ServerSettingsOneDriveViewController *svc = [[ServerSettingsOneDriveViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                                 andAccount:account
-                                                                                                                   andIndex:indexPath.row];
-                    svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                    [self.navigationController pushViewController:svc animated:YES];
-                    break;
-                }
-                case SERVER_TYPE_OWNCLOUD:
-                {
-                    ServerSettingsOwnCloudViewController *svc = [[ServerSettingsOwnCloudViewController alloc] initWithStyle:UITableViewStyleGrouped
-                                                                                                                 andAccount:account
-                                                                                                                   andIndex:indexPath.row];
-                    svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                    [self.navigationController pushViewController:svc animated:YES];
-                    break;
-                }
-#endif
-                case SERVER_TYPE_UNKNOWN:
-                case SERVER_TYPE_LOCAL:
-                case SERVER_TYPE_UPNP:
                 default:
                 {
                     // Nothing to do

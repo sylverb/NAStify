@@ -7,23 +7,19 @@
 //
 
 #import "ServerTypeViewController.h"
-#import "ServerSettingsWebDavViewController.h"
-#import "ServerSettingsFreeboxRevViewController.h"
-#import "ServerSettingsFtpViewController.h"
 #if TARGET_OS_IOS
 #import "ServerSettingsBoxViewController.h"
 #import "ServerSettingsGoogleDriveViewController.h"
 #import "ServerSettingsDropboxViewController.h"
-#ifdef SAMBA
-#import "ServerSettingsSambaViewController.h"
-#endif
-#endif
-#import "ServerSettingsSynologyViewController.h"
-#if TARGET_OS_IOS
 #import "ServerSettingsMegaViewController.h"
 #import "ServerSettingsOneDriveViewController.h"
 #import "ServerSettingsOwnCloudViewController.h"
 #endif
+#import "ServerSettingsWebDavViewController.h"
+#import "ServerSettingsFreeboxRevViewController.h"
+#import "ServerSettingsFtpViewController.h"
+#import "ServerSettingsSambaViewController.h"
+#import "ServerSettingsSynologyViewController.h"
 #import "ServerSettingsQnapViewController.h"
 
 #import "ServerTypeCell.h"
@@ -59,7 +55,8 @@
 #define ROW_INDEX_FTP           1
 #define ROW_INDEX_SYNOLOGY      2
 #define ROW_INDEX_QNAP          3
-#define ROW_INDEX_WEBDAV        4
+#define ROW_INDEX_SAMBA         4
+#define ROW_INDEX_WEBDAV        5
 // Update this when adding new server types !!!
 #define NUMBER_OF_ROWS      ROW_INDEX_WEBDAV + 1
 #endif
@@ -159,13 +156,11 @@
             cell.serverType = SERVER_TYPE_DROPBOX;
             break;
         }
-#ifdef SAMBA
         case ROW_INDEX_SAMBA:
         {
             cell.serverType = SERVER_TYPE_SAMBA;
             break;
         }
-#endif
         case ROW_INDEX_BOX:
         {
             cell.serverType = SERVER_TYPE_BOX;
@@ -325,7 +320,7 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
-#ifdef SAMBA
+#endif
         case ROW_INDEX_SAMBA:
         {
             ServerSettingsSambaViewController * svc = [[ServerSettingsSambaViewController alloc] initWithStyle:UITableViewStyleGrouped
@@ -335,8 +330,6 @@
             [self.navigationController pushViewController:svc animated:YES];
             break;
         }
-#endif
-#endif
         default:
             break;
     }
