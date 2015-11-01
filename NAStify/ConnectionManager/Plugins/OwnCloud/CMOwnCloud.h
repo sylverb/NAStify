@@ -14,7 +14,7 @@
 #import "SBNetworkActivityIndicator.h"
 #import "AFNetworking.h"
 
-@interface CMOwnCloud : NSObject <CM,UIAlertViewDelegate>
+@interface CMOwnCloud : NSObject <CM>
 
 @property(nonatomic, strong) UserAccount *userAccount;
 @property(nonatomic, weak)   id <CMDelegate> delegate;

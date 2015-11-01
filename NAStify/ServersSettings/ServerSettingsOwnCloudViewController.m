@@ -7,9 +7,13 @@
 //
 
 #import "ServerSettingsOwnCloudViewController.h"
-#import "AppDelegate.h"
 #import "UserAccount.h"
 #import "SSKeychain.h"
+#if TARGET_OS_IOS
+#import "SwitchCell.h"
+#elif TARGET_OS_TV
+#import "SegCtrlCell.h"
+#endif
 
 typedef enum _SETTINGS_TAG
 {
@@ -47,6 +51,7 @@ typedef enum _SETTINGS_TAG
 {
     [super viewDidLoad];
     
+#if TARGET_OS_IOS
     [self.navigationItem setHidesBackButton:YES];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemSave
                                                                                            target:self
@@ -55,6 +60,7 @@ typedef enum _SETTINGS_TAG
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel
                                                                                           target:self
                                                                                           action:@selector(cancelButtonAction)];
+#endif
     
     // Load custom tableView
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
@@ -86,7 +92,11 @@ typedef enum _SETTINGS_TAG
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
+#if TARGET_OS_IOS
     return 4;
+#else
+    return 5;
+#endif
 }
 
 
@@ -124,6 +134,13 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#if TARGET_OS_TV
+        case 4:
+        {
+            numberOfRows = 1;
+            break;
+        }
+#endif
     }
     return numberOfRows;
 }
@@ -133,7 +150,12 @@ typedef enum _SETTINGS_TAG
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *TextCellIdentifier = @"TextCell";
+#if TARGET_OS_IOS
     static NSString *SwitchCellIdentifier = @"SwitchCell";
+#elif TARGET_OS_TV
+    static NSString *TableCellIdentifier = @"TableCell";
+    static NSString *SegmentedCellIdentifier = @"SegmentedCell";
+#endif
     
     UITableViewCell *cell = nil;
     
@@ -274,6 +296,7 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     SwitchCell *switchCell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
                     if (switchCell == nil)
                     {
@@ -285,10 +308,40 @@ typedef enum _SETTINGS_TAG
                                                      andTag:SSL_TAG];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
+#else
+                    NSInteger selectedIndex;
+                    
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedCellIdentifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if (self.userAccount.boolSSL)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"SSL",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:SSL_TAG];
+                    
+                    cell = segCtrlCell;
+#endif
                     break;
                 }
                 case 1:
                 {
+#if TARGET_OS_IOS
                     SwitchCell *switchCell = (SwitchCell *)[tableView dequeueReusableCellWithIdentifier:SwitchCellIdentifier];
                     if (switchCell == nil)
                     {
@@ -300,15 +353,112 @@ typedef enum _SETTINGS_TAG
                                                      andTag:ACCEPT_UNTRUSTED_CERT_TAG];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
+#else
+                    NSInteger selectedIndex;
+                    
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedCellIdentifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if (self.userAccount.acceptUntrustedCertificate)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Allow untrusted certificate",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:ACCEPT_UNTRUSTED_CERT_TAG];
+                    
+                    cell = segCtrlCell;
+#endif
                     break;
                 }
             }
             break;
         }
+#if TARGET_OS_TV
+        case 4:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:TableCellIdentifier];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                      reuseIdentifier:TableCellIdentifier];
+                    }
+                    cell.textLabel.text = NSLocalizedString(@"Save", nil);
+                    cell.textLabel.textAlignment = NSTextAlignmentCenter;
+                    break;
+                }
+            }
+            break;
+        }
+#endif
     }
     
     return cell;
 }
+
+#if TARGET_OS_TV
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    switch (indexPath.section)
+    {
+        case 3:
+        {
+            switch (indexPath.row)
+            {
+                case 0: // SSL
+                {
+                    self.userAccount.boolSSL = !self.userAccount.boolSSL;
+                    [self.tableView reloadData];
+                    break;
+                }
+                case 1: // Certificate
+                {
+                    self.userAccount.acceptUntrustedCertificate = !self.userAccount.acceptUntrustedCertificate;
+                    [self.tableView reloadData];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+        case 4:
+        {
+            switch (indexPath.row)
+            {
+                case 0: // Save button
+                {
+                    [self saveButtonAction];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+            
+        default:
+            break;
+    }
+}
+#endif
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
 {
@@ -338,8 +488,9 @@ typedef enum _SETTINGS_TAG
     return title;
 }
 
-#pragma mark -
-#pragma mark TextField Delegate Methods
+#pragma mark - TextField Delegate Methods
+
+#if TARGET_OS_IOS
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
     self.currentFirstResponder = textField;
@@ -374,6 +525,7 @@ typedef enum _SETTINGS_TAG
     }
     return YES;
 }
+#endif
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
@@ -455,7 +607,8 @@ typedef enum _SETTINGS_TAG
     }
 }
 
-- (void)saveButtonAction {
+- (void)saveButtonAction
+{
     [textCellProfile resignFirstResponder];
     [textCellAddress resignFirstResponder];
     [textCellPort resignFirstResponder];
@@ -491,9 +644,9 @@ typedef enum _SETTINGS_TAG
     [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
-#pragma mark -
-#pragma mark UISwitch responder
+#pragma mark - UISwitch responder
 
+#if TARGET_OS_IOS
 - (void)switchValueChanged:(id)sender
 {
     NSInteger tag = ((UISwitch *)sender).tag;
@@ -512,6 +665,7 @@ typedef enum _SETTINGS_TAG
     }
     [self.tableView reloadData];
 }
+#endif
 
 @end
 

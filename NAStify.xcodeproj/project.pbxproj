@@ -125,6 +125,11 @@
 		95562DE21BE5065A006222C3 /* ServerSettingsSambaViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D595AF85185EEABE00AE8037 /* ServerSettingsSambaViewController.m */; };
 		95562DE41BE50C5B006222C3 /* samba_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562DE31BE50C5B006222C3 /* samba_small.png */; };
 		95562DE61BE50FB9006222C3 /* samba.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562DE51BE50FB9006222C3 /* samba.png */; };
+		95562E131BE57613006222C3 /* CMOwnCloud.m in Sources */ = {isa = PBXBuildFile; fileRef = D57CCF3E1A3E17B200D9E6A9 /* CMOwnCloud.m */; };
+		95562E141BE576DB006222C3 /* libownCloud tvOS library.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95562E121BE57515006222C3 /* libownCloud tvOS library.a */; };
+		95562E151BE577BE006222C3 /* ServerSettingsOwnCloudViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D57CCF431A3E331200D9E6A9 /* ServerSettingsOwnCloudViewController.m */; };
+		95562E411BE58575006222C3 /* owncloud_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562E3F1BE58575006222C3 /* owncloud_small.png */; };
+		95562E421BE58575006222C3 /* owncloud.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562E401BE58575006222C3 /* owncloud.png */; };
 		957224361BD9A187009495DF /* CMWebDav.m in Sources */ = {isa = PBXBuildFile; fileRef = F9115D2D15DA9047004259D3 /* CMWebDav.m */; };
 		9572243F1BD9A2D5009495DF /* CMFtp.m in Sources */ = {isa = PBXBuildFile; fileRef = F9345CAE15DC6321004035A9 /* CMFtp.m */; };
 		957322741BDAED6F008D8AD0 /* tvos-libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957322731BDAED6F008D8AD0 /* tvos-libssh2.a */; };
@@ -1403,6 +1408,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		95562E0E1BE57515006222C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 95562DF51BE57473006222C3;
+			remoteInfo = "ownCloud tvOS library";
+		};
+		95562E111BE57515006222C3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D57CCF181A3E124C00D9E6A9 /* ownCloud iOS library.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 95562DF61BE57473006222C3;
+			remoteInfo = "ownCloud tvOS library";
+		};
 		D56785911A61DD1000286B86 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D567858B1A61DD0F00286B86 /* ConnectSDK.xcodeproj */;
@@ -1628,6 +1647,8 @@
 		95562DBA1BE2BAA6006222C3 /* webdav.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = webdav.png; sourceTree = "<group>"; };
 		95562DE31BE50C5B006222C3 /* samba_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = samba_small.png; sourceTree = "<group>"; };
 		95562DE51BE50FB9006222C3 /* samba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = samba.png; sourceTree = "<group>"; };
+		95562E3F1BE58575006222C3 /* owncloud_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = owncloud_small.png; sourceTree = "<group>"; };
+		95562E401BE58575006222C3 /* owncloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = owncloud.png; sourceTree = "<group>"; };
 		9572243A1BD9A280009495DF /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = external/libidn/lib/libidn.a; sourceTree = "<group>"; };
 		957322731BDAED6F008D8AD0 /* tvos-libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libssh2.a"; path = "external/libssh2/lib/tvos-libssh2.a"; sourceTree = "<group>"; };
 		9573227A1BDAF4FC008D8AD0 /* tvos_libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = tvos_libcurl.a; path = external/curl/lib/tvos_libcurl.a; sourceTree = "<group>"; };
@@ -2996,6 +3017,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95562E141BE576DB006222C3 /* libownCloud tvOS library.a in Frameworks */,
 				957322811BDAFAA8008D8AD0 /* tvos-libneon.a in Frameworks */,
 				9573227F1BDAFA9B008D8AD0 /* tvos-libcurl.a in Frameworks */,
 				957322741BDAED6F008D8AD0 /* tvos-libssh2.a in Frameworks */,
@@ -3296,16 +3318,18 @@
 				95562DB71BE2BAA6006222C3 /* freebox.png */,
 				95562DB81BE2BAA6006222C3 /* ftp-ftps-sftp.png */,
 				95562DB91BE2BAA6006222C3 /* qnap.png */,
-				95562DB51BE2B8CA006222C3 /* synology.png */,
-				95562DBA1BE2BAA6006222C3 /* webdav.png */,
 				95562DA91BE2B687006222C3 /* freebox_small.png */,
 				95562DAA1BE2B687006222C3 /* ftp_small.png */,
-				95562DAB1BE2B687006222C3 /* qnap_small.png */,
+				95562E401BE58575006222C3 /* owncloud.png */,
+				95562E3F1BE58575006222C3 /* owncloud_small.png */,
 				95562DE51BE50FB9006222C3 /* samba.png */,
+				95562DAB1BE2B687006222C3 /* qnap_small.png */,
 				95562DE31BE50C5B006222C3 /* samba_small.png */,
 				95562DAC1BE2B687006222C3 /* sftp_small.png */,
+				95562DB51BE2B8CA006222C3 /* synology.png */,
 				95562DA71BE2A1DD006222C3 /* synology_small.png */,
 				95562DAD1BE2B687006222C3 /* upnp_small.png */,
+				95562DBA1BE2BAA6006222C3 /* webdav.png */,
 				95562DAE1BE2B687006222C3 /* webdav_small.png */,
 			);
 			name = ServerIcon;
@@ -4160,6 +4184,7 @@
 			children = (
 				D57CCF201A3E124C00D9E6A9 /* libownCloudiOS.a */,
 				D57CCF221A3E124C00D9E6A9 /* ownCloud iOS libraryTests.xctest */,
+				95562E121BE57515006222C3 /* libownCloud tvOS library.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -5821,6 +5846,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				95562E0F1BE57515006222C3 /* PBXTargetDependency */,
 			);
 			name = "NAStify-tvOS";
 			productName = "NAStify-tvOS";
@@ -5885,6 +5911,7 @@
 				TargetAttributes = {
 					95486DC81BD6D9E50097225C = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = 7RQA4UEVL6;
 					};
 					D5E473461A00446E00A02A1A = {
 						CreatedOnToolsVersion = 6.1;
@@ -5944,6 +5971,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		95562E121BE57515006222C3 /* libownCloud tvOS library.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libownCloud tvOS library.a";
+			remoteRef = 95562E111BE57515006222C3 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		D56785921A61DD1000286B86 /* libConnectSDK.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -6056,6 +6090,7 @@
 				95562D801BE29C1F006222C3 /* mkv.png in Resources */,
 				95562D861BE29C1F006222C3 /* mp4.png in Resources */,
 				95562D5B1BE29C1F006222C3 /* aac.png in Resources */,
+				95562E411BE58575006222C3 /* owncloud_small.png in Resources */,
 				95562DA81BE2A1DD006222C3 /* synology_small.png in Resources */,
 				95562DB41BE2B687006222C3 /* webdav_small.png in Resources */,
 				95562DAF1BE2B687006222C3 /* freebox_small.png in Resources */,
@@ -6069,6 +6104,7 @@
 				954872BA1BD6F4640097225C /* VLCFullscreenMovieTVViewController.xib in Resources */,
 				95562DE41BE50C5B006222C3 /* samba_small.png in Resources */,
 				95562DBB1BE2BAA6006222C3 /* freebox.png in Resources */,
+				95562E421BE58575006222C3 /* owncloud.png in Resources */,
 				95486DD91BD6D9E50097225C /* Main.storyboard in Resources */,
 				95562DA21BE29C1F006222C3 /* wma.png in Resources */,
 			);
@@ -6958,6 +6994,7 @@
 				954872EF1BD706C40097225C /* NetworkConnection.m in Sources */,
 				954872E91BD706310097225C /* NSStringAdditions.m in Sources */,
 				954872E81BD705B70097225C /* UserAccount.m in Sources */,
+				95562E151BE577BE006222C3 /* ServerSettingsOwnCloudViewController.m in Sources */,
 				954872CF1BD6FD880097225C /* ServerCell.m in Sources */,
 				957322831BDB8ADF008D8AD0 /* ServerSettingsSynologyViewController.m in Sources */,
 				954872CD1BD6FCE60097225C /* FileItem.m in Sources */,
@@ -6982,6 +7019,7 @@
 				954872B61BD6F4640097225C /* UIColor+Presets.m in Sources */,
 				957322851BDB9698008D8AD0 /* ServerSettingsFreeboxRevViewController.m in Sources */,
 				954872C91BD6FA3C0097225C /* VLCPlayerDisplayController.m in Sources */,
+				95562E131BE57613006222C3 /* CMOwnCloud.m in Sources */,
 				954872B81BD6F4640097225C /* VLCFrostedGlasView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -7479,6 +7517,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		95562E0F1BE57515006222C3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "ownCloud tvOS library";
+			targetProxy = 95562E0E1BE57515006222C3 /* PBXContainerItemProxy */;
+		};
 		D56785961A61DD2000286B86 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = ConnectSDK;
@@ -7564,6 +7607,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -7580,6 +7624,7 @@
 					"${SRCROOT}/external/openssl/lib/include",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/external/VLCKit/MobileVLCKit/ImportedSources/vlc/install-ios-AppleTVOS/arm64/contribs/include/",
+					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
 				);
 				INFOPLIST_FILE = "NAStify-tvOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
@@ -7624,6 +7669,7 @@
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -7643,6 +7689,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/Pods/**",
 					"$(SRCROOT)/external/VLCKit/MobileVLCKit/ImportedSources/vlc/install-ios-AppleTVOS/arm64/contribs/include/",
+					"${SRCROOT}/NAStify/External/ownCloud-ios-library/OCCommunicationLib/OCCommunicationLib",
 				);
 				INFOPLIST_FILE = "NAStify-tvOS/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;

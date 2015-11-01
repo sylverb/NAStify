@@ -22,9 +22,9 @@
 #import "CMGoogleDrive.h"
 #import "CMMega.h"
 #import "CMOneDrive.h"
-#import "CMOwnCloud.h"
 #import "CMPydio.h"
 #endif
+#import "CMOwnCloud.h"
 #import "CMQnap.h"
 #import "CMSamba.h"
 #import "CMSynology.h"
@@ -95,17 +95,17 @@
                 cmPlugin = [[CMOneDrive alloc] init];
                 break;
             }
-            case SERVER_TYPE_OWNCLOUD:
-            {
-                cmPlugin = [[CMOwnCloud alloc] init];
-                break;
-            }
             case SERVER_TYPE_PYDIO:
             {
                 cmPlugin = [[CMPydio alloc] init];
                 break;
             }
 #endif
+            case SERVER_TYPE_OWNCLOUD:
+            {
+                cmPlugin = [[CMOwnCloud alloc] init];
+                break;
+            }
             case SERVER_TYPE_QNAP:
             {
                 cmPlugin = [[CMQnap alloc] init];
