@@ -2018,24 +2018,10 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
     {
         if (![component isEqualToString:@""])
         {
-            if (self.userAccount.serverType == SERVER_TYPE_SFTP)
-            {
-                [urlString appendFormat:@"%@/",component];
-            }
-            else
-            {
-                [urlString appendFormat:@"%@/",[component encodeStringUrl:NSUTF8StringEncoding]];
-            }
+            [urlString appendFormat:@"%@/",[component encodeStringUrl:NSUTF8StringEncoding]];
         }
     }
-    if (self.userAccount.serverType == SERVER_TYPE_SFTP)
-    {
-        [urlString appendString:file.name];
-    }
-    else
-    {
-        [urlString appendString:[file.name encodeStringUrl:NSUTF8StringEncoding]];
-    }
+    [urlString appendString:[file.name encodeStringUrl:NSUTF8StringEncoding]];
     
     NetworkConnection *networkConnection = [[NetworkConnection alloc] init];
     networkConnection.url = [NSURL URLWithString:urlString];
