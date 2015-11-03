@@ -177,7 +177,14 @@ char c_password[255];
     if (!smb_session_login(self.session))
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:c_user] forKey:@"user"]];
+            if (strcmp(c_user, "guest") == 0)
+            {
+                [self.delegate CMCredentialRequest:nil];
+            }
+            else
+            {
+                [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:c_user] forKey:@"user"]];
+            }
         });
         return YES;
     }
