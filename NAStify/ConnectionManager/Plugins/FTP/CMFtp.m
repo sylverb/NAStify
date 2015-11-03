@@ -126,7 +126,7 @@ static char error_buf[CURL_ERROR_SIZE];
 
     if (self.userAccount.serverType == SERVER_TYPE_SFTP)
     {
-        url = [NSString stringWithFormat:@"sftp://%@:%@@%@", userName, password, url];
+        url = [NSString stringWithFormat:@"sftp://%@:%@@%@", [userName encodeStringUrl:NSUTF8StringEncoding], [password encodeStringUrl:NSUTF8StringEncoding], url];
     }
     else
     {
