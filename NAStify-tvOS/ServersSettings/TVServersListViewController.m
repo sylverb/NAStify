@@ -293,7 +293,7 @@
 
             UserAccount *account = [[UserAccount alloc] init];
             account.serverType = SERVER_TYPE_SAMBA;
-            account.accountName = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"hostname"];
+            account.accountName = [NSString stringWithFormat:@"%@ (IP : %@)",[[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"hostname"],[[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"ip"]];
             [serverCell setAccount:account];
             cell = serverCell;
             break;
