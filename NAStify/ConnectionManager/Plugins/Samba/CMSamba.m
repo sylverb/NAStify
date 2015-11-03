@@ -240,7 +240,8 @@ char c_password[255];
         {
             NSLog(@"- %s\n", share_list[j]);
 
-            if (strcmp(share_list[j], "IPC$\0") != 0)
+            if ((strcmp(share_list[j], "IPC$\0") != 0) &&
+                (strcmp(share_list[j], "lp\0")))
             {
                 NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
                                           [NSNumber numberWithBool:YES],@"isdir",
@@ -269,9 +270,14 @@ char c_password[255];
         if (tid == 0)
         {
             // Username/password is invalid for this share, request another one
-            dispatch_async(dispatch_get_main_queue(), ^{
+            if (strcmp(c_user, "guest") == 0)
+            {
+                [self.delegate CMCredentialRequest:nil];
+            }
+            else
+            {
                 [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:c_user] forKey:@"user"]];
-            });
+            }
             return;
         }
         
