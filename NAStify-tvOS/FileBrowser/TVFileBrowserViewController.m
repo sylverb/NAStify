@@ -173,7 +173,7 @@
     NSMutableArray *fileList = [[NSMutableArray alloc] init];
     for (FileItem *file in self.filesArray)
     {
-        if ([[file.name stringByDeletingPathExtension] isEqualToString:urlTemp])
+        if ([[file.name stringByDeletingPathExtension] hasPrefix:urlTemp])
         {
             [fileList addObject:file];
         }
@@ -350,6 +350,7 @@
             break;
         }
         case FILETYPE_VLC_VIDEO:
+        case FILETYPE_VLC_AUDIO:
         {
             if (ServerSupportsFeature(VLCPlayer))
             {
@@ -364,6 +365,7 @@
             break;
         }
         case FILETYPE_QT_VIDEO:
+        case FILETYPE_QT_AUDIO:
         {
             if (([self.connectionManager pluginRespondsToSelector:@selector(urlForFile:)]) ||
                 ([self.connectionManager pluginRespondsToSelector:@selector(urlForVideo:)]))
