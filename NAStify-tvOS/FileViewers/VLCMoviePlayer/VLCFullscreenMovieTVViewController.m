@@ -213,6 +213,7 @@
     [vpc stopPlayback];
     
     [_trackSelectorTableView removeFromSuperview];
+    _trackSelectorVisible = FALSE;
     
     [super viewWillDisappear:animated];
 }
