@@ -177,14 +177,9 @@ char c_password[255];
     if (!smb_session_login(self.session))
     {
         dispatch_async(dispatch_get_main_queue(), ^{
-            if (strcmp(c_user, "guest") == 0)
-            {
-                [self.delegate CMCredentialRequest:nil];
-            }
-            else
-            {
-                [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:c_user] forKey:@"user"]];
-            }
+            [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSString stringWithFormat:@"smb://%@",self.userAccount.server],@"service",
+                                                nil]];
         });
         return YES;
     }
@@ -270,14 +265,9 @@ char c_password[255];
         if (tid == 0)
         {
             // Username/password is invalid for this share, request another one
-            if (strcmp(c_user, "guest") == 0)
-            {
-                [self.delegate CMCredentialRequest:nil];
-            }
-            else
-            {
-                [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObject:[NSString stringWithUTF8String:c_user] forKey:@"user"]];
-            }
+            [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSString stringWithFormat:@"smb://%@",self.userAccount.server],@"service",
+                                                nil]];
             return;
         }
         

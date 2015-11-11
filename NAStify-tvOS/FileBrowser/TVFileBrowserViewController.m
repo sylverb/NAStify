@@ -9,6 +9,7 @@
 #import <AVKit/AVKit.h>
 #import "TVFileBrowserViewController.h"
 #import "FileItem.h"
+#import "SSKeychain.h"
 
 // File viewers
 #import "TVCustomMoviePlayerViewController.h"
@@ -740,6 +741,11 @@
     {
         [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     }
+    
+    NSString *serviceIdentifier = [dict objectForKey:@"service"];
+    NSString *accountName = [SSKeychain accountsForService:serviceIdentifier].firstObject[kSSKeychainAccountKey];
+    NSString *password = [SSKeychain passwordForService:serviceIdentifier account:accountName];
+
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Authentication",nil)
                                                                    message:NSLocalizedString(@"Enter login/password",nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -765,6 +771,42 @@
                                                    [alert dismissViewControllerAnimated:YES completion:nil];
                                                }];
     
+    UIAlertAction* save = [UIAlertAction actionWithTitle:NSLocalizedString(@"Save", nil)
+                                                   style:UIAlertActionStyleDefault
+                                                 handler:^(UIAlertAction * _Nonnull action) {
+                                                    UITextField *userField = alert.textFields[0];
+                                                    UITextField *passField = alert.textFields[1];
+
+                                                    NSString *accountName = userField.text;
+                                                    NSString *password = passField.text;
+                                                    [SSKeychain setPassword:password forService:serviceIdentifier account:accountName];
+                                                    [self.connectionManager setCredential:userField.text
+                                                                                 password:passField.text];
+
+                                                    [self.connectionManager logout];
+                                                    // Login
+                                                    BOOL needToWaitLogin = NO;
+                                                    needToWaitLogin = [self.connectionManager login];
+
+                                                    // Get file list if possible
+                                                    if (!needToWaitLogin)
+                                                    {
+                                                        [self.connectionManager listForPath:self.currentFolder];
+                                                    }
+                                               }];
+    
+    UIAlertAction* delete;
+    if (accountName.length && password.length)
+    {
+        delete = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil)
+                                          style:UIAlertActionStyleDestructive
+                                        handler:^(UIAlertAction * action) {
+                                            [SSKeychain deletePasswordForService:serviceIdentifier account:accountName];
+                                            [alert dismissViewControllerAnimated:YES completion:nil];
+                                            [self.navigationController popToRootViewControllerAnimated:YES];
+                                        }];
+    }
+
     UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action) {
                                                        [alert dismissViewControllerAnimated:YES completion:nil];
@@ -772,18 +814,20 @@
                                                    }];
     
     [alert addAction:ok];
+    [alert addAction:save];
+    if (delete)
+    {
+        [alert addAction:delete];
+    }
     [alert addAction:cancel];
     
     [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Username";
-        if ([dict objectForKey:@"user"])
-        {
-            textField.text = [dict objectForKey:@"user"];
-        }
-        
+        textField.placeholder = NSLocalizedString(@"Username",nil);
+        textField.text = accountName;
     }];
     [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = @"Password";
+        textField.placeholder = NSLocalizedString(@"Password",nil);
+        textField.text = password;
         textField.secureTextEntry = YES;
     }];
     [self presentViewController:alert animated:YES completion:nil];
