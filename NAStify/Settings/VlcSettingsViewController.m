@@ -15,10 +15,16 @@
 #import "TextCell.h"
 #import "SDImageCache.h"
 
+#if TARGET_OS_IOS
 #define SETTINGS_GENERIC_SECTION_INDEX 0
 #define SETTINGS_VIDEO_SECTION_INDEX 1
 #define SETTINGS_SUBTITLES_SECTION_INDEX 2
 #define SETTINGS_AUDIO_SECTION_INDEX 3
+#elif TARGET_OS_TV
+#define SETTINGS_GENERIC_SECTION_INDEX 0
+#define SETTINGS_VIDEO_SECTION_INDEX 1
+#define SETTINGS_AUDIO_SECTION_INDEX 3
+#endif
 
 #define TAG_CACHING             0
 #define TAG_SKIPLOOPFILTER      1
@@ -343,7 +349,11 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
+#if TARGET_OS_IOS
     return 4;
+#elif TARGET_OS_TV
+    return 3;
+#endif
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -364,14 +374,20 @@
             numberOfRows = 2;
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_SUBTITLES_SECTION_INDEX:
         {
             numberOfRows = 5;
             break;
         }
+#endif
         case SETTINGS_AUDIO_SECTION_INDEX:
         {
+#if TARGET_OS_IOS
             numberOfRows = 2;
+#elif TARGET_OS_TV
+            numberOfRows = 1;
+#endif
             break;
         }
         default:
@@ -398,11 +414,13 @@
             title = NSLocalizedString(@"Video",nil);
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_SUBTITLES_SECTION_INDEX:
         {
             title = NSLocalizedString(@"Subtitles",nil);
             break;
         }
+#endif
         case SETTINGS_AUDIO_SECTION_INDEX:
         {
             title = NSLocalizedString(@"Audio",nil);
@@ -540,6 +558,7 @@
             }
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_SUBTITLES_SECTION_INDEX:
         {
             switch (indexPath.row)
@@ -680,6 +699,7 @@
             }
             break;
         }
+#endif
         case SETTINGS_AUDIO_SECTION_INDEX:
         {
             switch (indexPath.row)
@@ -729,6 +749,7 @@
 #endif
                     break;
                 }
+#if TARGET_OS_IOS
                 case 1:
                 {
 #if TARGET_OS_IOS
@@ -774,6 +795,7 @@
 #endif
                     break;
                 }
+#endif
                 default:
                 {
                     break;
@@ -897,6 +919,7 @@
             }
             break;
         }
+#if TARGET_OS_IOS
         case SETTINGS_SUBTITLES_SECTION_INDEX:
         {
             switch (indexPath.row)
@@ -989,6 +1012,7 @@
             }
             break;
         }
+#endif
 #if TARGET_OS_TV
         case SETTINGS_AUDIO_SECTION_INDEX:
         {
