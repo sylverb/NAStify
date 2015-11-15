@@ -304,7 +304,6 @@ char c_password[255];
                     NSLog(@"smb_stat_list_at failed\n");
                     continue;
                 }
-                fprintf(stdout, "Found a file %s \n", smb_stat_name( st ));
                 
                 NSString *name = [NSString stringWithCString:smb_stat_name(st) encoding:NSUTF8StringEncoding];
                 if (([name isEqualToString:@"."]) ||
