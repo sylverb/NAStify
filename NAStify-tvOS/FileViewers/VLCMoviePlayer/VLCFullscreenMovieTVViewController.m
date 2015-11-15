@@ -78,12 +78,12 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     self.bufferingLabel.text = NSLocalizedString(@"PLEASE_WAIT", nil);
 
     // Swipe for settings view
-    UILabel *swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 1920, 40)];
-    swipeSettingsLabel.text = NSLocalizedString(@"SWIPE_INFO", nil);
-    swipeSettingsLabel.textColor = [UIColor whiteColor];
-    swipeSettingsLabel.font = [UIFont systemFontOfSize:30.0];
-    swipeSettingsLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:swipeSettingsLabel];
+    self.swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 1920, 40)];
+    self.swipeSettingsLabel.text = NSLocalizedString(@"SWIPE_INFO", nil);
+    self.swipeSettingsLabel.textColor = [UIColor whiteColor];
+    self.swipeSettingsLabel.font = [UIFont systemFontOfSize:30.0];
+    self.swipeSettingsLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:self.swipeSettingsLabel];
 
     // Panning and Swiping
 
@@ -630,6 +630,7 @@ static const NSInteger VLCJumpInterval = 10000; // 10 seconds
     CGFloat alpha = visible ? 1.0 : 0.0;
     [UIView animateWithDuration:duration
                      animations:^{
+                         self.swipeSettingsLabel.alpha = alpha;
                          self.bottomOverlayView.alpha = alpha;
                      }];
 }
