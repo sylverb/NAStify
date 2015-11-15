@@ -59,6 +59,7 @@
              ([[self.type lowercaseString] isEqualToString:@"f4v"]) ||
              ([[self.type lowercaseString] isEqualToString:@"gvi"]) ||
              ([[self.type lowercaseString] isEqualToString:@"gxf"]) ||
+             ([[self.type lowercaseString] isEqualToString:@"iso"]) ||
              ([[self.type lowercaseString] isEqualToString:@"m1v"]) ||
              ([[self.type lowercaseString] isEqualToString:@"m2p"]) ||
              ([[self.type lowercaseString] isEqualToString:@"m2t"]) ||
@@ -111,7 +112,6 @@
              ([[self.type lowercaseString] isEqualToString:@"ape"]) ||
              ([[self.type lowercaseString] isEqualToString:@"axa"]) ||
              ([[self.type lowercaseString] isEqualToString:@"flac"]) ||
-             ([[self.type lowercaseString] isEqualToString:@"iso"]) ||
              ([[self.type lowercaseString] isEqualToString:@"it"]) ||
              ([[self.type lowercaseString] isEqualToString:@"m2a"]) ||
              ([[self.type lowercaseString] isEqualToString:@"m4b"]) ||
