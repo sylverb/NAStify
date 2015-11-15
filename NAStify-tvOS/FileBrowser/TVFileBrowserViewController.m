@@ -319,8 +319,45 @@
     }
     else
     {
-        vpc.customMediaOptionsDictionary = optionsDict;
-        [vpc playURL:connection.url subtitlesFilePath:subPath];
+        if (subPath)
+        {
+            vpc.customMediaOptionsDictionary = optionsDict;
+            [vpc playURL:connection.url subtitlesFilePath:subPath];
+        }
+        else
+        {
+            NSInteger index = 0;
+            NSInteger fileIndex = 0;
+            // Find index of file
+            for (FileItem *file in self.filesArray)
+            {
+                if ((file.fileType == FILETYPE_VLC_VIDEO) || (file.fileType == FILETYPE_QT_VIDEO))
+                {
+                    if (file == fileItem)
+                    {
+                        fileIndex = index;
+                        break;
+                    }
+                    index++;
+                }
+            }
+            // For some reason the media list is played in reverse order, so store them in
+            // reversed order ...
+            VLCMediaList *mediaList = [[VLCMediaList alloc] init];
+            for (index = self.filesArray.count-1; index >= 0; index--)
+            {
+                FileItem *file = [self.filesArray objectAtIndex:index];
+                if ((file.fileType == FILETYPE_VLC_VIDEO) || (file.fileType == FILETYPE_QT_VIDEO))
+                {
+                    NetworkConnection *cnx = [self.connectionManager urlForVideo:file];
+                    
+                    VLCMedia *media = [VLCMedia mediaWithURL:cnx.url];
+                    [media addOptions:optionsDict];
+                    [mediaList addMedia:media];
+                }
+            }
+            [vpc playMediaList:mediaList firstIndex:fileIndex];
+        }
     }
     
     [self showMovieViewController];
