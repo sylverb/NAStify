@@ -1,19 +1,21 @@
 /*****************************************************************************
- * VLCTrackSelectorTableViewCell.h
  * VLC for iOS
  *****************************************************************************
- * Copyright (c) 2014 VideoLAN. All rights reserved.
+ * Copyright (c) 2015 VideoLAN. All rights reserved.
  * $Id$
  *
- * Authors: Felix Paul Kühne <fkuehne # videolan.org>
+ * Authors: Tobias Conradi <videolan # tobias-conradi.de>
  *
  * Refer to the COPYING file of the official project for license.
  *****************************************************************************/
 
 #import <UIKit/UIKit.h>
 
-@interface VLCTrackSelectorTableViewCell : UITableViewCell
+@interface VLCPlaybackInfoPanelTVViewController : UIViewController
 
-- (void)setShowsCurrentTrack:(BOOL)value;
+
+// subclasses should override preferred content size to enable
+// correct sizing of the info VC
+- (CGSize)preferredContentSize;
 
 @end

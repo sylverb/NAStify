@@ -15,6 +15,7 @@
 #import "TVCustomMoviePlayerViewController.h"
 #import "VLCPlaybackController.h"
 #import "VLCPlayerDisplayController.h"
+#import "VLCFullscreenMovieTVViewController.h"
 
 #import "private.h"
 
@@ -319,19 +320,68 @@
     }
 }
 
+- (void)showMovieViewController
+{
+    VLCFullscreenMovieTVViewController *moviewVC = [VLCFullscreenMovieTVViewController fullscreenMovieTVViewController];
+    [self presentViewController:moviewVC
+                       animated:YES
+                     completion:nil];
+}
+
 - (void)showVLCPlayerForFile:(FileItem *)fileItem withSubtitles:(NSString *)subPath
 {
+    NSDictionary *optionsDict;
     [VLCPlayerDisplayController sharedInstance].displayMode = VLCPlayerDisplayControllerDisplayModeFullscreen;
     
     NetworkConnection *connection = [self.connectionManager urlForVideo:fileItem];
     VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
     if (connection.urlType == URLTYPE_SMB)
     {
-        vpc.customMediaOptionsDictionary = @{@"smb-user" : connection.user ?: @"",
-                                             @"smb-pwd" : connection.password ?: @"",
-                                             @"smb-domain" : connection.workgroup ?: @"WORKGROUP"};
+        optionsDict = @{@"smb-user" : connection.user ?: @"",
+                        @"smb-pwd" : connection.password ?: @"",
+                        @"smb-domain" : connection.workgroup ?: @"WORKGROUP"};
     }
-    [vpc playURL:connection.url subtitlesFilePath:subPath];
+    if ((fileItem.fileType == FILETYPE_VLC_AUDIO) || (fileItem.fileType == FILETYPE_QT_AUDIO))
+    {
+        NSInteger index = 0;
+        NSInteger fileIndex = 0;
+        // Find index of file
+        for (FileItem *file in self.filesArray)
+        {
+            if ((file.fileType == FILETYPE_VLC_AUDIO) || (file.fileType == FILETYPE_QT_AUDIO))
+            {
+                if (file == fileItem)
+                {
+                    fileIndex = index;
+                    break;
+                }
+                index++;
+            }
+        }
+        // For some reason the media list is played in reverse order, so store them in
+        // reversed order ...
+        VLCMediaList *mediaList = [[VLCMediaList alloc] init];
+        for (index = self.filesArray.count-1; index >= 0; index--)
+        {
+            FileItem *file = [self.filesArray objectAtIndex:index];
+            if ((file.fileType == FILETYPE_VLC_AUDIO) || (file.fileType == FILETYPE_QT_AUDIO))
+            {
+                NetworkConnection *cnx = [self.connectionManager urlForVideo:file];
+                
+                VLCMedia *media = [VLCMedia mediaWithURL:cnx.url];
+                [media addOptions:optionsDict];
+                [mediaList addMedia:media];
+            }
+        }
+        [vpc playMediaList:mediaList firstIndex:fileIndex];
+    }
+    else
+    {
+        vpc.customMediaOptionsDictionary = optionsDict;
+        [vpc playURL:connection.url subtitlesFilePath:subPath];
+    }
+    
+    [self showMovieViewController];
 }
 
 - (BOOL)openFile:(FileItem *)fileItem

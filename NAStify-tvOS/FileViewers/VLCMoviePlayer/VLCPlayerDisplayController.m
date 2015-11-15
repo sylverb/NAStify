@@ -273,7 +273,9 @@ static NSString *const VLCPlayerDisplayControllerDisplayModeKey = @"VLCPlayerDis
 
 - (void)_showHideMiniPlaybackView
 {
-#if TARGET_OS_IOS
+#if TARGET_OS_TV
+    return;
+#else
     VLCPlaybackController *playbackController = [VLCPlaybackController sharedInstance];
     UIView<VLCPlaybackControllerDelegate, VLCMiniPlaybackViewInterface> *miniPlaybackView = self.miniPlaybackView;
     const NSTimeInterval animationDuration = 0.25;

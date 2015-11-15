@@ -18,6 +18,7 @@
 
 @interface VLCFullscreenMovieTVViewController : UIViewController <VLCPlaybackControllerDelegate>
 
+@property (nonatomic) BOOL isScrubbing;
 @property (readwrite, nonatomic, weak) IBOutlet UIView *movieView;
 
 @property (readwrite, nonatomic, weak) IBOutlet UIView *bottomOverlayView;

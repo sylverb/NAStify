@@ -39,8 +39,6 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 @property (nonatomic) MDFHatchetFetcher *audioMetaDataFetcher;
 @property (nonatomic) NSString *lastArtist;
 
-@property (nonatomic, readonly, getter=isSeekable) BOOL seekable;
-
 @end
 
 @implementation VLCFullscreenMovieTVViewController
@@ -65,6 +63,8 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 
     _movieView.userInteractionEnabled = NO;
 
+    self.isScrubbing = NO;
+    
     self.titleLabel.text = @"";
 
     self.transportBar.bufferStartFraction = 0.0;
@@ -76,14 +76,6 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     self.bottomOverlayView.alpha = 0.0;
 
     self.bufferingLabel.text = NSLocalizedString(@"PLEASE_WAIT", nil);
-
-    // Swipe for settings view
-    UILabel *swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 1920, 40)];
-    swipeSettingsLabel.text = NSLocalizedString(@"SWIPE_INFO", nil);
-    swipeSettingsLabel.textColor = [UIColor whiteColor];
-    swipeSettingsLabel.font = [UIFont systemFontOfSize:30.0];
-    swipeSettingsLabel.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:swipeSettingsLabel];
 
     // Panning and Swiping
 
@@ -169,6 +161,12 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     [self stopAudioDescriptionAnimation];
 
     [super viewWillDisappear:animated];
+
+    /* clean caches in case remote playback was used
+     * note that if we cancel before the upload is complete
+     * the cache won't be emptied, but on the next launch only (or if the system is under storage pressure)
+     */
+//    [[VLCHTTPUploaderController sharedInstance] cleanCache];
 }
 
 - (BOOL)canBecomeFirstResponder
@@ -191,6 +189,32 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     }
 }
 
+- (void)swipe:(UISwipeGestureRecognizer *)gesture
+{
+    if (gesture.state == UIGestureRecognizerStateEnded)
+    {
+        switch (gesture.direction)
+        {
+            case UISwipeGestureRecognizerDirectionLeft:
+            {
+                VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+                [vpc backward];
+                break;
+            }
+            case UISwipeGestureRecognizerDirectionRight:
+            {
+                VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+                [vpc forward];
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
+    }
+}
+
 - (void)panGesture:(UIPanGestureRecognizer *)panGestureRecognizer
 {
     switch (panGestureRecognizer.state) {
@@ -206,13 +230,10 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     UIView *view = self.view;
     CGPoint translation = [panGestureRecognizer translationInView:view];
 
-    if (!bar.scrubbing) {
+    if (1)//!bar.scrubbing)
+    {
         if (ABS(translation.x) > 150.0) {
-            if (self.isSeekable) {
-                [self startScrubbing];
-            } else {
-                return;
-            }
+            [self startScrubbing];
         } else if (translation.y > 200.0) {
             panGestureRecognizer.enabled = NO;
             panGestureRecognizer.enabled = YES;
@@ -259,8 +280,8 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     VLCTransportBar *bar = self.transportBar;
     if (bar.scrubbing) {
         bar.playbackFraction = bar.scrubbingFraction;
-        [self stopScrubbing];
         [vpc.mediaPlayer setPosition:bar.scrubbingFraction];
+        [self stopScrubbing];
     } else if(vpc.mediaPlayer.playing) {
         [vpc.mediaPlayer pause];
     }
@@ -282,15 +303,14 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 - (void)showInfoVCIfNotScrubbing
 {
     if (self.transportBar.scrubbing) {
+#if 0
         return;
+#else
+        [self stopScrubbing];
+#endif
     }
     // TODO: configure with player info
     VLCPlaybackInfoTVViewController *infoViewController = self.infoViewController;
-
-    // prevent repeated presentation when users repeatedly and quickly press the arrow button
-    if (infoViewController.isBeingPresented) {
-        return;
-    }
     infoViewController.transitioningDelegate = self;
     [self presentViewController:infoViewController animated:YES completion:nil];
     [self animatePlaybackControlsToVisibility:NO];
@@ -299,11 +319,6 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 - (void)handleIRPressLeft
 {
     [self showPlaybackControlsIfNeededForUserInteraction];
-
-    if (!self.isSeekable) {
-        return;
-    }
-
     BOOL paused = ![VLCPlaybackController sharedInstance].isPlaying;
     if (paused) {
         [self jumpBackward];
@@ -316,11 +331,6 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 - (void)handleIRPressRight
 {
     [self showPlaybackControlsIfNeededForUserInteraction];
-
-    if (!self.isSeekable) {
-        return;
-    }
-
     BOOL paused = ![VLCPlaybackController sharedInstance].isPlaying;
     if (paused) {
         [self jumpForward];
@@ -332,13 +342,12 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 - (void)handleSiriRemote:(VLCSiriRemoteGestureRecognizer *)recognizer
 {
     [self showPlaybackControlsIfNeededForUserInteraction];
-
     VLCTransportBarHint hint = self.transportBar.hint;
     switch (recognizer.state) {
         case UIGestureRecognizerStateBegan:
         case UIGestureRecognizerStateChanged:
             if (recognizer.isLongPress) {
-                if (!self.isSeekable && recognizer.touchLocation == VLCSiriRemoteTouchLocationRight) {
+                if (recognizer.touchLocation == VLCSiriRemoteTouchLocationRight) {
                     [self setScanState:VLCPlayerScanStateForward2];
                     return;
                 }
@@ -369,21 +378,17 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
         default:
             break;
     }
-    self.transportBar.hint = self.isSeekable ? hint : VLCPlayerScanStateNone;
+    self.transportBar.hint = hint;
 }
 
 - (void)handleSiriPressUpAtLocation:(VLCSiriRemoteTouchLocation)location
 {
     switch (location) {
         case VLCSiriRemoteTouchLocationLeft:
-            if (self.isSeekable) {
-                [self jumpBackward];
-            }
+            [self jumpBackward];
             break;
         case VLCSiriRemoteTouchLocationRight:
-            if (self.isSeekable) {
-                [self jumpForward];
-            }
+            [self jumpForward];
             break;
         default:
             [self selectButtonPressed];
@@ -395,52 +400,29 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 static const NSInteger VLCJumpInterval = 10000; // 10 seconds
 - (void)jumpForward
 {
-    NSAssert(self.isSeekable, @"Tried to seek while not media is not seekable.");
-
     VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
     VLCMediaPlayer *player = vpc.mediaPlayer;
 
     if (player.isPlaying) {
-        [self jumpInterval:VLCJumpInterval];
+        [player jumpForward:VLCJumpInterval];
     } else {
         [self scrubbingJumpInterval:VLCJumpInterval];
     }
 }
 - (void)jumpBackward
 {
-    NSAssert(self.isSeekable, @"Tried to seek while not media is not seekable.");
-
     VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
     VLCMediaPlayer *player = vpc.mediaPlayer;
 
     if (player.isPlaying) {
-        [self jumpInterval:-VLCJumpInterval];
+        [player jumpBackward:VLCJumpInterval];
     } else {
         [self scrubbingJumpInterval:-VLCJumpInterval];
     }
 }
 
-- (void)jumpInterval:(NSInteger)interval
-{
-    NSAssert(self.isSeekable, @"Tried to seek while not media is not seekable.");
-
-    NSInteger duration = [VLCPlaybackController sharedInstance].mediaDuration;
-    if (duration==0) {
-        return;
-    }
-    VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-    VLCMediaPlayer *player = vpc.mediaPlayer;
-
-    CGFloat intervalFraction = ((CGFloat)interval)/((CGFloat)duration);
-    CGFloat currentFraction = player.position;
-    currentFraction += intervalFraction;
-    player.position = currentFraction;
-}
-
 - (void)scrubbingJumpInterval:(NSInteger)interval
 {
-    NSAssert(self.isSeekable, @"Tried to seek while not media is not seekable.");
-
     NSInteger duration = [VLCPlaybackController sharedInstance].mediaDuration;
     if (duration==0) {
         return;
@@ -456,8 +438,6 @@ static const NSInteger VLCJumpInterval = 10000; // 10 seconds
 
 - (void)scanForwardNext
 {
-    NSAssert(self.isSeekable, @"Tried to seek while not media is not seekable.");
-
     VLCPlayerScanState nextState = self.scanState;
     switch (self.scanState) {
         case VLCPlayerScanStateNone:
@@ -476,8 +456,6 @@ static const NSInteger VLCJumpInterval = 10000; // 10 seconds
 
 - (void)scanForwardPrevious
 {
-    NSAssert(self.isSeekable, @"Tried to seek while not media is not seekable.");
-
     VLCPlayerScanState nextState = self.scanState;
     switch (self.scanState) {
         case VLCPlayerScanStateNone:
@@ -500,8 +478,6 @@ static const NSInteger VLCJumpInterval = 10000; // 10 seconds
     if (_scanState == scanState) {
         return;
     }
-
-    NSAssert(self.isSeekable || scanState == VLCPlayerScanStateNone, @"Tried to seek while media not seekable.");
 
     if (_scanState == VLCPlayerScanStateNone) {
         self.scanSavedPlaybackRate = @([VLCPlaybackController sharedInstance].playbackRate);
@@ -530,12 +506,6 @@ static const NSInteger VLCJumpInterval = 10000; // 10 seconds
     [VLCPlaybackController sharedInstance].playbackRate = rate;
     [self.transportBar setHint:hint];
 }
-
-- (BOOL)isSeekable
-{
-    return [VLCPlaybackController sharedInstance].mediaPlayer.isSeekable;
-}
-
 #pragma mark -
 
 - (void)updateTimeLabelsForScrubbingFraction:(CGFloat)scrubbingFraction
@@ -552,17 +522,18 @@ static const NSInteger VLCJumpInterval = 10000; // 10 seconds
 
 - (void)startScrubbing
 {
-    NSAssert(self.isSeekable, @"Tried to seek while not media is not seekable.");
-
+    self.isScrubbing = YES;
     VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
     self.transportBar.scrubbing = YES;
     [self updateDimmingView];
     if (vpc.isPlaying) {
-        [vpc playPause];
+//        [vpc playPause];
     }
 }
 - (void)stopScrubbing
 {
+    self.isScrubbing = NO;
+
     self.transportBar.scrubbing = NO;
     [self updateDimmingView];
     VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
@@ -770,8 +741,11 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 
     if (self.bottomOverlayView.alpha != 0.0) {
         VLCTransportBar *transportBar = self.transportBar;
-        transportBar.remainingTimeLabel.text = [[mediaPlayer remainingTime] stringValue];
-        transportBar.markerTimeLabel.text = [[mediaPlayer time] stringValue];
+        if (!self.isScrubbing)
+        {
+            transportBar.remainingTimeLabel.text = [[mediaPlayer remainingTime] stringValue];
+            transportBar.markerTimeLabel.text = [[mediaPlayer time] stringValue];
+        }
         transportBar.playbackFraction = mediaPlayer.position;
     }
 }

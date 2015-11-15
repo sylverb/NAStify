@@ -19,6 +19,7 @@ extern NSString *const VLCPlaybackControllerPlaybackDidResume;
 extern NSString *const VLCPlaybackControllerPlaybackDidStop;
 extern NSString *const VLCPlaybackControllerPlaybackDidFail;
 extern NSString *const VLCPlaybackControllerPlaybackMetadataDidChange;
+extern NSString *const VLCPlaybackControllerPlaybackPositionUpdated;
 
 @class VLCPlaybackController;
 
@@ -76,6 +77,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 @property (nonatomic, readonly) BOOL currentMediaHasTrackToChooseFrom;
 @property (nonatomic, readonly) BOOL activePlaybackSession;
 @property (nonatomic, readonly) BOOL audioOnlyPlaybackSession;
+@property (nonatomic, readonly) NSString *mediaTitle;
 @property (nonatomic, readwrite) BOOL fullscreenSessionRequested;
 @property (nonatomic, readonly) NSDictionary *mediaOptionsDictionary;
 @property (nonatomic, readwrite) NSDictionary *customMediaOptionsDictionary;
@@ -97,11 +99,9 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 - (void)setNeedsMetadataUpdate;
 - (void)scheduleSleepTimerWithInterval:(NSTimeInterval)timeInterval;
 
-- (void)playMediaList:(VLCMediaList *)mediaList firstIndex:(int)index;
+- (void)playMediaList:(VLCMediaList *)mediaList firstIndex:(NSInteger)index;
 - (void)playURL:(NSURL *)url successCallback:(NSURL*)successCallback errorCallback:(NSURL *)errorCallback;
 - (void)playURL:(NSURL *)url subtitlesFilePath:(NSString *)subsFilePath;
-#if TARGET_OS_IOS
 - (void)remoteControlReceivedWithEvent:(UIEvent *)event;
-#endif
 
 @end

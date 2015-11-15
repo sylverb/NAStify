@@ -36,6 +36,7 @@ NSString *const VLCPlaybackControllerPlaybackDidResume = @"VLCPlaybackController
 NSString *const VLCPlaybackControllerPlaybackDidStop = @"VLCPlaybackControllerPlaybackDidStop";
 NSString *const VLCPlaybackControllerPlaybackMetadataDidChange = @"VLCPlaybackControllerPlaybackMetadataDidChange";
 NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPlaybackDidFail";
+NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackControllerPlaybackPositionUpdated";
 
 @interface VLCPlaybackController () <VLCMediaPlayerDelegate, VLCMediaDelegate>
 {
@@ -142,10 +143,10 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
     return YES;
 }
 
-- (void)playMediaList:(VLCMediaList *)mediaList firstIndex:(int)index
+- (void)playMediaList:(VLCMediaList *)mediaList firstIndex:(NSInteger)index
 {
     self.mediaList = mediaList;
-    self.itemInMediaListToBePlayedFirst = index;
+    self.itemInMediaListToBePlayedFirst = (int)index;
     self.pathToExternalSubtitlesFile = nil;
 
     if (self.activePlaybackSession) {
@@ -281,7 +282,7 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
                                                             }];
         [alert addAction:defaultAction];
         [alert addAction:cancelAction];
-        [[[VLCPlayerDisplayController sharedInstance] childViewController] presentViewController:alert animated:YES completion:nil];
+        [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
 #endif
     } else
         [self _playNewMedia];
@@ -310,9 +311,8 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
     _currentAspectRatioMask = 0;
     _mediaPlayer.videoAspectRatio = NULL;
 
-#if TARGET_IOS_IOS
     [self subscribeRemoteCommands];
-#endif
+
     _playerIsSetup = YES;
 
     [[NSNotificationCenter defaultCenter] postNotificationName:VLCPlaybackControllerPlaybackDidStart object:self];
@@ -351,27 +351,27 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
         if (_listPlayer)
             _listPlayer = nil;
     }
-    if (_mediaList)
-        _mediaList = nil;
-    if (_url)
-        _url = nil;
-    if (_pathToExternalSubtitlesFile) {
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        if ([fileManager fileExistsAtPath:_pathToExternalSubtitlesFile])
-            [fileManager removeItemAtPath:_pathToExternalSubtitlesFile error:nil];
-        _pathToExternalSubtitlesFile = nil;
+    if (!_sessionWillRestart) {
+        if (_mediaList)
+            _mediaList = nil;
+        if (_url)
+            _url = nil;
+        if (_pathToExternalSubtitlesFile) {
+            NSFileManager *fileManager = [NSFileManager defaultManager];
+            if ([fileManager fileExistsAtPath:_pathToExternalSubtitlesFile])
+                [fileManager removeItemAtPath:_pathToExternalSubtitlesFile error:nil];
+            _pathToExternalSubtitlesFile = nil;
+        }
     }
     _playerIsSetup = NO;
 
-    if (self.errorCallback && _playbackFailed)
+    if (self.errorCallback && _playbackFailed && !_sessionWillRestart)
         [[UIApplication sharedApplication] openURL:self.errorCallback];
-    else if (self.successCallback)
+    else if (self.successCallback && !_sessionWillRestart)
         [[UIApplication sharedApplication] openURL:self.successCallback];
 
     [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = nil;
-#if TARGET_IOS_IOS
     [self unsubscribeFromRemoteCommand];
-#endif
     _activeSession = NO;
 
     if (_playbackFailed) {
@@ -485,6 +485,9 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
 
     if ([self.delegate respondsToSelector:@selector(playbackPositionUpdated:)])
         [self.delegate playbackPositionUpdated:self];
+
+    [[NSNotificationCenter defaultCenter] postNotificationName:VLCPlaybackControllerPlaybackPositionUpdated
+                                                        object:self];
 }
 
 - (NSInteger)mediaDuration
@@ -525,6 +528,11 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
 - (BOOL)audioOnlyPlaybackSession
 {
     return _mediaIsAudioOnly;
+}
+
+- (NSString *)mediaTitle
+{
+    return _title;
 }
 
 - (float)playbackRate
@@ -571,12 +579,21 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
         [_mediaPlayer performSelector:@selector(setTextRendererFontSize:) withObject:[[NSUserDefaults standardUserDefaults] objectForKey:kVLCSettingSubtitlesFontSize]];
         [_mediaPlayer performSelector:@selector(setTextRendererFontColor:) withObject:[[NSUserDefaults standardUserDefaults] objectForKey:kVLCSettingSubtitlesFontColor]];
     } else if (currentState == VLCMediaPlayerStateError) {
+        APLog(@"Playback failed");
         _playbackFailed = YES;
+        self.sessionWillRestart = NO;
         [self stopPlayback];
     } else if ((currentState == VLCMediaPlayerStateEnded || currentState == VLCMediaPlayerStateStopped) && _listPlayer.repeatMode == VLCDoNotRepeat) {
-        if ([_listPlayer.mediaList indexOfMedia:_mediaPlayer.media] == _listPlayer.mediaList.count - 1) {
+        [_listPlayer.mediaList lock];
+        NSUInteger listCount = _listPlayer.mediaList.count;
+        if ([_listPlayer.mediaList indexOfMedia:_mediaPlayer.media] == listCount - 1) {
+            [_listPlayer.mediaList unlock];
+            self.sessionWillRestart = NO;
             [self stopPlayback];
             return;
+        } else if (listCount > 1) {
+            [_listPlayer.mediaList unlock];
+            [_listPlayer next];
         }
     }
 
@@ -774,20 +791,6 @@ NSString *const VLCPlaybackControllerPlaybackDidFail = @"VLCPlaybackControllerPl
 }
 
 #pragma mark - Managing the media item
-
-- (void)setUrl:(NSURL *)url
-{
-    [self stopPlayback];
-    _url = url;
-    _playerIsSetup = NO;
-}
-
-- (void)setMediaList:(VLCMediaList *)mediaList
-{
-    [self stopPlayback];
-    _mediaList = mediaList;
-    _playerIsSetup = NO;
-}
 
 #if TARGET_OS_IOS
 - (MLFile *)currentlyPlayingMediaFile {
@@ -1033,7 +1036,6 @@ setstuff:
 
 #pragma mark - remote events
 
-#if TARGET_IOS_IOS
 static inline NSArray * RemoteCommandCenterCommandsToHandle(MPRemoteCommandCenter *cc)
 {
     /* commmented out other available commands which we don't support now but may
@@ -1186,7 +1188,6 @@ static inline NSArray * RemoteCommandCenterCommandsToHandle(MPRemoteCommandCente
             break;
     }
 }
-#endif
 
 #pragma mark - background interaction
 

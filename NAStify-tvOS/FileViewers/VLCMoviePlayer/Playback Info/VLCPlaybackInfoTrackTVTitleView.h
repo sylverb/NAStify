@@ -1,17 +1,20 @@
 /*****************************************************************************
- * VLCTrackSelectorHeaderView.h
  * VLC for iOS
  *****************************************************************************
- * Copyright (c) 2014 VideoLAN. All rights reserved.
+ * Copyright (c) 2015 VideoLAN. All rights reserved.
  * $Id$
  *
- * Authors: Felix Paul Kühne <fkuehne # videolan.org>
+ * Authors: Tobias Conradi <videolan # tobias-conradi.de>
  *
  * Refer to the COPYING file of the official project for license.
  *****************************************************************************/
 
 #import <UIKit/UIKit.h>
 
-@interface VLCTrackSelectorHeaderView : UITableViewHeaderFooterView
+@interface VLCPlaybackInfoTrackTVTitleView : UICollectionReusableView
+@property (nonatomic) UILabel *titleLabel;
+
++ (void)registerInCollectionView:(UICollectionView *)collectionView;
++ (NSString *)identifier;
 
 @end
