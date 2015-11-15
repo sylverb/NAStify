@@ -36,6 +36,11 @@
 		950091371BF88FDB00689CA4 /* VLCPlaybackInfoTVViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9500912B1BF88FDA00689CA4 /* VLCPlaybackInfoTVViewController.m */; };
 		9500913A1BF8958E00689CA4 /* VLCPlaybackInfoRateTVViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 950091381BF8958E00689CA4 /* VLCPlaybackInfoRateTVViewController.xib */; };
 		9500913B1BF8958E00689CA4 /* VLCPlaybackInfoTVViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 950091391BF8958E00689CA4 /* VLCPlaybackInfoTVViewController.xib */; };
+		950091421BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9500913D1BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.m */; };
+		950091431BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9500913E1BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.xib */; };
+		950091441BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 950091401BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.m */; };
+		950091451BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 950091411BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.xib */; };
+		950091511BF8D9E700689CA4 /* VLCMaskView.m in Sources */ = {isa = PBXBuildFile; fileRef = 950091501BF8D9E700689CA4 /* VLCMaskView.m */; };
 		953EA82D1BC9454900C799FC /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EA82C1BC9454900C799FC /* VideoToolbox.framework */; };
 		953EA82F1BC9461E00C799FC /* CoreSpotlight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EA82E1BC9461E00C799FC /* CoreSpotlight.framework */; };
 		953EA8891BCAF3E800C799FC /* WatchKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 953EA8881BCAF3E800C799FC /* WatchKit.framework */; };
@@ -187,7 +192,6 @@
 		95AF2E111BDAE5D600C3A81D /* tvos-libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */; };
 		95AF2E121BDAE5D600C3A81D /* tvos-libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF2E101BDAE5D600C3A81D /* tvos-libssl.a */; };
 		95BD7B401BE0C654005BC784 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 95BD7B3E1BE0C654005BC784 /* Localizable.strings */; };
-		95BD825C1BD82749000520B8 /* FileBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F82415D8390A0059428E /* FileBrowserCell.m */; };
 		95DFB7011B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
 		95DFB7021B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
 		95DFB7561B0BA6260002C830 /* AuthorizationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7071B0BA6250002C830 /* AuthorizationClient.m */; };
@@ -1611,6 +1615,14 @@
 		9500912B1BF88FDA00689CA4 /* VLCPlaybackInfoTVViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCPlaybackInfoTVViewController.m; sourceTree = "<group>"; };
 		950091381BF8958E00689CA4 /* VLCPlaybackInfoRateTVViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLCPlaybackInfoRateTVViewController.xib; sourceTree = "<group>"; };
 		950091391BF8958E00689CA4 /* VLCPlaybackInfoTVViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLCPlaybackInfoTVViewController.xib; sourceTree = "<group>"; };
+		9500913C1BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCRemoteBrowsingCollectionViewController.h; sourceTree = "<group>"; };
+		9500913D1BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCRemoteBrowsingCollectionViewController.m; sourceTree = "<group>"; };
+		9500913E1BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLCRemoteBrowsingCollectionViewController.xib; sourceTree = "<group>"; };
+		9500913F1BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCRemoteBrowsingTVCell.h; sourceTree = "<group>"; };
+		950091401BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCRemoteBrowsingTVCell.m; sourceTree = "<group>"; };
+		950091411BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VLCRemoteBrowsingTVCell.xib; sourceTree = "<group>"; };
+		9500914F1BF8D9E700689CA4 /* VLCMaskView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VLCMaskView.h; sourceTree = "<group>"; };
+		950091501BF8D9E700689CA4 /* VLCMaskView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VLCMaskView.m; sourceTree = "<group>"; };
 		953EA82C1BC9454900C799FC /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
 		953EA82E1BC9461E00C799FC /* CoreSpotlight.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreSpotlight.framework; path = System/Library/Frameworks/CoreSpotlight.framework; sourceTree = SDKROOT; };
 		953EA8881BCAF3E800C799FC /* WatchKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchKit.framework; path = System/Library/Frameworks/WatchKit.framework; sourceTree = SDKROOT; };
@@ -3301,6 +3313,14 @@
 		95486DE31BD6E07E0097225C /* FileBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				9500914F1BF8D9E700689CA4 /* VLCMaskView.h */,
+				950091501BF8D9E700689CA4 /* VLCMaskView.m */,
+				9500913C1BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.h */,
+				9500913D1BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.m */,
+				9500913E1BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.xib */,
+				9500913F1BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.h */,
+				950091401BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.m */,
+				950091411BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.xib */,
 				95486DE61BD6E07E0097225C /* TVFileBrowserViewController.h */,
 				95486DE71BD6E07E0097225C /* TVFileBrowserViewController.m */,
 			);
@@ -6231,6 +6251,7 @@
 				95562D6D1BE29C1F006222C3 /* dng.png in Resources */,
 				95562D651BE29C1F006222C3 /* at3.png in Resources */,
 				95562D891BE29C1F006222C3 /* mpg.png in Resources */,
+				950091431BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.xib in Resources */,
 				95562D9A1BE29C1F006222C3 /* rm.png in Resources */,
 				950091051BF68E6D00689CA4 /* .gitkeep in Resources */,
 				95562D811BE29C1F006222C3 /* mlp.png in Resources */,
@@ -6285,6 +6306,7 @@
 				95BD7B401BE0C654005BC784 /* Localizable.strings in Resources */,
 				95562DE41BE50C5B006222C3 /* samba_small.png in Resources */,
 				950091321BF88FDA00689CA4 /* VLCPlaybackInfoTracksTVViewController.xib in Resources */,
+				950091451BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.xib in Resources */,
 				95562DBB1BE2BAA6006222C3 /* freebox.png in Resources */,
 				95562E421BE58575006222C3 /* owncloud.png in Resources */,
 				95486DD91BD6D9E50097225C /* Main.storyboard in Resources */,
@@ -7155,6 +7177,7 @@
 			files = (
 				950091061BF68E6D00689CA4 /* MDFArtist.m in Sources */,
 				95AF2E0E1BD9FF1E00C3A81D /* ServerSettingsWebDavViewController.m in Sources */,
+				950091511BF8D9E700689CA4 /* VLCMaskView.m in Sources */,
 				95AF2DD01BD9A52D00C3A81D /* ftpparse.c in Sources */,
 				9500910B1BF68E6D00689CA4 /* MDFMovieDBFetcher.m in Sources */,
 				957AD1761BF3ED5500798E9F /* VLCSiriRemoteGestureRecognizer.m in Sources */,
@@ -7163,7 +7186,6 @@
 				9500910C1BF68E6D00689CA4 /* MDFMovieDBSessionManager.m in Sources */,
 				9572243F1BD9A2D5009495DF /* CMFtp.m in Sources */,
 				957224361BD9A187009495DF /* CMWebDav.m in Sources */,
-				95BD825C1BD82749000520B8 /* FileBrowserCell.m in Sources */,
 				954874801BD776550097225C /* ServerTypeCell.m in Sources */,
 				957AD18A1BF3F08B00798E9F /* VLCFrostedGlasView.m in Sources */,
 				957322861BDB9F48008D8AD0 /* NSDataAdditions.m in Sources */,
@@ -7196,6 +7218,7 @@
 				957AD1B51BF3F62A00798E9F /* NSString+SupportedMedia.m in Sources */,
 				9548731D1BD711AA0097225C /* dummy.mm in Sources */,
 				954872EE1BD706C40097225C /* ConnectionManager.m in Sources */,
+				950091441BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.m in Sources */,
 				957AD1851BF3EFCB00798E9F /* VLCPlaybackController.m in Sources */,
 				954872EF1BD706C40097225C /* NetworkConnection.m in Sources */,
 				957AD1741BF3ED5500798E9F /* VLCIRTVTapGestureRecognizer.m in Sources */,
@@ -7210,6 +7233,7 @@
 				957322831BDB8ADF008D8AD0 /* ServerSettingsSynologyViewController.m in Sources */,
 				950091081BF68E6D00689CA4 /* MDFHatchetSessionManager.m in Sources */,
 				954872CD1BD6FCE60097225C /* FileItem.m in Sources */,
+				950091421BF8AF1200689CA4 /* VLCRemoteBrowsingCollectionViewController.m in Sources */,
 				95562DDE1BE418C2006222C3 /* CMSamba.m in Sources */,
 				95486E171BD6E07E0097225C /* TVCustomMoviePlayerViewController.m in Sources */,
 				950091071BF68E6D00689CA4 /* MDFHatchetFetcher.m in Sources */,

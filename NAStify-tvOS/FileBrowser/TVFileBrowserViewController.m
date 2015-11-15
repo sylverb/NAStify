@@ -16,6 +16,7 @@
 #import "VLCPlaybackController.h"
 #import "VLCPlayerDisplayController.h"
 #import "VLCFullscreenMovieTVViewController.h"
+#import "VLCRemoteBrowsingTVCell.h"
 
 #import "private.h"
 
@@ -32,9 +33,9 @@
 
 @implementation FileBrowserViewController
 
-- (id)initWithStyle:(UITableViewStyle)style
+- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithStyle:style];
+    self = [super initWithNibName:@"VLCRemoteBrowsingCollectionViewController" bundle:nil];
     if (self)
     {
         self.isConnected = FALSE;
@@ -48,6 +49,8 @@
 {
     [super viewDidLoad];
     
+    self.collectionView.remembersLastFocusedIndexPath = YES;
+
     if (!self.connectionManager)
     {
         self.connectionManager = [[ConnectionManager alloc] init];
@@ -59,7 +62,7 @@
     {
         title = @"/";
     }
-    self.navigationItem.title = title;
+    self.title = title;
     
     self.filteredFilesArray = [[NSMutableArray alloc] init];
 }
@@ -82,13 +85,22 @@
     {
         self.sortingType = SORT_BY_NAME_DESC_FOLDER_FIRST;
     }
+    if ([defaults objectForKey:@"showHidden"])
+    {
+        self.showHidden = [[defaults objectForKey:@"showHidden"] boolValue];
+    }
+    else
+    {
+        self.showHidden = NO;
+    }
     
     if ([self.filesArray count] != 0)
     {
         [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
-        [self.tableView reloadData];
+        [self.collectionView reloadData];
     }
     
+#if 0
     // Delete cached files if needed
     NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
     NSString *cacheFolder = [containerURL.path stringByAppendingString:@"/Cache/"];
@@ -100,6 +112,7 @@
     {
         [[NSFileManager defaultManager] removeItemAtPath:[cacheFolder stringByAppendingPathComponent:file] error:NULL];
     }
+#endif
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -209,116 +222,45 @@
     return NO;
 }
 
-#pragma mark - Table view data source
+#pragma mark - Collection view data source
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 80;
-}
-
-- (UITableView *)activeTableView
-{
-    UITableView *tableView = nil;
-    tableView = self.tableView;
-    
-    return tableView;
-}
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-    // Return the number of sections.
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if ((self.filesListIsValid) && ([self.filesArray count] == 0))
-    {
-        // No files here, put a cell to tell it
-        return 1;
-    }
-    else
-    {
-        return [self.filesArray count];
-    }
+    return [self.filesArray count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath
 {
-    static NSString *FileBrowserCellIdentifier = @"FileBrowserCell";
-    static NSString * TableViewCellIdentifier = @"TableViewCell";
-
-    if ((self.filesListIsValid) && ([self.filesArray count] == 0))
-    {
-        UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:TableViewCellIdentifier];
-        if (cell == nil)
-        {
-            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                          reuseIdentifier:TableViewCellIdentifier];
-        }
-        
-        // Configure the cell...
-        cell.textLabel.text = NSLocalizedString(@"No file here", nil);
-        cell.textLabel.textAlignment = NSTextAlignmentCenter;
-        return cell;
-    }
-    else
-    {
-        FileItem *fileItem = nil;
-        fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
-        
-        FileBrowserCell *fileBrowserCell = (FileBrowserCell *)[tableView dequeueReusableCellWithIdentifier:FileBrowserCellIdentifier];
-        if (fileBrowserCell == nil)
-        {
-            fileBrowserCell = [[FileBrowserCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                     reuseIdentifier:FileBrowserCellIdentifier];
-        }
-#if 0
-        // Remove long tap gesture recognizer if present
-        NSArray *gestureList = [fileBrowserCell gestureRecognizers];
-        for (id gesture in gestureList)
-        {
-            if ([gesture isKindOfClass:[UILongPressGestureRecognizer class]])
-            {
-                [fileBrowserCell removeGestureRecognizer:gesture];
-                break;
-            }
-        }
-        
-        // Long tap recognizer
-        UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressAction:)];
-        [fileBrowserCell addGestureRecognizer:longPressRecognizer];
-#endif
-        
-        // Configure the cell...
-        [fileBrowserCell setFileItem:fileItem
-                        withDelegate:self
-                              andTag:TAG_TEXTFIELD_FILENAME];
-        
-        return fileBrowserCell;
-    }
+    VLCRemoteBrowsingTVCell *browsingCell = (VLCRemoteBrowsingTVCell *) [collectionView dequeueReusableCellWithReuseIdentifier:VLCRemoteBrowsingTVCellIdentifier forIndexPath:indexPath];
+    
+    FileItem *fileItem = nil;
+    fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
+    
+    browsingCell.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCallout];
+    browsingCell.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
+    browsingCell.titleLabel.text = fileItem.name;
+    [browsingCell.thumbnailImageView setImageWithURL:[fileItem urlForImage]];
+    return browsingCell;
 }
 
-#pragma mark - Table view delegate
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self.filesArray count] != 0)
     {
         FileItem *fileItem = nil;
         fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
-
+        
         // Show file if possible
         if (![self openFile:fileItem])
         {
             // For not handled types, show action menu
 //          [self showActionMenuForItemAtIndexPath:indexPath];
         }
-        // deselect the cell
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
 }
+
+#pragma mark - File management
 
 - (void)showMovieViewController
 {
@@ -647,105 +589,108 @@
             {
                 FileItem *fileItem = [[FileItem alloc] init];
                 fileItem.name = [element objectForKey:@"filename"];
-                fileItem.isDir = [[element objectForKey:@"isdir"] boolValue];
-                fileItem.shortPath = self.currentFolder.path;
-                if ([self.currentFolder.path isEqualToString:@"/"])
+                if (self.showHidden || ![fileItem.name hasPrefix:@"."])
                 {
-                    fileItem.path = [@"/" stringByAppendingPathComponent:fileItem.name]; // Path to file
-                }
-                else
-                {
-                    fileItem.path = [self.currentFolder.path stringByAppendingPathComponent:fileItem.name]; // Path to file
-                }
-                if ([element objectForKey:@"path"])
-                {
-                    fileItem.fullPath = [element objectForKey:@"path"]; // Path with filename/foldername
-                }
-                else
-                {
-                    fileItem.fullPath = fileItem.path;
-                }
-                
-                if ([element objectForKey:@"id"])
-                {
-                    fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[element objectForKey:@"id"]];
-                }
-                else
-                {
-                    fileItem.objectIds = self.currentFolder.objectIds;
-                }
-
-                if ([element objectForKey:@"iscompressed"])
-                {
-                    fileItem.isCompressed = [[element objectForKey:@"iscompressed"] boolValue];
-                }
-                else
-                {
-                    fileItem.isCompressed = NO;
-                }
-                
-                if (fileItem.isDir)
-                {
-                    fileItem.fileSize = nil;
-                    fileItem.fileSizeNumber = nil;
-                    fileItem.owner = [element objectForKey:@"owner"];
-                    if ([element objectForKey:@"isejectable"])
+                    fileItem.isDir = [[element objectForKey:@"isdir"] boolValue];
+                    fileItem.shortPath = self.currentFolder.path;
+                    if ([self.currentFolder.path isEqualToString:@"/"])
                     {
-                        fileItem.isEjectable = [[element objectForKey:@"isejectable"] boolValue];
+                        fileItem.path = [@"/" stringByAppendingPathComponent:fileItem.name]; // Path to file
                     }
                     else
                     {
+                        fileItem.path = [self.currentFolder.path stringByAppendingPathComponent:fileItem.name]; // Path to file
+                    }
+                    if ([element objectForKey:@"path"])
+                    {
+                        fileItem.fullPath = [element objectForKey:@"path"]; // Path with filename/foldername
+                    }
+                    else
+                    {
+                        fileItem.fullPath = fileItem.path;
+                    }
+                    
+                    if ([element objectForKey:@"id"])
+                    {
+                        fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[element objectForKey:@"id"]];
+                    }
+                    else
+                    {
+                        fileItem.objectIds = self.currentFolder.objectIds;
+                    }
+                    
+                    if ([element objectForKey:@"iscompressed"])
+                    {
+                        fileItem.isCompressed = [[element objectForKey:@"iscompressed"] boolValue];
+                    }
+                    else
+                    {
+                        fileItem.isCompressed = NO;
+                    }
+                    
+                    if (fileItem.isDir)
+                    {
+                        fileItem.fileSize = nil;
+                        fileItem.fileSizeNumber = nil;
+                        fileItem.owner = [element objectForKey:@"owner"];
+                        if ([element objectForKey:@"isejectable"])
+                        {
+                            fileItem.isEjectable = [[element objectForKey:@"isejectable"] boolValue];
+                        }
+                        else
+                        {
+                            fileItem.isEjectable = NO;
+                        }
+                    }
+                    else
+                    {
+                        if ([element objectForKey:@"type"])
+                        {
+                            fileItem.type = [element objectForKey:@"type"];
+                        }
+                        else
+                        {
+                            fileItem.type = [[fileItem.name componentsSeparatedByString:@"."] lastObject];
+                        }
+                        
+                        if ([element objectForKey:@"filesizenumber"])
+                        {
+                            fileItem.fileSizeNumber = [element objectForKey:@"filesizenumber"];
+                        }
+                        else
+                        {
+                            fileItem.fileSizeNumber = nil;
+                        }
+                        fileItem.fileSize = [[element objectForKey:@"filesizenumber"] stringForNumberOfBytes];
+                        
+                        fileItem.owner = [element objectForKey:@"owner"];
+                        
                         fileItem.isEjectable = NO;
                     }
-                }
-                else
-                {
-                    if ([element objectForKey:@"type"])
+                    fileItem.writeAccess = [[element objectForKey:@"writeaccess"] boolValue];
+                    
+                    /* Date */
+                    if (([element objectForKey:@"date"]) &&
+                        ([[element objectForKey:@"date"] doubleValue] != 0))
                     {
-                        fileItem.type = [element objectForKey:@"type"];
-                    }
-                    else
-                    {
-                        fileItem.type = [[fileItem.name componentsSeparatedByString:@"."] lastObject];
+                        fileItem.fileDateNumber = [NSNumber numberWithDouble:[[element objectForKey:@"date"] doubleValue]];
+                        NSTimeInterval mtime = (NSTimeInterval)[[element objectForKey:@"date"] doubleValue];
+                        NSDate *mdate = [NSDate dateWithTimeIntervalSince1970:mtime];
+                        NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
+                        [formatter setDateStyle:NSDateFormatterMediumStyle];
+                        [formatter setTimeStyle:NSDateFormatterShortStyle];
+                        
+                        fileItem.fileDate = [formatter stringFromDate:mdate];
                     }
                     
-                    if ([element objectForKey:@"filesizenumber"])
+                    /* DownloadURL */
+                    if ([element objectForKey:@"url"])
                     {
-                        fileItem.fileSizeNumber = [element objectForKey:@"filesizenumber"];
+                        fileItem.downloadUrl = [element objectForKey:@"url"];
                     }
-                    else
-                    {
-                        fileItem.fileSizeNumber = nil;
-                    }
-                    fileItem.fileSize = [[element objectForKey:@"filesizenumber"] stringForNumberOfBytes];
                     
-                    fileItem.owner = [element objectForKey:@"owner"];
-                    
-                    fileItem.isEjectable = NO;
+                    [self.filesArray addObject:fileItem];
                 }
-                fileItem.writeAccess = [[element objectForKey:@"writeaccess"] boolValue];
-                
-                /* Date */
-                if (([element objectForKey:@"date"]) &&
-                    ([[element objectForKey:@"date"] doubleValue] != 0))
-                {
-                    fileItem.fileDateNumber = [NSNumber numberWithDouble:[[element objectForKey:@"date"] doubleValue]];
-                    NSTimeInterval mtime = (NSTimeInterval)[[element objectForKey:@"date"] doubleValue];
-                    NSDate *mdate = [NSDate dateWithTimeIntervalSince1970:mtime];
-                    NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
-                    [formatter setDateStyle:NSDateFormatterMediumStyle];
-                    [formatter setTimeStyle:NSDateFormatterShortStyle];
-                    
-                    fileItem.fileDate = [formatter stringFromDate:mdate];
-                }
-                
-                /* DownloadURL */
-                if ([element objectForKey:@"url"])
-                {
-                    fileItem.downloadUrl = [element objectForKey:@"url"];
-                }
-                
-                [self.filesArray addObject:fileItem];
             }
             
             // Sort files array
@@ -770,8 +715,12 @@
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
+#if 0
         // Refresh tableView
         [self.tableView reloadData];
+#else
+        [self.collectionView reloadData];
+#endif
     }
 }
 
@@ -998,14 +947,6 @@
                                                           }];
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
-}
-
-#pragma mark - Memory management
-
-- (void)dealloc
-{
-    // To fix "-[UIView release]: message sent to deallocated instance xxxxx"
-    self.tableView.tableHeaderView = nil;
 }
 
 @end

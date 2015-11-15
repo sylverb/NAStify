@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ConnectionManager.h"
-#import "FileBrowserCell.h"
 #import "NSMutableArrayAdditions.h"
 #import "NSNumberAdditions.h"
+#import "VLCRemoteBrowsingCollectionViewController.h"
 
 typedef enum
 {
@@ -19,7 +19,7 @@ typedef enum
     DOWNLOAD_ACTION_PREVIEW,
 } DOWNLOAD_ACTION;
 
-@interface FileBrowserViewController : UITableViewController <CMDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UINavigationBarDelegate>
+@interface FileBrowserViewController : VLCRemoteBrowsingCollectionViewController <CMDelegate,UITextFieldDelegate, UINavigationBarDelegate>
 {
 }
 
@@ -32,6 +32,7 @@ typedef enum
 @property(nonatomic, strong) NSMutableArray *filesArray;
 @property(nonatomic, strong) NSMutableArray *filteredFilesArray;
 @property(nonatomic) BOOL filesListIsValid;
+@property(nonatomic) BOOL showHidden;
 
 
 /* Multiple Selection handling */

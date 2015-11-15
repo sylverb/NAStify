@@ -47,6 +47,7 @@
 @property(nonatomic, strong) NSArray *sortingOptions;
 @property(nonatomic) BOOL descending;
 @property(nonatomic) BOOL foldersFirst;
+@property(nonatomic) BOOL showHidden;
 @property(nonatomic) NSInteger selectedSortingOptionIndex;
 #endif
 

@@ -200,6 +200,15 @@
     self.foldersFirst = NO;
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
     
+    if ([defaults objectForKey:@"showHidden"])
+    {
+        self.showHidden = [[defaults objectForKey:@"showHidden"] boolValue];
+    }
+    else
+    {
+        self.showHidden = NO;
+    }
+
     if ([defaults objectForKey:@"sortingType"])
     {
         self.sortingType = (FileItemSortType)[[defaults objectForKey:@"sortingType"] integerValue];
@@ -375,7 +384,7 @@
 #if TARGET_OS_IOS
             numberOfRows = 1;
 #elif TARGET_OS_TV
-            numberOfRows = 3;
+            numberOfRows = 4;
 #endif
             break;
         }
@@ -646,6 +655,38 @@
                     
                     
                     [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Order :",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:0];
+                    
+                    cell = segCtrlCell;
+                    
+                    break;
+                }
+                case 3:
+                {
+                    NSInteger selectedIndex = 0;
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell3Identifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedControllerCell3Identifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Yes",nil),
+                                                                          NSLocalizedString(@"No",nil),
+                                                                          nil]];
+                    }
+                    
+                    if (self.showHidden)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Show hidden files:",nil)
                                           withSelectedIndex:selectedIndex
                                                      andTag:0];
                     
@@ -1353,6 +1394,13 @@
                 {
                     self.descending = !self.descending;
                     [self saveSorting];
+                    [self.tableView reloadData];
+                    break;
+                }
+                case 3:
+                {
+                    self.showHidden = !self.showHidden;
+                    [defaults setBool:self.showHidden forKey:@"showHidden"];
                     [self.tableView reloadData];
                     break;
                 }

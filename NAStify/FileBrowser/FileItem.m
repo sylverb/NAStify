@@ -230,6 +230,34 @@
     return imageForFile;
 }
 
+#if TARGET_OS_TV
+- (NSURL *)urlForImage
+{
+    NSURL *url = nil;
+    switch ([self fileType])
+    {
+        case FILETYPE_FOLDER:
+        {
+            url = [[NSBundle mainBundle]
+                            URLForResource: @"folder" withExtension:@"png"];
+            break;
+        }
+        default :
+        {
+            url = [[NSBundle mainBundle]
+                   URLForResource: [self.type lowercaseString] withExtension:@"png"];
+            if (!url)
+            {
+                url = [[NSBundle mainBundle]
+                       URLForResource: @"unknown" withExtension:@"png"];
+            }
+            break;
+        }
+    }
+    return url;
+}
+#endif
+
 - (NSString *)description
 {
     NSMutableString *description = [NSMutableString string];

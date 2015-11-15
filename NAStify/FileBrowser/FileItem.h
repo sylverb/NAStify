@@ -49,5 +49,8 @@ typedef enum _FILETYPE
 
 /* get UIImage for file type */
 - (UIImage *)image;
+#if TARGET_OS_TV
+- (NSURL *)urlForImage;
+#endif
 
 @end
