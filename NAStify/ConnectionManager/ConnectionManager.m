@@ -202,6 +202,16 @@
     return connection;
 }
 
+- (NetworkConnection *)urlForThumbnail:(FileItem *)file
+{
+    NetworkConnection *connection = nil;
+    if ([[self idCM] respondsToSelector:@selector(urlForThumbnail:)])
+    {
+        connection = [[self idCM] urlForThumbnail:file];
+    }
+    return connection;
+}
+
 #pragma mark -
 #pragma mark optional features methods
 

@@ -288,6 +288,67 @@
   	return networkConnection;
 }
 
+- (NetworkConnection *)urlForThumbnail:(FileItem *)file
+{
+    NetworkConnection *networkConnection = nil;
+    
+    if ([[file.objectIds lastObject] isKindOfClass:[NSString class]])
+    {
+        return networkConnection;
+    }
+        
+    NSArray *uriCollectionKeys = [[file.objectIds lastObject] allKeys];
+    NSUInteger count = uriCollectionKeys.count;
+    NSRange position;
+    NSInteger correctIndex = -1;
+    // Look for image (thumbnail)
+    for (NSInteger i = 0; i < count; i++)
+    {
+        position = [uriCollectionKeys[i] rangeOfString:@"http-get:*:image/"];
+        if (position.location != NSNotFound)
+        {
+            position = [uriCollectionKeys[i] rangeOfString:@"DLNA.ORG_PN=JPEG_TN"];
+            if (position.location != NSNotFound)
+            {
+                correctIndex = i;
+            }
+        }
+    }
+    // Look for image (med)
+    if (correctIndex < 0)
+    {
+        for (NSInteger i = 0; i < count; i++)
+        {
+            position = [uriCollectionKeys[i] rangeOfString:@"DLNA.ORG_PN=JPEG_MED"];
+            if (position.location != NSNotFound)
+                correctIndex = i;
+        }
+    }
+    
+    // If not found, look for image (any)
+    if (correctIndex < 0)
+    {
+        for (NSInteger i = 0; i < count; i++)
+        {
+            position = [uriCollectionKeys[i] rangeOfString:@"http-get:*:image/"];
+            if (position.location != NSNotFound)
+                correctIndex = i;
+        }
+    }
+    
+    if (correctIndex >= 0)
+    {
+        NSArray *uriCollectionObjects = [[file.objectIds lastObject] allValues];
+        
+        networkConnection = [[NetworkConnection alloc] init];
+        networkConnection.url = [NSURL URLWithString:uriCollectionObjects[correctIndex]];
+        networkConnection.urlType = URLTYPE_HTTP;
+    }
+    
+    NSLog(@"thumbnail networkConnection.url %@",networkConnection.url);
+    return networkConnection;
+}
+
 #pragma mark - supported features
 
 - (long long)supportedFeaturesAtPath:(NSString *)path

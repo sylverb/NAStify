@@ -303,6 +303,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
         });
     };
 
+    self.manager.securityPolicy.validatesDomainName = NO;
     self.manager.securityPolicy.allowInvalidCertificates = self.userAccount.acceptUntrustedCertificate;
     self.manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     NSString *password = [SSKeychain passwordForService:self.userAccount.uuid

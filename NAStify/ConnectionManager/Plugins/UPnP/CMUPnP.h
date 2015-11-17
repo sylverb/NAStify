@@ -44,6 +44,7 @@
 
 /* File URL requests */
 - (NetworkConnection *)urlForFile:(FileItem *)file;
+- (NetworkConnection *)urlForThumbnail:(FileItem *)file;
 
 /* Server features */
 - (long long)supportedFeaturesAtPath:(NSString *)path;

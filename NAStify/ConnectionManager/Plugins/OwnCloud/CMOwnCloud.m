@@ -161,12 +161,13 @@
 
 - (BOOL)login
 {
+    AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
     if (self.userAccount.acceptUntrustedCertificate)
     {
-        AFSecurityPolicy *securityPolicy = [AFSecurityPolicy defaultPolicy];
         securityPolicy.allowInvalidCertificates = YES;
-        [self.ocCommunication setSecurityPolicy:securityPolicy];
     }
+    securityPolicy.validatesDomainName = NO;
+    [self.ocCommunication setSecurityPolicy:securityPolicy];
     
     NSString *password = [SSKeychain passwordForService:self.userAccount.uuid
                                                 account:@"password"];

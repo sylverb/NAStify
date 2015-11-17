@@ -100,6 +100,7 @@ typedef enum _SHARING_VALIDITY_UNIT
 
 - (NetworkConnection *)urlForFile:(FileItem *)file;
 - (NetworkConnection *)urlForVideo:(FileItem *)file;
+- (NetworkConnection *)urlForThumbnail:(FileItem *)file;
 
 - (void)spaceInfoAtPath:(FileItem *)folder;
 - (void)deleteFiles:(NSArray *)files;
@@ -174,6 +175,7 @@ typedef enum _SHARING_VALIDITY_UNIT
 
 - (NetworkConnection *)urlForFile:(FileItem *)file;
 - (NetworkConnection *)urlForVideo:(FileItem *)file;
+- (NetworkConnection *)urlForThumbnail:(FileItem *)file;
 
 /* Server features */
 

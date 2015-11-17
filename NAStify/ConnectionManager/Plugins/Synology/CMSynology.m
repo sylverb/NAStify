@@ -368,7 +368,6 @@
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
     
-    self.manager.securityPolicy.allowInvalidCertificates = self.userAccount.acceptUntrustedCertificate;
     self.manager.requestSerializer = [AFJSONRequestSerializer serializer];
 
     [self.manager POST:@"http://global.quickconnect.to/Serv.php"
@@ -448,6 +447,7 @@
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
     
+    self.manager.securityPolicy.validatesDomainName = NO;
     self.manager.securityPolicy.allowInvalidCertificates = self.userAccount.acceptUntrustedCertificate;
     self.manager.requestSerializer = [AFHTTPRequestSerializer serializer];
 
@@ -6091,8 +6091,6 @@
         
         // Start the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-        
-        self.manager.securityPolicy.allowInvalidCertificates = self.userAccount.acceptUntrustedCertificate;
         
         // Reset HTTP header
         self.manager.requestSerializer = [AFHTTPRequestSerializer serializer];

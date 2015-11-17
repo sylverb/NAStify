@@ -423,25 +423,8 @@ typedef enum _SETTINGS_TAG
                 }
                 case 1: // Certificate
                 {
-                    if (!self.userAccount.acceptUntrustedCertificate)
-                    {
-                        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Warning",nil)
-                                                                                       message:NSLocalizedString(@"Video/Audio playback is not yet supported with untrusted certificates",nil)
-                                                                                preferredStyle:UIAlertControllerStyleAlert];
-                        
-                        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
-                                                                                style:UIAlertActionStyleDefault
-                                                                              handler:^(UIAlertAction * action) {
-                                                                                  [alert dismissViewControllerAnimated:YES completion:nil];
-                                                                              }];
-                        [alert addAction:defaultAction];
-                        [self presentViewController:alert animated:YES completion:nil];
-                    }
-                    else
-                    {
-                        self.userAccount.acceptUntrustedCertificate = !self.userAccount.acceptUntrustedCertificate;
-                        [self.tableView reloadData];
-                    }
+                    self.userAccount.acceptUntrustedCertificate = !self.userAccount.acceptUntrustedCertificate;
+                    [self.tableView reloadData];
                     break;
                 }
                 default:
