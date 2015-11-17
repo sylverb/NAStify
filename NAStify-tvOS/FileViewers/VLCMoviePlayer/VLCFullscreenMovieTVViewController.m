@@ -41,6 +41,8 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 
 @property (nonatomic, readonly, getter=isSeekable) BOOL seekable;
 
+@property (nonatomic) NSSet<UIGestureRecognizer *> *simultaneousGestureRecognizers;
+
 @end
 
 @implementation VLCFullscreenMovieTVViewController
@@ -76,7 +78,6 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     self.bottomOverlayView.alpha = 0.0;
 
     self.bufferingLabel.text = NSLocalizedString(@"PLEASE_WAIT", nil);
-
     // Swipe for settings view
     self.swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 1920, 40)];
     self.swipeSettingsLabel.text = NSLocalizedString(@"SWIPE_INFO", nil);
@@ -85,11 +86,13 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     self.swipeSettingsLabel.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:self.swipeSettingsLabel];
 
-    // Panning and Swiping
+    NSMutableSet<UIGestureRecognizer *> *simultaneousGestureRecognizers = [NSMutableSet set];
 
+    // Panning and Swiping
     UIPanGestureRecognizer *panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(panGesture:)];
     panGestureRecognizer.delegate = self;
     [self.view addGestureRecognizer:panGestureRecognizer];
+    [simultaneousGestureRecognizers addObject:panGestureRecognizer];
 
     // Button presses
     UITapGestureRecognizer *playpauseGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(playPausePressed)];
@@ -118,6 +121,9 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     VLCSiriRemoteGestureRecognizer *siriArrowRecognizer = [[VLCSiriRemoteGestureRecognizer alloc] initWithTarget:self action:@selector(handleSiriRemote:)];
     siriArrowRecognizer.delegate = self;
     [self.view addGestureRecognizer:siriArrowRecognizer];
+    [simultaneousGestureRecognizers addObject:siriArrowRecognizer];
+
+    self.simultaneousGestureRecognizers = simultaneousGestureRecognizers;
 
     self.audioView.hidden = YES;
     self.audioArtworkImageView.animateImageSetting = YES;
@@ -139,10 +145,6 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
     vpc.delegate = self;
     [vpc recoverPlaybackState];
-    self.audioArtistLabel.text = @"";
-    self.audioAlbumNameLabel.text = @"";
-    self.audioDescriptionTextView.text = @"";
-    self.bufferingLabel.hidden = NO;
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -656,7 +658,7 @@ static const NSInteger VLCJumpInterval = 10000; // 10 seconds
 
 - (void)prepareForMediaPlayback:(VLCPlaybackController *)controller
 {
-    APLog(@"%s", __PRETTY_FUNCTION__);
+    self.audioView.hidden = YES;
 }
 
 - (void)playbackDidStop:(NSNotification *)aNotification
@@ -698,7 +700,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
                                        album:(NSString *)album
                                    audioOnly:(BOOL)audioOnly
 {
-//    self.titleLabel.text = title;
+    //self.titleLabel.text = title;
 
     if (audioOnly) {
         self.audioArtworkImageView.image = nil;
@@ -787,7 +789,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
 }
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
-    return YES;
+    return [self.simultaneousGestureRecognizers containsObject:gestureRecognizer];
 }
 
 #pragma mark - meta data recipient
