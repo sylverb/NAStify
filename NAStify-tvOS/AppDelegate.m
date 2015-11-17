@@ -36,7 +36,7 @@
                                   kVLCSettingPlaybackForwardSkipLength : kVLCSettingPlaybackForwardSkipLengthDefaultValue,
                                   kVLCSettingPlaybackBackwardSkipLength : kVLCSettingPlaybackBackwardSkipLengthDefaultValue,
                                   kNASTifySettingPlayerType : @(kNASTifySettingPlayerTypeInternal),
-                                  kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeQTVLC)};
+                                  kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeVLCOnly)};
     [defaults registerDefaults:appDefaults];
 }
 
