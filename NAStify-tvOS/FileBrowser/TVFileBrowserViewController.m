@@ -97,9 +97,9 @@
     if ([self.filesArray count] != 0)
     {
         [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
-        [self.collectionView reloadData];
     }
-    
+    [self.collectionView reloadData];
+
 #if 0
     // Delete cached files if needed
     NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
@@ -248,6 +248,9 @@
 {
     if ([self.filesArray count] != 0)
     {
+        self.restoreLastPathIndex = YES;
+        self.lastIndexPath = indexPath;
+        
         FileItem *fileItem = nil;
         fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
         
@@ -258,6 +261,26 @@
 //          [self showActionMenuForItemAtIndexPath:indexPath];
         }
     }
+}
+
+- (BOOL)collectionView:(UICollectionView *)collectionView canFocusItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"canFocusItemAtIndexPath %ld",(long)indexPath.row);
+    if (self.lastIndexPath)
+    {
+        self.restoreLastPathIndex = NO;
+        NSLog(@"canFocusItemAtIndexPath lastIndexPath %ld",(long)self.lastIndexPath.row);
+        return [indexPath isEqual:self.lastIndexPath];
+    }
+    NSLog(@"canFocusItemAtIndexPath self.lastIndexPath nil");
+    return YES;
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didUpdateFocusInContext:(UICollectionViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator
+{
+    NSLog(@"didUpdateFocusInContext");
+    if (self.restoreLastPathIndex == NO)
+        self.lastIndexPath = nil;
 }
 
 #pragma mark - File management
