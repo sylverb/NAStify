@@ -102,5 +102,8 @@
 #define kNASTifySettingExternalPlayerTypeOplayer    3
 #define kNASTifySettingExternalPlayerTypeGoodplayer 4
 #define kNASTifySettingExternalPlayerTypePlex       5
+#define kNASTifySettingBrowserType          @"BrowserType"
+#define kNASTifySettingBrowserTypeGrid              0
+#define kNASTifySettingBrowserTypeLine              1
 
 #endif /* NAStifyConstants_h */

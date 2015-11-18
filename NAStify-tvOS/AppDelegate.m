@@ -36,7 +36,8 @@
                                   kVLCSettingPlaybackForwardSkipLength : kVLCSettingPlaybackForwardSkipLengthDefaultValue,
                                   kVLCSettingPlaybackBackwardSkipLength : kVLCSettingPlaybackBackwardSkipLengthDefaultValue,
                                   kNASTifySettingPlayerType : @(kNASTifySettingPlayerTypeInternal),
-                                  kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeVLCOnly)};
+                                  kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeVLCOnly),
+                                  kNASTifySettingBrowserType : @(kNASTifySettingBrowserTypeGrid)};
     [defaults registerDefaults:appDefaults];
 }
 

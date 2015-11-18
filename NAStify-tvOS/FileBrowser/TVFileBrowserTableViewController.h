@@ -1,5 +1,5 @@
 //
-//  FileBrowserViewController.h
+//  FileBrowserTableViewController.h
 //  NAStify-tvOS
 //
 //  Created by Sylver Bruneau.
@@ -8,18 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "ConnectionManager.h"
+#import "FileBrowserCell.h"
 #import "NSMutableArrayAdditions.h"
 #import "NSNumberAdditions.h"
-#import "VLCRemoteBrowsingCollectionViewController.h"
+#import "TVFileBrowserCollectionViewController.h"
 
-typedef enum
+/*typedef enum
 {
     DOWNLOAD_ACTION_DOWNLOAD,
     DOWNLOAD_ACTION_SUBTITLE,
     DOWNLOAD_ACTION_PREVIEW,
-} DOWNLOAD_ACTION;
+} DOWNLOAD_ACTION;*/
 
-@interface FileBrowserCollectionViewController : VLCRemoteBrowsingCollectionViewController <CMDelegate,UITextFieldDelegate, UINavigationBarDelegate>
+@interface FileBrowserTableViewController : UITableViewController <CMDelegate, UITableViewDataSource, UITableViewDelegate, UITextFieldDelegate, UINavigationBarDelegate>
 {
 }
 
@@ -33,8 +34,6 @@ typedef enum
 @property(nonatomic, strong) NSMutableArray *filteredFilesArray;
 @property(nonatomic) BOOL filesListIsValid;
 @property(nonatomic) BOOL showHidden;
-@property(nonatomic) BOOL restoreLastPathIndex;
-@property(nonatomic, strong) NSIndexPath *lastIndexPath;
 
 /* Multiple Selection handling */
 //@property(nonatomic, strong) UITableView *multipleSelectionTableView;

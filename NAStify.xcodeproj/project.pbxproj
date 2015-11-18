@@ -48,7 +48,7 @@
 		95486DCD1BD6D9E50097225C /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 95486DCC1BD6D9E50097225C /* main.m */; };
 		95486DD01BD6D9E50097225C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 95486DCF1BD6D9E50097225C /* AppDelegate.m */; };
 		95486DD91BD6D9E50097225C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 95486DD71BD6D9E50097225C /* Main.storyboard */; };
-		95486E161BD6E07E0097225C /* TVFileBrowserViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95486DE71BD6E07E0097225C /* TVFileBrowserViewController.m */; };
+		95486E161BD6E07E0097225C /* TVFileBrowserCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95486DE71BD6E07E0097225C /* TVFileBrowserCollectionViewController.m */; };
 		95486E171BD6E07E0097225C /* TVCustomMoviePlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95486DEB1BD6E07E0097225C /* TVCustomMoviePlayerViewController.m */; };
 		95486E2B1BD6E07E0097225C /* TVServersListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95486E141BD6E07E0097225C /* TVServersListViewController.m */; };
 		95486E3E1BD6E5020097225C /* libTVVLCKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95486E3D1BD6E5020097225C /* libTVVLCKit.a */; };
@@ -152,6 +152,8 @@
 		95562E151BE577BE006222C3 /* ServerSettingsOwnCloudViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D57CCF431A3E331200D9E6A9 /* ServerSettingsOwnCloudViewController.m */; };
 		95562E411BE58575006222C3 /* owncloud_small.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562E3F1BE58575006222C3 /* owncloud_small.png */; };
 		95562E421BE58575006222C3 /* owncloud.png in Resources */ = {isa = PBXBuildFile; fileRef = 95562E401BE58575006222C3 /* owncloud.png */; };
+		956A2DFC1BFD1C0200682088 /* FileBrowserCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F82415D8390A0059428E /* FileBrowserCell.m */; };
+		956A2E041BFD202F00682088 /* TVFileBrowserTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 956A2E031BFD202F00682088 /* TVFileBrowserTableViewController.m */; };
 		957224361BD9A187009495DF /* CMWebDav.m in Sources */ = {isa = PBXBuildFile; fileRef = F9115D2D15DA9047004259D3 /* CMWebDav.m */; };
 		9572243F1BD9A2D5009495DF /* CMFtp.m in Sources */ = {isa = PBXBuildFile; fileRef = F9345CAE15DC6321004035A9 /* CMFtp.m */; };
 		957322741BDAED6F008D8AD0 /* tvos-libssh2.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957322731BDAED6F008D8AD0 /* tvos-libssh2.a */; };
@@ -1633,8 +1635,8 @@
 		95486DCF1BD6D9E50097225C /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		95486DD81BD6D9E50097225C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		95486DDA1BD6D9E50097225C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		95486DE61BD6E07E0097225C /* TVFileBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVFileBrowserViewController.h; sourceTree = "<group>"; };
-		95486DE71BD6E07E0097225C /* TVFileBrowserViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVFileBrowserViewController.m; sourceTree = "<group>"; };
+		95486DE61BD6E07E0097225C /* TVFileBrowserCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVFileBrowserCollectionViewController.h; sourceTree = "<group>"; };
+		95486DE71BD6E07E0097225C /* TVFileBrowserCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVFileBrowserCollectionViewController.m; sourceTree = "<group>"; };
 		95486DEA1BD6E07E0097225C /* TVCustomMoviePlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVCustomMoviePlayerViewController.h; sourceTree = "<group>"; };
 		95486DEB1BD6E07E0097225C /* TVCustomMoviePlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVCustomMoviePlayerViewController.m; sourceTree = "<group>"; };
 		95486E131BD6E07E0097225C /* TVServersListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVServersListViewController.h; sourceTree = "<group>"; };
@@ -1720,6 +1722,8 @@
 		95562DE51BE50FB9006222C3 /* samba.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = samba.png; sourceTree = "<group>"; };
 		95562E3F1BE58575006222C3 /* owncloud_small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = owncloud_small.png; sourceTree = "<group>"; };
 		95562E401BE58575006222C3 /* owncloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = owncloud.png; sourceTree = "<group>"; };
+		956A2E021BFD202F00682088 /* TVFileBrowserTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TVFileBrowserTableViewController.h; sourceTree = "<group>"; };
+		956A2E031BFD202F00682088 /* TVFileBrowserTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVFileBrowserTableViewController.m; sourceTree = "<group>"; };
 		9572243A1BD9A280009495DF /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = external/libidn/lib/libidn.a; sourceTree = "<group>"; };
 		957322731BDAED6F008D8AD0 /* tvos-libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libssh2.a"; path = "external/libssh2/lib/tvos-libssh2.a"; sourceTree = "<group>"; };
 		9573227A1BDAF4FC008D8AD0 /* tvos_libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = tvos_libcurl.a; path = external/curl/lib/tvos_libcurl.a; sourceTree = "<group>"; };
@@ -3321,8 +3325,10 @@
 				9500913F1BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.h */,
 				950091401BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.m */,
 				950091411BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.xib */,
-				95486DE61BD6E07E0097225C /* TVFileBrowserViewController.h */,
-				95486DE71BD6E07E0097225C /* TVFileBrowserViewController.m */,
+				95486DE61BD6E07E0097225C /* TVFileBrowserCollectionViewController.h */,
+				95486DE71BD6E07E0097225C /* TVFileBrowserCollectionViewController.m */,
+				956A2E021BFD202F00682088 /* TVFileBrowserTableViewController.h */,
+				956A2E031BFD202F00682088 /* TVFileBrowserTableViewController.m */,
 			);
 			path = FileBrowser;
 			sourceTree = "<group>";
@@ -7200,6 +7206,7 @@
 				9548731E1BD712450097225C /* NSMutableArrayAdditions.m in Sources */,
 				950091371BF88FDB00689CA4 /* VLCPlaybackInfoTVViewController.m in Sources */,
 				957AD1751BF3ED5500798E9F /* VLCPlaybackControlsFocusView.m in Sources */,
+				956A2E041BFD202F00682088 /* TVFileBrowserTableViewController.m in Sources */,
 				950091331BF88FDA00689CA4 /* VLCPlaybackInfoTrackTVCell.m in Sources */,
 				9500910E1BF68E6D00689CA4 /* MDFTVShow.m in Sources */,
 				9548731B1BD70FBF0097225C /* SBNetworkActivityIndicator.m in Sources */,
@@ -7227,6 +7234,7 @@
 				957AD1C61BF3F7C200798E9F /* VLCPlaybackNavigationController.m in Sources */,
 				954872E81BD705B70097225C /* UserAccount.m in Sources */,
 				957AD1771BF3ED5500798E9F /* VLCTransportBar.m in Sources */,
+				956A2DFC1BFD1C0200682088 /* FileBrowserCell.m in Sources */,
 				95562E151BE577BE006222C3 /* ServerSettingsOwnCloudViewController.m in Sources */,
 				954872CF1BD6FD880097225C /* ServerCell.m in Sources */,
 				957AD1AA1BF3F56B00798E9F /* VLCActivityManager.m in Sources */,
@@ -7244,7 +7252,7 @@
 				95486E2B1BD6E07E0097225C /* TVServersListViewController.m in Sources */,
 				95562DE21BE5065A006222C3 /* ServerSettingsSambaViewController.m in Sources */,
 				950091091BF68E6D00689CA4 /* MDFMediaObject.m in Sources */,
-				95486E161BD6E07E0097225C /* TVFileBrowserViewController.m in Sources */,
+				95486E161BD6E07E0097225C /* TVFileBrowserCollectionViewController.m in Sources */,
 				957AD1861BF3EFCB00798E9F /* VLCPlayerDisplayController.m in Sources */,
 				957322841BDB94A4008D8AD0 /* ServerSettingsQnapViewController.m in Sources */,
 				957322D01BDF8131008D8AD0 /* VlcSettingsViewController.m in Sources */,

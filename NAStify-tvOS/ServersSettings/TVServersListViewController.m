@@ -8,7 +8,8 @@
 
 #import "TVServersListViewController.h"
 #import "ConnectionManager.h"
-#import "TVFileBrowserViewController.h"
+#import "TVFileBrowserCollectionViewController.h"
+#import "TVFileBrowserTableViewController.h"
 #import "ServerTypeViewController.h"
 #import "SSKeychain.h"
 
@@ -307,6 +308,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
     switch (indexPath.section)
     {
         case 0: // Servers
@@ -318,12 +320,22 @@
                 rootFolder.path = @"/";
                 rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
                 
-                FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] initWithNibName:nil bundle:nil];
-                fileBrowserViewController.userAccount = [self.accounts objectAtIndex:indexPath.row];
-                fileBrowserViewController.currentFolder = rootFolder;
-                
-                [self.navigationController pushViewController:fileBrowserViewController animated:YES];
-                
+                if ([[defaults objectForKey:kNASTifySettingBrowserType] integerValue] == kNASTifySettingBrowserTypeGrid)
+                {
+                    FileBrowserCollectionViewController *fileBrowserViewController = [[FileBrowserCollectionViewController alloc] initWithNibName:nil bundle:nil];
+                    fileBrowserViewController.userAccount = [self.accounts objectAtIndex:indexPath.row];
+                    fileBrowserViewController.currentFolder = rootFolder;
+                    
+                    [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                }
+                else
+                {
+                    FileBrowserTableViewController *fileBrowserViewController = [[FileBrowserTableViewController alloc] init];
+                    fileBrowserViewController.userAccount = [self.accounts objectAtIndex:indexPath.row];
+                    fileBrowserViewController.currentFolder = rootFolder;
+                    
+                    [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                }
             }
             else
             {
@@ -349,11 +361,22 @@
                 rootFolder.path = @"/";
                 rootFolder.objectIds = [NSArray arrayWithObject:@"0"];
                 
-                FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] initWithNibName:nil bundle:nil];
-                fileBrowserViewController.userAccount = account;
-                fileBrowserViewController.currentFolder = rootFolder;
-                
-                [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                if ([[defaults objectForKey:kNASTifySettingBrowserType] integerValue] == kNASTifySettingBrowserTypeGrid)
+                {
+                    FileBrowserCollectionViewController *fileBrowserViewController = [[FileBrowserCollectionViewController alloc] initWithNibName:nil bundle:nil];
+                    fileBrowserViewController.userAccount = account;
+                    fileBrowserViewController.currentFolder = rootFolder;
+                    
+                    [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                }
+                else
+                {
+                    FileBrowserTableViewController *fileBrowserViewController = [[FileBrowserTableViewController alloc] init];
+                    fileBrowserViewController.userAccount = account;
+                    fileBrowserViewController.currentFolder = rootFolder;
+                    
+                    [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+                }
             }
             break;
         }
@@ -369,11 +392,22 @@
             rootFolder.path = @"/";
             rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
             
-            FileBrowserViewController *fileBrowserViewController = [[FileBrowserViewController alloc] initWithNibName:nil bundle:nil];
-            fileBrowserViewController.userAccount = account;
-            fileBrowserViewController.currentFolder = rootFolder;
-            
-            [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+            if ([[defaults objectForKey:kNASTifySettingBrowserType] integerValue] == kNASTifySettingBrowserTypeGrid)
+            {
+                FileBrowserCollectionViewController *fileBrowserViewController = [[FileBrowserCollectionViewController alloc] initWithNibName:nil bundle:nil];
+                fileBrowserViewController.userAccount = account;
+                fileBrowserViewController.currentFolder = rootFolder;
+                
+                [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+            }
+            else
+            {
+                FileBrowserTableViewController *fileBrowserViewController = [[FileBrowserTableViewController alloc] init];
+                fileBrowserViewController.userAccount = account;
+                fileBrowserViewController.currentFolder = rootFolder;
+                
+                [self.navigationController pushViewController:fileBrowserViewController animated:YES];
+            }
             break;
         }
         default:

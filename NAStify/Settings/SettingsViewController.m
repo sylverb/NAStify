@@ -384,7 +384,7 @@
 #if TARGET_OS_IOS
             numberOfRows = 1;
 #elif TARGET_OS_TV
-            numberOfRows = 4;
+            numberOfRows = 5;
 #endif
             break;
         }
@@ -545,12 +545,11 @@
 #if TARGET_OS_TV
     static NSString *SegmentedControllerCell3Identifier = @"SegmentedControllerCell3";
     static NSString *SegmentedControllerCell4Identifier = @"SegmentedControllerCell4";
+    static NSString *SegmentedControllerCell5Identifier = @"SegmentedControllerCell5";
 #endif
     UITableViewCell *cell = nil;
     
-#if TARGET_OS_IOS
     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-#endif
     
     switch (indexPath.section)
     {
@@ -687,6 +686,38 @@
                     
                     
                     [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Show hidden files:",nil)
+                                          withSelectedIndex:selectedIndex
+                                                     andTag:0];
+                    
+                    cell = segCtrlCell;
+                    
+                    break;
+                }
+                case 4:
+                {
+                    NSInteger selectedIndex = 0;
+                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell5Identifier];
+                    if (segCtrlCell == nil)
+                    {
+                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                         reuseIdentifier:SegmentedControllerCell5Identifier
+                                                               withItems:[NSArray arrayWithObjects:
+                                                                          NSLocalizedString(@"Grid",nil),
+                                                                          NSLocalizedString(@"Line",nil),
+                                                                          nil]];
+                    }
+                    
+                    if ([[defaults objectForKey:kNASTifySettingBrowserType] integerValue] == kNASTifySettingBrowserTypeGrid)
+                    {
+                        selectedIndex = 0;
+                    }
+                    else
+                    {
+                        selectedIndex = 1;
+                    }
+                    
+                    
+                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"File browser type:",nil)
                                           withSelectedIndex:selectedIndex
                                                      andTag:0];
                     
@@ -1401,6 +1432,19 @@
                 {
                     self.showHidden = !self.showHidden;
                     [defaults setBool:self.showHidden forKey:@"showHidden"];
+                    [self.tableView reloadData];
+                    break;
+                }
+                case 4:
+                {
+                    if ([[defaults objectForKey:kNASTifySettingBrowserType] integerValue] == kNASTifySettingBrowserTypeGrid)
+                    {
+                        [defaults setObject:@(kNASTifySettingBrowserTypeLine) forKey:kNASTifySettingBrowserType];
+                    }
+                    else
+                    {
+                        [defaults setObject:@(kNASTifySettingBrowserTypeGrid) forKey:kNASTifySettingBrowserType];
+                    }
                     [self.tableView reloadData];
                     break;
                 }

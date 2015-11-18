@@ -1,5 +1,5 @@
 //
-//  FileBrowserViewController.m
+//  FileBrowserTableViewController.m
 //  NAStify-tvOS
 //
 //  Created by Sylver Bruneau.
@@ -7,7 +7,7 @@
 //
 
 #import <AVKit/AVKit.h>
-#import "TVFileBrowserCollectionViewController.h"
+#import "TVFileBrowserTableViewController.h"
 #import "FileItem.h"
 #import "SSKeychain.h"
 
@@ -16,26 +16,25 @@
 #import "VLCPlaybackController.h"
 #import "VLCPlayerDisplayController.h"
 #import "VLCFullscreenMovieTVViewController.h"
-#import "VLCRemoteBrowsingTVCell.h"
 
 #import "private.h"
 
-@interface FileBrowserCollectionViewController (Private)
+@interface FileBrowserTableViewController (Private)
 - (void)triggerReconnect;
 - (BOOL)getSubtitleFileForMedia:(FileItem *)media;
 @end
 
-@interface FileBrowserCollectionViewController ()
+@interface FileBrowserTableViewController ()
 {
     VLCMediaPlayer *_mediaplayer;
 }
 @end
 
-@implementation FileBrowserCollectionViewController
+@implementation FileBrowserTableViewController
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithStyle:(UITableViewStyle)style
 {
-    self = [super initWithNibName:@"VLCRemoteBrowsingCollectionViewController" bundle:nil];
+    self = [super initWithStyle:style];
     if (self)
     {
         self.isConnected = FALSE;
@@ -49,8 +48,6 @@
 {
     [super viewDidLoad];
     
-    self.collectionView.remembersLastFocusedIndexPath = YES;
-
     if (!self.connectionManager)
     {
         self.connectionManager = [[ConnectionManager alloc] init];
@@ -62,7 +59,7 @@
     {
         title = @"/";
     }
-    self.title = title;
+    self.navigationItem.title = title;
     
     self.filteredFilesArray = [[NSMutableArray alloc] init];
 }
@@ -85,6 +82,13 @@
     {
         self.sortingType = SORT_BY_NAME_DESC_FOLDER_FIRST;
     }
+    
+    if ([self.filesArray count] != 0)
+    {
+        [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
+        [self.tableView reloadData];
+    }
+    
     if ([defaults objectForKey:@"showHidden"])
     {
         self.showHidden = [[defaults objectForKey:@"showHidden"] boolValue];
@@ -93,13 +97,6 @@
     {
         self.showHidden = NO;
     }
-    
-    if ([self.filesArray count] != 0)
-    {
-        [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
-    }
-    [self.collectionView reloadData];
-
 #if 0
     // Delete cached files if needed
     NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
@@ -222,61 +219,115 @@
     return NO;
 }
 
-#pragma mark - Collection view data source
+#pragma mark - Table view data source
 
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 80;
+}
+
+- (UITableView *)activeTableView
+{
+    UITableView *tableView = nil;
+    tableView = self.tableView;
+    
+    return tableView;
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    // Return the number of sections.
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return [self.filesArray count];
-}
-
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(nonnull NSIndexPath *)indexPath
-{
-    VLCRemoteBrowsingTVCell *browsingCell = (VLCRemoteBrowsingTVCell *) [collectionView dequeueReusableCellWithReuseIdentifier:VLCRemoteBrowsingTVCellIdentifier forIndexPath:indexPath];
-    
-    FileItem *fileItem = nil;
-    fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
-    
-    browsingCell.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCallout];
-    browsingCell.titleLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
-    browsingCell.titleLabel.text = fileItem.name;
-    [browsingCell.thumbnailImageView setImageWithURL:[fileItem urlForImage]];
-    return browsingCell;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([self.filesArray count] != 0)
+    if ((self.filesListIsValid) && ([self.filesArray count] == 0))
     {
-        self.restoreLastPathIndex = YES;
-        self.lastIndexPath = indexPath;
+        // No files here, put a cell to tell it
+        return 1;
+    }
+    else
+    {
+        return [self.filesArray count];
+    }
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *FileBrowserCellIdentifier = @"FileBrowserCell";
+    static NSString * TableViewCellIdentifier = @"TableViewCell";
+
+    if ((self.filesListIsValid) && ([self.filesArray count] == 0))
+    {
+        UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:TableViewCellIdentifier];
+        if (cell == nil)
+        {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                          reuseIdentifier:TableViewCellIdentifier];
+        }
         
+        // Configure the cell...
+        cell.textLabel.text = NSLocalizedString(@"No file here", nil);
+        cell.textLabel.textAlignment = NSTextAlignmentCenter;
+        return cell;
+    }
+    else
+    {
         FileItem *fileItem = nil;
         fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
         
+        FileBrowserCell *fileBrowserCell = (FileBrowserCell *)[tableView dequeueReusableCellWithIdentifier:FileBrowserCellIdentifier];
+        if (fileBrowserCell == nil)
+        {
+            fileBrowserCell = [[FileBrowserCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                     reuseIdentifier:FileBrowserCellIdentifier];
+        }
+#if 0
+        // Remove long tap gesture recognizer if present
+        NSArray *gestureList = [fileBrowserCell gestureRecognizers];
+        for (id gesture in gestureList)
+        {
+            if ([gesture isKindOfClass:[UILongPressGestureRecognizer class]])
+            {
+                [fileBrowserCell removeGestureRecognizer:gesture];
+                break;
+            }
+        }
+        
+        // Long tap recognizer
+        UILongPressGestureRecognizer *longPressRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPressAction:)];
+        [fileBrowserCell addGestureRecognizer:longPressRecognizer];
+#endif
+        
+        // Configure the cell...
+        [fileBrowserCell setFileItem:fileItem
+                        withDelegate:self
+                              andTag:TAG_TEXTFIELD_FILENAME];
+        
+        return fileBrowserCell;
+    }
+}
+
+#pragma mark - Table view delegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([self.filesArray count] != 0)
+    {
+        FileItem *fileItem = nil;
+        fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
+
         // Show file if possible
         if (![self openFile:fileItem])
         {
             // For not handled types, show action menu
 //          [self showActionMenuForItemAtIndexPath:indexPath];
         }
+        // deselect the cell
+        [tableView deselectRowAtIndexPath:indexPath animated:YES];
     }
-}
-
-- (BOOL)collectionView:(UICollectionView *)collectionView canFocusItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (self.lastIndexPath)
-    {
-        self.restoreLastPathIndex = NO;
-        return [indexPath isEqual:self.lastIndexPath];
-    }
-    return YES;
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didUpdateFocusInContext:(UICollectionViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator
-{
-    if (self.restoreLastPathIndex == NO)
-        self.lastIndexPath = nil;
 }
 
 #pragma mark - File management
@@ -390,7 +441,7 @@
         case FILETYPE_FOLDER:
         {
             itemHandled = YES;
-            FileBrowserCollectionViewController *fileBrowserViewController = [[FileBrowserCollectionViewController alloc] initWithNibName:nil bundle:nil];
+            FileBrowserTableViewController *fileBrowserViewController = [[FileBrowserTableViewController alloc] init];
             fileBrowserViewController.isConnected = TRUE;
             fileBrowserViewController.currentFolder = fileItem;
             fileBrowserViewController.userAccount = self.userAccount; // Not needed, may be useful for future needs
@@ -405,7 +456,7 @@
             {
                 itemHandled = YES;
                 self.videoFile = fileItem;
-
+                
                 if (![self getSubtitleFileForMedia:fileItem])
                 {
                     [self showVLCPlayerForFile:fileItem withSubtitles:nil];
@@ -426,7 +477,7 @@
                     itemHandled = YES;
                     
                     self.videoFile = fileItem;
-
+                    
                     if (![self getSubtitleFileForMedia:fileItem])
                     {
                         [self showVLCPlayerForFile:fileItem withSubtitles:nil];
@@ -499,7 +550,7 @@
         {
             [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
         }
-
+        
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:[dict objectForKey:@"title"]
                                                                        message:[dict objectForKey:@"message"]
                                                                 preferredStyle:UIAlertControllerStyleAlert];
@@ -568,7 +619,7 @@
                                                                   [self.navigationController popToRootViewControllerAnimated:YES];
                                                                   
                                                               }];
-
+        
         
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
@@ -636,7 +687,7 @@
         if ([[dict objectForKey:@"success"] boolValue])
         {
             self.isConnected = TRUE;
-
+            
             NSArray *filesList = [dict objectForKey:@"filesList"];
             
             self.filesArray = [[NSMutableArray alloc] init];
@@ -749,31 +800,8 @@
                 }
             }
             
-            if (self.filesArray.count == 0)
-            {
-                // Hide current alert to show the new one
-                if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
-                {
-                    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
-                }
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Browse",nil)
-                                                                               message:NSLocalizedString(@"No file in this folder",nil)
-                                                                        preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
-                                                                        style:UIAlertActionStyleDefault
-                                                                      handler:^(UIAlertAction * action) {
-                                                                          [alert dismissViewControllerAnimated:YES completion:nil];
-                                                                          [self.navigationController popViewControllerAnimated:YES];
-                                                                      }];
-                [alert addAction:defaultAction];
-                [self presentViewController:alert animated:YES completion:nil];
-            }
-            else
-            {
-                // Sort files array
-                [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
-            }
+            // Sort files array
+            [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
         }
         else
         {
@@ -795,12 +823,8 @@
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
-#if 0
         // Refresh tableView
         [self.tableView reloadData];
-#else
-        [self.collectionView reloadData];
-#endif
     }
 }
 
@@ -824,7 +848,7 @@
     NSString *serviceIdentifier = [dict objectForKey:@"service"];
     NSString *accountName = [SSKeychain accountsForService:serviceIdentifier].firstObject[kSSKeychainAccountKey];
     NSString *password = [SSKeychain passwordForService:serviceIdentifier account:accountName];
-
+    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Authentication",nil)
                                                                    message:NSLocalizedString(@"Enter login/password",nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
@@ -853,26 +877,26 @@
     UIAlertAction* save = [UIAlertAction actionWithTitle:NSLocalizedString(@"Save", nil)
                                                    style:UIAlertActionStyleDefault
                                                  handler:^(UIAlertAction * _Nonnull action) {
-                                                    UITextField *userField = alert.textFields[0];
-                                                    UITextField *passField = alert.textFields[1];
-
-                                                    NSString *accountName = userField.text;
-                                                    NSString *password = passField.text;
-                                                    [SSKeychain setPassword:password forService:serviceIdentifier account:accountName];
-                                                    [self.connectionManager setCredential:userField.text
-                                                                                 password:passField.text];
-
-                                                    [self.connectionManager logout];
-                                                    // Login
-                                                    BOOL needToWaitLogin = NO;
-                                                    needToWaitLogin = [self.connectionManager login];
-
-                                                    // Get file list if possible
-                                                    if (!needToWaitLogin)
-                                                    {
-                                                        [self.connectionManager listForPath:self.currentFolder];
-                                                    }
-                                               }];
+                                                     UITextField *userField = alert.textFields[0];
+                                                     UITextField *passField = alert.textFields[1];
+                                                     
+                                                     NSString *accountName = userField.text;
+                                                     NSString *password = passField.text;
+                                                     [SSKeychain setPassword:password forService:serviceIdentifier account:accountName];
+                                                     [self.connectionManager setCredential:userField.text
+                                                                                  password:passField.text];
+                                                     
+                                                     [self.connectionManager logout];
+                                                     // Login
+                                                     BOOL needToWaitLogin = NO;
+                                                     needToWaitLogin = [self.connectionManager login];
+                                                     
+                                                     // Get file list if possible
+                                                     if (!needToWaitLogin)
+                                                     {
+                                                         [self.connectionManager listForPath:self.currentFolder];
+                                                     }
+                                                 }];
     
     UIAlertAction* delete;
     if (accountName.length && password.length)
@@ -885,7 +909,7 @@
                                             [self.navigationController popToRootViewControllerAnimated:YES];
                                         }];
     }
-
+    
     UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action) {
                                                        [alert dismissViewControllerAnimated:YES completion:nil];
@@ -1027,6 +1051,14 @@
                                                           }];
     [alert addAction:defaultAction];
     [self presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - Memory management
+
+- (void)dealloc
+{
+    // To fix "-[UIView release]: message sent to deallocated instance xxxxx"
+    self.tableView.tableHeaderView = nil;
 }
 
 @end
