@@ -265,20 +265,16 @@
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canFocusItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"canFocusItemAtIndexPath %ld",(long)indexPath.row);
     if (self.lastIndexPath)
     {
         self.restoreLastPathIndex = NO;
-        NSLog(@"canFocusItemAtIndexPath lastIndexPath %ld",(long)self.lastIndexPath.row);
         return [indexPath isEqual:self.lastIndexPath];
     }
-    NSLog(@"canFocusItemAtIndexPath self.lastIndexPath nil");
     return YES;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didUpdateFocusInContext:(UICollectionViewFocusUpdateContext *)context withAnimationCoordinator:(UIFocusAnimationCoordinator *)coordinator
 {
-    NSLog(@"didUpdateFocusInContext");
     if (self.restoreLastPathIndex == NO)
         self.lastIndexPath = nil;
 }
@@ -753,8 +749,31 @@
                 }
             }
             
-            // Sort files array
-            [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
+            if (self.filesArray.count == 0)
+            {
+                // Hide current alert to show the new one
+                if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
+                {
+                    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+                }
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Browse",nil)
+                                                                               message:NSLocalizedString(@"No file in this folder",nil)
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
+                                                                        style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction * action) {
+                                                                          [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                          [self.navigationController popViewControllerAnimated:YES];
+                                                                      }];
+                [alert addAction:defaultAction];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+            else
+            {
+                // Sort files array
+                [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
+            }
         }
         else
         {
@@ -771,6 +790,7 @@
                                                                     style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {
                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                      [self.navigationController popViewControllerAnimated:YES];
                                                                   }];
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
