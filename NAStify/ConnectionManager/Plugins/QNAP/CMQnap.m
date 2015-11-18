@@ -2767,6 +2767,7 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
                    CMSupportedFeaturesMaskExtract         |
                    CMSupportedFeaturesMaskSearch          |
                    CMSupportedFeaturesMaskEject           |
+                   CMSupportedFeaturesMaskVLCPlayer       |
                    CMSupportedFeaturesMaskVideoSeek       |
                    CMSupportedFeaturesMaskAirPlay         |
                    CMSupportedFeaturesMaskGoogleCast;
@@ -2779,12 +2780,12 @@ else if (([JSON isKindOfClass:[NSDictionary class]]) && \
                         CMSupportedFeaturesMaskFolderShare;
         }
         
-        if ((!self.userAccount.boolSSL) || (!self.userAccount.acceptUntrustedCertificate))
+        if ((!self.userAccount.boolSSL) ||
+            ((self.userAccount.boolSSL) && (!self.userAccount.acceptUntrustedCertificate)))
         {
-            // For now I didn't find a way to use internal QT player to play
+            // For now We didn't find a way to use QT video player to play
             // media on a server with untrusted certificate !
-            features |= CMSupportedFeaturesMaskQTPlayer |
-                        CMSupportedFeaturesMaskVLCPlayer;
+            features |= CMSupportedFeaturesMaskQTPlayer;
         }
     }
     else

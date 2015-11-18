@@ -6180,8 +6180,10 @@
                    CMSupportedFeaturesMaskFolderCopy      |
                    CMSupportedFeaturesMaskExtract         |
                    CMSupportedFeaturesMaskExtractMultiple |
-                   CMSupportedFeaturesMaskVLCPlayer; //FIXME: Check why SSL is not working as expected
-        
+                   CMSupportedFeaturesMaskVLCPlayer       |
+                   CMSupportedFeaturesMaskVideoSeek       |
+                   CMSupportedFeaturesMaskAirPlay         |
+                   CMSupportedFeaturesMaskGoogleCast;
         if (dsmVersion >= SYNOLOGY_DSM_4_3)
         {
             features |= CMSupportedFeaturesMaskFileShare |
@@ -6198,15 +6200,12 @@
             features |= CMSupportedFeaturesMaskCompress;
         }
         
-        if ((!self.userAccount.boolSSL) || (!self.userAccount.acceptUntrustedCertificate))
+        if ((!self.userAccount.boolSSL) ||
+            ((self.userAccount.boolSSL) && (!self.userAccount.acceptUntrustedCertificate)))
         {
-            // For now We didn't find a way to use video players to play
+            // For now We didn't find a way to use QT video player to play
             // media on a server with untrusted certificate !
-            features |= CMSupportedFeaturesMaskQTPlayer   |
-                        CMSupportedFeaturesMaskVLCPlayer  |
-                        CMSupportedFeaturesMaskVideoSeek  |
-                        CMSupportedFeaturesMaskAirPlay    |
-                        CMSupportedFeaturesMaskGoogleCast;
+            features |= CMSupportedFeaturesMaskQTPlayer;
         }
     }
     else

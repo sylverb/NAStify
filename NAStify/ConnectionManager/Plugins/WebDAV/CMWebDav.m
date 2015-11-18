@@ -1096,16 +1096,17 @@ void status(void *userdata, ne_session_status status,
                           CMSupportedFeaturesMaskFolderMove      |
                           CMSupportedFeaturesMaskFileCopy        |
                           CMSupportedFeaturesMaskFolderCopy      |
+                          CMSupportedFeaturesMaskVLCPlayer       |
                           CMSupportedFeaturesMaskVideoSeek       |
                           CMSupportedFeaturesMaskAirPlay         |
                           CMSupportedFeaturesMaskGoogleCast      |
                           CMSupportedFeaturesMaskCacheImage;
-    if (trustedCert)
+    if ((!self.userAccount.boolSSL) ||
+        ((self.userAccount.boolSSL) && (!trustedCert)))
     {
-        // For now I didn't find a way to use internal QT player to play
+        // For now We didn't find a way to use QT video player to play
         // media on a server with untrusted certificate !
-        features |= CMSupportedFeaturesMaskQTPlayer |
-                    CMSupportedFeaturesMaskVLCPlayer;
+        features |= CMSupportedFeaturesMaskQTPlayer;
     }
     return features;
 }

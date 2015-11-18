@@ -894,9 +894,17 @@ shouldExecuteAsBackgroundTaskWithExpirationHandler:handlerBgExpBlock];
                          CMSupportedFeaturesMaskFileShare      |
                          CMSupportedFeaturesMaskFolderShare    |
                          CMSupportedFeaturesMaskVLCPlayer      |
-                         CMSupportedFeaturesMaskQTPlayer       |
                          CMSupportedFeaturesMaskGoogleCast     |
                          CMSupportedFeaturesMaskCacheImage;
+    
+    if ((!self.userAccount.boolSSL) ||
+        ((self.userAccount.boolSSL) && (!self.userAccount.acceptUntrustedCertificate)))
+    {
+        // For now We didn't find a way to use QT video player to play
+        // media on a server with untrusted certificate !
+        features |= CMSupportedFeaturesMaskQTPlayer;
+    }
+
     return features;
 }
 
