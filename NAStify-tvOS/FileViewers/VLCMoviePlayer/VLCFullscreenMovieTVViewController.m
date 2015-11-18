@@ -700,7 +700,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
                                        album:(NSString *)album
                                    audioOnly:(BOOL)audioOnly
 {
-    //self.titleLabel.text = title;
+    self.titleLabel.text = title;
 
     if (audioOnly) {
         self.audioArtworkImageView.image = nil;
