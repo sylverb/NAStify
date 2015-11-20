@@ -22,6 +22,9 @@
 char c_user[255];
 char c_password[255];
 
+#define TICKS_PER_SECOND 10000000
+#define EPOCH_DIFFERENCE 11644473600LL
+
 @implementation CMSamba
 
 #pragma mark -
@@ -294,6 +297,8 @@ char c_password[255];
         }
         else
         {
+            uint64_t windowsDate;
+            time_t linuxDate;
             NSMutableArray *filesOutputArray = [NSMutableArray array];
 
             for( size_t i = 0; i < files_count; i++ )
@@ -316,7 +321,8 @@ char c_password[255];
                 {
                     type = [[name componentsSeparatedByString:@"."] lastObject];
                 }
-
+                windowsDate = smb_stat_get(st,SMB_STAT_MTIME);
+                linuxDate = windowsDate / TICKS_PER_SECOND - EPOCH_DIFFERENCE;
                 NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
                                           [NSNumber numberWithBool:smb_stat_get(st,SMB_STAT_ISDIR)],@"isdir",
                                           name,@"filename",
@@ -324,7 +330,7 @@ char c_password[255];
                                           name,@"id",
                                           [NSNumber numberWithBool:NO],@"iscompressed",
                                           [NSNumber numberWithBool:YES],@"writeaccess",
-                                          [NSNumber numberWithDouble:smb_stat_get(st,SMB_STAT_MTIME)],@"date",
+                                          [NSNumber numberWithDouble:linuxDate],@"date",
                                           type,@"type",
                                           nil];
                 [filesOutputArray addObject:dictItem];
