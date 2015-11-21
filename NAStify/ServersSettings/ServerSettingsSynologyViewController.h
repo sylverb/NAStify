@@ -33,6 +33,9 @@
 @property(nonatomic, strong) NSString *localPassword;
 
 @property(nonatomic, strong) id currentFirstResponder;
+#if TARGET_OS_TV
+@property(nonatomic, strong) UITextField *invisibleTextField;
+#endif
 
 - (id)initWithStyle:(UITableViewStyle)style andAccount:(UserAccount *)account andIndex:(NSInteger)index;
 #if TARGET_OS_IOS
