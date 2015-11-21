@@ -68,6 +68,8 @@
                                              selector: @selector(handleBecomeActive:)
                                                  name: UIApplicationDidBecomeActiveNotification
                                                object: nil];
+    
+    self.tableView.layoutMargins = UIEdgeInsetsMake(0, 90, 0, 90);
 }
 
 - (void)viewDidAppear:(BOOL)animated

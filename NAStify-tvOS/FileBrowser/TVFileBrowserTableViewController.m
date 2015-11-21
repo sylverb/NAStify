@@ -62,6 +62,8 @@
     self.navigationItem.title = title;
     
     self.filteredFilesArray = [[NSMutableArray alloc] init];
+    
+    self.tableView.layoutMargins = UIEdgeInsetsMake(0, 90, 0, 90);
 }
 
 - (void)viewWillAppear:(BOOL)animated
