@@ -57,25 +57,6 @@ typedef enum _SETTINGS_TAG
 #define TRANSFERT_MODE_SEGMENT_PASSIVE      0
 #define TRANSFERT_MODE_SEGMENT_ACTIVE       1
 
-@interface MyKeyboardView : UIView <UIKeyInput>
-@end
-
-@implementation MyKeyboardView
-- (void)insertText:(NSString *)text {
-    // Do something with the typed character
-}
-- (void)deleteBackward {
-    // Handle the delete key
-}
-- (BOOL)hasText {
-    // Return whether there's any text present
-    return YES;
-}
-- (BOOL)canBecomeFirstResponder {
-    return YES;
-}
-@end
-
 @implementation ServerSettingsFtpViewController
 
 @synthesize textCellProfile, textCellAddress, textCellPort, textCellUsername, textCellPassword;
@@ -951,39 +932,12 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
-#if 1
                     self.invisibleTextField.text = userAccount.accountName;
                     self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter account name"];
                     self.invisibleTextField.keyboardType = UIKeyboardTypeDefault;
                     self.invisibleTextField.secureTextEntry = NO;
                     self.invisibleTextField.tag = ACCOUNT_NAME_TAG;
                     [self.invisibleTextField becomeFirstResponder];
-#else
-                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Profile Name",nil)
-                                                                                   message:nil
-                                                                            preferredStyle:UIAlertControllerStyleAlert];
-                    
-                    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
-                                                               handler:^(UIAlertAction * action) {
-                                                                   UITextField *name = alert.textFields[0];
-                                                                   self.userAccount.accountName = name.text;
-                                                                   [self.tableView reloadData];
-                                                               }];
-                    
-                    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
-                                                                   handler:^(UIAlertAction * action) {
-                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
-                                                                   }];
-                    
-                    [alert addAction:ok];
-                    [alert addAction:cancel];
-                    
-                    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-                        textField.placeholder = NSLocalizedString(@"Profile Name",nil);
-                        textField.text = self.userAccount.accountName;
-                    }];
-                    [self presentViewController:alert animated:YES completion:nil];
-#endif
                     break;
                 }
                 default:
@@ -998,7 +952,7 @@ typedef enum _SETTINGS_TAG
                 case 0:
                 {
                     self.invisibleTextField.text = userAccount.server;
-                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter server IP or hostname (without ftp:// or sftp://)"];
+                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter server IP or domain name (without ftp:// or sftp://)"];
                     self.invisibleTextField.keyboardType = UIKeyboardTypeURL;
                     self.invisibleTextField.secureTextEntry = NO;
                     self.invisibleTextField.tag = ADDRESS_TAG;
@@ -1099,7 +1053,7 @@ typedef enum _SETTINGS_TAG
                 }
                 case 1:
                 {
-                    self.invisibleTextField.text = userAccount.accountName;
+                    self.invisibleTextField.text = userAccount.userName;
                     self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter username"];
                     self.invisibleTextField.keyboardType = UIKeyboardTypeDefault;
                     self.invisibleTextField.secureTextEntry = NO;
