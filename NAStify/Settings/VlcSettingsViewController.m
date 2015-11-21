@@ -349,11 +349,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-#if TARGET_OS_IOS
     return 4;
-#elif TARGET_OS_TV
-    return 3;
-#endif
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -383,11 +379,7 @@
 #endif
         case SETTINGS_AUDIO_SECTION_INDEX:
         {
-#if TARGET_OS_IOS
             numberOfRows = 2;
-#elif TARGET_OS_TV
-            numberOfRows = 1;
-#endif
             break;
         }
         default:
@@ -749,7 +741,6 @@
 #endif
                     break;
                 }
-#if TARGET_OS_IOS
                 case 1:
                 {
 #if TARGET_OS_IOS
@@ -795,7 +786,6 @@
 #endif
                     break;
                 }
-#endif
                 default:
                 {
                     break;
