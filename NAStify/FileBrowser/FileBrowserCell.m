@@ -40,7 +40,7 @@
         self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         self.nameLabel.autocorrectionType = UITextAutocorrectionTypeNo;
 #elif TARGET_OS_TV
-        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,1920-100,firstLineHeight)];
+        self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,1920-280,firstLineHeight)];
         self.nameLabel.textColor = [UIColor blackColor];
 
 #endif
