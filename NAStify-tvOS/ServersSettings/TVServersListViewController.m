@@ -16,6 +16,7 @@
 // Servers settings views
 #import "ServerSettingsFreeboxRevViewController.h"
 #import "ServerSettingsFtpViewController.h"
+#import "ServerSettingsOwnCloudViewController.h"
 #import "ServerSettingsQnapViewController.h"
 #import "ServerSettingsSambaViewController.h"
 #import "ServerSettingsSynologyViewController.h"
@@ -679,6 +680,15 @@
                 case SERVER_TYPE_SYNOLOGY:
                 {
                     ServerSettingsSynologyViewController *svc = [[ServerSettingsSynologyViewController alloc] initWithStyle:UITableViewStyleGrouped
+                                                                                                                 andAccount:account
+                                                                                                                   andIndex:indexPath.row];
+                    svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
+                    [self.navigationController pushViewController:svc animated:YES];
+                    break;
+                }
+                case SERVER_TYPE_OWNCLOUD:
+                {
+                    ServerSettingsOwnCloudViewController *svc = [[ServerSettingsOwnCloudViewController alloc] initWithStyle:UITableViewStyleGrouped
                                                                                                                  andAccount:account
                                                                                                                    andIndex:indexPath.row];
                     svc.userAccount = [self.accounts objectAtIndex:indexPath.row];
