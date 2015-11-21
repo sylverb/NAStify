@@ -75,6 +75,10 @@
 #endif
     
     self.navigationItem.title = NSLocalizedString(@"Server Type",nil);
+    
+#if TARGET_OS_TV
+    self.tableView.layoutMargins = UIEdgeInsetsMake(0, 90, 0, 90);
+#endif
 }
 
 #pragma mark -

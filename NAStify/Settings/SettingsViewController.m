@@ -344,6 +344,7 @@
                            NSLocalizedString(@"type", nil),
                            NSLocalizedString(@"size", nil),
                            nil];
+    self.tableView.layoutMargins = UIEdgeInsetsMake(0, 90, 0, 90);
 #endif
 }
 

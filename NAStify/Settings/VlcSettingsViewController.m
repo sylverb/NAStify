@@ -61,6 +61,9 @@
     
     self.title = NSLocalizedString(@"Internal VLC player settings", nil);
     
+#if TARGET_OS_TV
+    self.tableView.layoutMargins = UIEdgeInsetsMake(0, 90, 0, 90);
+#endif
     // Network caching options
     self.cachingNames = [NSArray arrayWithObjects:
                          NSLocalizedString(@"Lowest Latency",nil),
