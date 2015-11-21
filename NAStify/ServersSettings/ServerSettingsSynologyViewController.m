@@ -40,9 +40,6 @@ typedef enum _SETTINGS_TAG
         // If it's a new account, create a new one
         if (self.accountIndex == -1) {
             self.userAccount = [[UserAccount alloc] init];
-#if TARGET_OS_TV
-            self.userAccount.acceptUntrustedCertificate = FALSE;
-#endif
         }
     }
     return self;
@@ -151,13 +148,12 @@ typedef enum _SETTINGS_TAG
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *TextCellIdentifier = @"TextCell";
 #if TARGET_OS_IOS
+    static NSString *TextCellIdentifier = @"TextCell";
     static NSString *SwitchCellIdentifier = @"SwitchCell";
 #elif TARGET_OS_TV
     static NSString *CellIdentifier1 = @"Cell1";
     static NSString *TableCellIdentifier = @"TableCell";
-    static NSString *SegmentedCellIdentifier = @"SegmentedCell";
 #endif
 
     UITableViewCell *cell = nil;

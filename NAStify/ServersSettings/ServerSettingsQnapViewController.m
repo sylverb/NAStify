@@ -35,9 +35,6 @@ typedef enum _SETTINGS_TAG
         // If it's a new account, create a new one
         if (self.accountIndex == -1) {
             userAccount = [[UserAccount alloc] init];
-#if TARGET_OS_TV
-            self.userAccount.acceptUntrustedCertificate = FALSE;
-#endif
         }
         self.localSettings = [NSMutableDictionary dictionaryWithDictionary:self.userAccount.settings];
     }
@@ -59,10 +56,12 @@ typedef enum _SETTINGS_TAG
                                                                                            action:@selector(cancelButtonAction)];
 #endif
     
-    // Load custom tableView
-    self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStyleGrouped];
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
+#if TARGET_OS_TV
+    self.tableView.layoutMargins = UIEdgeInsetsMake(0, 90, 0, 90);
+    self.invisibleTextField = [[UITextField alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+    self.invisibleTextField.delegate = self;
+    [self.view addSubview:self.invisibleTextField];
+#endif
 
     self.navigationItem.title = NSLocalizedString(@"Settings",nil);
     
@@ -146,12 +145,12 @@ typedef enum _SETTINGS_TAG
 // Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *TextCellIdentifier = @"TextCell";
 #if TARGET_OS_IOS
+    static NSString *TextCellIdentifier = @"TextCell";
     static NSString *SwitchCellIdentifier = @"SwitchCell";
 #elif TARGET_OS_TV
+    static NSString *CellIdentifier1 = @"Cell1";
     static NSString *TableCellIdentifier = @"TableCell";
-    static NSString *SegmentedCellIdentifier = @"SegmentedCell";
 #endif
 
     UITableViewCell *cell = nil;
@@ -164,6 +163,7 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     textCellProfile = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
                     if (textCellProfile == nil)
                     {
@@ -178,6 +178,17 @@ typedef enum _SETTINGS_TAG
                                             withDelegate:self
                                                   andTag:ACCOUNT_NAME_TAG];
                     cell = textCellProfile;
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Profile Name",nil);
+                    cell.detailTextLabel.text = userAccount.accountName;
+#endif
                     break;
                 }
             }
@@ -189,6 +200,7 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     textCellAddress = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
                     if (textCellAddress == nil)
                     {
@@ -203,10 +215,22 @@ typedef enum _SETTINGS_TAG
                                             withDelegate:self
                                                   andTag:ADDRESS_TAG];
                     cell = textCellAddress;
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Address",nil);
+                    cell.detailTextLabel.text = userAccount.server;
+#endif
                     break;
                 }
                 case 1:
                 {
+#if TARGET_OS_IOS
                     textCellPort = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
                     if (textCellPort == nil)
                     {
@@ -221,6 +245,17 @@ typedef enum _SETTINGS_TAG
                                             withDelegate:self
                                                   andTag:PORT_TAG];
                     cell = textCellPort;
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Port number",nil);
+                    cell.detailTextLabel.text = userAccount.port;
+#endif
                     break;
                 }
             }
@@ -232,6 +267,7 @@ typedef enum _SETTINGS_TAG
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     textCellUsername = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
                     if (textCellUsername == nil)
                     {
@@ -246,10 +282,22 @@ typedef enum _SETTINGS_TAG
                                             withDelegate:self
                                                   andTag:UNAME_TAG];
                     cell = textCellUsername;
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Username",nil);
+                    cell.detailTextLabel.text = userAccount.userName;
+#endif
                     break;
                 }
                 case 1:
                 {
+#if TARGET_OS_IOS
                     textCellPassword = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
                     if (textCellPassword == nil)
                     {
@@ -264,6 +312,24 @@ typedef enum _SETTINGS_TAG
                                             withDelegate:self
                                                   andTag:PWD_TAG];
                     cell = textCellPassword;
+#elif TARGET_OS_TV
+                    NSMutableString *dottedPassword = [NSMutableString new];
+                    
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Password",nil);
+                    
+                    for (int i = 0; i < [self.localPassword length]; i++)
+                    {
+                        [dottedPassword appendString:@"●"];
+                    }
+                    cell.detailTextLabel.text = dottedPassword;
+#endif
                     break;
                 }
             }
@@ -287,34 +353,23 @@ typedef enum _SETTINGS_TAG
                                                      andTag:SSL_TAG];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
-#else
-                    NSInteger selectedIndex;
-                    
-                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
-                    if (segCtrlCell == nil)
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
                     {
-                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                         reuseIdentifier:SegmentedCellIdentifier
-                                                               withItems:[NSArray arrayWithObjects:
-                                                                          NSLocalizedString(@"Yes",nil),
-                                                                          NSLocalizedString(@"No",nil),
-                                                                          nil]];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
                     }
-                    
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"SSL",nil);
                     if (self.userAccount.boolSSL)
                     {
-                        selectedIndex = 0;
+                        cell.detailTextLabel.text = NSLocalizedString(@"Yes",nil);
                     }
                     else
                     {
-                        selectedIndex = 1;
+                        cell.detailTextLabel.text = NSLocalizedString(@"No",nil);
                     }
-                    
-                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"SSL",nil)
-                                          withSelectedIndex:selectedIndex
-                                                     andTag:SSL_TAG];
-                    
-                    cell = segCtrlCell;
 #endif
                     break;
                 }
@@ -332,34 +387,23 @@ typedef enum _SETTINGS_TAG
                                                      andTag:ACCEPT_UNTRUSTED_CERT_TAG];
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
-#else
-                    NSInteger selectedIndex;
-                    
-                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
-                    if (segCtrlCell == nil)
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
                     {
-                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                         reuseIdentifier:SegmentedCellIdentifier
-                                                               withItems:[NSArray arrayWithObjects:
-                                                                          NSLocalizedString(@"Yes",nil),
-                                                                          NSLocalizedString(@"No",nil),
-                                                                          nil]];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
                     }
-                    
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Allow untrusted certificate",nil);
                     if (self.userAccount.acceptUntrustedCertificate)
                     {
-                        selectedIndex = 0;
+                        cell.detailTextLabel.text = NSLocalizedString(@"Yes",nil);
                     }
                     else
                     {
-                        selectedIndex = 1;
+                        cell.detailTextLabel.text = NSLocalizedString(@"No",nil);
                     }
-                    
-                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Allow untrusted certificate",nil)
-                                          withSelectedIndex:selectedIndex
-                                                     andTag:ACCEPT_UNTRUSTED_CERT_TAG];
-                    
-                    cell = segCtrlCell;
 #endif
                     break;
                 }
@@ -397,6 +441,81 @@ typedef enum _SETTINGS_TAG
 {
     switch (indexPath.section)
     {
+        case 0:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    self.invisibleTextField.text = userAccount.accountName;
+                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter account name"];
+                    self.invisibleTextField.keyboardType = UIKeyboardTypeDefault;
+                    self.invisibleTextField.secureTextEntry = NO;
+                    self.invisibleTextField.tag = ACCOUNT_NAME_TAG;
+                    [self.invisibleTextField becomeFirstResponder];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
+        case 1:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    self.invisibleTextField.text = userAccount.server;
+                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter server IP/Domain name (without http:// or https://)"];
+                    self.invisibleTextField.keyboardType = UIKeyboardTypeURL;
+                    self.invisibleTextField.secureTextEntry = NO;
+                    self.invisibleTextField.tag = ADDRESS_TAG;
+                    [self.invisibleTextField becomeFirstResponder];
+                    break;
+                }
+                case 1:
+                {
+                    self.invisibleTextField.text = userAccount.port;
+                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter port, let blank to use default port"];
+                    self.invisibleTextField.keyboardType = UIKeyboardTypeNumberPad;
+                    self.invisibleTextField.secureTextEntry = NO;
+                    self.invisibleTextField.tag = PORT_TAG;
+                    [self.invisibleTextField becomeFirstResponder];
+                    break;
+                }
+            }
+            break;
+        }
+        case 2:
+        {
+            switch (indexPath.row)
+            {
+                case 0:
+                {
+                    self.invisibleTextField.text = userAccount.userName;
+                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter username"];
+                    self.invisibleTextField.keyboardType = UIKeyboardTypeDefault;
+                    self.invisibleTextField.secureTextEntry = NO;
+                    self.invisibleTextField.tag = UNAME_TAG;
+                    [self.invisibleTextField becomeFirstResponder];
+                    break;
+                }
+                case 1:
+                {
+                    self.invisibleTextField.text = self.localPassword;
+                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter password"];
+                    self.invisibleTextField.keyboardType = UIKeyboardTypeDefault;
+                    self.invisibleTextField.secureTextEntry = YES;
+                    self.invisibleTextField.tag = PWD_TAG;
+                    [self.invisibleTextField becomeFirstResponder];
+                    break;
+                }
+                default:
+                    break;
+            }
+            break;
+        }
         case 3:
         {
             switch (indexPath.row)
@@ -552,6 +671,7 @@ typedef enum _SETTINGS_TAG
             break;
         }
     }
+    [self.tableView reloadData];
 }
 
 - (void)saveButtonAction {
