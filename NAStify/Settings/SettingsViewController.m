@@ -535,17 +535,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 	static NSString *CellIdentifier = @"Cell";
-	static NSString *TextCellIdentifier = @"TextCell";
 #if TARGET_OS_IOS
+    static NSString *TextCellIdentifier = @"TextCell";
     static NSString *SegmentedControllerCell1Identifier = @"SegmentedControllerCell1";
 	static NSString *SwitchCellIdentifier = @"SwitchCell";
     static NSString *PurchaseCellIdentifier = @"PurchaseCell";
-#endif
     static NSString *SegmentedControllerCell2Identifier = @"SegmentedControllerCell2";
+#endif
 #if TARGET_OS_TV
-    static NSString *SegmentedControllerCell3Identifier = @"SegmentedControllerCell3";
-    static NSString *SegmentedControllerCell4Identifier = @"SegmentedControllerCell4";
-    static NSString *SegmentedControllerCell5Identifier = @"SegmentedControllerCell5";
+    static NSString *CellIdentifier1 = @"CellValue1";
 #endif
     UITableViewCell *cell = nil;
     
@@ -577,152 +575,95 @@
 #elif TARGET_OS_TV
                 case 0:
                 {
-                    TextCell *textCell = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
-                    if (textCell == nil)
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
                     {
-                        textCell = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                   reuseIdentifier:TextCellIdentifier];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
                     }
-                    [textCell setCellDataWithLabelString:NSLocalizedString(@"Sorting by:",nil)
-                                                withText:[self.sortingOptions objectAtIndex:self.selectedSortingOptionIndex]
-                                         withPlaceHolder:nil
-                                                isSecure:NO
-                                        withKeyboardType:UIKeyboardTypeDefault
-                                            withDelegate:nil
-                                                  andTag:0];
-                    textCell.textField.enabled = NO;
-                    textCell.canFocusContent = NO;
-
-                    cell = textCell;
-                    
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Sort by",nil);
+                    cell.detailTextLabel.text = [self.sortingOptions objectAtIndex:self.selectedSortingOptionIndex];
                     break;
                 }
                 case 1:
                 {
-                    NSInteger selectedIndex = 0;
-                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell3Identifier];
-                    if (segCtrlCell == nil)
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
                     {
-                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                         reuseIdentifier:SegmentedControllerCell3Identifier
-                                                               withItems:[NSArray arrayWithObjects:
-                                                                          NSLocalizedString(@"Yes",nil),
-                                                                          NSLocalizedString(@"No",nil),
-                                                                          nil]];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
                     }
-                    
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Folders first",nil);
                     if (self.foldersFirst)
                     {
-                        selectedIndex = 0;
+                        cell.detailTextLabel.text = NSLocalizedString(@"Yes", nil);
                     }
                     else
                     {
-                        selectedIndex = 1;
+                        cell.detailTextLabel.text = NSLocalizedString(@"No", nil);
                     }
-                    
-                    
-                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Folders first:",nil)
-                                          withSelectedIndex:selectedIndex
-                                                     andTag:0];
-                    
-                    cell = segCtrlCell;
-                    
                     break;
                 }
                 case 2:
                 {
-                    NSInteger selectedIndex = 0;
-                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell4Identifier];
-                    if (segCtrlCell == nil)
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
                     {
-                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                         reuseIdentifier:SegmentedControllerCell4Identifier
-                                                               withItems:[NSArray arrayWithObjects:
-                                                                          NSLocalizedString(@"Asc.",nil),
-                                                                          NSLocalizedString(@"Desc.",nil),
-                                                                          nil]];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
                     }
-                    
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Order",nil);
                     if (self.descending)
                     {
-                        selectedIndex = 1;
+                        cell.detailTextLabel.text = NSLocalizedString(@"Descending", nil);
                     }
                     else
                     {
-                        selectedIndex = 0;
+                        cell.detailTextLabel.text = NSLocalizedString(@"Ascending", nil);
                     }
-                    
-                    
-                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Order :",nil)
-                                          withSelectedIndex:selectedIndex
-                                                     andTag:0];
-                    
-                    cell = segCtrlCell;
-                    
                     break;
                 }
                 case 3:
                 {
-                    NSInteger selectedIndex = 0;
-                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell3Identifier];
-                    if (segCtrlCell == nil)
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
                     {
-                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                         reuseIdentifier:SegmentedControllerCell3Identifier
-                                                               withItems:[NSArray arrayWithObjects:
-                                                                          NSLocalizedString(@"Yes",nil),
-                                                                          NSLocalizedString(@"No",nil),
-                                                                          nil]];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
                     }
-                    
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Show hidden files",nil);
                     if (self.showHidden)
                     {
-                        selectedIndex = 0;
+                        cell.detailTextLabel.text = NSLocalizedString(@"Yes", nil);
                     }
                     else
                     {
-                        selectedIndex = 1;
+                        cell.detailTextLabel.text = NSLocalizedString(@"No", nil);
                     }
-                    
-                    
-                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Show hidden files:",nil)
-                                          withSelectedIndex:selectedIndex
-                                                     andTag:0];
-                    
-                    cell = segCtrlCell;
-                    
                     break;
                 }
                 case 4:
                 {
-                    NSInteger selectedIndex = 0;
-                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell5Identifier];
-                    if (segCtrlCell == nil)
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
                     {
-                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                         reuseIdentifier:SegmentedControllerCell5Identifier
-                                                               withItems:[NSArray arrayWithObjects:
-                                                                          NSLocalizedString(@"Grid",nil),
-                                                                          NSLocalizedString(@"Line",nil),
-                                                                          nil]];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
                     }
-                    
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"File browser type",nil);
                     if ([[defaults objectForKey:kNASTifySettingBrowserType] integerValue] == kNASTifySettingBrowserTypeGrid)
                     {
-                        selectedIndex = 0;
+                        cell.detailTextLabel.text = NSLocalizedString(@"Grid", nil);
                     }
                     else
                     {
-                        selectedIndex = 1;
+                        cell.detailTextLabel.text = NSLocalizedString(@"Line", nil);
                     }
-                    
-                    
-                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"File browser type:",nil)
-                                          withSelectedIndex:selectedIndex
-                                                     andTag:0];
-                    
-                    cell = segCtrlCell;
-                    
                     break;
                 }
 #endif
@@ -775,6 +716,7 @@
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
                     
                     SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedControllerCell2Identifier];
@@ -792,13 +734,27 @@
                                           withSelectedIndex:[[defaults objectForKey:kNASTifySettingInternalPlayer] integerValue]
                                                      andTag:TAG_MEDIA_PLAYER];
                     
-#if TARGET_OS_IOS
                     [segCtrlCell.segmentedControl addTarget:self action:@selector(segmentedValueChanged:) forControlEvents:UIControlEventValueChanged];
-#endif
                     
                     cell = segCtrlCell;
-                    
-                    
+#else
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Media Player",nil);
+                    if ([[defaults objectForKey:kNASTifySettingInternalPlayer] integerValue] == kNASTifySettingInternalPlayerTypeQTVLC)
+                    {
+                        cell.detailTextLabel.text = NSLocalizedString(@"QuickTime Player and VLC", nil);
+                    }
+                    else
+                    {
+                        cell.detailTextLabel.text = NSLocalizedString(@"VLC Only", nil);
+                    }
+#endif
                     break;
                 }
                 case 1:
@@ -1397,21 +1353,28 @@
 #elif TARGET_OS_TV
                 case 0:
                 {
-                    TableSelectViewController *tableSelectViewController;
-                    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-                    {
-                        tableSelectViewController = [[TableSelectViewController alloc] initWithStyle:UITableViewStylePlain];
-                    }
-                    else
-                    {
-                        tableSelectViewController = [[TableSelectViewController alloc] initWithStyle:UITableViewStyleGrouped];
-                    }
-                    tableSelectViewController.elements = self.sortingOptions;
-                    tableSelectViewController.selectedElement = self.selectedSortingOptionIndex;
-                    tableSelectViewController.delegate = self;
-                    tableSelectViewController.tag = TAG_SORTING_TYPE;
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Sort by",nil)
+                                                                                   message:nil
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
                     
-                    [self presentViewController:tableSelectViewController animated:YES completion:nil];
+                    NSInteger index = 0;
+                    for (NSString *element in self.sortingOptions)
+                    {
+                        UIAlertAction *action = [UIAlertAction actionWithTitle:element
+                                                                         style:UIAlertActionStyleDefault
+                                                                       handler:^(UIAlertAction * action) {
+                                                                           self.selectedSortingOptionIndex = index;
+                                                                           [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                           [self.tableView reloadData];
+                                                                       }];
+                        [alert addAction:action];
+                        if (index == self.selectedSortingOptionIndex)
+                        {
+                            alert.preferredAction = action;
+                        }
+                        index++;
+                    }
+                    [self presentViewController:alert animated:YES completion:nil];
                     break;
                 }
                 case 1:
