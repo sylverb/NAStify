@@ -43,6 +43,9 @@
 @property(nonatomic, strong) TextCell * textCellPassword;
 @property(nonatomic, strong) SegCtrlCell *protocolSegCtrlCell;
 @property(nonatomic, strong) SegCtrlCell *transfertModeSegCtrlCell;
+#if TARGET_OS_TV
+@property(nonatomic, strong) UITextField *invisibleTextField;
+#endif
 
 #if TARGET_OS_IOS
 @property(nonatomic, strong) TextViewCell * textViewCellPrivateCert;
