@@ -18,6 +18,7 @@
     NSArray *_UPNPdevices;
     
     BOOL _udnpDiscoveryRunning;
+    BOOL _netbiosDiscoveryRunning;
     NSTimer *_searchTimer;
     
     netbios_ns *_ns;

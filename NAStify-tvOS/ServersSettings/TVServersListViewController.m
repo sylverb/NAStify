@@ -895,6 +895,12 @@ static void on_entry_removed(void *p_opaque,
 {
     netbios_ns_discover_callbacks callbacks;
     
+    if ((self.manager.reachabilityManager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi) ||
+        _udnpDiscoveryRunning)
+    {
+        return;
+    }
+    
     [self.smbDevices removeAllObjects];
     _ns = netbios_ns_new();
     
@@ -909,11 +915,16 @@ static void on_entry_removed(void *p_opaque,
     {
         NSLog(@"Error while discovering local network\n");
     }
+    _netbiosDiscoveryRunning = YES;
 }
 
 - (void)stopNetbiosDiscovery
 {
-    netbios_ns_discover_stop(_ns);
+    if (_netbiosDiscoveryRunning)
+    {
+        netbios_ns_discover_stop(_ns);
+        _netbiosDiscoveryRunning = NO;
+    }
 }
 
 #pragma mark - Memory management
