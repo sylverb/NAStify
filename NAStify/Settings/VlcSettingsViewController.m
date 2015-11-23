@@ -24,6 +24,7 @@
 #define SETTINGS_GENERIC_SECTION_INDEX 0
 #define SETTINGS_VIDEO_SECTION_INDEX 1
 #define SETTINGS_AUDIO_SECTION_INDEX 2
+#define SETTINGS_SUBTITLES_SECTION_INDEX 99
 #endif
 
 #define TAG_CACHING             0
@@ -376,13 +377,11 @@
             numberOfRows = 2;
             break;
         }
-#if TARGET_OS_IOS
         case SETTINGS_SUBTITLES_SECTION_INDEX:
         {
             numberOfRows = 5;
             break;
         }
-#endif
         case SETTINGS_AUDIO_SECTION_INDEX:
         {
             numberOfRows = 2;
@@ -412,13 +411,11 @@
             title = NSLocalizedString(@"Video",nil);
             break;
         }
-#if TARGET_OS_IOS
         case SETTINGS_SUBTITLES_SECTION_INDEX:
         {
             title = NSLocalizedString(@"Subtitles",nil);
             break;
         }
-#endif
         case SETTINGS_AUDIO_SECTION_INDEX:
         {
             title = NSLocalizedString(@"Audio",nil);
@@ -439,7 +436,6 @@
 	static NSString *SwitchCellIdentifier = @"SwitchCell";
 #elif TARGET_OS_TV
     static NSString *CellIdentifier1 = @"Cell1";
-    static NSString *SegmentedCellIdentifier = @"SegmentedCell";
 #endif
     UITableViewCell *cell = nil;
     
@@ -570,13 +566,13 @@
             }
             break;
         }
-#if TARGET_OS_IOS
         case SETTINGS_SUBTITLES_SECTION_INDEX:
         {
             switch (indexPath.row)
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     TextCell *textCell = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
                     if (textCell == nil)
                     {
@@ -594,10 +590,22 @@
                     textCell.textField.enabled = NO;
                     textCell.canFocusContent = NO;
                     cell = textCell;
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Font",nil);
+                    cell.detailTextLabel.text = [self.fontNames objectAtIndex:self.fontIndex];
+#endif
                     break;
                 }
                 case 1:
                 {
+#if TARGET_OS_IOS
                     TextCell *textCell = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
                     if (textCell == nil)
                     {
@@ -615,6 +623,17 @@
                     textCell.textField.enabled = NO;
                     textCell.canFocusContent = NO;
                     cell = textCell;
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Relative font size",nil);
+                    cell.detailTextLabel.text = [self.fontSizeNames objectAtIndex:self.fontSizeIndex];
+#endif
                     break;
                 }
                 case 2:
@@ -632,38 +651,28 @@
                     [switchCell.switchButton addTarget:self action:@selector(switchValueChanged:) forControlEvents:UIControlEventValueChanged];
                     cell = switchCell;
 #elif TARGET_OS_TV
-                    NSInteger selectedIndex;
-                    
-                    SegCtrlCell *segCtrlCell = (SegCtrlCell *)[tableView dequeueReusableCellWithIdentifier:SegmentedCellIdentifier];
-                    if (segCtrlCell == nil)
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
                     {
-                        segCtrlCell = [[SegCtrlCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                         reuseIdentifier:SegmentedCellIdentifier
-                                                               withItems:[NSArray arrayWithObjects:
-                                                                          NSLocalizedString(@"Yes",nil),
-                                                                          NSLocalizedString(@"No",nil),
-                                                                          nil]];
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
                     }
-                    
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Use Bold font",nil);
                     if ([[defaults objectForKey:kVLCSettingSubtitlesBoldFont] boolValue])
                     {
-                        selectedIndex = 0;
+                        cell.detailTextLabel.text = NSLocalizedString(@"Yes", nil);
                     }
                     else
                     {
-                        selectedIndex = 1;
+                        cell.detailTextLabel.text = NSLocalizedString(@"No", nil);
                     }
-                    
-                    [segCtrlCell setCellDataWithLabelString:NSLocalizedString(@"Use Bold font",nil)
-                                          withSelectedIndex:selectedIndex
-                                                     andTag:TAG_FONT_BOLD];
-                    
-                    cell = segCtrlCell;
 #endif
                     break;
                 }
                 case 3:
                 {
+#if TARGET_OS_IOS
                     TextCell *textCell = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
                     if (textCell == nil)
                     {
@@ -681,10 +690,22 @@
                     textCell.textField.enabled = NO;
                     textCell.canFocusContent = NO;
                     cell = textCell;
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Font color",nil);
+                    cell.detailTextLabel.text = [self.fontColorNames objectAtIndex:self.fontColorIndex];
+#endif
                     break;
                 }
                 case 4:
                 {
+#if TARGET_OS_IOS
                     TextCell *textCell = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
                     if (textCell == nil)
                     {
@@ -702,6 +723,17 @@
                     textCell.textField.enabled = NO;
                     textCell.canFocusContent = NO;
                     cell = textCell;
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Text Encoding",nil);
+                    cell.detailTextLabel.text = [self.textEncodingNames objectAtIndex:self.textEncodingIndex];
+#endif
                     break;
                 }
                 default:
@@ -711,7 +743,6 @@
             }
             break;
         }
-#endif
         case SETTINGS_AUDIO_SECTION_INDEX:
         {
             switch (indexPath.row)
@@ -890,6 +921,12 @@
                         }
                         index++;
                     }
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                   }];
+                    [alert addAction:cancel];
                     [self presentViewController:alert animated:YES completion:nil];
 #endif
                     break;
@@ -941,6 +978,12 @@
                         }
                         index++;
                     }
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                   }];
+                    [alert addAction:cancel];
                     [self presentViewController:alert animated:YES completion:nil];
 #endif
                     break;
@@ -957,13 +1000,13 @@
             }
             break;
         }
-#if TARGET_OS_IOS
         case SETTINGS_SUBTITLES_SECTION_INDEX:
         {
             switch (indexPath.row)
             {
                 case 0:
                 {
+#if TARGET_OS_IOS
                     TableSelectViewController *tableSelectViewController;
                     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                     {
@@ -979,10 +1022,41 @@
                     tableSelectViewController.tag = TAG_FONT_NAME;
                     
                     [self.navigationController pushViewController:tableSelectViewController animated:YES];
+#elif TARGET_OS_TV
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Font",nil)
+                                                                                   message:nil
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    NSInteger index = 0;
+                    for (NSString *element in self.fontNames)
+                    {
+                        UIAlertAction *action = [UIAlertAction actionWithTitle:element
+                                                                         style:UIAlertActionStyleDefault
+                                                                       handler:^(UIAlertAction * action) {
+                                                                           self.fontIndex = index;
+                                                                           [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                           [self.tableView reloadData];
+                                                                       }];
+                        [alert addAction:action];
+                        if (index == self.fontIndex)
+                        {
+                            alert.preferredAction = action;
+                        }
+                        index++;
+                    }
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                   }];
+                    [alert addAction:cancel];
+                    [self presentViewController:alert animated:YES completion:nil];
+#endif
                     break;
                 }
                 case 1:
                 {
+#if TARGET_OS_IOS
                     TableSelectViewController *tableSelectViewController;
                     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                     {
@@ -998,9 +1072,38 @@
                     tableSelectViewController.tag = TAG_FONT_SIZE;
                     
                     [self.navigationController pushViewController:tableSelectViewController animated:YES];
+#elif TARGET_OS_TV
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Relative font size",nil)
+                                                                                   message:nil
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    NSInteger index = 0;
+                    for (NSString *element in self.fontSizeNames)
+                    {
+                        UIAlertAction *action = [UIAlertAction actionWithTitle:element
+                                                                         style:UIAlertActionStyleDefault
+                                                                       handler:^(UIAlertAction * action) {
+                                                                           self.fontSizeIndex = index;
+                                                                           [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                           [self.tableView reloadData];
+                                                                       }];
+                        [alert addAction:action];
+                        if (index == self.fontSizeIndex)
+                        {
+                            alert.preferredAction = action;
+                        }
+                        index++;
+                    }
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                   }];
+                    [alert addAction:cancel];
+                    [self presentViewController:alert animated:YES completion:nil];
+#endif
                     break;
                 }
-#if TARGET_OS_TV
                 case 2:
                 {
                     [defaults setObject:[NSNumber numberWithBool:![[defaults objectForKey:kVLCSettingSubtitlesBoldFont] boolValue]]
@@ -1008,9 +1111,9 @@
                     [self.tableView reloadData];
                     break;
                 }
-#endif
                 case 3:
                 {
+#if TARGET_OS_IOS
                     TableSelectViewController *tableSelectViewController;
                     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                     {
@@ -1026,10 +1129,41 @@
                     tableSelectViewController.tag = TAG_FONT_COLOR;
                     
                     [self.navigationController pushViewController:tableSelectViewController animated:YES];
+#elif TARGET_OS_TV
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Font color",nil)
+                                                                                   message:nil
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    NSInteger index = 0;
+                    for (NSString *element in self.fontColorNames)
+                    {
+                        UIAlertAction *action = [UIAlertAction actionWithTitle:element
+                                                                         style:UIAlertActionStyleDefault
+                                                                       handler:^(UIAlertAction * action) {
+                                                                           self.fontColorIndex = index;
+                                                                           [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                           [self.tableView reloadData];
+                                                                       }];
+                        [alert addAction:action];
+                        if (index == self.fontColorIndex)
+                        {
+                            alert.preferredAction = action;
+                        }
+                        index++;
+                    }
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                   }];
+                    [alert addAction:cancel];
+                    [self presentViewController:alert animated:YES completion:nil];
+#endif
                     break;
                 }
                 case 4:
                 {
+#if TARGET_OS_IOS
                     TableSelectViewController *tableSelectViewController;
                     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
                     {
@@ -1045,12 +1179,41 @@
                     tableSelectViewController.tag = TAG_TEXT_ENCODING;
                     
                     [self.navigationController pushViewController:tableSelectViewController animated:YES];
+#elif TARGET_OS_TV
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Text Encoding",nil)
+                                                                                   message:nil
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    NSInteger index = 0;
+                    for (NSString *element in self.textEncodingNames)
+                    {
+                        UIAlertAction *action = [UIAlertAction actionWithTitle:element
+                                                                         style:UIAlertActionStyleDefault
+                                                                       handler:^(UIAlertAction * action) {
+                                                                           self.textEncodingIndex = index;
+                                                                           [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                           [self.tableView reloadData];
+                                                                       }];
+                        [alert addAction:action];
+                        if (index == self.textEncodingIndex)
+                        {
+                            alert.preferredAction = action;
+                        }
+                        index++;
+                    }
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                   }];
+                    [alert addAction:cancel];
+                    [self presentViewController:alert animated:YES completion:nil];
+#endif
                     break;
                 }
             }
             break;
         }
-#endif
 #if TARGET_OS_TV
         case SETTINGS_AUDIO_SECTION_INDEX:
         {
