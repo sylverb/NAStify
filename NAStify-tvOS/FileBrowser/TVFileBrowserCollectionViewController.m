@@ -296,11 +296,25 @@
     
     NetworkConnection *connection = [self.connectionManager urlForVideo:fileItem];
     VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-    if (connection.urlType == URLTYPE_SMB)
+    switch (connection.urlType)
     {
-        optionsDict = @{@"smb-user" : connection.user ?: @"",
-                        @"smb-pwd" : connection.password ?: @"",
-                        @"smb-domain" : connection.workgroup ?: @"WORKGROUP"};
+        case URLTYPE_SMB:
+        {
+            optionsDict = @{@"smb-user" : connection.user ?: @"",
+                            @"smb-pwd" : connection.password ?: @"",
+                            @"smb-domain" : connection.workgroup ?: @"WORKGROUP"};
+            break;
+        }
+        case URLTYPE_FTP:
+        {
+            optionsDict = @{@"ftp-user" : connection.user ?: @"",
+                            @"sftp-user" : connection.user ?: @"",
+                            @"ftp-pwd" : connection.password ?: @"",
+                            @"sftp-pwd" : connection.password ?: @""};
+            break;
+        }
+        default:
+            break;
     }
     if ((fileItem.fileType == FILETYPE_VLC_AUDIO) || (fileItem.fileType == FILETYPE_QT_AUDIO))
     {
