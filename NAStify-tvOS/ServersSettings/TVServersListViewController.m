@@ -906,7 +906,7 @@ static void on_entry_removed(void *p_opaque,
     netbios_ns_discover_callbacks callbacks;
     
     if ((self.manager.reachabilityManager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi) ||
-        _udnpDiscoveryRunning)
+        _netbiosDiscoveryRunning)
     {
         return;
     }
@@ -918,7 +918,7 @@ static void on_entry_removed(void *p_opaque,
     callbacks.pf_on_entry_added = on_entry_added;
     callbacks.pf_on_entry_removed = on_entry_removed;
     
-     NSLog(@"Discovering SMB/CIFS ...");
+    NSLog(@"Discovering SMB/CIFS ...");
     if (!netbios_ns_discover_start(_ns,
                                    4, // broadcast every 4 sec
                                    &callbacks))
