@@ -1365,6 +1365,7 @@
                                                                          style:UIAlertActionStyleDefault
                                                                        handler:^(UIAlertAction * action) {
                                                                            self.selectedSortingOptionIndex = index;
+                                                                           [self saveSorting];
                                                                            [alert dismissViewControllerAnimated:YES completion:nil];
                                                                            [self.tableView reloadData];
                                                                        }];
@@ -1833,7 +1834,7 @@
     FileItemSortType selectedSorting;
     switch (self.selectedSortingOptionIndex)
     {
-            case 0: // name
+        case 0: // name
         {
             if (self.foldersFirst)
             {
