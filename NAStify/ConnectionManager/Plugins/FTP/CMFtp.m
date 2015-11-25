@@ -2004,24 +2004,16 @@ static size_t read_callback(void *ptr, size_t size, size_t nmemb, void *p)
 - (NetworkConnection *)urlForVideo:(FileItem *)file
 {
     NetworkConnection *networkConnection = [[NetworkConnection alloc] init];
-    NSArray *pathArray = [file.shortPath componentsSeparatedByString:@"/"];
-    NSMutableString *urlString = nil;
+    NSString *urlString = nil;
     NSString *password = [SSKeychain passwordForService:self.userAccount.uuid
                                                 account:@"password"];
     // when using an anonymous login, don't include credentials in the url or libVLC will not play the file
-    urlString = [NSMutableString stringWithFormat:@"%@/",[self createUrl]];
+    urlString = [NSMutableString stringWithFormat:@"%@%@/%@",
+                 [self createUrl],
+                 [file.shortPath encodePathString:NSUTF8StringEncoding],
+                 [file.name encodePathString:NSUTF8StringEncoding]];
     networkConnection.user = self.userAccount.userName?self.userAccount.userName:@"anonymous";
     networkConnection.password = password?password:@"";
-    
-    for (NSString *component in pathArray)
-    {
-        if (![component isEqualToString:@""])
-        {
-            [urlString appendFormat:@"%@/",[component encodeStringUrl:NSUTF8StringEncoding]];
-        }
-    }
-    [urlString appendString:[file.name encodeStringUrl:NSUTF8StringEncoding]];
-    
     networkConnection.url = [NSURL URLWithString:urlString];
     networkConnection.urlType = URLTYPE_FTP;
     
