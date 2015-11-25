@@ -270,6 +270,7 @@ typedef enum _SETTINGS_TAG
                                                  withKeyboardType:UIKeyboardTypeDefault
                                                      withDelegate:self
                                                            andTag:PATH_TAG];
+                    cell = self.textCellPath;
 #elif TARGET_OS_TV
                     cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
                     if (cell == nil)
@@ -281,7 +282,6 @@ typedef enum _SETTINGS_TAG
                     cell.textLabel.text = NSLocalizedString(@"Path",nil);
                     cell.detailTextLabel.text = [self.localSettings objectForKey:@"path"];
 #endif
-                    cell = self.textCellPath;
                     break;
                 }
             }
