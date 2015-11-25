@@ -1164,6 +1164,7 @@ typedef enum _SETTINGS_TAG
                                                                  style:UIAlertActionStyleDefault
                                                                handler:^(UIAlertAction * action) {
                                                                    self.codingIndex = index;
+                                                                   self.userAccount.encoding = [self.curlCoding objectAtIndex:index];
                                                                    [alert dismissViewControllerAnimated:YES completion:nil];
                                                                    [self.tableView reloadData];
                                                                }];

@@ -911,6 +911,8 @@
                                                                          style:UIAlertActionStyleDefault
                                                                        handler:^(UIAlertAction * action) {
                                                                            self.cachingIndex = index;
+                                                                           [defaults setObject:[self.cachingValues objectAtIndex:index]
+                                                                                        forKey:kVLCSettingNetworkCaching];
                                                                            [alert dismissViewControllerAnimated:YES completion:nil];
                                                                            [self.tableView reloadData];
                                                                        }];
@@ -968,6 +970,32 @@
                                                                          style:UIAlertActionStyleDefault
                                                                        handler:^(UIAlertAction * action) {
                                                                            self.skipLoopIndex = index;
+                                                                           switch (index)
+                                                                           {
+                                                                               case 0:
+                                                                               {
+                                                                                   [defaults setObject:kVLCSettingSkipLoopFilterNone
+                                                                                                forKey:kVLCSettingSkipLoopFilter];
+                                                                                   break;
+                                                                               }
+                                                                               case 1:
+                                                                               {
+                                                                                   [defaults setObject:kVLCSettingSkipLoopFilterNonRef
+                                                                                                forKey:kVLCSettingSkipLoopFilter];
+                                                                                   break;
+                                                                               }
+                                                                               case 2:
+                                                                               {
+                                                                                   [defaults setObject:kVLCSettingSkipLoopFilterNonKey
+                                                                                                forKey:kVLCSettingSkipLoopFilter];
+                                                                                   break;
+                                                                               }
+                                                                               default:
+                                                                               {
+                                                                                   break;
+                                                                               }
+                                                                           }
+
                                                                            [alert dismissViewControllerAnimated:YES completion:nil];
                                                                            [self.tableView reloadData];
                                                                        }];
@@ -1034,6 +1062,8 @@
                                                                          style:UIAlertActionStyleDefault
                                                                        handler:^(UIAlertAction * action) {
                                                                            self.fontIndex = index;
+                                                                           [defaults setObject:[self.fontValues objectAtIndex:index]
+                                                                                        forKey:kVLCSettingSubtitlesFont];
                                                                            [alert dismissViewControllerAnimated:YES completion:nil];
                                                                            [self.tableView reloadData];
                                                                        }];
@@ -1084,6 +1114,8 @@
                                                                          style:UIAlertActionStyleDefault
                                                                        handler:^(UIAlertAction * action) {
                                                                            self.fontSizeIndex = index;
+                                                                           [defaults setObject:[self.fontSizeValues objectAtIndex:index]
+                                                                                        forKey:kVLCSettingSubtitlesFontSize];
                                                                            [alert dismissViewControllerAnimated:YES completion:nil];
                                                                            [self.tableView reloadData];
                                                                        }];
@@ -1141,6 +1173,8 @@
                                                                          style:UIAlertActionStyleDefault
                                                                        handler:^(UIAlertAction * action) {
                                                                            self.fontColorIndex = index;
+                                                                           [defaults setObject:[self.fontColorValues objectAtIndex:index]
+                                                                                        forKey:kVLCSettingSubtitlesFontColor];
                                                                            [alert dismissViewControllerAnimated:YES completion:nil];
                                                                            [self.tableView reloadData];
                                                                        }];
@@ -1191,6 +1225,8 @@
                                                                          style:UIAlertActionStyleDefault
                                                                        handler:^(UIAlertAction * action) {
                                                                            self.textEncodingIndex = index;
+                                                                           [defaults setObject:[self.textEncodingValues objectAtIndex:index]
+                                                                                        forKey:kVLCSettingTextEncoding];
                                                                            [alert dismissViewControllerAnimated:YES completion:nil];
                                                                            [self.tableView reloadData];
                                                                        }];

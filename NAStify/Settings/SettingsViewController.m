@@ -1376,6 +1376,12 @@
                         }
                         index++;
                     }
+                    UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel", nil)
+                                                                     style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                   }];
+                    [alert addAction:cancel];
                     [self presentViewController:alert animated:YES completion:nil];
                     break;
                 }
