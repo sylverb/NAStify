@@ -18,8 +18,8 @@
 #include <iconv.h>
 #include <langinfo.h>
 
-//#define CURLOPT_VERBOSE_LEVEL 1L
-#define CURLOPT_VERBOSE_LEVEL 0L
+#define CURLOPT_VERBOSE_LEVEL 1L
+//#define CURLOPT_VERBOSE_LEVEL 0L
 
 #define FTP_CODE_ACTION_COMPLETED               200
 #define FTP_CODE_FILE_ACTION_OK_DATA_CNX_CLOSED 226
@@ -627,7 +627,8 @@ static int scan_perms (const char *s, int *perms)
             if (self.userAccount.serverType == SERVER_TYPE_SFTP)
             {
                 // Request list
-                NSString *url = [NSString stringWithFormat:@"%@%@/",[self createUrl],folder.path]; // URL shall ends with '/'
+                // We have to replace "#" characters with %23
+                NSString *url = [NSString stringWithFormat:@"%@%@/",[self createUrl],[folder.path stringByReplacingOccurrencesOfString:@"#" withString:@"%23"]]; // URL shall ends with '/'
                 curl_easy_setopt(curl, CURLOPT_URL,[url UTF8String]);
                 
                 curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteMemoryCallback);
