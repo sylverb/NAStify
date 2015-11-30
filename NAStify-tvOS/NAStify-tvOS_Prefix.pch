@@ -17,7 +17,7 @@
 #import "NSDataAdditions.h"
 
 #import <TVVLCKit/TVVLCKit.h>
-
+#import "VLCPlaybackController.h"
 #import "UIColor+Presets.h"
 #import "NAStifyConstants.h"
 

@@ -10,8 +10,6 @@
  *****************************************************************************/
 
 #import "VLCPlaybackInfoRateTVViewController.h"
-#import "VLCPlaybackController.h"
-
 @interface VLCPlaybackInfoRateTVViewController ()
 @property (nonatomic) NSArray<NSNumber*> *possibleRates;
 @end
@@ -32,6 +30,12 @@
 {
     return CGSizeMake(CGRectGetWidth(self.view.bounds), 100);
 }
+
++ (BOOL)shouldBeVisibleForPlaybackController:(VLCPlaybackController *)vpc
+{
+    return vpc.mediaPlayer.isSeekable;
+}
+
 
 - (void)viewDidLoad
 {

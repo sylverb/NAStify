@@ -39,6 +39,7 @@ target 'NAStify-tvOS' do
     pod 'AFNetworking', :podspec => 'localpods/vendor/AFNetworking.podspec'
     pod 'XMLDictionary', :podspec => 'localpods/vendor/XMLDictionary.podspec'
     pod 'ISO8601DateFormatter', :podspec => 'localpods/vendor/ISO8601DateFormatter.podspec'
+    pod 'xmlrpc'
 end
 # patched SDWebImage is depending on libRaw, need to find a way to include this in CocoaPod
 #pod 'MWPhotoBrowser', :git => 'https://github.com/mwaterfall/MWPhotoBrowser.git', :commit => 'd68f9cd'

@@ -10,7 +10,6 @@
  *****************************************************************************/
 
 #import "VLCPlaybackInfoMediaInfoTVViewController.h"
-#import "VLCPlaybackController.h"
 
 @interface VLCPlaybackInfoMediaInfoTVViewController ()
 

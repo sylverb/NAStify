@@ -9,20 +9,10 @@
  * Refer to the COPYING file of the official project for license.
  *****************************************************************************/
 
-#import <UIKit/UIKit.h>
+#import "VLCPlaybackInfoPanelTVViewController.h"
 
-@class VLCPlaybackController;
-@protocol VLCPlaybackInfoPanelTVViewController <NSObject>
-
-+ (BOOL)shouldBeVisibleForPlaybackController:(VLCPlaybackController *)vpc;
-
-@end
-
-@interface VLCPlaybackInfoPanelTVViewController : UIViewController <VLCPlaybackInfoPanelTVViewController>
-
-
-// subclasses should override preferred content size to enable
-// correct sizing of the info VC
-- (CGSize)preferredContentSize;
+@interface VLCPlaybackInfoChaptersTVViewController : VLCPlaybackInfoPanelTVViewController
+@property (nonatomic, weak) IBOutlet UICollectionView *titlesCollectionView;
+@property (nonatomic, weak) IBOutlet UICollectionView *chaptersCollectionView;
 
 @end

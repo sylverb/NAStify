@@ -9,20 +9,19 @@
  * Refer to the COPYING file of the official project for license.
  *****************************************************************************/
 
-#import <UIKit/UIKit.h>
+#import "VLCFullWidthCollectionViewFlowLayout.h"
 
-@class VLCPlaybackController;
-@protocol VLCPlaybackInfoPanelTVViewController <NSObject>
-
-+ (BOOL)shouldBeVisibleForPlaybackController:(VLCPlaybackController *)vpc;
-
-@end
-
-@interface VLCPlaybackInfoPanelTVViewController : UIViewController <VLCPlaybackInfoPanelTVViewController>
-
-
-// subclasses should override preferred content size to enable
-// correct sizing of the info VC
-- (CGSize)preferredContentSize;
+@implementation VLCFullWidthCollectionViewFlowLayout
+- (BOOL)shouldInvalidateLayoutForBoundsChange:(CGRect)newBounds
+{
+    return YES;
+}
+- (void)prepareLayout
+{
+    CGSize itemSize = self.itemSize;
+    itemSize.width = CGRectGetWidth(self.collectionView.bounds)-self.sectionInset.left-self.sectionInset.right;
+    self.itemSize = itemSize;
+    [super prepareLayout];
+}
 
 @end

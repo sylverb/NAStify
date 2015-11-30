@@ -9,20 +9,13 @@
  * Refer to the COPYING file of the official project for license.
  *****************************************************************************/
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
-@class VLCPlaybackController;
-@protocol VLCPlaybackInfoPanelTVViewController <NSObject>
+@interface VLCPlaybackInfoCollectionViewDataSource : NSObject
+@property (nonatomic, readonly) VLCMediaPlayer *mediaPlayer;
+@property (nonatomic) NSString *title;
+@property (nonatomic) NSString *cellIdentifier;
+@property (nonatomic) UIViewController *parentViewController;
 
-+ (BOOL)shouldBeVisibleForPlaybackController:(VLCPlaybackController *)vpc;
-
-@end
-
-@interface VLCPlaybackInfoPanelTVViewController : UIViewController <VLCPlaybackInfoPanelTVViewController>
-
-
-// subclasses should override preferred content size to enable
-// correct sizing of the info VC
-- (CGSize)preferredContentSize;
-
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath;
 @end

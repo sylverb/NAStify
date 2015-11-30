@@ -27,13 +27,13 @@ PODS:
   - CocoaHTTPServer (2.3):
     - CocoaAsyncSocket
     - CocoaLumberjack
-  - CocoaLumberjack (2.0.3):
-    - CocoaLumberjack/Default (= 2.0.3)
-    - CocoaLumberjack/Extensions (= 2.0.3)
-  - CocoaLumberjack/Core (2.0.3)
-  - CocoaLumberjack/Default (2.0.3):
+  - CocoaLumberjack (2.2.0):
+    - CocoaLumberjack/Default (= 2.2.0)
+    - CocoaLumberjack/Extensions (= 2.2.0)
+  - CocoaLumberjack/Core (2.2.0)
+  - CocoaLumberjack/Default (2.2.0):
     - CocoaLumberjack/Core
-  - CocoaLumberjack/Extensions (2.0.3):
+  - CocoaLumberjack/Extensions (2.2.0):
     - CocoaLumberjack/Default
   - DACircularProgress (2.2.0)
   - ELCImagePickerController (0.2.0)
@@ -54,12 +54,15 @@ PODS:
   - MAConfirmButton (2.0)
   - MBProgressHUD (0.9)
   - MKStoreKit (HEAD based on 4.99)
+  - NSData+Base64 (1.0.0)
   - objective-zip (0.8.3)
   - OBSlider (1.1.0)
   - PSTCollectionView (1.2.3)
   - SSKeychain (1.2.2)
   - upnpx (1.3.4)
   - XMLDictionary (1.4.1)
+  - xmlrpc (2.3.4):
+    - NSData+Base64 (~> 1.0.0)
 
 DEPENDENCIES:
   - AFNetworking (from `localpods/vendor/AFNetworking.podspec`)
@@ -84,6 +87,7 @@ DEPENDENCIES:
   - SSKeychain (from `localpods/vendor/SSKeychain.podspec`)
   - upnpx (from `localpods/vendor/upnpx.podspec`)
   - XMLDictionary (from `localpods/vendor/XMLDictionary.podspec`)
+  - xmlrpc
 
 EXTERNAL SOURCES:
   AFNetworking:
@@ -134,7 +138,7 @@ SPEC CHECKSUMS:
   box-ios-sdk-v2: e6833ca786bf93da1dbe63e3d0a945b1e1fe1f42
   CocoaAsyncSocket: f5783bdedd232d91b89769bc4b5a1580aed518ad
   CocoaHTTPServer: 5624681fc3473d43b18202f635f9b3abb013b530
-  CocoaLumberjack: f58d8a19629f4d8379ae14bb3534def24161430e
+  CocoaLumberjack: 17fe8581f84914d5d7e6360f7c70022b173c3ae0
   DACircularProgress: c602fd7d0c4417c27054536cb1e3cc0087312481
   ELCImagePickerController: b1b7084434a7d49f2cfc916bde1f3ba353d38de9
   Google-API-Client: 015d6f9303fa910f91f42300a088eac5fac5dd25
@@ -147,11 +151,13 @@ SPEC CHECKSUMS:
   MAConfirmButton: fb4a445eb31b717981c9b74c1cdd3c25fd4f3960
   MBProgressHUD: 7c553ce49e4fbdb323c99f8ce315e54e698b559e
   MKStoreKit: 748617e5f87ad1e0d3f075155047945248eccefc
+  NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
   objective-zip: a27d4b3c060eead4325159e49178e7f0ad5ee808
   OBSlider: 490f108007bfdd5414a38650b211fe403a95b8a0
   PSTCollectionView: 6749df92885353521f55279a7ce2b293762e2be4
   SSKeychain: 48c51483169e558bbfd62d1ac157bf7ecee283ba
   upnpx: 3871694c582473825400a248fac96b6e58cbbb80
   XMLDictionary: 24e1b84f2b86532ea3c5f6e6283470e8ac4a5cb1
+  xmlrpc: 109bb21d15ed6d108b2c1ac5973a6a223a50f5f4
 
 COCOAPODS: 0.39.0

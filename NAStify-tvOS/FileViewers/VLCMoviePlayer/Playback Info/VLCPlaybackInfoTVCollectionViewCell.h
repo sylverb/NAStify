@@ -11,18 +11,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class VLCPlaybackController;
-@protocol VLCPlaybackInfoPanelTVViewController <NSObject>
+@interface VLCPlaybackInfoTVCollectionViewCell : UICollectionViewCell
+@property (nonatomic) IBOutlet UILabel *selectionMarkerView;
+@property (nonatomic) IBOutlet UILabel *titleLabel;
+@property (nonatomic) BOOL selectionMarkerVisible;
 
-+ (BOOL)shouldBeVisibleForPlaybackController:(VLCPlaybackController *)vpc;
-
-@end
-
-@interface VLCPlaybackInfoPanelTVViewController : UIViewController <VLCPlaybackInfoPanelTVViewController>
-
-
-// subclasses should override preferred content size to enable
-// correct sizing of the info VC
-- (CGSize)preferredContentSize;
-
++(NSString *)identifier;
 @end

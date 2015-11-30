@@ -1,5 +1,5 @@
 /*****************************************************************************
- * MetaDataFetcherKit.h
+ * MDFSubtitleItem.h
  *****************************************************************************
  * Copyright (C) 2015 Felix Paul Kühne
  * $Id$
@@ -23,16 +23,21 @@
 
 #import <Foundation/Foundation.h>
 
-#import "MDFMovieDBSessionManager.h"
-#import "MDFMovieDBFetcher.h"
-#import "MDFMediaObject.h"
-#import "MDFMovie.h"
-#import "MDFTVShow.h"
+@interface MDFSubtitleItem : NSObject
 
-#import "MDFHatchetSessionManager.h"
-#import "MDFHatchetFetcher.h"
-#import "MDFMusicAlbum.h"
-#import "MDFArtist.h"
+@property (copy, nonatomic) NSString *language;
+@property (copy, nonatomic) NSString *name;
+@property (copy, nonatomic) NSString *format;
+@property (copy, nonatomic) NSString *iso639Language;
+@property (copy, nonatomic) NSString *downloadAddress;
+@property (copy, nonatomic) NSString *rating;
 
-#import "MDFOSOFetcher.h"
-#import "MDFSubtitleItem.h"
+@end
+
+@interface MDFSubtitleLanguage : NSObject
+
+@property (copy, nonatomic) NSString *ID;
+@property (copy, nonatomic) NSString *localizedName;
+@property (copy, nonatomic) NSString *iso639Language;
+
+@end

@@ -11,18 +11,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class VLCPlaybackController;
-@protocol VLCPlaybackInfoPanelTVViewController <NSObject>
+@interface VLCPlaybackInfoTVCollectionSectionTitleView : UICollectionReusableView
+@property (nonatomic) UILabel *titleLabel;
 
-+ (BOOL)shouldBeVisibleForPlaybackController:(VLCPlaybackController *)vpc;
-
-@end
-
-@interface VLCPlaybackInfoPanelTVViewController : UIViewController <VLCPlaybackInfoPanelTVViewController>
-
-
-// subclasses should override preferred content size to enable
-// correct sizing of the info VC
-- (CGSize)preferredContentSize;
++ (void)registerInCollectionView:(UICollectionView *)collectionView;
++ (NSString *)identifier;
 
 @end

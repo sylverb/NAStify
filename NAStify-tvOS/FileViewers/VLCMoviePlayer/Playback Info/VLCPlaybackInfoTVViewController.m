@@ -14,7 +14,7 @@
 #import "VLCPlaybackInfoMediaInfoTVViewController.h"
 #import "VLCPlaybackInfoTVAnimators.h"
 #import "VLCPlaybackInfoTracksTVViewController.h"
-
+#import "VLCPlaybackInfoChaptersTVViewController.h"
 
 // just for appearance reasons
 @interface VLCPlaybackInfoTVTabBarController : UITabBarController
@@ -22,15 +22,20 @@
 @implementation VLCPlaybackInfoTVTabBarController
 @end
 
+@interface VLCPlaybackInfoTVViewController ()
+{
+    NSArray<UIViewController<VLCPlaybackInfoPanelTVViewController> *> *_allTabViewControllers;
+}
+@end
+
 @implementation VLCPlaybackInfoTVViewController
 
 - (NSArray<UIViewController*>*)tabViewControllers
 {
-    return @[
-             [[VLCPlaybackInfoTracksTVViewController alloc] initWithNibName:nil bundle:nil],
-             [[VLCPlaybackInfoMediaInfoTVViewController alloc] initWithNibName:nil bundle:nil],
-             [[VLCPlaybackInfoRateTVViewController alloc] initWithNibName:nil bundle:nil],
-             ];
+    VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+    return [_allTabViewControllers filteredArrayUsingPredicate:[NSPredicate predicateWithBlock:^BOOL(id<VLCPlaybackInfoPanelTVViewController>  _Nonnull evaluatedObject, NSDictionary<NSString *,id> * _Nullable bindings) {
+        return [[evaluatedObject class] shouldBeVisibleForPlaybackController:vpc];
+    }]];
 }
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -48,9 +53,16 @@
 
     [self setupTabBarItemAppearance];
 
+    _allTabViewControllers = @[
+                               [[VLCPlaybackInfoMediaInfoTVViewController alloc] initWithNibName:nil bundle:nil],
+                               [[VLCPlaybackInfoChaptersTVViewController alloc] initWithNibName:nil bundle:nil],
+                               [[VLCPlaybackInfoTracksTVViewController alloc] initWithNibName:nil bundle:nil],
+                               [[VLCPlaybackInfoRateTVViewController alloc] initWithNibName:nil bundle:nil],
+                               ];
+
+
     UITabBarController *controller = [[VLCPlaybackInfoTVTabBarController alloc] init];
     controller.delegate = self;
-    controller.viewControllers = [self tabViewControllers];
     self.tabBarController = controller;
 
     [self addChildViewController:controller];
@@ -63,6 +75,19 @@
     swipeUpRecognizer.direction = UISwipeGestureRecognizerDirectionUp;
     swipeUpRecognizer.delegate = self;
     [self.view addGestureRecognizer:swipeUpRecognizer];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    UITabBarController *tabBarController = self.tabBarController;
+    UIViewController *oldSelectedVC = tabBarController.selectedViewController;
+    tabBarController.viewControllers = [self tabViewControllers];
+    NSUInteger newIndex = [tabBarController.viewControllers indexOfObject:oldSelectedVC];
+    if (newIndex == NSNotFound) {
+        newIndex = 0;
+    }
+    tabBarController.selectedIndex = newIndex;
+    [super viewWillAppear:animated];
 }
 
 - (BOOL)shouldAutomaticallyForwardAppearanceMethods
