@@ -78,6 +78,7 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     self.bottomOverlayView.alpha = 0.0;
 
     self.bufferingLabel.text = NSLocalizedString(@"PLEASE_WAIT", nil);
+    
     // Swipe for settings view
     self.swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 1920, 40)];
     self.swipeSettingsLabel.text = NSLocalizedString(@"SWIPE_INFO", nil);
@@ -126,6 +127,10 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     self.simultaneousGestureRecognizers = simultaneousGestureRecognizers;
 
     self.audioView.hidden = YES;
+    self.audioDescriptionTextView.text = nil;
+    self.audioTitleLabel.text = nil;
+    self.audioArtworkImageView.image = [UIImage imageNamed:@"about-app-icon"];
+    self.audioLargeBackgroundImageView.image = [UIImage imageNamed:@"about-app-icon"];
     self.audioArtworkImageView.animateImageSetting = YES;
     self.audioLargeBackgroundImageView.animateImageSetting = YES;
 }
@@ -169,6 +174,13 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     [vpc stopPlayback];
 
     [self stopAudioDescriptionAnimation];
+
+    /* delete potentially downloaded subs */
+    NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSString* tempSubsDirPath = [searchPaths[0] stringByAppendingPathComponent:@"tempsubs"];
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    if ([fileManager fileExistsAtPath:tempSubsDirPath])
+        [fileManager removeItemAtPath:tempSubsDirPath error:nil];
 
     [super viewWillDisappear:animated];
 }
@@ -771,12 +783,10 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
     // FIXME: hard coded state since the state in mediaPlayer is incorrectly still buffering
     [self updateActivityIndicatorForState:VLCMediaPlayerStatePlaying];
 
-    if (self.bottomOverlayView.alpha != 0.0) {
-        VLCTransportBar *transportBar = self.transportBar;
-        transportBar.remainingTimeLabel.text = [[mediaPlayer remainingTime] stringValue];
-        transportBar.markerTimeLabel.text = [[mediaPlayer time] stringValue];
-        transportBar.playbackFraction = mediaPlayer.position;
-    }
+    VLCTransportBar *transportBar = self.transportBar;
+    transportBar.remainingTimeLabel.text = [[mediaPlayer remainingTime] stringValue];
+    transportBar.markerTimeLabel.text = [[mediaPlayer time] stringValue];
+    transportBar.playbackFraction = mediaPlayer.position;
 }
 
 #pragma mark - gesture recognizer delegate
