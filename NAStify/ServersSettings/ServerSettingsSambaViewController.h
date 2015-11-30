@@ -29,6 +29,7 @@
 @property(nonatomic, strong) TextCell * textCellPassword;
 @property(nonatomic) NSInteger    accountIndex;
 @property(nonatomic, strong) NSString *localPassword;
+@property(nonatomic, strong) NSMutableDictionary *localSettings;
 
 @property(nonatomic, strong) id currentFirstResponder;
 #if TARGET_OS_TV

@@ -318,15 +318,38 @@
         {
             if (indexPath.row != [self.accounts count])
             {
+                UserAccount *account = [self.accounts objectAtIndex:indexPath.row];
+                
                 FileItem *rootFolder = [[FileItem alloc] init];
                 rootFolder.isDir = YES;
-                rootFolder.path = @"/";
-                rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
+                if ((account.serverType == SERVER_TYPE_SAMBA) &&
+                    (account.settings.count != 0))
+                {
+                    NSMutableArray *array = [NSMutableArray arrayWithObject:kRootID];
+                    NSString *startPath = [account.settings objectForKey:@"path"];
+                    NSLog(@"%@",startPath);
+                    NSArray *componentPath = [startPath componentsSeparatedByString:@"/"];
+                    rootFolder.path = @"";
+                    for (NSString *component in componentPath)
+                    {
+                        if (![component isEqualToString:@""])
+                        {
+                            [array addObject:component];
+                            rootFolder.path = [rootFolder.path stringByAppendingFormat:@"/%@",component];
+                        }
+                    }
+                    rootFolder.objectIds = [NSArray arrayWithArray:array];
+                }
+                else
+                {
+                    rootFolder.path = @"/";
+                    rootFolder.objectIds = [NSArray arrayWithObject:kRootID];
+                }
                 
                 if ([[defaults objectForKey:kNASTifySettingBrowserType] integerValue] == kNASTifySettingBrowserTypeGrid)
                 {
                     FileBrowserCollectionViewController *fileBrowserViewController = [[FileBrowserCollectionViewController alloc] initWithNibName:nil bundle:nil];
-                    fileBrowserViewController.userAccount = [self.accounts objectAtIndex:indexPath.row];
+                    fileBrowserViewController.userAccount = account;
                     fileBrowserViewController.currentFolder = rootFolder;
                     
                     [self.navigationController pushViewController:fileBrowserViewController animated:YES];
@@ -334,7 +357,7 @@
                 else
                 {
                     FileBrowserTableViewController *fileBrowserViewController = [[FileBrowserTableViewController alloc] init];
-                    fileBrowserViewController.userAccount = [self.accounts objectAtIndex:indexPath.row];
+                    fileBrowserViewController.userAccount = account;
                     fileBrowserViewController.currentFolder = rootFolder;
                     
                     [self.navigationController pushViewController:fileBrowserViewController animated:YES];

@@ -119,7 +119,7 @@
 {
     self.connectionManager.delegate = self;
     
-	if ([self.currentFolder.path isEqualToString:@"/"])
+    if (([self.currentFolder.path isEqualToString:@"/"]) || (self.isConnected == NO))
     {
 		if (([self.filesArray count] == 0) && (!self.isConnected))
         {

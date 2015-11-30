@@ -99,6 +99,7 @@
     {
         self.showHidden = NO;
     }
+    
 #if 0
     // Delete cached files if needed
     NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
@@ -118,7 +119,7 @@
 {
     self.connectionManager.delegate = self;
     
-	if ([self.currentFolder.path isEqualToString:@"/"])
+	if (([self.currentFolder.path isEqualToString:@"/"]) || (self.isConnected == NO))
     {
 		if (([self.filesArray count] == 0) && (!self.isConnected))
         {

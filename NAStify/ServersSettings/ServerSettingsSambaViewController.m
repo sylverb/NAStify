@@ -13,6 +13,7 @@
 typedef enum _SETTINGS_TAG
 {
     ADDRESS_TAG = 0,
+    PATH_TAG,
     UNAME_TAG,
     PWD_TAG,
     ACCOUNT_NAME_TAG,
@@ -33,6 +34,7 @@ typedef enum _SETTINGS_TAG
         if (self.accountIndex == -1) {
             self.userAccount = [[UserAccount alloc] init];
         }
+        self.localSettings = [NSMutableDictionary dictionaryWithDictionary:self.userAccount.settings];
     }
     return self;
 }
@@ -106,7 +108,7 @@ typedef enum _SETTINGS_TAG
         }
         case 1:
         {
-            numberOfRows = 1;
+            numberOfRows = 2;
             break;
         }
         case 2:
@@ -208,6 +210,36 @@ typedef enum _SETTINGS_TAG
                     cell.accessoryType = UITableViewCellAccessoryNone;
                     cell.textLabel.text = NSLocalizedString(@"Address",nil);
                     cell.detailTextLabel.text = userAccount.server;
+#endif
+                    break;
+                }
+                case 1:
+                {
+#if TARGET_OS_IOS
+                    self.textCellPath = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (self.textCellPath == nil)
+                    {
+                        self.textCellPath = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                            reuseIdentifier:TextCellIdentifier];
+                    }
+                    [self.textCellPath setCellDataWithLabelString:NSLocalizedString(@"Start path:",nil)
+                                                         withText:[self.localSettings objectForKey:@"path"]
+                                                  withPlaceHolder:NSLocalizedString(@"Start path",nil)
+                                                         isSecure:NO
+                                                 withKeyboardType:UIKeyboardTypeDefault
+                                                     withDelegate:self
+                                                           andTag:PATH_TAG];
+                    cell = self.textCellPath;
+#elif TARGET_OS_TV
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Start path (optional)",nil);
+                    cell.detailTextLabel.text = [self.localSettings objectForKey:@"path"];
 #endif
                     break;
                 }
@@ -352,6 +384,16 @@ typedef enum _SETTINGS_TAG
                     [self.invisibleTextField becomeFirstResponder];
                     break;
                 }
+                case 1:
+                {
+                    self.invisibleTextField.text = [self.localSettings objectForKey:@"path"];
+                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter start path"];
+                    self.invisibleTextField.keyboardType = UIKeyboardTypeDefault;
+                    self.invisibleTextField.secureTextEntry = NO;
+                    self.invisibleTextField.tag = PATH_TAG;
+                    [self.invisibleTextField becomeFirstResponder];
+                    break;
+                }
             }
             break;
         }
@@ -473,15 +515,12 @@ typedef enum _SETTINGS_TAG
         }
         case ADDRESS_TAG:
         {
-            if ([textField.text hasPrefix:@"https://"])
-            {
-                self.userAccount.boolSSL = YES;
-            }
-            else
-            {
-                self.userAccount.boolSSL = NO;
-            }
             self.userAccount.server = textField.text;
+            break;
+        }
+        case PATH_TAG:
+        {
+            [self.localSettings setObject:textField.text forKey:@"path"];
             break;
         }
         case UNAME_TAG:
@@ -504,6 +543,8 @@ typedef enum _SETTINGS_TAG
     [textCellUsername resignFirstResponder];
     [textCellPassword resignFirstResponder];
     
+    self.userAccount.settings = [NSDictionary dictionaryWithDictionary:self.localSettings];
+
     [SSKeychain setPassword:self.localPassword
                  forService:self.userAccount.uuid
                     account:@"password"];

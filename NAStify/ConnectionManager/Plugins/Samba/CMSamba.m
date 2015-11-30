@@ -264,6 +264,7 @@ char c_password[255];
     }
     else
     {
+        NSLog(@"%s",[[folder.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
         smb_tid tid = smb_tree_connect(self.session, [[folder.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
         if (tid == 0)
         {
@@ -360,7 +361,7 @@ char c_password[255];
 
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName
 {
-#define BUFFER_SIZE 4096
+#define BUFFER_SIZE 0xFFFF
     char buffer[BUFFER_SIZE];
     ssize_t read_length = 0;
     ssize_t length;
