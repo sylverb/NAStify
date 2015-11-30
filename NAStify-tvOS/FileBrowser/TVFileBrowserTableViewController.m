@@ -397,6 +397,7 @@
                 NetworkConnection *cnx = [self.connectionManager urlForVideo:file];
                 
                 VLCMedia *media = [VLCMedia mediaWithURL:cnx.url];
+                [media setMetadata:file.name forKey:VLCMetaInformationTitle];
                 [media addOptions:optionsDict];
                 [mediaList addMedia:media];
             }
@@ -438,6 +439,7 @@
                     NetworkConnection *cnx = [self.connectionManager urlForVideo:file];
                     
                     VLCMedia *media = [VLCMedia mediaWithURL:cnx.url];
+                    [media setMetadata:file.name forKey:VLCMetaInformationTitle];
                     [media addOptions:optionsDict];
                     [mediaList addMedia:media];
                 }
