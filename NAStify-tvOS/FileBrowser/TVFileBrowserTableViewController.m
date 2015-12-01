@@ -901,7 +901,8 @@
                                                      
                                                      NSString *accountName = userField.text;
                                                      NSString *password = passField.text;
-                                                     [SSKeychain setPassword:password forService:serviceIdentifier account:accountName];
+                                                     if (accountName.length)
+                                                         [SSKeychain setPassword:password forService:serviceIdentifier account:accountName];
                                                      [self.connectionManager setCredential:userField.text
                                                                                   password:passField.text];
                                                      
@@ -918,7 +919,7 @@
                                                  }];
     
     UIAlertAction* delete;
-    if (accountName.length && password.length)
+    if (accountName.length || password.length)
     {
         delete = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil)
                                           style:UIAlertActionStyleDestructive
