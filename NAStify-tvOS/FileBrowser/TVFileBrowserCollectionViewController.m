@@ -29,6 +29,9 @@
 {
     VLCMediaPlayer *_mediaplayer;
 }
+
+@property(nonatomic, strong) UILongPressGestureRecognizer *longTapGesture;
+- (void)longPressAction:(UILongPressGestureRecognizer*)longPressRecognizer;
 @end
 
 @implementation FileBrowserCollectionViewController
@@ -100,6 +103,12 @@
     }
     [self.collectionView reloadData];
 
+    // Tap recognizer
+    self.longTapGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                        action:@selector(longPressAction:)];
+    self.longTapGesture.minimumPressDuration = 2;
+    [self.view addGestureRecognizer:self.longTapGesture];
+
 #if 0
     // Delete cached files if needed
     NSURL *containerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];
@@ -168,7 +177,9 @@
         // We are going back to servers list, logout from server
         [self.connectionManager logout];
     }
-    
+
+    [self.view removeGestureRecognizer:self.longTapGesture];
+
     [[NSNotificationCenter defaultCenter] removeObserver:self
                                                     name:UIApplicationDidBecomeActiveNotification
                                                   object:nil];
@@ -277,6 +288,60 @@
 {
     if (self.restoreLastPathIndex == NO)
         self.lastIndexPath = nil;
+}
+
+#pragma mark - Long tap management
+
+- (void)longPressAction:(UILongPressGestureRecognizer *)tapRecognizer
+{
+    if (![self.connectionManager pluginRespondsToSelector:@selector(deleteFiles:)])
+        return;
+    
+    if (tapRecognizer.state == UIGestureRecognizerStateBegan)
+    {
+        for (UICollectionViewCell *coll in self.collectionView.visibleCells)
+        {
+            if (coll.isFocused)
+            {
+                BOOL canDelete = NO;
+                NSIndexPath *indexPath = [self.collectionView indexPathForCell:coll];
+                FileItem *fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
+                NSLog(@"file %@",fileItem.name);
+                
+                if (((fileItem.isDir)&&(ServerSupportsFeature(FolderDelete))) ||
+                    ((!fileItem.isDir)&&(ServerSupportsFeature(FileDelete))))
+                {
+                    canDelete = fileItem.writeAccess;
+                }
+                
+                if (canDelete)
+                {
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:fileItem.name
+                                                                                   message:NSLocalizedString(@"Action",nil)
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete",nil)
+                                                                           style:UIAlertActionStyleDestructive
+                                                                         handler:^(UIAlertAction * action) {
+                                                                             [self.filesArray removeObjectAtIndex:indexPath.row];
+                                                                             [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+                                                                             
+                                                                             [self.connectionManager deleteFiles:@[fileItem]];
+                                                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                         }];
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil)
+                                                                           style:UIAlertActionStyleCancel
+                                                                         handler:^(UIAlertAction * action) {
+                                                                             // Do nothing
+                                                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                         }];
+                    [alert addAction:deleteAction];
+                    [alert addAction:cancelAction];
+                    [self presentViewController:alert animated:YES completion:nil];
+                }
+            }
+        }
+    }
 }
 
 #pragma mark - File management
@@ -1013,6 +1078,57 @@
                 break;
             }
         }
+    }
+    
+#if 0
+    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
+    [hud hide:YES];
+#endif
+}
+
+- (void)CMDeleteProgress:(NSDictionary *)dict
+{
+#if 0
+    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
+    float progress = [[dict objectForKey:@"progress"] floatValue];
+    if (progress != 0)
+    {
+        hud.mode = MBProgressHUDModeAnnularDeterminate;
+        hud.progress = progress;
+    }
+    if ([dict objectForKey:@"info"])
+    {
+        hud.detailsLabelText = [dict objectForKey:@"info"];
+    }
+#endif
+}
+
+- (void)CMDeleteFinished:(NSDictionary *)dict
+{
+    if ([[dict objectForKey:@"success"] boolValue] == NO)
+    {
+        // Show error
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"File delete",nil)
+                                                                       message:NSLocalizedString([dict objectForKey:@"error"],nil)
+                                                                preferredStyle:UIAlertControllerStyleAlert];
+        
+        UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
+                                                                style:UIAlertActionStyleDefault
+                                                              handler:^(UIAlertAction * action) {
+                                                                  [alert dismissViewControllerAnimated:YES completion:nil];
+                                                              }];
+        [alert addAction:defaultAction];
+        
+        // Update space information
+//      [self.connectionManager spaceInfoAtPath:self.currentFolder];
+        
+        // Get file list
+        [self.connectionManager listForPath:self.currentFolder];
+    }
+    else
+    {
+        // Update space information
+//      [self.connectionManager spaceInfoAtPath:self.currentFolder];
     }
     
 #if 0
