@@ -47,6 +47,13 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 
 @implementation VLCFullscreenMovieTVViewController
 
+- (NSString *)getCurrentTime
+{
+    return [NSDateFormatter localizedStringFromDate:[NSDate date]
+                                          dateStyle:NSDateFormatterLongStyle
+                                          timeStyle:NSDateFormatterShortStyle];
+}
+
 + (instancetype)fullscreenMovieTVViewController
 {
     return [[self alloc] initWithNibName:nil bundle:nil];
@@ -78,9 +85,17 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     self.bottomOverlayView.alpha = 0.0;
 
     self.bufferingLabel.text = NSLocalizedString(@"PLEASE_WAIT", nil);
-    
+
+    // Clock view
+    self.clockLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 30, 1920-180, 40)];
+    self.clockLabel.text = [self getCurrentTime];
+    self.clockLabel.textColor = [UIColor whiteColor];
+    self.clockLabel.font = [UIFont systemFontOfSize:30.0];
+    self.clockLabel.textAlignment = NSTextAlignmentRight;
+    [self.view addSubview:self.clockLabel];
+
     // Swipe for settings view
-    self.swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 30, 1920, 40)];
+    self.swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 130, 1920, 40)];
     self.swipeSettingsLabel.text = NSLocalizedString(@"SWIPE_INFO", nil);
     self.swipeSettingsLabel.textColor = [UIColor whiteColor];
     self.swipeSettingsLabel.font = [UIFont systemFontOfSize:30.0];
@@ -642,8 +657,13 @@ static const NSInteger VLCJumpInterval = 10000; // 10 seconds
     NSTimeInterval duration = visible ? 0.3 : 1.0;
 
     CGFloat alpha = visible ? 1.0 : 0.0;
+    if (!visible)
+    {
+        self.clockLabel.text = [self getCurrentTime];
+    }
     [UIView animateWithDuration:duration
                      animations:^{
+                         self.clockLabel.alpha = alpha;
                          self.swipeSettingsLabel.alpha = alpha;
                          self.bottomOverlayView.alpha = alpha;
                      }];

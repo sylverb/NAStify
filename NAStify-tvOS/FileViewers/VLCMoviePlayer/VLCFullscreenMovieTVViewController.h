@@ -22,6 +22,7 @@
 
 @property (readwrite, nonatomic, weak) IBOutlet UIView *bottomOverlayView;
 @property (readwrite, nonatomic, strong) UILabel *swipeSettingsLabel;
+@property (readwrite, nonatomic, strong) UILabel *clockLabel;
 @property (readwrite, nonatomic, weak) IBOutlet VLCTransportBar *transportBar;
 @property (readwrite, nonatomic, weak) IBOutlet UILabel *titleLabel;
 @property (readwrite, nonatomic, weak) IBOutlet UILabel *bufferingLabel;
