@@ -18,8 +18,8 @@
 #include <iconv.h>
 #include <langinfo.h>
 
-#define CURLOPT_VERBOSE_LEVEL 1L
-//#define CURLOPT_VERBOSE_LEVEL 0L
+//#define CURLOPT_VERBOSE_LEVEL 1L
+#define CURLOPT_VERBOSE_LEVEL 0L
 
 #define FTP_CODE_ACTION_COMPLETED               200
 #define FTP_CODE_FILE_ACTION_OK_DATA_CNX_CLOSED 226
@@ -508,6 +508,29 @@ static size_t WriteMemoryCallback(void *ptr, size_t size, size_t nmemb, void *da
             if ((res == CURLE_OK) &&
                 ((ftpCode == FTP_CODE_ACTION_COMPLETED) || (ftpCode == FTP_CODE_PATHNAME_CREATED)))
             {
+                // If UTF-8 is selected, send command to enable UTF8 on server side
+                if ([self.userAccount.encoding isEqualToString:@"UTF-8"])
+                {
+                    struct curl_slist* header = NULL;
+                    // OPTS UTF-8
+                    header = curl_slist_append(header, "OPTS UTF8 ON");
+
+                    curl_easy_setopt(curl, CURLOPT_POSTQUOTE, header);
+
+                    // Start the network activity spinner
+                    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+                    curl_easy_perform(curl);
+
+                    // End the network activity spinner
+                    [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+                    curl_easy_setopt(curl, CURLOPT_POSTQUOTE, NULL);
+
+                    curl_slist_free_all(header);
+                    header = NULL;
+                }
+
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
                                             [NSNumber numberWithBool:YES],@"success",
@@ -1441,23 +1464,11 @@ static int scan_perms (const char *s, int *perms)
             
             if (res == CURLE_OK)
             {
-                if (res == CURLE_OK)
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                 [NSNumber numberWithBool:YES],@"success",
-                                                 nil]];
-                    });
-                }
-                else
-                {
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                 [NSNumber numberWithBool:NO],@"success",
-                                                 [self stringForCurlCode:res],@"error",
-                                                 nil]];
-                    });
-                }
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
+                                             [NSNumber numberWithBool:YES],@"success",
+                                             nil]];
+                });
             }
             else
             {
