@@ -95,7 +95,7 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     [self.view addSubview:self.clockLabel];
 
     // Swipe for settings view
-    self.swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 130, 1920, 40)];
+    self.swipeSettingsLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 50, 1920, 40)];
     self.swipeSettingsLabel.text = NSLocalizedString(@"SWIPE_INFO", nil);
     self.swipeSettingsLabel.textColor = [UIColor whiteColor];
     self.swipeSettingsLabel.font = [UIFont systemFontOfSize:30.0];
