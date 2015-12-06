@@ -10,6 +10,12 @@
 #import "UserAccount.h"
 #import "SSKeychain.h"
 
+#define SECTION_NAME_INDEX              0
+#define SECTION_SERVER_INDEX            1
+#define SECTION_AUTHENTICATION_INDEX    2
+#define SECTION_ENCRYPTION_INDEX        3
+#define SECTION_SAVE_INDEX              4
+
 typedef enum _SETTINGS_TAG
 {
     ADDRESS_TAG = 0,
@@ -103,22 +109,22 @@ typedef enum _SETTINGS_TAG
 
     switch (section)
     {
-        case 0:
+        case SECTION_NAME_INDEX:
         {
             numberOfRows = 1;
             break;
         }
-        case 1:
+        case SECTION_SERVER_INDEX:
         {
             numberOfRows = 2;
             break;
         }
-        case 2:
+        case SECTION_AUTHENTICATION_INDEX:
         {
             numberOfRows = 2;
             break;
         }
-        case 3:
+        case SECTION_ENCRYPTION_INDEX:
         {
             if (self.userAccount.boolSSL)
             {
@@ -131,7 +137,7 @@ typedef enum _SETTINGS_TAG
             break;
         }
 #if TARGET_OS_TV
-            case 4:
+            case SECTION_SAVE_INDEX:
         {
             numberOfRows = 1;
             break;
@@ -157,7 +163,7 @@ typedef enum _SETTINGS_TAG
 
     switch (indexPath.section)
     {
-        case 0:
+        case SECTION_NAME_INDEX:
         {
             switch (indexPath.row)
             {
@@ -194,7 +200,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-        case 1:
+        case SECTION_SERVER_INDEX:
         {
             switch (indexPath.row)
             {
@@ -261,7 +267,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-        case 2:
+        case SECTION_AUTHENTICATION_INDEX:
         {
             switch (indexPath.row)
             {
@@ -335,7 +341,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-        case 3:
+        case SECTION_ENCRYPTION_INDEX:
         {
             switch (indexPath.row)
             {
@@ -411,7 +417,7 @@ typedef enum _SETTINGS_TAG
             break;
         }
 #if TARGET_OS_TV
-        case 4:
+        case SECTION_SAVE_INDEX:
         {
             switch (indexPath.row)
             {
@@ -441,7 +447,7 @@ typedef enum _SETTINGS_TAG
 {
     switch (indexPath.section)
     {
-        case 0:
+        case SECTION_NAME_INDEX:
         {
             switch (indexPath.row)
             {
@@ -460,7 +466,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-        case 1:
+        case SECTION_SERVER_INDEX:
         {
             switch (indexPath.row)
             {
@@ -487,7 +493,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-        case 2:
+        case SECTION_AUTHENTICATION_INDEX:
         {
             switch (indexPath.row)
             {
@@ -516,7 +522,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-        case 3:
+        case SECTION_ENCRYPTION_INDEX:
         {
             switch (indexPath.row)
             {
@@ -537,7 +543,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-        case 4:
+        case SECTION_SAVE_INDEX:
         {
             switch (indexPath.row)
             {
@@ -563,21 +569,21 @@ typedef enum _SETTINGS_TAG
     NSString * title = nil;
     switch (section)
     {
-        case 0:
+        case SECTION_NAME_INDEX:
         {
             break;
         }
-        case 1:
+        case SECTION_SERVER_INDEX:
         {
             title = NSLocalizedString(@"Server Connection",nil);
             break;
         }
-        case 2:
+        case SECTION_AUTHENTICATION_INDEX:
         {
             title = NSLocalizedString(@"Security",nil);
             break;
         }
-        case 3:
+        case SECTION_ENCRYPTION_INDEX:
         {
             title = NSLocalizedString(@"Encryption",nil);
             break;

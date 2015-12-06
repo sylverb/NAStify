@@ -10,6 +10,11 @@
 #import "UserAccount.h"
 #import "SSKeychain.h"
 
+#define SECTION_NAME_INDEX              0
+#define SECTION_SERVER_INDEX            1
+#define SECTION_TOKEN_INDEX             2
+#define SECTION_SAVE_INDEX              3
+
 typedef enum _SETTINGS_TAG
 {
     ADDRESS_TAG = 0,
@@ -102,23 +107,23 @@ typedef enum _SETTINGS_TAG
 
     switch (section)
     {
-        case 0:
+        case SECTION_NAME_INDEX:
         {
             numberOfRows = 1;
             break;
         }
-        case 1:
+        case SECTION_SERVER_INDEX:
         {
             numberOfRows = 2;
             break;
         }
-        case 2:
+        case SECTION_TOKEN_INDEX:
         {
             numberOfRows = 1;
             break;
         }
 #if TARGET_OS_TV
-        case 3:
+        case SECTION_SAVE_INDEX:
         {
             numberOfRows = 1;
             break;
@@ -140,7 +145,7 @@ typedef enum _SETTINGS_TAG
 
     switch (indexPath.section)
     {
-        case 0:
+        case SECTION_NAME_INDEX:
         {
             switch (indexPath.row)
             {
@@ -177,7 +182,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-        case 1:
+        case SECTION_SERVER_INDEX:
         {
             switch (indexPath.row)
             {
@@ -244,7 +249,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-        case 2:
+        case SECTION_TOKEN_INDEX:
         {
             switch (indexPath.row)
             {
@@ -282,7 +287,7 @@ typedef enum _SETTINGS_TAG
             break;
         }
 #if TARGET_OS_TV
-            case 3:
+        case SECTION_SAVE_INDEX:
         {
             switch (indexPath.row)
             {
@@ -310,7 +315,7 @@ typedef enum _SETTINGS_TAG
 #if TARGET_OS_TV
 - (BOOL)tableView:(UITableView *)tableView canFocusRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 2)
+    if (indexPath.section == SECTION_TOKEN_INDEX)
     {
         return NO;
     }
@@ -326,7 +331,7 @@ typedef enum _SETTINGS_TAG
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section)
     {
-        case 0:
+        case SECTION_NAME_INDEX:
         {
             switch (indexPath.row)
             {
@@ -345,7 +350,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-        case 1:
+        case SECTION_SERVER_INDEX:
         {
             switch (indexPath.row)
             {
@@ -373,7 +378,7 @@ typedef enum _SETTINGS_TAG
             break;
         }
 #if TARGET_OS_IOS
-        case 2:
+        case SECTION_TOKEN_INDEX:
         {
             switch (indexPath.row)
             {
@@ -438,7 +443,7 @@ typedef enum _SETTINGS_TAG
         }
 #endif
 #if TARGET_OS_TV
-        case 3:
+        case SECTION_SAVE_INDEX:
         {
             switch (indexPath.row)
             {
@@ -463,16 +468,16 @@ typedef enum _SETTINGS_TAG
     NSString * title = nil;
     switch (section)
     {
-        case 0:
+        case SECTION_NAME_INDEX:
         {
             break;
         }
-        case 1:
+        case SECTION_SERVER_INDEX:
         {
             title = NSLocalizedString(@"Server Connection",nil);
             break;
         }
-        case 2:
+        case SECTION_TOKEN_INDEX:
         {
             title = NSLocalizedString(@"Token",nil);
             break;
@@ -486,7 +491,8 @@ typedef enum _SETTINGS_TAG
 	if (buttonIndex == -1)
 		return;
     
-    switch (alertView.tag) {
+    switch (alertView.tag)
+    {
         case ALERT_IMPORT_TOKEN_TAG:
         {
             NSString *token = [alertView textFieldAtIndex:0].text;
