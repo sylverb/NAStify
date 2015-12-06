@@ -657,7 +657,7 @@ static const NSInteger VLCJumpInterval = 10000; // 10 seconds
     NSTimeInterval duration = visible ? 0.3 : 1.0;
 
     CGFloat alpha = visible ? 1.0 : 0.0;
-    if (!visible)
+    if (visible)
     {
         self.clockLabel.text = [self getCurrentTime];
     }
