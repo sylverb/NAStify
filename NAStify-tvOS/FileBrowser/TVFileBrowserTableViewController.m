@@ -1123,26 +1123,33 @@
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"File delete",nil)
                                                                        message:NSLocalizedString([dict objectForKey:@"error"],nil)
                                                                 preferredStyle:UIAlertControllerStyleAlert];
-        
+
         UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
                                                                 style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {
                                                                   [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                  // Update space information
+//                                                                [self.connectionManager spaceInfoAtPath:self.currentFolder];
+
+                                                                  // Get file list
+                                                                  [self.connectionManager listForPath:self.currentFolder];
                                                               }];
         [alert addAction:defaultAction];
-        
-        // Update space information
-//      [self.connectionManager spaceInfoAtPath:self.currentFolder];
-        
-        // Get file list
-        [self.connectionManager listForPath:self.currentFolder];
+
+        [self presentViewController:alert animated:YES completion:nil];
     }
     else
     {
         // Update space information
 //      [self.connectionManager spaceInfoAtPath:self.currentFolder];
+        
+        // If there is no file, go back to previous folder
+        if (self.filesArray.count == 0)
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
-    
+
 #if 0
     MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
     [hud hide:YES];

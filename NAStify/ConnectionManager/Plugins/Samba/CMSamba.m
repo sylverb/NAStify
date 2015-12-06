@@ -266,7 +266,7 @@ char c_password[255];
     {
         NSLog(@"%s",[[folder.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
         smb_tid tid = smb_tree_connect(self.session, [[folder.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
-        if (tid == 0)
+        if (tid == -1)
         {
             // Username/password is invalid for this share, request another one
             [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -355,7 +355,54 @@ char c_password[255];
 #endif
 }
 
-#pragma mark - space info management
+#pragma mark - Delete management
+#ifndef APP_EXTENSION
+- (void)deleteFiles:(NSArray *)files
+{
+    uint32_t result = NT_STATUS_SUCCESS;
+    FileItem *file = [files objectAtIndex:0];
+    smb_tid tid = smb_tree_connect(self.session, [[file.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
+    if (tid == -1)
+    {
+        return;
+    }
+    for (FileItem *file in files)
+    {
+        NSMutableString *path = [[NSMutableString alloc] init];
+        for (NSInteger i = 2;i < file.objectIds.count; i++)
+        {
+            [path appendFormat:@"\\%@",[file.objectIds objectAtIndex:i]];
+        }
+        if (file.isDir)
+        {
+            result = smb_rm_dir(self.session, tid, [path cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
+        else
+        {
+            result = smb_rm_file(self.session, tid, [path cStringUsingEncoding:NSUTF8StringEncoding]);
+        }
+        if (result != NT_STATUS_SUCCESS)
+            break;
+    }
+    if (result == NT_STATUS_SUCCESS)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                             [NSNumber numberWithBool:YES],@"success",
+                                             nil]];
+        });
+    }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                             [NSNumber numberWithBool:NO],@"success",
+                                             [self stringForError:result],@"error",
+                                             nil]];
+        });
+    }
+}
+#endif
 
 #pragma mark - Download management
 
@@ -491,9 +538,29 @@ char c_password[255];
 - (NSInteger)supportedFeaturesAtPath:(NSString *)path
 {
     NSInteger features = (
-                          CMSupportedFeaturesMaskVLCPlayer
+                          CMSupportedFeaturesMaskVLCPlayer    |
+                          CMSupportedFeaturesMaskFileDelete   |
+                          CMSupportedFeaturesMaskFolderDelete
                           );
     return features;
+}
+
+- (NSString *)stringForError:(uint32_t)error
+{
+    NSString *string;
+    switch (error)
+    {
+        case NT_STATUS_DIRECTORY_NOT_EMPTY:
+        {
+            string = NSLocalizedString(@"Directory is not empty", nil);
+            break;
+        }
+            
+        default:
+            string = [NSString stringWithFormat:NSLocalizedString(@"Error code 0x%x", nil),error];
+            break;
+    }
+    return string;
 }
 
 @end

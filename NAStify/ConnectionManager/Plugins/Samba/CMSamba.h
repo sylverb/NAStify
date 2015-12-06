@@ -37,7 +37,9 @@
 - (void)listForPath:(FileItem *)folder;
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localpath;
 - (void)setCredential:(NSString *)user password:(NSString *)password;
-
+#ifndef APP_EXTENSION
+- (void)deleteFiles:(NSArray *)files;
+#endif
 /* File URL requests */
 #ifndef APP_EXTENSION
 - (NetworkConnection *)urlForFile:(FileItem *)file;
