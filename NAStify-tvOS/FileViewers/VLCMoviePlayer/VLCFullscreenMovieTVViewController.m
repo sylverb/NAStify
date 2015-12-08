@@ -87,7 +87,7 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     self.bufferingLabel.text = NSLocalizedString(@"PLEASE_WAIT", nil);
 
     // Clock view
-    self.clockLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 30, 1920-180, 40)];
+    self.clockLabel = [[UILabel alloc] initWithFrame:CGRectMake(90, 50, 1920-180, 40)];
     self.clockLabel.text = [self getCurrentTime];
     self.clockLabel.textColor = [UIColor whiteColor];
     self.clockLabel.font = [UIFont systemFontOfSize:30.0];
@@ -164,6 +164,15 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 
     VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
     vpc.delegate = self;
+    
+    self.titleLabel.text = @"";
+    
+    self.transportBar.playbackFraction = 0.0;
+    
+    self.transportBar.remainingTimeLabel.text = @"--:--";
+    self.transportBar.markerTimeLabel.text = @"--:--";
+    self.bufferingLabel.text = NSLocalizedString(@"PLEASE_WAIT", nil);
+
     [vpc recoverPlaybackState];
 }
 
