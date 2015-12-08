@@ -537,11 +537,15 @@ char c_password[255];
 
 - (NSInteger)supportedFeaturesAtPath:(NSString *)path
 {
-    NSInteger features = (
-                          CMSupportedFeaturesMaskVLCPlayer    |
-                          CMSupportedFeaturesMaskFileDelete   |
-                          CMSupportedFeaturesMaskFolderDelete
-                          );
+    NSInteger features = 0;
+    if (![path isEqualToString:@"/"])
+    {
+        features = (
+                    CMSupportedFeaturesMaskVLCPlayer    |
+                    CMSupportedFeaturesMaskFileDelete   |
+                    CMSupportedFeaturesMaskFolderDelete
+                   );
+    }
     return features;
 }
 
@@ -555,7 +559,23 @@ char c_password[255];
             string = NSLocalizedString(@"Directory is not empty", nil);
             break;
         }
-            
+        case NT_STATUS_NO_SUCH_FILE:
+        {
+            string = NSLocalizedString(@"No such file", nil);
+            break;
+        }
+        case NT_STATUS_ACCESS_DENIED:
+        {
+            string = NSLocalizedString(@"Access denied", nil);
+            break;
+        }
+        case NT_STATUS_OBJECT_PATH_INVALID:
+        case NT_STATUS_OBJECT_PATH_NOT_FOUND:
+        case NT_STATUS_OBJECT_PATH_SYNTAX_BAD:
+        {
+            string = NSLocalizedString(@"Invalid path", nil);
+            break;
+        }
         default:
             string = [NSString stringWithFormat:NSLocalizedString(@"Error code 0x%x", nil),error];
             break;
