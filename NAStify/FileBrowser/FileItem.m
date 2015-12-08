@@ -65,6 +65,7 @@
              ([[self.type lowercaseString] isEqualToString:@"m2t"]) ||
              ([[self.type lowercaseString] isEqualToString:@"m2ts"]) ||
              ([[self.type lowercaseString] isEqualToString:@"m2v"]) ||
+             ([[self.type lowercaseString] isEqualToString:@"m3u8"]) ||
              ([[self.type lowercaseString] isEqualToString:@"mks"]) ||
              ([[self.type lowercaseString] isEqualToString:@"mkv"]) ||
              ([[self.type lowercaseString] isEqualToString:@"moov"]) ||
