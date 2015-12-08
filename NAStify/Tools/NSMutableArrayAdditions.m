@@ -13,10 +13,6 @@
 
 #pragma mark - sorting functions
 
-static NSComparisonResult sortFilesRevertOrder(id leftArray, id rightArray, void *context) {
-    return NSOrderedDescending;
-}
-
 static NSComparisonResult sortFilesByDateDesc(FileItem *firstFile, FileItem *secondFile, void *context)
 {
     if ((firstFile.fileDateNumber == nil) && (secondFile.fileDateNumber == nil))
@@ -75,7 +71,7 @@ static NSComparisonResult sortFilesBySizeDesc(FileItem *firstFile, FileItem *sec
 	if (firstFile.isDir && secondFile.isDir)
     {
         // Folders are all the same size, order them by name
-		result = [firstFile.name caseInsensitiveCompare:secondFile.name];
+		result = [firstFile.name compare:secondFile.name options:NSCaseInsensitiveSearch|NSNumericSearch];
     }
     else if (!firstFile.isDir && !secondFile.isDir)
     {
@@ -99,7 +95,7 @@ static NSComparisonResult sortFilesBySizeAsc(FileItem *firstFile, FileItem *seco
 	if (firstFile.isDir && secondFile.isDir)
     {
         // Folders are all the same size, order them by name
-		result = [firstFile.name caseInsensitiveCompare:secondFile.name];
+		result = [firstFile.name compare:secondFile.name options:NSCaseInsensitiveSearch|NSNumericSearch];
     }
     else if (!firstFile.isDir && !secondFile.isDir)
     {
@@ -124,7 +120,7 @@ static NSComparisonResult sortFilesBySizeFoldersFirstDesc(FileItem *firstFile, F
 	if (firstFile.isDir && secondFile.isDir)
     {
         // Folders are all the same size, order them by name
-		result = [firstFile.name caseInsensitiveCompare:secondFile.name];
+		result = [firstFile.name compare:secondFile.name options:NSCaseInsensitiveSearch|NSNumericSearch];
     }
     else if (!firstFile.isDir && !secondFile.isDir)
     {
@@ -151,7 +147,7 @@ static NSComparisonResult sortFilesByNameFoldersFirstDesc(FileItem *firstFile, F
 	NSComparisonResult result = NSOrderedSame;
 	if ((firstFile.isDir && secondFile.isDir) ||
 		(!firstFile.isDir && !secondFile.isDir)) {
-		result = [firstFile.name caseInsensitiveCompare:secondFile.name];
+		result = [firstFile.name compare:secondFile.name options:NSCaseInsensitiveSearch|NSNumericSearch];
 	} else if (firstFile.isDir) {
 		result = NSOrderedAscending;
 	} else if (secondFile.isDir) {
@@ -165,7 +161,7 @@ static NSComparisonResult sortFilesByNameFoldersFirstAsc(FileItem *firstFile, Fi
 	NSComparisonResult result = NSOrderedSame;
 	if ((firstFile.isDir && secondFile.isDir) ||
 		(!firstFile.isDir && !secondFile.isDir)) {
-		result = [secondFile.name caseInsensitiveCompare:firstFile.name];
+		result = [secondFile.name compare:firstFile.name options:NSCaseInsensitiveSearch|NSNumericSearch];
 	} else if (firstFile.isDir) {
 		result = NSOrderedAscending;
 	} else if (secondFile.isDir) {
@@ -177,14 +173,14 @@ static NSComparisonResult sortFilesByNameFoldersFirstAsc(FileItem *firstFile, Fi
 
 static NSComparisonResult sortFilesByNameDesc(FileItem *firstFile, FileItem *secondFile, void *context) {
 	NSComparisonResult result = NSOrderedSame;
-	result = [firstFile.name caseInsensitiveCompare:secondFile.name];
+	result = [firstFile.name compare:secondFile.name options:NSCaseInsensitiveSearch|NSNumericSearch];
 	
 	return result;
 }
 
 static NSComparisonResult sortFilesByNameAsc(FileItem *firstFile, FileItem *secondFile, void *context) {
 	NSComparisonResult result = NSOrderedSame;
-	result = [secondFile.name caseInsensitiveCompare:firstFile.name];
+	result = [secondFile.name compare:firstFile.name options:NSCaseInsensitiveSearch|NSNumericSearch];
 	
 	return result;
 }
@@ -193,9 +189,9 @@ static NSComparisonResult sortFilesByTypeDesc(FileItem *firstFile, FileItem *sec
 	NSComparisonResult result = NSOrderedSame;
 	if ((firstFile.isDir && secondFile.isDir) ||
 		(!firstFile.isDir && !secondFile.isDir)) {
-		result = [firstFile.type caseInsensitiveCompare:secondFile.type];
+		result = [firstFile.type compare:secondFile.type options:NSCaseInsensitiveSearch|NSNumericSearch];
 		if (result == NSOrderedSame) {
-			result = [firstFile.name caseInsensitiveCompare:secondFile.name];
+			result = [firstFile.name compare:secondFile.name options:NSCaseInsensitiveSearch|NSNumericSearch];
 		}
 	} else if (firstFile.isDir) {
 		result = NSOrderedAscending;
@@ -210,9 +206,9 @@ static NSComparisonResult sortFilesByTypeAsc(FileItem *firstFile, FileItem *seco
 	NSComparisonResult result = NSOrderedSame;
 	if ((firstFile.isDir && secondFile.isDir) ||
 		(!firstFile.isDir && !secondFile.isDir)) {
-		result = [secondFile.type caseInsensitiveCompare:firstFile.type];
+		result = [secondFile.type compare:firstFile.type];
 		if (result == NSOrderedSame) {
-			result = [firstFile.name caseInsensitiveCompare:secondFile.name];
+			result = [firstFile.name compare:secondFile.name];
 		}
 	} else if (firstFile.isDir) {
 		result = NSOrderedDescending;
@@ -231,9 +227,9 @@ static NSComparisonResult sortFilesByTypeFoldersFirstAsc(FileItem *firstFile, Fi
 	NSComparisonResult result = NSOrderedSame;
 	if ((firstFile.isDir && secondFile.isDir) ||
 		(!firstFile.isDir && !secondFile.isDir)) {
-		result = [secondFile.type caseInsensitiveCompare:firstFile.type];
+		result = [secondFile.type compare:firstFile.type];
 		if (result == NSOrderedSame) {
-			result = [firstFile.name caseInsensitiveCompare:secondFile.name];
+			result = [firstFile.name compare:secondFile.name options:NSCaseInsensitiveSearch|NSNumericSearch];
 		}
 	} else if (firstFile.isDir) {
 		result = NSOrderedAscending;
