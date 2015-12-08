@@ -292,6 +292,22 @@
 
 #pragma mark - Long tap management
 
+- (void)showAlertMessage:(NSString *)alertMessage
+{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Warning", nil)
+                                                                   message:alertMessage
+                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil)
+                                                           style:UIAlertActionStyleCancel
+                                                         handler:^(UIAlertAction * action) {
+                                                             // Do nothing
+                                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                                         }];
+    [alert addAction:cancelAction];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 - (void)longPressAction:(UILongPressGestureRecognizer *)tapRecognizer
 {
     if (![self.connectionManager pluginRespondsToSelector:@selector(deleteFiles:)])
@@ -323,11 +339,21 @@
                     UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete",nil)
                                                                            style:UIAlertActionStyleDestructive
                                                                          handler:^(UIAlertAction * action) {
-                                                                             [self.filesArray removeObjectAtIndex:indexPath.row];
-                                                                             [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-                                                                             
-                                                                             [self.connectionManager deleteFiles:@[fileItem]];
-                                                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                             NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+
+                                                                             if ([defaults boolForKey:kNASTifySettingAllowDelete])
+                                                                             {
+                                                                                 [self.filesArray removeObjectAtIndex:indexPath.row];
+                                                                                 [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+
+                                                                                 [self.connectionManager deleteFiles:@[fileItem]];
+                                                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                             }
+                                                                             else
+                                                                             {
+                                                                                 [self showAlertMessage:NSLocalizedString(@"You have to enable delete in setting", nil)];
+                                                                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                             }
                                                                          }];
                     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil)
                                                                            style:UIAlertActionStyleCancel
@@ -337,6 +363,7 @@
                                                                          }];
                     [alert addAction:deleteAction];
                     [alert addAction:cancelAction];
+                    alert.preferredAction = cancelAction;
                     [self presentViewController:alert animated:YES completion:nil];
                 }
             }
