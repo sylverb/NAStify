@@ -858,39 +858,42 @@ static void on_entry_added(void *p_opaque,
     struct in_addr addr;
     BOOL addServer = YES;
     addr.s_addr = netbios_ns_entry_ip(entry);
-    
+
     ServersListViewController *c_self = (__bridge ServersListViewController *)(p_opaque);
     NSMutableArray *array = c_self.smbDevices;
-    
+
     NSString *ipString = [NSString stringWithFormat:@"%s",inet_ntoa(addr)];
     NSString *hostname = [NSString stringWithFormat:@"%s",netbios_ns_entry_name(entry)];
     NSString *group = [NSString stringWithFormat:@"%s",netbios_ns_entry_group(entry)];
-    
+
     // Check if server is not already present before adding it
-    for (NSDictionary *server in array)
+    @synchronized(array)
     {
-        if (([[server objectForKey:@"ip"] isEqualToString:ipString]) &&
-            ([[server objectForKey:@"hostname"] isEqualToString:hostname]) &&
-            ([[server objectForKey:@"group"] isEqualToString:group]))
+        for (NSDictionary *server in array)
         {
-            addServer = NO;
+            if (([[server objectForKey:@"ip"] isEqualToString:ipString]) &&
+                ([[server objectForKey:@"hostname"] isEqualToString:hostname]) &&
+                ([[server objectForKey:@"group"] isEqualToString:group]))
+            {
+                addServer = NO;
+            }
+        }
+        if (addServer)
+        {
+            NSDictionary *serverDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                        ipString, @"ip",
+                                        hostname, @"hostname",
+                                        group, @"group",
+                                        nil];
+
+            [array addObject:serverDict];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [c_self.tableView reloadData];
+            });
         }
     }
-    if (addServer)
-    {
-        NSDictionary *serverDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                    ipString, @"ip",
-                                    hostname, @"hostname",
-                                    group, @"group",
-                                    nil];
-        
-        [array addObject:serverDict];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [c_self.tableView reloadData];
-        });
-    }
-    
+
     NSLog(@"on_entry_added %@", array);
 }
 
@@ -899,26 +902,29 @@ static void on_entry_removed(void *p_opaque,
 {
     struct in_addr addr;
     addr.s_addr = netbios_ns_entry_ip(entry);
-    
+
     ServersListViewController *c_self = (__bridge ServersListViewController *)(p_opaque);
     NSMutableArray *array = c_self.smbDevices;
-    
+
     NSString *ipString = [NSString stringWithFormat:@"%s",inet_ntoa(addr)];
     NSString *hostname = [NSString stringWithFormat:@"%s",netbios_ns_entry_name(entry)];
     NSString *group = [NSString stringWithFormat:@"%s",netbios_ns_entry_group(entry)];
 
-    for (NSDictionary *server in array)
+    @synchronized(array)
     {
-        if (([[server objectForKey:@"ip"] isEqualToString:ipString]) &&
-            ([[server objectForKey:@"hostname"] isEqualToString:hostname]) &&
-            ([[server objectForKey:@"group"] isEqualToString:group]))
+        for (NSDictionary *server in array)
         {
-            // Remove this server from list
-            [array removeObject:server];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [c_self.tableView reloadData];
-            });
+            if (([[server objectForKey:@"ip"] isEqualToString:ipString]) &&
+                ([[server objectForKey:@"hostname"] isEqualToString:hostname]) &&
+                ([[server objectForKey:@"group"] isEqualToString:group]))
+            {
+                // Remove this server from list
+                [array removeObject:server];
+
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [c_self.tableView reloadData];
+                });
+            }
         }
     }
     NSLog(@"on_entry_removed %@", array);
