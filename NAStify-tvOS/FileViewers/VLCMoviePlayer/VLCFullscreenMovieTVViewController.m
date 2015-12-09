@@ -17,6 +17,7 @@
 #import "VLCSiriRemoteGestureRecognizer.h"
 #import "MetaDataFetcherKit.h"
 #import "VLCNetworkImageView.h"
+#import <AVFoundation/AVFoundation.h>
 
 typedef NS_ENUM(NSInteger, VLCPlayerScanState)
 {
@@ -174,6 +175,8 @@ typedef NS_ENUM(NSInteger, VLCPlayerScanState)
     self.bufferingLabel.text = NSLocalizedString(@"PLEASE_WAIT", nil);
 
     [vpc recoverPlaybackState];
+    // Set audio delay according to the output used (Airplay has a 2s delay for example)
+    vpc.audioDelay = -[[AVAudioSession sharedInstance] outputLatency];
 }
 
 - (void)viewDidAppear:(BOOL)animated
