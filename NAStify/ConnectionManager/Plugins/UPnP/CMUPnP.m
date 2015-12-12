@@ -60,7 +60,7 @@
     NSMutableString *outTotalMatches = [[NSMutableString alloc] init];
     NSMutableString *outUpdateID = [[NSMutableString alloc] init];
     
-    [[_UPNPdevice contentDirectory] BrowseWithObjectID:_UPNProotID BrowseFlag:@"BrowseDirectChildren" Filter:@"*" StartingIndex:@"0" RequestedCount:@"0" SortCriteria:sortCriteria OutResult:outResult OutNumberReturned:outNumberReturned OutTotalMatches:outTotalMatches OutUpdateID:outUpdateID];
+    [[_UPNPdevice contentDirectory] BrowseWithObjectID:_UPNProotID BrowseFlag:@"BrowseDirectChildren" Filter:@"*" StartingIndex:@"0" RequestedCount:@"10000" SortCriteria:sortCriteria OutResult:outResult OutNumberReturned:outNumberReturned OutTotalMatches:outTotalMatches OutUpdateID:outUpdateID];
     
     [_mutableObjectList removeAllObjects];
     NSData *didl = [outResult dataUsingEncoding:NSUTF8StringEncoding];
