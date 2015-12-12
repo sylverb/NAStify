@@ -385,7 +385,7 @@
 #if TARGET_OS_IOS
             numberOfRows = 1;
 #elif TARGET_OS_TV
-            numberOfRows = 5;
+            numberOfRows = 6;
 #endif
             break;
         }
@@ -664,6 +664,26 @@
                     else
                     {
                         cell.detailTextLabel.text = NSLocalizedString(@"Line", nil);
+                    }
+                    break;
+                }
+                case 5:
+                {
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"Long tap to delete files/folders",nil);
+                    if ([defaults boolForKey:kNASTifySettingAllowDelete])
+                    {
+                        cell.detailTextLabel.text = NSLocalizedString(@"Yes", nil);
+                    }
+                    else
+                    {
+                        cell.detailTextLabel.text = NSLocalizedString(@"No", nil);
                     }
                     break;
                 }
@@ -1416,6 +1436,12 @@
                     {
                         [defaults setObject:@(kNASTifySettingBrowserTypeGrid) forKey:kNASTifySettingBrowserType];
                     }
+                    [self.tableView reloadData];
+                    break;
+                }
+                case 5:
+                {
+                    [defaults setBool:![defaults boolForKey:kNASTifySettingAllowDelete] forKey:kNASTifySettingAllowDelete];
                     [self.tableView reloadData];
                     break;
                 }

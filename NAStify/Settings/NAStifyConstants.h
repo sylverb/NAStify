@@ -107,5 +107,6 @@
 #define kNASTifySettingBrowserType          @"BrowserType"
 #define kNASTifySettingBrowserTypeGrid              0
 #define kNASTifySettingBrowserTypeLine              1
+#define kNASTifySettingAllowDelete          @"AllowDelete"
 
 #endif /* NAStifyConstants_h */
