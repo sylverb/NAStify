@@ -12,12 +12,11 @@ pod 'MBProgressHUD', :git => 'https://github.com/jdg/MBProgressHUD.git', :commit
 pod 'objective-zip', '0.8.3'
 pod 'OBSlider', '1.1.0'
 pod 'PSTCollectionView', '1.2.3'
-#pod 'upnpx', '1.3.4'
 pod 'Google-API-Client/Drive', '1.0.418'
 
 target 'NAStify' do
+    pod 'upnpx', '1.3.6'
     pod 'Google-Mobile-Ads-SDK', '~> 7.0'
-    pod 'upnpx', :podspec => 'localpods/vendor/upnpx.podspec'
     pod 'SSKeychain', :podspec => 'localpods/vendor/SSKeychain.podspec'
     pod 'AFNetworking', :podspec => 'localpods/vendor/AFNetworking.podspec'
     pod 'XMLDictionary', :podspec => 'localpods/vendor/XMLDictionary.podspec'
@@ -25,7 +24,7 @@ target 'NAStify' do
 end
 
 target 'NAStify-DocProvider' do
-    pod 'upnpx', :podspec => 'localpods/vendor/upnpx.podspec'
+    pod 'upnpx', '1.3.6'
     pod 'SSKeychain', :podspec => 'localpods/vendor/SSKeychain.podspec'
     pod 'AFNetworking', :podspec => 'localpods/vendor/AFNetworking.podspec'
     pod 'XMLDictionary', :podspec => 'localpods/vendor/XMLDictionary.podspec'
@@ -34,7 +33,7 @@ end
 
 target 'NAStify-tvOS' do
     platform :tvos, '9.0'
-	pod 'upnpx', :podspec => 'localpods/vendor/upnpx.podspec'
+    pod 'upnpx', '1.3.6'
     pod 'SSKeychain', :podspec => 'localpods/vendor/SSKeychain.podspec'
     pod 'AFNetworking', :podspec => 'localpods/vendor/AFNetworking.podspec'
     pod 'XMLDictionary', :podspec => 'localpods/vendor/XMLDictionary.podspec'
