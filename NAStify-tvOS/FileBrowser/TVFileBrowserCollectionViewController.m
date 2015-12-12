@@ -343,9 +343,11 @@
 
                                                                              if ([defaults boolForKey:kNASTifySettingAllowDelete])
                                                                              {
-                                                                                 [self.filesArray removeObjectAtIndex:indexPath.row];
-                                                                                 [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
-
+                                                                                 [self.collectionView performBatchUpdates:^(){
+                                                                                     [self.filesArray removeObjectAtIndex:indexPath.row];
+                                                                                     [self.collectionView deleteItemsAtIndexPaths:@[indexPath]];
+                                                                                 }
+                                                                                                               completion:nil];
                                                                                  [self.connectionManager deleteFiles:@[fileItem]];
                                                                                  [alert dismissViewControllerAnimated:YES completion:nil];
                                                                              }

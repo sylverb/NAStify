@@ -382,8 +382,10 @@
                                                                              if ([defaults boolForKey:kNASTifySettingAllowDelete])
                                                                              {
                                                                                  [self.filesArray removeObjectAtIndex:indexPath.row];
+                                                                                 [self.tableView beginUpdates];
                                                                                  [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                                                                                                        withRowAnimation:UITableViewRowAnimationFade];
+                                                                                 [self.tableView endUpdates];
 
                                                                                  [self.connectionManager deleteFiles:@[fileItem]];
                                                                                  [alert dismissViewControllerAnimated:YES completion:nil];
