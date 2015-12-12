@@ -7231,7 +7231,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./Fabric.framework/run 1510d850f9ccd40c43a336e0a04436c3bf37fd0d 770c40ca73f3ccc14bed495ddadd7bbdc90b90c39cffb59404160dab337d40ad";
+			shellScript = "./NAStify/External/Fabric.framework/run 1510d850f9ccd40c43a336e0a04436c3bf37fd0d 770c40ca73f3ccc14bed495ddadd7bbdc90b90c39cffb59404160dab337d40ad";
 		};
 		B78F2AB205D95F378178E0D2 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
