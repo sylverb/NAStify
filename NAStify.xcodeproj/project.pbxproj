@@ -193,6 +193,11 @@
 		95AF2E111BDAE5D600C3A81D /* tvos-libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */; };
 		95AF2E121BDAE5D600C3A81D /* tvos-libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF2E101BDAE5D600C3A81D /* tvos-libssl.a */; };
 		95BD7B401BE0C654005BC784 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 95BD7B3E1BE0C654005BC784 /* Localizable.strings */; };
+		95C6CD781C18D81200F964BF /* NAStifyAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C6CD761C18D81200F964BF /* NAStifyAboutViewController.m */; };
+		95C6CD791C18D81200F964BF /* NAStifyAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95C6CD771C18D81200F964BF /* NAStifyAboutViewController.xib */; };
+		95C6CD811C18E1D800F964BF /* About Contents.html in Resources */ = {isa = PBXBuildFile; fileRef = 95C6CD801C18E1D800F964BF /* About Contents.html */; };
+		95C6CDDF1C1C457700F964BF /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CDDD1C1C457700F964BF /* Crashlytics.framework */; };
+		95C6CDE01C1C457700F964BF /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CDDE1C1C457700F964BF /* Fabric.framework */; };
 		95DFB7011B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
 		95DFB7021B0BA5D40002C830 /* CMPydio.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7001B0BA5D40002C830 /* CMPydio.m */; };
 		95DFB7561B0BA6260002C830 /* AuthorizationClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 95DFB7071B0BA6250002C830 /* AuthorizationClient.m */; };
@@ -1737,7 +1742,6 @@
 		956A2E031BFD202F00682088 /* TVFileBrowserTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TVFileBrowserTableViewController.m; sourceTree = "<group>"; };
 		9572243A1BD9A280009495DF /* libidn.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libidn.a; path = external/libidn/lib/libidn.a; sourceTree = "<group>"; };
 		957322731BDAED6F008D8AD0 /* tvos-libssh2.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libssh2.a"; path = "external/libssh2/lib/tvos-libssh2.a"; sourceTree = "<group>"; };
-		9573227A1BDAF4FC008D8AD0 /* tvos_libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = tvos_libcurl.a; path = external/curl/lib/tvos_libcurl.a; sourceTree = "<group>"; };
 		9573227C1BDAFA51008D8AD0 /* tvos_libneon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = tvos_libneon.a; path = external/neon/lib/tvos_libneon.a; sourceTree = "<group>"; };
 		9573227E1BDAFA9B008D8AD0 /* tvos-libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libcurl.a"; path = "external/curl/lib/tvos-libcurl.a"; sourceTree = "<group>"; };
 		957322801BDAFAA8008D8AD0 /* tvos-libneon.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libneon.a"; path = "external/neon/lib/tvos-libneon.a"; sourceTree = "<group>"; };
@@ -1794,6 +1798,14 @@
 		95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libcrypto.a"; path = "external/openssl/lib/tvos-libcrypto.a"; sourceTree = "<group>"; };
 		95AF2E101BDAE5D600C3A81D /* tvos-libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libssl.a"; path = "external/openssl/lib/tvos-libssl.a"; sourceTree = "<group>"; };
 		95BD7B3F1BE0C654005BC784 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
+		95C6CD751C18D81200F964BF /* NAStifyAboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NAStifyAboutViewController.h; path = ServersSettings/NAStifyAboutViewController.h; sourceTree = "<group>"; };
+		95C6CD761C18D81200F964BF /* NAStifyAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NAStifyAboutViewController.m; path = ServersSettings/NAStifyAboutViewController.m; sourceTree = "<group>"; };
+		95C6CD771C18D81200F964BF /* NAStifyAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NAStifyAboutViewController.xib; path = ServersSettings/NAStifyAboutViewController.xib; sourceTree = "<group>"; };
+		95C6CD801C18E1D800F964BF /* About Contents.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "About Contents.html"; path = "Ressources/About Contents.html"; sourceTree = "<group>"; };
+		95C6CDD71C1A31A800F964BF /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
+		95C6CDD81C1A31A800F964BF /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		95C6CDDD1C1C457700F964BF /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = NAStify/External/Crashlytics.framework; sourceTree = "<group>"; };
+		95C6CDDE1C1C457700F964BF /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = NAStify/External/Fabric.framework; sourceTree = "<group>"; };
 		95DFB6FF1B0BA5D40002C830 /* CMPydio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CMPydio.h; sourceTree = "<group>"; };
 		95DFB7001B0BA5D40002C830 /* CMPydio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CMPydio.m; sourceTree = "<group>"; };
 		95DFB7061B0BA6250002C830 /* AuthorizationClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AuthorizationClient.h; sourceTree = "<group>"; };
@@ -3171,6 +3183,8 @@
 				954872E71BD7058C0097225C /* libc++.tbd in Frameworks */,
 				95486E4F1BD6E5340097225C /* libiconv.tbd in Frameworks */,
 				95486E4B1BD6E5220097225C /* AVFoundation.framework in Frameworks */,
+				95C6CDDF1C1C457700F964BF /* Crashlytics.framework in Frameworks */,
+				95C6CDE01C1C457700F964BF /* Fabric.framework in Frameworks */,
 				95486E491BD6E51A0097225C /* OpenGLES.framework in Frameworks */,
 				95486E471BD6E5110097225C /* CoreText.framework in Frameworks */,
 				95486E451BD6E50A0097225C /* AudioToolbox.framework in Frameworks */,
@@ -3452,6 +3466,9 @@
 		95486E531BD6EC440097225C /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				95C6CD751C18D81200F964BF /* NAStifyAboutViewController.h */,
+				95C6CD761C18D81200F964BF /* NAStifyAboutViewController.m */,
+				95C6CD771C18D81200F964BF /* NAStifyAboutViewController.xib */,
 				95486E5C1BD6EC5A0097225C /* NAStifyConstants.h */,
 			);
 			name = Settings;
@@ -3596,6 +3613,7 @@
 		95BD7B3C1BE0C639005BC784 /* Ressources */ = {
 			isa = PBXGroup;
 			children = (
+				95C6CD801C18E1D800F964BF /* About Contents.html */,
 				95562DA61BE2A1DD006222C3 /* ServerIcon */,
 				95562CFC1BE29694006222C3 /* FileIcon */,
 				95BD7B3D1BE0C654005BC784 /* en.lproj */,
@@ -4734,10 +4752,13 @@
 		F901F7A815D7C7C50059428E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				95C6CDDD1C1C457700F964BF /* Crashlytics.framework */,
+				95C6CDDE1C1C457700F964BF /* Fabric.framework */,
+				95C6CDD71C1A31A800F964BF /* Fabric.framework */,
+				95C6CDD81C1A31A800F964BF /* Crashlytics.framework */,
 				957322801BDAFAA8008D8AD0 /* tvos-libneon.a */,
 				9573227E1BDAFA9B008D8AD0 /* tvos-libcurl.a */,
 				9573227C1BDAFA51008D8AD0 /* tvos_libneon.a */,
-				9573227A1BDAF4FC008D8AD0 /* tvos_libcurl.a */,
 				957322731BDAED6F008D8AD0 /* tvos-libssh2.a */,
 				95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */,
 				95AF2E101BDAE5D600C3A81D /* tvos-libssl.a */,
@@ -6109,6 +6130,7 @@
 				95486DC71BD6D9E50097225C /* Resources */,
 				77898F6839E579E3316B3C5F /* Embed Pods Frameworks */,
 				5D3F6725B150AA8A8ED342A5 /* Copy Pods Resources */,
+				95C6CDD61C1A318C00F964BF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -6383,7 +6405,9 @@
 				95562DBB1BE2BAA6006222C3 /* freebox.png in Resources */,
 				95562E421BE58575006222C3 /* owncloud.png in Resources */,
 				95486DD91BD6D9E50097225C /* Main.storyboard in Resources */,
+				95C6CD791C18D81200F964BF /* NAStifyAboutViewController.xib in Resources */,
 				95562DA21BE29C1F006222C3 /* wma.png in Resources */,
+				95C6CD811C18E1D800F964BF /* About Contents.html in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -7196,6 +7220,19 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NAStify-DocProvider/Pods-NAStify-DocProvider-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		95C6CDD61C1A318C00F964BF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Fabric.framework/run 1510d850f9ccd40c43a336e0a04436c3bf37fd0d 770c40ca73f3ccc14bed495ddadd7bbdc90b90c39cffb59404160dab337d40ad";
+		};
 		B78F2AB205D95F378178E0D2 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -7298,6 +7335,7 @@
 				9548731D1BD711AA0097225C /* dummy.mm in Sources */,
 				954872EE1BD706C40097225C /* ConnectionManager.m in Sources */,
 				950091441BF8AF1200689CA4 /* VLCRemoteBrowsingTVCell.m in Sources */,
+				95C6CD781C18D81200F964BF /* NAStifyAboutViewController.m in Sources */,
 				957AD1851BF3EFCB00798E9F /* VLCPlaybackController.m in Sources */,
 				954872EF1BD706C40097225C /* NetworkConnection.m in Sources */,
 				957AD1741BF3ED5500798E9F /* VLCIRTVTapGestureRecognizer.m in Sources */,
@@ -7924,8 +7962,13 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/NAStify/External",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify-tvOS/NAStify-tvOS_Prefix.pch";
@@ -7990,6 +8033,11 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+					"$(PROJECT_DIR)/NAStify/External",
+				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify-tvOS/NAStify-tvOS_Prefix.pch";

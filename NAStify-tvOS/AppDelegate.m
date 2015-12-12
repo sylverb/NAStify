@@ -9,6 +9,9 @@
 #import "TVAppDelegate.h"
 #import "VLCPlayerDisplayController.h"
 #import "SettingsViewController.h"
+#import "NAStifyAboutViewController.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
 
@@ -37,11 +40,15 @@
                                   kVLCSettingPlaybackBackwardSkipLength : kVLCSettingPlaybackBackwardSkipLengthDefaultValue,
                                   kNASTifySettingPlayerType : @(kNASTifySettingPlayerTypeInternal),
                                   kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeVLCOnly),
-                                  kNASTifySettingBrowserType : @(kNASTifySettingBrowserTypeGrid)};
+                                  kNASTifySettingBrowserType : @(kNASTifySettingBrowserTypeGrid),
+                                  kNASTifySettingAllowDelete : @(NO)};
+
     [defaults registerDefaults:appDefaults];
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [Fabric with:@[[Crashlytics class]]];
+
     // Application launching
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -53,9 +60,14 @@
     self.settingsNavController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
     self.settingsNavController.title = NSLocalizedString(@"Settings",nil);
 
+    NAStifyAboutViewController *aboutController = [[NAStifyAboutViewController alloc] init];
+    UINavigationController *aboutNavController = [[UINavigationController alloc] initWithRootViewController:aboutController];
+    aboutNavController.title = NSLocalizedString(@"About",nil);
+    
     NSArray *navControllersArray = [NSArray arrayWithObjects:
                                     self.serversNavController,
                                     self.settingsNavController,
+                                    aboutNavController,
                                     nil];
     self.tabBarController = [[UITabBarController alloc] init];
     self.tabBarController.viewControllers = navControllersArray;
