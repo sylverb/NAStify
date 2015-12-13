@@ -199,7 +199,7 @@ NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackCont
     [[AVAudioSession sharedInstance] setDelegate:self];
 #endif
 
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
 
     _aspectRatios = @[@"DEFAULT", @"FILL_TO_SCREEN", @"4:3", @"16:9", @"16:10", @"2.21:1"];
 
@@ -291,7 +291,7 @@ NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackCont
 - (void)_playNewMedia
 {
     // Set last selected equalizer profile
-    unsigned int profile = (unsigned int)[[[NSUserDefaults standardUserDefaults] objectForKey:kVLCSettingEqualizerProfile] integerValue];
+    unsigned int profile = (unsigned int)[[[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] objectForKey:kVLCSettingEqualizerProfile] integerValue];
     [_mediaPlayer resetEqualizerFromProfile:profile];
     [_mediaPlayer setPreAmplification:[_mediaPlayer preAmplification]];
 
@@ -575,7 +575,7 @@ NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackCont
         _mediaPlayer.media.delegate = self;
 
         /* on-the-fly values through hidden API */
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
         [_mediaPlayer performSelector:@selector(setTextRendererFont:) withObject:[defaults objectForKey:kVLCSettingSubtitlesFont]];
         [_mediaPlayer performSelector:@selector(setTextRendererFontSize:) withObject:[defaults objectForKey:kVLCSettingSubtitlesFontSize]];
         [_mediaPlayer performSelector:@selector(setTextRendererFontColor:) withObject:[defaults objectForKey:kVLCSettingSubtitlesFontColor]];
@@ -630,7 +630,7 @@ NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackCont
         [_listPlayer next];
         [[NSNotificationCenter defaultCenter] postNotificationName:VLCPlaybackControllerPlaybackMetadataDidChange object:self];
     } else {
-        NSNumber *skipLength = [[NSUserDefaults standardUserDefaults] valueForKey:kVLCSettingPlaybackForwardSkipLength];
+        NSNumber *skipLength = [[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] valueForKey:kVLCSettingPlaybackForwardSkipLength];
         [_mediaPlayer jumpForward:skipLength.intValue];
     }
 }
@@ -642,7 +642,7 @@ NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackCont
         [[NSNotificationCenter defaultCenter] postNotificationName:VLCPlaybackControllerPlaybackMetadataDidChange object:self];
     }
     else {
-        NSNumber *skipLength = [[NSUserDefaults standardUserDefaults] valueForKey:kVLCSettingPlaybackBackwardSkipLength];
+        NSNumber *skipLength = [[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] valueForKey:kVLCSettingPlaybackBackwardSkipLength];
         [_mediaPlayer jumpBackward:skipLength.intValue];
     }
 }
@@ -744,7 +744,7 @@ NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackCont
 
 - (void)resetEqualizerFromProfile:(unsigned int)profile
 {
-    [[NSUserDefaults standardUserDefaults] setObject:@(profile) forKey:kVLCSettingEqualizerProfile];
+    [[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] setObject:@(profile) forKey:kVLCSettingEqualizerProfile];
     [_mediaPlayer resetEqualizerFromProfile:profile];
 }
 
@@ -980,9 +980,9 @@ setstuff:
         if (lastPosition < .95 && _mediaPlayer.position < lastPosition && (duration * lastPosition - duration) < -50000) {
             NSInteger continuePlayback;
             if (!_mediaPlayer.hasVideoOut)
-                continuePlayback = [[[NSUserDefaults standardUserDefaults] objectForKey:kVLCSettingContinueAudioPlayback] integerValue];
+                continuePlayback = [[[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] objectForKey:kVLCSettingContinueAudioPlayback] integerValue];
             else
-                continuePlayback = [[[NSUserDefaults standardUserDefaults] objectForKey:kVLCSettingContinuePlayback] integerValue];
+                continuePlayback = [[[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] objectForKey:kVLCSettingContinuePlayback] integerValue];
 
             if (continuePlayback == 1) {
                 _mediaPlayer.position = lastPosition;
@@ -1072,7 +1072,7 @@ static inline NSArray * RemoteCommandCenterCommandsToHandle(MPRemoteCommandCente
     commandCenter.skipForwardCommand.enabled = enableSkip;
     commandCenter.skipBackwardCommand.enabled = enableSkip;
 
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
     NSNumber *forwardSkip = [defaults valueForKey:kVLCSettingPlaybackForwardSkipLength];
     commandCenter.skipForwardCommand.preferredIntervals = @[forwardSkip];
     NSNumber *backwardSkip = [defaults valueForKey:kVLCSettingPlaybackBackwardSkipLength];
@@ -1198,8 +1198,7 @@ static inline NSArray * RemoteCommandCenterCommandsToHandle(MPRemoteCommandCente
 #if TARGET_OS_IOS
     [self _savePlaybackState];
 #endif
-
-    if (![[[NSUserDefaults standardUserDefaults] objectForKey:kVLCSettingContinueAudioInBackgroundKey] boolValue]) {
+    if (![[[[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"] objectForKey:kVLCSettingContinueAudioInBackgroundKey] boolValue]) {
         if ([_mediaPlayer isPlaying]) {
             [_mediaPlayer pause];
             _shouldResumePlaying = YES;
@@ -1238,7 +1237,7 @@ static inline NSArray * RemoteCommandCenterCommandsToHandle(MPRemoteCommandCente
 
 - (NSDictionary *)mediaOptionsDictionary
 {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
     return @{ kVLCSettingNetworkCaching : [defaults objectForKey:kVLCSettingNetworkCaching],
                                        kVLCSettingStretchAudio : [[defaults objectForKey:kVLCSettingStretchAudio] boolValue] ? kVLCSettingStretchAudioOnValue : kVLCSettingStretchAudioOffValue,
                                        kVLCSettingTextEncoding : [defaults objectForKey:kVLCSettingTextEncoding],
