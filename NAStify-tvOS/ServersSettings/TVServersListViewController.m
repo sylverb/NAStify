@@ -866,35 +866,37 @@ static void on_entry_added(void *p_opaque,
     NSString *hostname = [NSString stringWithFormat:@"%s",netbios_ns_entry_name(entry)];
     NSString *group = [NSString stringWithFormat:@"%s",netbios_ns_entry_group(entry)];
 
+    NSMutableArray *entriesToAdd = [[NSMutableArray alloc] init];
+
     // Check if server is not already present before adding it
-    @synchronized(array)
+    for (NSDictionary *server in array)
     {
-        for (NSDictionary *server in array)
+        if (([[server objectForKey:@"ip"] isEqualToString:ipString]) &&
+            ([[server objectForKey:@"hostname"] isEqualToString:hostname]) &&
+            ([[server objectForKey:@"group"] isEqualToString:group]))
         {
-            if (([[server objectForKey:@"ip"] isEqualToString:ipString]) &&
-                ([[server objectForKey:@"hostname"] isEqualToString:hostname]) &&
-                ([[server objectForKey:@"group"] isEqualToString:group]))
-            {
-                addServer = NO;
-            }
-        }
-        if (addServer)
-        {
-            NSDictionary *serverDict = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                        ipString, @"ip",
-                                        hostname, @"hostname",
-                                        group, @"group",
-                                        nil];
-
-            [array addObject:serverDict];
-
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [c_self.tableView reloadData];
-            });
+            addServer = NO;
         }
     }
+    if (addServer)
+    {
+        NSDictionary *serverDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    ipString, @"ip",
+                                    hostname, @"hostname",
+                                    group, @"group",
+                                    nil];
+        
+        [entriesToAdd addObject:serverDict];
+    }
 
-    NSLog(@"on_entry_added %@", array);
+    if (entriesToAdd.count > 0)
+    {
+        [array addObjectsFromArray:entriesToAdd];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [c_self.tableView reloadData];
+        });
+    }
+    NSLog(@"on_entry_added %@", entriesToAdd);
 }
 
 static void on_entry_removed(void *p_opaque,
@@ -910,24 +912,26 @@ static void on_entry_removed(void *p_opaque,
     NSString *hostname = [NSString stringWithFormat:@"%s",netbios_ns_entry_name(entry)];
     NSString *group = [NSString stringWithFormat:@"%s",netbios_ns_entry_group(entry)];
 
-    @synchronized(array)
+    NSMutableArray *entriesToRemove = [[NSMutableArray alloc] init];
+    for (NSDictionary *server in array)
     {
-        for (NSDictionary *server in array)
+        if (([[server objectForKey:@"ip"] isEqualToString:ipString]) &&
+            ([[server objectForKey:@"hostname"] isEqualToString:hostname]) &&
+            ([[server objectForKey:@"group"] isEqualToString:group]))
         {
-            if (([[server objectForKey:@"ip"] isEqualToString:ipString]) &&
-                ([[server objectForKey:@"hostname"] isEqualToString:hostname]) &&
-                ([[server objectForKey:@"group"] isEqualToString:group]))
-            {
-                // Remove this server from list
-                [array removeObject:server];
-
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [c_self.tableView reloadData];
-                });
-            }
+            // Add this server to list to remove
+            [entriesToRemove addObject:server];
+            
         }
     }
-    NSLog(@"on_entry_removed %@", array);
+    if (entriesToRemove.count > 0)
+    {
+        [array removeObjectsInArray:entriesToRemove];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [c_self.tableView reloadData];
+        });
+    }
+    NSLog(@"on_entry_removed %@", entriesToRemove);
 }
 
 - (void)startNetbiosDiscovery
