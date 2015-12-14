@@ -232,6 +232,16 @@ char c_password[255];
             return;
         }
         
+        // If no share is available, ask the user for another user account
+        if (share_list[0] == NULL)
+        {
+            // Username/password is invalid for this share, request another one
+            [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSString stringWithFormat:@"smb://%@",self.userAccount.server],@"service",
+                                                nil]];
+            return;
+        }
+
         NSLog(@"Share list :");
         NSMutableArray *filesOutputArray = [NSMutableArray array];
         for (size_t j = 0; share_list[j] != NULL; j++)
