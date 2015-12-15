@@ -7,7 +7,7 @@ set -e
 
 if [ ! -f libssh2-${LIBSSH2_VERSION}.tar.gz ]
 then
-    wget http://www.libssh2.org/download/libssh2-${LIBSSH2_VERSION}.tar.gz
+    curl -O "http://www.libssh2.org/download/libssh2-${LIBSSH2_VERSION}.tar.gz"
 fi
 
 if [ ! -d libssh2-${LIBSSH2_VERSION} ]

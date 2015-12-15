@@ -7,17 +7,17 @@ set -e
 
 if [ ! -f LibRaw-${LIBRAW_VERSION}.tar.gz ]
 then
-wget http://www.libraw.org/data/LibRaw-${LIBRAW_VERSION}.tar.gz
+curl -O "http://www.libraw.org/data/LibRaw-${LIBRAW_VERSION}.tar.gz"
 fi
 
 #if [ ! -f LibRaw-demosaic-pack-GPL2-${LIBRAW_VERSION}.tar.gz ]
 #then
-#wget http://www.libraw.org/data/LibRaw-demosaic-pack-GPL2-${LIBRAW_VERSION}.tar.gz
+#curl -O "http://www.libraw.org/data/LibRaw-demosaic-pack-GPL2-${LIBRAW_VERSION}.tar.gz"
 #fi
 
 #if [ ! -f LibRaw-demosaic-pack-GPL3-${LIBRAW_VERSION}.tar.gz ]
 #then
-#wget http://www.libraw.org/data/LibRaw-demosaic-pack-GPL3-${LIBRAW_VERSION}.tar.gz
+#curl -O "http://www.libraw.org/data/LibRaw-demosaic-pack-GPL3-${LIBRAW_VERSION}.tar.gz"
 #fi
 
 if [ ! -d LibRaw-${LIBRAW_VERSION} ]

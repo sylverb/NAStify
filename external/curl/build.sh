@@ -9,7 +9,7 @@ SDK=`xcrun --sdk iphoneos --show-sdk-version`
 
 if [ ! -f curl-${LIBCURL_VERSION}.tar.gz ]
 then
-wget http://curl.haxx.se/download/curl-${LIBCURL_VERSION}.tar.gz
+curl -O "http://curl.haxx.se/download/curl-${LIBCURL_VERSION}.tar.gz"
 fi
 
 if [ ! -d curl-${LIBCURL_VERSION} ]
