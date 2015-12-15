@@ -1,43 +1,29 @@
 #!/bin/sh
 PLATFORM=iphoneos
-SDK=`xcrun --sdk iphoneos --show-sdk-version`
-SDK_MIN=7.0
+#SDK=`xcrun --sdk iphoneos --show-sdk-version`
+SDK=`xcrun --sdk appletvos --show-sdk-version`
 VERBOSE=no
 CONFIGURATION="Release"
 out="/dev/stdout"
 
-TESTEDVLCKITHASH=60f6062d
-TESTEDMEDIALIBRARYKITHASH=1a308536
+TESTEDVLCKITHASH=dbbf6634
+TESTEDMEDIALIBRARYKITHASH=e5ca039f
+
+spushd()
+{
+pushd "$1" 2>&1> /dev/null
+}
+
+spopd()
+{
+popd 2>&1> /dev/null
+}
 
 info()
 {
      local green="\033[1;32m"
      local normal="\033[0m"
      echo "[${green}info${normal}] $1"
-}
-
-buildxcworkspace()
-{
-    local target="$2"
-    if [ "x$target" = "x" ]; then
-        target="$1"
-    fi
-
-    info "Building the workspace $1 ($target, ${CONFIGURATION})"
-
-    local architectures=""
-    if [ "$PLATFORM" = "iphonesimulator" ]; then
-        architectures="i386 x86_64"
-    else
-        architectures="armv7 armv7s arm64"
-    fi
-
-    xcodebuild -workspace "$1.xcworkspace" \
-    -scheme "Pods-vlc-ios" \
-    -sdk $PLATFORM$SDK \
-    -configuration ${CONFIGURATION} \
-    ARCHS="${architectures}" \
-    IPHONEOS_DEPLOYMENT_TARGET=${SDK_MIN} > ${out}
 }
 
 pushd openssl
@@ -64,10 +50,6 @@ popd
 pushd libRaw
 ./build.sh
 popd
-pushd samba
-rake
-popd
-
 
 
 # Setup paths
@@ -100,8 +82,8 @@ fi
 if ! [ -e VLCKit ]; then
 git clone http://code.videolan.org/videolan/VLCKit.git
 cd VLCKit
-git checkout -B 2.2.x ${TESTEDVLCKITHASH}
-git branch --set-upstream-to=origin/2.2.x 2.2.x
+git checkout -B iOS-2.7 ${TESTEDVLCKITHASH}
+git branch --set-upstream-to=origin/iOS-2.7 iOS-2.7
 cd ..
 else
 cd VLCKit
@@ -109,6 +91,8 @@ git pull --rebase
 git reset --hard ${TESTEDVLCKITHASH}
 cd ..
 fi
+
+info "Building VLCKit"
 
 spushd VLCKit
 echo `pwd`
@@ -125,14 +109,12 @@ fi
 if [ "$SKIPLIBVLCCOMPILATION" = "yes" ]; then
 args="${args} -l"
 fi
-./buildMobileVLCKit.sh ${args} -k "${SDK}"
-buildxcodeproj MobileVLCKit "Aggregate static plugins"
-buildxcodeproj MobileVLCKit "MobileVLCKit"
+./buildMobileVLCKit.sh -t -k "${SDK}"
 spopd
 
-spushd MediaLibraryKit
-rm -f External/MobileVLCKit
-ln -sf ${framework_build} External/MobileVLCKit
-buildxcodeproj MediaLibraryKit
-spopd
+#spushd MediaLibraryKit
+#rm -f External/MobileVLCKit
+#ln -sf ${framework_build} External/MobileVLCKit
+#buildxcodeproj MediaLibraryKit
+#spopd
 
