@@ -570,10 +570,19 @@
         case FILETYPE_UNKNOWN:
         default:
         {
-            // Nothing to do
+            if (self.userAccount.serverType == SERVER_TYPE_UPNP)
+            {
+                // As some UPnP servers are not providing extensions, use VLC to open unknown files
+                itemHandled = YES;
+                self.videoFile = fileItem;
+                
+                if (![self getSubtitleFileForMedia:fileItem])
+                {
+                    [self showVLCPlayerForFile:fileItem withSubtitles:nil];
+                }
+            }
             break;
         }
-            
     }
     return itemHandled;
 }
