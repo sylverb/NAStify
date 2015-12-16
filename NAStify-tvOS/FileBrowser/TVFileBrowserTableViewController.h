@@ -34,6 +34,7 @@
 @property(nonatomic, strong) NSMutableArray *filteredFilesArray;
 @property(nonatomic) BOOL filesListIsValid;
 @property(nonatomic) BOOL showHidden;
+@property(nonatomic) BOOL tableViewIsUpdating;
 
 /* Multiple Selection handling */
 //@property(nonatomic, strong) UITableView *multipleSelectionTableView;

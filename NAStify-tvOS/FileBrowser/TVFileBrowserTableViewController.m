@@ -42,6 +42,7 @@
     {
         self.isConnected = FALSE;
         self.filesListIsValid = FALSE;
+        self.tableViewIsUpdating = FALSE;
     }
     
     return self;
@@ -257,7 +258,9 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    if ((self.filesListIsValid) && ([self.filesArray count] == 0))
+    if ((self.filesListIsValid) &&
+        ([self.filesArray count] == 0) &&
+        (!self.tableViewIsUpdating))
     {
         // No files here, put a cell to tell it
         return 1;
@@ -381,11 +384,13 @@
 
                                                                              if ([defaults boolForKey:kNASTifySettingAllowDelete])
                                                                              {
-                                                                                 [self.filesArray removeObjectAtIndex:indexPath.row];
                                                                                  [self.tableView beginUpdates];
+                                                                                 self.tableViewIsUpdating = YES;
+                                                                                 [self.filesArray removeObjectAtIndex:indexPath.row];
                                                                                  [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath]
                                                                                                        withRowAnimation:UITableViewRowAnimationFade];
                                                                                  [self.tableView endUpdates];
+                                                                                 self.tableViewIsUpdating = NO;
 
                                                                                  [self.connectionManager deleteFiles:@[fileItem]];
                                                                                  [alert dismissViewControllerAnimated:YES completion:nil];
@@ -609,10 +614,19 @@
         case FILETYPE_UNKNOWN:
         default:
         {
-            // Nothing to do
+            if (self.userAccount.serverType == SERVER_TYPE_UPNP)
+            {
+                // As some UPnP servers are not providing extensions, use VLC to open unknown files
+                itemHandled = YES;
+                self.videoFile = fileItem;
+                
+                if (![self getSubtitleFileForMedia:fileItem])
+                {
+                    [self showVLCPlayerForFile:fileItem withSubtitles:nil];
+                }
+            }
             break;
         }
-            
     }
     return itemHandled;
 }
@@ -1171,12 +1185,7 @@
     {
         // Update space information
 //      [self.connectionManager spaceInfoAtPath:self.currentFolder];
-        
-        // If there is no file, go back to previous folder
-        if (self.filesArray.count == 0)
-        {
-            [self.navigationController popViewControllerAnimated:YES];
-        }
+        [self.tableView reloadData];
     }
 
 #if 0
