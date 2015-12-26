@@ -1,8 +1,8 @@
 /*****************************************************************************
- * VLCPlaybackNavigationController.h
+ * VLCLinearProgressIndicator.h
  * VLC for iOS
  *****************************************************************************
- * Copyright (c) 2014 VideoLAN. All rights reserved.
+ * Copyright (c) 2013 VideoLAN. All rights reserved.
  * $Id$
  *
  * Authors: Felix Paul Kühne <fkuehne # videolan.org>
@@ -10,6 +10,9 @@
  * Refer to the COPYING file of the official project for license.
  *****************************************************************************/
 
-@interface VLCPlaybackNavigationController : UINavigationController
+#import <UIKit/UIKit.h>
+
+@interface VLCLinearProgressIndicator : UIView
+@property (nonatomic) CGFloat progress;
 
 @end

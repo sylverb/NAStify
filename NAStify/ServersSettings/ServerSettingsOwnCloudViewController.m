@@ -509,7 +509,7 @@ typedef enum _SETTINGS_TAG
                 case 0:
                 {
                     self.invisibleTextField.text = userAccount.server;
-                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter server IP/Domain name/Quickconnect ID (without http:// or https://)"];
+                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter server IP/Domain name (without http:// or https://)"];
                     self.invisibleTextField.keyboardType = UIKeyboardTypeURL;
                     self.invisibleTextField.secureTextEntry = NO;
                     self.invisibleTextField.tag = ADDRESS_TAG;
@@ -766,28 +766,48 @@ typedef enum _SETTINGS_TAG
     [textCellPath resignFirstResponder];
     [textCellUsername resignFirstResponder];
     [textCellPassword resignFirstResponder];
-    self.userAccount.settings = [NSDictionary dictionaryWithDictionary:self.localSettings];
-    [SSKeychain setPassword:self.localPassword
-                 forService:self.userAccount.uuid
-                    account:@"password"];
-    if (self.accountIndex == -1)
+    if (self.userAccount.server != nil)
     {
-        NSNotification* notification = [NSNotification notificationWithName:@"ADDACCOUNT"
-                                                                     object:self
-                                                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userAccount,@"account",nil]];
+        self.userAccount.settings = [NSDictionary dictionaryWithDictionary:self.localSettings];
+        if (self.localPassword != nil)
+        {
+            [SSKeychain setPassword:self.localPassword
+                         forService:self.userAccount.uuid
+                            account:@"password"];
+        }
+        if (self.accountIndex == -1)
+        {
+            NSNotification* notification = [NSNotification notificationWithName:@"ADDACCOUNT"
+                                                                         object:self
+                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userAccount,@"account",nil]];
+            
+            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
+        }
+        else
+        {
+            NSNotification* notification = [NSNotification notificationWithName:@"UPDATEACCOUNT"
+                                                                         object:self
+                                                                       userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userAccount,@"account",[NSNumber numberWithLong:self.accountIndex],@"accountIndex",nil]];
+            
+            [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
+        }
         
-        [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
+        [self.navigationController popToRootViewControllerAnimated:YES];
     }
     else
     {
-        NSNotification* notification = [NSNotification notificationWithName:@"UPDATEACCOUNT"
-                                                                     object:self
-                                                                   userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userAccount,@"account",[NSNumber numberWithLong:self.accountIndex],@"accountIndex",nil]];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Error", nil)
+                                                                       message:NSLocalizedString(@"You have to fill a server address",nil)
+                                                                preferredStyle:UIAlertControllerStyleAlert];
         
-        [[NSNotificationCenter defaultCenter] performSelectorOnMainThread:@selector(postNotification:) withObject:notification waitUntilDone:YES];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction * action) {
+                                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                                         }];
+        [alert addAction:okAction];
+        [self presentViewController:alert animated:YES completion:nil];
     }
-    
-    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 - (void)cancelButtonAction

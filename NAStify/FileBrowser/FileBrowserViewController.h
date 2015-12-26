@@ -78,7 +78,7 @@ typedef enum
 @property(nonatomic, strong) NSMutableIndexSet *selectedIndexes;
 
 /* Downloading handling */
-@property(nonatomic, strong) NetworkConnection *videoNetworkConnection;
+@property(nonatomic, strong) FileItem *videoFile;
 @property(nonatomic) DOWNLOAD_ACTION downloadAction;
 @property(nonatomic, strong) FileItem *sourceFileItem;
 @property(nonatomic, strong) NSString *dlFilePath;

@@ -22,6 +22,4 @@
 
 @property (strong, nonatomic) NSString *relinkUserId; // Dropbox relink handling
 
-@property (nonatomic, readonly) VLCPlayerDisplayController *playerDisplayController;
-
 @end

@@ -56,7 +56,7 @@
 
         _lockButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_lockButton setImage:[UIImage imageNamed:@"lock"] forState:UIControlStateNormal];
-        _lockButton.frame = CGRectMake(spacer, spacer + buttonHeight + spacer + buttonHeight + spacer + buttonHeight + spacer, buttonWidth, buttonHeight);
+        _lockButton.frame = CGRectMake(spacer, 4. * spacer + buttonHeight * 3., buttonWidth, buttonHeight);
         [_lockButton addTarget:self action:@selector(lockAction:) forControlEvents:UIControlEventTouchUpInside];
         _lockButton.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
         [self addSubview:_lockButton];
@@ -74,7 +74,7 @@
 
     if (_showsEqualizer) {
         if (_mediaHasChapters) {
-            height = 5. * spacer + 4. * buttonHeight;
+            height = 6. * spacer + 5. * buttonHeight;
             workFrame = _equalizerButton.frame;
             workFrame.origin.y = spacer;
             _equalizerButton.frame = workFrame;
@@ -115,7 +115,7 @@
             workFrame.origin.y = spacer * 2. + buttonHeight;
             _repeatButton.frame = workFrame;
             workFrame = _lockButton.frame;
-            workFrame.origin.y = spacer * 3. + buttonHeight * 2;
+            workFrame.origin.y = spacer * 3. + buttonHeight * 2.;
             _lockButton.frame = workFrame;
         } else {
             height = 3. * spacer + 2. * buttonHeight;

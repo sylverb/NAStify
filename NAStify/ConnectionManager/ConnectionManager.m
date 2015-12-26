@@ -26,7 +26,9 @@
 #endif
 #import "CMOwnCloud.h"
 #import "CMQnap.h"
+#ifndef APP_EXTENSION
 #import "CMSamba.h"
+#endif
 #import "CMSynology.h"
 #import "CMUPnP.h"
 #import "CMWebDav.h"
@@ -111,11 +113,13 @@
                 cmPlugin = [[CMQnap alloc] init];
                 break;
             }
+#ifndef APP_EXTENSION
             case SERVER_TYPE_SAMBA:
             {
                 cmPlugin = [[CMSamba alloc] init];
                 break;
             }
+#endif
 #ifndef APP_EXTENSION
             case SERVER_TYPE_UPNP:
             {

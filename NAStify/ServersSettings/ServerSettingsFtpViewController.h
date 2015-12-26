@@ -10,9 +10,7 @@
 #import "TextCell.h"
 #if TARGET_OS_IOS
 #import "SwitchCell.h"
-#endif
 #import "SegCtrlCell.h"
-#if TARGET_OS_IOS
 #import "TextViewCell.h"
 #endif
 #import "UserAccount.h"
@@ -41,8 +39,10 @@
 @property(nonatomic, strong) TextCell * textCellPort;
 @property(nonatomic, strong) TextCell * textCellUsername;
 @property(nonatomic, strong) TextCell * textCellPassword;
+#if TARGET_OS_IOS
 @property(nonatomic, strong) SegCtrlCell *protocolSegCtrlCell;
 @property(nonatomic, strong) SegCtrlCell *transfertModeSegCtrlCell;
+#endif
 #if TARGET_OS_TV
 @property(nonatomic, strong) UITextField *invisibleTextField;
 #endif

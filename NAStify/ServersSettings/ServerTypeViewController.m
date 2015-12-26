@@ -38,17 +38,11 @@
 #define ROW_INDEX_QNAP          8
 #define ROW_INDEX_SYNOLOGY      9
 #define ROW_INDEX_WEBDAV        10
-#ifdef SAMBA
 #define ROW_INDEX_SAMBA         11
-#endif
 //#define ROW_INDEX_PYDIO         8
 
 // Update this when adding new server types !!!
-#ifdef SAMBA
 #define NUMBER_OF_ROWS      ROW_INDEX_SAMBA + 1
-#else
-#define NUMBER_OF_ROWS      ROW_INDEX_WEBDAV + 1
-#endif
 #else
 // AppleTV
 #define ROW_INDEX_FREEBOX       0

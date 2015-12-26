@@ -35,8 +35,15 @@
 #define kVLCSettingDeinterlaceDefaultValue @(0)
 #define kVLCSettingNetworkCaching @"network-caching"
 #define kVLCSettingNetworkCachingDefaultValue @(999)
-#define kVLCSettingPlaybackGestures @"EnableGesturesToControlPlayback"
+#define kVLCSettingVolumeGesture @"EnableVolumeGesture"
+#define kVLCSettingPlayPauseGesture @"EnablePlayPauseGesture"
+#define kVLCSettingBrightnessGesture @"EnableBrightnessGesture"
+#define kVLCSettingSeekGesture @"EnableSeekGesture"
+#define kVLCSettingCloseGesture @"EnableCloseGesture"
+#define kVLCSettingVariableJumpDuration @"EnableVariableJumpDuration"
 #define kVLCSettingVideoFullscreenPlayback @"AlwaysUseFullscreenForVideo"
+#define kVLCSettingContinuePlayback @"ContinuePlayback"
+#define kVLCSettingContinueAudioPlayback @"ContinueAudioPlayback"
 #define kVLCSettingFTPTextEncoding @"ftp-text-encoding"
 #define kVLCSettingFTPTextEncodingDefaultValue @(5) // ISO Latin 1
 #define kVLCSettingPlaybackSpeedDefaultValue @"playback-speed"

@@ -331,6 +331,7 @@ typedef enum _SETTINGS_TAG
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     switch (indexPath.section)
     {
+#if TARGET_OS_TV
         case SECTION_NAME_INDEX:
         {
             switch (indexPath.row)
@@ -377,6 +378,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
+#endif
 #if TARGET_OS_IOS
         case SECTION_TOKEN_INDEX:
         {

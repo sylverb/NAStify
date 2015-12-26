@@ -45,7 +45,9 @@
     
     // TableView settings
     self.tableView.allowsSelectionDuringEditing = YES;
-    
+
+    self.smbDevices = [[NSMutableArray alloc] init];
+
     // Navigation settings
     self.navigationItem.title = NSLocalizedString(@"Server list",nil);
     self.navigationItem.leftBarButtonItem = self.editButtonItem;
@@ -70,16 +72,20 @@
     
     __weak __typeof(self)weakSelf = self;
     __weak __typeof(_filteredUPNPDevices)weakFilteredUPNPDevices = _filteredUPNPDevices;
-    
+    __weak __typeof(self.smbDevices)weakSmbDevices = self.smbDevices;
+
     [self.manager.reachabilityManager setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         __strong __typeof(weakFilteredUPNPDevices)strongFilteredUPNPDevices = weakFilteredUPNPDevices;
         switch (status) {
             case AFNetworkReachabilityStatusReachableViaWiFi:
                 [weakSelf performSelectorInBackground:@selector(startUPNPDiscovery) withObject:nil];
+                [weakSelf performSelectorInBackground:@selector(startNetbiosDiscovery) withObject:nil];
                 break;
             default:
                 [weakSelf stopUPNPDiscovery];
                 strongFilteredUPNPDevices = nil;
+                [weakSelf stopNetbiosDiscovery];
+                [weakSmbDevices removeAllObjects];
                 [weakSelf.tableView reloadData];
                 break;
         }
@@ -107,9 +113,16 @@
                                                object: nil];
 }
 
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [self stopUPNPDiscovery];
+    [self stopNetbiosDiscovery];
+}
+
 - (void)handleEnteredBackground:(NSNotification *)notification
 {
     [self stopUPNPDiscovery];
+    [self stopNetbiosDiscovery];
 }
 
 - (void)handleBecomeActive:(NSNotification *)notification
@@ -117,6 +130,7 @@
     if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
     {
         [self performSelectorInBackground:@selector(startUPNPDiscovery) withObject:nil];
+        [self performSelectorInBackground:@selector(startNetbiosDiscovery) withObject:nil];
     }
 }
 
@@ -145,11 +159,7 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#ifdef SAMBA
     return 3;
-#else
-    return 2;
-#endif
 }
 
 - (BOOL)tableView:(UITableView *)tableView shouldIndentWhileEditingRowAtIndexPath:(NSIndexPath *)indexPath
@@ -187,16 +197,14 @@
             }
             break;
         }
-#ifdef SAMBA
         case 2: // SMB/CIFS
         {
-            if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+            if (self.smbDevices.count > 0)
             {
-                rows = 1;
+                rows = self.smbDevices.count;
             }
             break;
         }
-#endif
         default:
         {
             break;
@@ -224,7 +232,6 @@
             }
             break;
         }
-#ifdef SAMBA
         case 2:
         {
             if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
@@ -233,7 +240,6 @@
             }
             break;
         }
-#endif
         default:
         {
             break;
@@ -269,29 +275,27 @@
         }
         case 1: // UPnP
         {
-            ServerCell *serverCell = (ServerCell *)[tableView dequeueReusableCellWithIdentifier:UPnPCellIdentifier];
+            ServerCell *serverCell = [tableView dequeueReusableCellWithIdentifier:UPnPCellIdentifier];
             if (serverCell == nil)
             {
                 serverCell = [[ServerCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                               reuseIdentifier:UPnPCellIdentifier];
+                                                    reuseIdentifier:UPnPCellIdentifier];
             }
-
             // Get device info
             BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
 
-            // Configure the cell...
-            serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
-            serverCell.showsReorderControl = NO;
-            
-            serverCell.serverLabel.text = [device friendlyName];
+            serverCell.textLabel.text = [device friendlyName];
             if ([device smallIcon])
             {
-                serverCell.fileTypeImage.image = [device smallIcon];
+                [serverCell serverImage:[device smallIcon]];
             }
             else
             {
-                serverCell.fileTypeImage.image = [UIImage imageNamed:@"upnp_small.png"];
+                serverCell.imageView.image = [UIImage imageNamed:@"upnp_small.png"];
             }
+            
+            serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
+            serverCell.showsReorderControl = NO;
             cell = serverCell;
             break;
         }
@@ -307,9 +311,10 @@
             // Configure the cell...
             serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
             serverCell.showsReorderControl = NO;
+            
             UserAccount *account = [[UserAccount alloc] init];
             account.serverType = SERVER_TYPE_SAMBA;
-            account.accountName = NSLocalizedString(@"Windows Shares", nil);
+            account.accountName = [NSString stringWithFormat:@"%@ (IP : %@)",[[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"hostname"],[[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"ip"]];
             [serverCell setAccount:account];
             cell = serverCell;
             break;
@@ -508,11 +513,13 @@
                 }
                 break;
             }
-#ifdef SAMBA
             case 2: // SMB/CIFS
             {
                 UserAccount *account = [[UserAccount alloc] init];
+                account.accountName = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"hostname"];
                 account.serverType = SERVER_TYPE_SAMBA;
+                account.server = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"hostname"];
+                account.serverObject = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"group"];
                 
                 FileItem *rootFolder = [[FileItem alloc] init];
                 rootFolder.isDir = YES;
@@ -526,7 +533,6 @@
                 [self.navigationController pushViewController:fileBrowserViewController animated:YES];
                 break;
             }
-#endif
             default:
                 break;
         }
@@ -758,6 +764,126 @@
     _filteredUPNPDevices = [NSArray arrayWithArray:mutArray];
     
     [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+}
+
+#pragma mark - SMB/CIFS
+
+static void on_entry_added(void *p_opaque,
+                           netbios_ns_entry *entry)
+{
+    struct in_addr addr;
+    BOOL addServer = YES;
+    addr.s_addr = netbios_ns_entry_ip(entry);
+    
+    ServersListViewController *c_self = (__bridge ServersListViewController *)(p_opaque);
+    NSMutableArray *array = c_self.smbDevices;
+    
+    NSString *ipString = [NSString stringWithFormat:@"%s",inet_ntoa(addr)];
+    NSString *hostname = [NSString stringWithFormat:@"%s",netbios_ns_entry_name(entry)];
+    NSString *group = [NSString stringWithFormat:@"%s",netbios_ns_entry_group(entry)];
+    
+    NSMutableArray *entriesToAdd = [[NSMutableArray alloc] init];
+    
+    // Check if server is not already present before adding it
+    for (NSDictionary *server in array)
+    {
+        if (([[server objectForKey:@"ip"] isEqualToString:ipString]) &&
+            ([[server objectForKey:@"hostname"] isEqualToString:hostname]) &&
+            ([[server objectForKey:@"group"] isEqualToString:group]))
+        {
+            addServer = NO;
+        }
+    }
+    if (addServer)
+    {
+        NSDictionary *serverDict = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                    ipString, @"ip",
+                                    hostname, @"hostname",
+                                    group, @"group",
+                                    nil];
+        
+        [entriesToAdd addObject:serverDict];
+    }
+    
+    if (entriesToAdd.count > 0)
+    {
+        [array addObjectsFromArray:entriesToAdd];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [c_self.tableView reloadData];
+        });
+    }
+    NSLog(@"on_entry_added %@", entriesToAdd);
+}
+
+static void on_entry_removed(void *p_opaque,
+                             netbios_ns_entry *entry)
+{
+    struct in_addr addr;
+    addr.s_addr = netbios_ns_entry_ip(entry);
+    
+    ServersListViewController *c_self = (__bridge ServersListViewController *)(p_opaque);
+    NSMutableArray *array = c_self.smbDevices;
+    
+    NSString *ipString = [NSString stringWithFormat:@"%s",inet_ntoa(addr)];
+    NSString *hostname = [NSString stringWithFormat:@"%s",netbios_ns_entry_name(entry)];
+    NSString *group = [NSString stringWithFormat:@"%s",netbios_ns_entry_group(entry)];
+    
+    NSMutableArray *entriesToRemove = [[NSMutableArray alloc] init];
+    for (NSDictionary *server in array)
+    {
+        if (([[server objectForKey:@"ip"] isEqualToString:ipString]) &&
+            ([[server objectForKey:@"hostname"] isEqualToString:hostname]) &&
+            ([[server objectForKey:@"group"] isEqualToString:group]))
+        {
+            // Add this server to list to remove
+            [entriesToRemove addObject:server];
+            
+        }
+    }
+    if (entriesToRemove.count > 0)
+    {
+        [array removeObjectsInArray:entriesToRemove];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [c_self.tableView reloadData];
+        });
+    }
+    NSLog(@"on_entry_removed %@", entriesToRemove);
+}
+
+- (void)startNetbiosDiscovery
+{
+    netbios_ns_discover_callbacks callbacks;
+    
+    if ((self.manager.reachabilityManager.networkReachabilityStatus != AFNetworkReachabilityStatusReachableViaWiFi) ||
+        _netbiosDiscoveryRunning)
+    {
+        return;
+    }
+    
+    [self.smbDevices removeAllObjects];
+    _ns = netbios_ns_new();
+    
+    callbacks.p_opaque = (__bridge void *)self;
+    callbacks.pf_on_entry_added = on_entry_added;
+    callbacks.pf_on_entry_removed = on_entry_removed;
+    
+    NSLog(@"Discovering SMB/CIFS ...");
+    if (!netbios_ns_discover_start(_ns,
+                                   4, // broadcast every 4 sec
+                                   &callbacks))
+    {
+        NSLog(@"Error while discovering local network\n");
+    }
+    _netbiosDiscoveryRunning = YES;
+}
+
+- (void)stopNetbiosDiscovery
+{
+    if (_netbiosDiscoveryRunning)
+    {
+        netbios_ns_discover_stop(_ns);
+        _netbiosDiscoveryRunning = NO;
+    }
 }
 
 #pragma mark - Private Methods implementation

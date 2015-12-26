@@ -16,5 +16,6 @@
 @property(nonatomic, strong) UIImageView * fileTypeImage;
 #endif
 - (void)setAccount:(UserAccount *)account;
+- (void)serverImage:(UIImage *)image;
 
 @end

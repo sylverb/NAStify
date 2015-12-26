@@ -45,14 +45,21 @@
                                   kVLCSettingSubtitlesBoldFont: kVLCSettingSubtitlesBoldFontDefaultValue,
                                   kVLCSettingDeinterlace : kVLCSettingDeinterlaceDefaultValue,
                                   kVLCSettingNetworkCaching : kVLCSettingNetworkCachingDefaultValue,
-                                  kVLCSettingPlaybackGestures : @(YES),
                                   kVLCSettingVideoFullscreenPlayback : @(YES),
                                   kVLCSettingEqualizerProfile : kVLCSettingEqualizerProfileDefaultValue,
                                   kVLCSettingPlaybackForwardSkipLength : kVLCSettingPlaybackForwardSkipLengthDefaultValue,
                                   kVLCSettingPlaybackBackwardSkipLength : kVLCSettingPlaybackBackwardSkipLengthDefaultValue,
+                                  kVLCSettingVolumeGesture : @(YES),
+                                  kVLCSettingPlayPauseGesture : @(YES),
+                                  kVLCSettingBrightnessGesture : @(YES),
+                                  kVLCSettingSeekGesture : @(YES),
+                                  kVLCSettingCloseGesture : @(YES),
+                                  kVLCSettingVariableJumpDuration : @(NO),
+                                  kVLCSettingContinuePlayback : @(1),
+                                  kVLCSettingContinueAudioPlayback : @(1),
                                   kNASTifySettingBrowserShowGCast : @(YES),
                                   kNASTifySettingPlayerType : @(kNASTifySettingPlayerTypeInternal),
-                                  kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeQTVLC)};
+                                  kNASTifySettingInternalPlayer : @(kNASTifySettingInternalPlayerTypeVLCOnly)};
     [defaults registerDefaults:appDefaults];
 }
 
@@ -152,22 +159,22 @@
     self.tabBarController.viewControllers = navControllersArray;
 
     // Setup main view for VLC integration
-    _playerDisplayController = [[VLCPlayerDisplayController alloc] init];
-    _playerDisplayController.childViewController = self.tabBarController;//self.revealController;
+    VLCPlayerDisplayController *playerDisplayController = [VLCPlayerDisplayController sharedInstance];
+    playerDisplayController.childViewController = self.tabBarController;
     
     // Set root view controller
-    self.window.rootViewController   = _playerDisplayController;
+    self.window.rootViewController = playerDisplayController;
 
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    
+
     // Show Passkey if needed
     if ([LTHPasscodeViewController doesPasscodeExist])
     {
         [[LTHPasscodeViewController sharedUser] showLockScreenWithAnimation:YES withLogout:NO andLogoutTitle:nil];
     }
-
+    
     return YES;
 }
 

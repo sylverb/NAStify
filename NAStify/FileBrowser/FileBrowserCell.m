@@ -24,7 +24,6 @@
 		NSInteger secondLineHeight = 14;
 		NSInteger firstLineFontSize = 17;
 		NSInteger secondLineFontSize = 12;
-        NSInteger cellHeight = 50;
 #elif TARGET_OS_TV
 #define textXOffset 70
 #define CellHeight 80
@@ -39,12 +38,12 @@
 		self.nameLabel = [[UITextField alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,250,firstLineHeight)];
         self.nameLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
         self.nameLabel.autocorrectionType = UITextAutocorrectionTypeNo;
+        self.nameLabel.font = [UIFont systemFontOfSize:firstLineFontSize];
 #elif TARGET_OS_TV
         self.nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,1920-280,firstLineHeight)];
         self.nameLabel.textColor = [UIColor blackColor];
-
+        self.nameLabel.font = [UIFont boldSystemFontOfSize:firstLineFontSize];
 #endif
-		self.nameLabel.font = [UIFont boldSystemFontOfSize:firstLineFontSize];
 		[self.contentView addSubview:self.nameLabel];
 		
 #if TARGET_OS_IOS
@@ -163,35 +162,6 @@
 {
 	self.nameLabel.enabled = NO;
 }
-
-#if TARGET_OS_IOS
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-	// nameLabel and sizeLabel are following the contentView bounds to adapt the frame when the delete button appears
-	CGRect b = self.nameLabel.frame;
-	b.size.width = self.contentView.frame.size.width - 50;
-	b.origin.x = self.contentView.frame.origin.x + textXOffset;
-	[self.nameLabel setFrame:b];
-    
-    b = self.sizeLabel.frame;
-    b.origin.x = self.contentView.frame.origin.x + self.contentView.frame.size.width - 80;
-    [self.sizeLabel setFrame:b];
-    
-    b = self.dateLabel.frame;
-	b.origin.x = self.contentView.frame.origin.x + textXOffset;
-	[self.dateLabel setFrame:b];
-    
-    b = self.fileTypeImage.frame;
-	b.origin.x = self.contentView.frame.origin.x + 3;
-	[self.fileTypeImage setFrame:b];
-    
-    b = self.ejectableImage.frame;
-	b.origin.x = self.contentView.frame.origin.x + 18;
-	[self.ejectableImage setFrame:b];
-}
-#endif
 
 - (void)drawRect:(CGRect)rect
 {

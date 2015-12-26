@@ -2,7 +2,7 @@
  * VLCStatusLabel.m
  * VLC for iOS
  *****************************************************************************
- * Copyright (c) 2013 VideoLAN. All rights reserved.
+ * Copyright (c) 2013-2015 VideoLAN. All rights reserved.
  * $Id$
  *
  * Authors: Felix Paul Kühne <fkuehne # videolan.org>
@@ -103,8 +103,8 @@
 
 - (CGSize)sizeThatFits:(CGSize)size
 {
-    CGSize textSize = [self.text sizeWithFont:self.font];
-    textSize.width += 16.f; // take extra width into account for our custom drawing
+    CGSize textSize = [self.text sizeWithAttributes:self.font.fontDescriptor.fontAttributes];
+    textSize.width += size.height * 4.; // take extra width into account for our custom drawing
     return textSize;
 }
 
@@ -112,7 +112,7 @@
 
 - (void)drawRect:(CGRect)rect
 {
-    UIColor *drawingColor = [UIColor VLCDarkBackgroundColor];
+    UIColor *drawingColor = [UIColor VLCTransparentDarkBackgroundColor];
     [drawingColor setFill];
 
     UIBezierPath* bezierPath = [UIBezierPath bezierPathWithRoundedRect:rect cornerRadius:rect.size.height / 2];

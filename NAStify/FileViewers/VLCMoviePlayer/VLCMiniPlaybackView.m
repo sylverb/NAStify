@@ -12,10 +12,14 @@
 
 #import "VLCMiniPlaybackView.h"
 #import "VLCPlaybackController.h"
-#import "AppDelegate.h"
 #import "VLCPlayerDisplayController.h"
 
-@interface VLCMiniPlaybackView () <VLCPlaybackControllerDelegate, UIGestureRecognizerDelegate>
+#if TARGET_OS_IOS
+#import "VLCLibraryViewController.h"
+//#import "VLCKeychainCoordinator.h"
+#endif
+
+@interface VLCMiniPlaybackView () <UIGestureRecognizerDelegate>
 {
     UIImageView *_artworkView;
     UIView *_videoView;
@@ -27,7 +31,6 @@
     UITapGestureRecognizer *_labelTapRecognizer;
     UITapGestureRecognizer *_artworkTapRecognizer;
 }
-@property (nonatomic, weak) VLCPlaybackController *playbackController;
 
 @end
 
@@ -43,9 +46,6 @@
     self = [super initWithFrame:viewFrame];
     if (!self)
         return self;
-
-    self.backgroundColor = [UIColor blackColor];
-    self.opaque = YES;
 
     CGRect previousRect;
     CGFloat buttonSize = 44.;
@@ -102,43 +102,43 @@
     _metaDataLabel.textColor = [UIColor VLCLightTextColor];
     _metaDataLabel.numberOfLines = 0;
     _metaDataLabel.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    _metaDataLabel.backgroundColor = [UIColor blackColor];
-    _metaDataLabel.opaque = YES;
     [self addSubview:_metaDataLabel];
 
     _labelTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized)];
     _labelTapRecognizer.delegate = self;
-    _labelTapRecognizer.numberOfTouchesRequired = 1;
     [_metaDataLabel addGestureRecognizer:_labelTapRecognizer];
     _metaDataLabel.userInteractionEnabled = YES;
 
     _artworkTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tapRecognized)];
     _artworkTapRecognizer.delegate = self;
-    _artworkTapRecognizer.numberOfTouchesRequired = 1;
     [_artworkView addGestureRecognizer:_artworkTapRecognizer];
     _artworkView.userInteractionEnabled = YES;
+
+#if TARGET_OS_IOS
+    _labelTapRecognizer.numberOfTouchesRequired = 1;
+    _artworkTapRecognizer.numberOfTouchesRequired = 1;
+#endif
 
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
     [center addObserver:self
                selector:@selector(appBecameActive:)
                    name:UIApplicationDidBecomeActiveNotification
                  object:nil];
-#if 0
-    [center addObserver:self
-               selector:@selector(appBecameActive:)
-                   name:VLCPasscodeValidated
-                 object:nil];
+#if TARGET_OS_IOS
+//    [center addObserver:self
+//               selector:@selector(appBecameActive:)
+//                   name:VLCPasscodeValidated
+//                 object:nil];
 #endif
-    
+
     return self;
 }
 
 - (void)appBecameActive:(NSNotification *)aNotification
 {
-    VLCPlayerDisplayController *pdc = [(AppDelegate *)[UIApplication sharedApplication].delegate playerDisplayController];
+    VLCPlayerDisplayController *pdc = [VLCPlayerDisplayController sharedInstance];
     if (pdc.displayMode == VLCPlayerDisplayControllerDisplayModeMiniplayer) {
-        VLCPlaybackController *vpc = self.playbackController;
-        [vpc recoverDisplayedMetadata];
+        [[VLCPlaybackController sharedInstance] recoverDisplayedMetadata];
     }
 }
 
@@ -149,12 +149,12 @@
 
 - (void)previousAction:(id)sender
 {
-    [self.playbackController backward];
+    [[VLCPlaybackController sharedInstance] backward];
 }
 
 - (void)playPauseAction:(id)sender
 {
-    [self.playbackController playPause];
+    [[VLCPlaybackController sharedInstance] playPause];
 }
 
 - (void)playPauseLongPress:(UILongPressGestureRecognizer *)recognizer
@@ -164,7 +164,7 @@
             [_playPauseButton setImage:[UIImage imageNamed:@"stopIcon"] forState:UIControlStateNormal];
             break;
         case UIGestureRecognizerStateEnded:
-            [self.playbackController stopPlayback];
+            [[VLCPlaybackController sharedInstance] stopPlayback];
             break;
         case UIGestureRecognizerStateCancelled:
         case UIGestureRecognizerStateFailed:
@@ -177,7 +177,7 @@
 
 - (void)nextAction:(id)sender
 {
-    [self.playbackController forward];
+    [[VLCPlaybackController sharedInstance] forward];
 }
 
 - (void)pushFullPlaybackView:(id)sender
@@ -188,17 +188,16 @@
 
 - (void)updatePlayPauseButton
 {
-    const BOOL isPlaying = self.playbackController.isPlaying;
+    const BOOL isPlaying = [VLCPlaybackController sharedInstance].isPlaying;
     UIImage *playPauseImage = isPlaying ? [UIImage imageNamed:@"pauseIcon"] : [UIImage imageNamed:@"playIcon"];
     [_playPauseButton setImage:playPauseImage forState:UIControlStateNormal];
 }
 
-- (void)setupForWork:(VLCPlaybackController *)playbackController
+- (void)prepareForMediaPlayback:(VLCPlaybackController *)controller
 {
-    self.playbackController = playbackController;
     [self updatePlayPauseButton];
-    playbackController.delegate = self;
-    [playbackController recoverDisplayedMetadata];
+    controller.delegate = self;
+    [controller recoverDisplayedMetadata];
 }
 
 - (void)mediaPlayerStateChanged:(VLCMediaPlayerState)currentState
@@ -232,7 +231,7 @@ currentMediaHasTrackToChooseFrom:(BOOL)currentMediaHasTrackToChooseFrom
             _videoView = nil;
         }
 
-        VLCPlayerDisplayController *pdc = [(AppDelegate *)[UIApplication sharedApplication].delegate playerDisplayController];
+        VLCPlayerDisplayController *pdc = [VLCPlayerDisplayController sharedInstance];
         if (pdc.displayMode == VLCPlayerDisplayControllerDisplayModeMiniplayer) {
             _videoView = [[UIView alloc] initWithFrame:_artworkView.frame];
             [_videoView setClipsToBounds:YES];

@@ -18,6 +18,7 @@
     
     TextCell * textCellProfile;
     TextCell * textCellAddress;
+    TextCell * textCellPath;
     TextCell * textCellUsername;
     TextCell * textCellPassword;
 }
@@ -25,6 +26,7 @@
 @property(nonatomic, copy) UserAccount * userAccount;
 @property(nonatomic, strong) TextCell * textCellProfile;
 @property(nonatomic, strong) TextCell * textCellAddress;
+@property(nonatomic, strong) TextCell * textCellPath;
 @property(nonatomic, strong) TextCell * textCellUsername;
 @property(nonatomic, strong) TextCell * textCellPassword;
 @property(nonatomic) NSInteger    accountIndex;

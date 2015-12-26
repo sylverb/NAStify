@@ -260,6 +260,19 @@
         if (position.location != NSNotFound)
             correctIndex = i;
     }
+    // If not found, look for rtsp stream
+    if (correctIndex < 0)
+    {
+        for (NSInteger i = 0; i < count; i++)
+        {
+            position = [uriCollectionKeys[i] rangeOfString:@"rtsp-rtp-udp:*:"];
+            if (position.location != NSNotFound)
+            {
+                correctIndex = i;
+                break;
+            }
+        }
+    }
     // If not found, look for audio
     if (correctIndex < 0)
     {
@@ -299,16 +312,22 @@
                 correctIndex = i;
         }
     }
-    
+    if (correctIndex < 0)
+    {
+        // Nothing found, select first item if there is one ...
+        if (count > 0)
+        {
+            correctIndex = 0;
+        }
+    }
     if (correctIndex >= 0)
     {
         NSArray *uriCollectionObjects = [[file.objectIds lastObject] allValues];
-        
         networkConnection = [[NetworkConnection alloc] init];
         networkConnection.url = [NSURL URLWithString:uriCollectionObjects[correctIndex]];
         networkConnection.urlType = URLTYPE_HTTP;
     }
-    
+
     NSLog(@"networkConnection.url %@",networkConnection.url);
   	return networkConnection;
 }

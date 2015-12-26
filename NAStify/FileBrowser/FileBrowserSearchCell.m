@@ -86,6 +86,7 @@
 	self.nameLabel.enabled = NO;
 }
 
+#if 0
 - (void)layoutSubviews
 {
     [super layoutSubviews];
@@ -108,6 +109,7 @@
 	b.origin.x = self.contentView.frame.origin.x + 3;
 	[self.fileTypeImage setFrame:b];
 }
+#endif
 
 - (void)drawRect:(CGRect)rect
 {

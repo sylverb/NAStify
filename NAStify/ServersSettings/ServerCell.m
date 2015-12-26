@@ -8,63 +8,7 @@
 
 #import "ServerCell.h"
 
-
 @implementation ServerCell
-
-#if TARGET_OS_IOS
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self)
-    {
-        NSInteger textXOffset = 30;
-        NSInteger firstLineYOffset = 6;
-        NSInteger firstLineHeight = 39;
-        NSInteger firstLineFontSize = 17;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-        {
-            firstLineFontSize = 25;
-            self.serverLabel = [[UITextField alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,253,firstLineHeight)];
-        }
-        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
-        {
-            self.serverLabel = [[UITextField alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,260,firstLineHeight)];
-        }
-        else if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomTV)
-        {
-            firstLineHeight = 64;
-            firstLineFontSize = 45;
-            self.serverLabel = [[UITextField alloc] initWithFrame:CGRectMake(textXOffset,firstLineYOffset,253,firstLineHeight)];
-        }
-        
-        self.serverLabel.font = [UIFont fontWithName:@"Helvetica" size:firstLineFontSize];
-        self.serverLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth;
-        self.serverLabel.userInteractionEnabled = NO;
-        [self.contentView addSubview:self.serverLabel];
-        
-        // Images shall be a 90x90 sized square for retina and 45x45 for non retina
-        self.fileTypeImage = [[UIImageView alloc] initWithFrame:CGRectMake(5, 3, 45, 45)];
-        self.fileTypeImage.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
-        [self.contentView addSubview:self.fileTypeImage];
-    }
-    return self;
-}
-
-- (void)layoutSubviews
-{
-    [super layoutSubviews];
-    
-    CGRect b = self.serverLabel.frame;
-    b.origin.x = self.contentView.frame.origin.x + 70;
-    b.size.width = self.contentView.frame.size.width - 80;
-    [self.serverLabel setFrame:b];
-    
-    // Image
-    b = self.fileTypeImage.frame;
-    b.origin.x = self.contentView.frame.origin.x + 5;
-    [self.fileTypeImage setFrame:b];
-}
-#endif
 
 - (void)setAccount:(UserAccount *)account
 {
@@ -158,28 +102,40 @@
             break;
         }
     }
-#if TARGET_OS_IOS
-    self.fileTypeImage.image = serverImage;
-    
-    if (([account.accountName isEqualToString:@""]) || (account.accountName == nil))
-    {
-        self.serverLabel.text = NSLocalizedString(@"Unknown", @"");
-    }
-    else
-    {
-        self.serverLabel.text = account.accountName;
-    }
-#elif TARGET_OS_TV
+
     self.imageView.image = serverImage;
-    
+
     if (([account.accountName isEqualToString:@""]) || (account.accountName == nil))
     {
-        self.textLabel.text = NSLocalizedString(@"Unknown", @"");
+        self.textLabel.text = NSLocalizedString(@"Unknown", nil);
     }
     else
     {
         self.textLabel.text = account.accountName;
     }
+}
+
+- (UIImage *)imageWithImage:(UIImage *)sourceImage scaledToWidth:(float)i_width
+{
+    float oldWidth = sourceImage.size.width;
+    float scaleFactor = i_width / oldWidth;
+    
+    float newHeight = sourceImage.size.height * scaleFactor;
+    float newWidth = oldWidth * scaleFactor;
+    
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(newWidth, newHeight), NO, 0);
+    [sourceImage drawInRect:CGRectMake(0, 0, newWidth, newHeight)];
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return newImage;
+}
+
+- (void)serverImage:(UIImage *)image
+{
+#if TARGET_OS_IOS
+    self.imageView.image = [self imageWithImage:image scaledToWidth:45.0];
+#elif TARGET_OS_TV
+    self.imageView.image = [self imageWithImage:image scaledToWidth:64.0];
 #endif
 }
 

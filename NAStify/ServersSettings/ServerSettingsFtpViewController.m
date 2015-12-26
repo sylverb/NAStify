@@ -823,7 +823,9 @@ typedef enum _SETTINGS_TAG
                                                             withSelectedIndex:selectedIndex
                                                                        andTag:TRANSFERT_MODE_TAG];
                     
-                    [segCtrlCell.segmentedControl addTarget:self action:@selector(segmentedValueChanged:) forControlEvents:UIControlEventValueChanged];
+                    [self.transfertModeSegCtrlCell.segmentedControl addTarget:self
+                                                                       action:@selector(segmentedValueChanged:)
+                                                             forControlEvents:UIControlEventValueChanged];
                     
                     cell = self.transfertModeSegCtrlCell;
 #elif TARGET_OS_TV
@@ -926,6 +928,7 @@ typedef enum _SETTINGS_TAG
 {
     switch (indexPath.section)
     {
+#if TARGET_OS_TV
         case SECTION_NAME_INDEX:
         {
             switch (indexPath.row)
@@ -972,7 +975,7 @@ typedef enum _SETTINGS_TAG
             }
             break;
         }
-            
+#endif
 
 #if TARGET_OS_TV
         case SECTION_PROTOCOL_INDEX:

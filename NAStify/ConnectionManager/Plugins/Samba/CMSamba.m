@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 CodeIsALie. All rights reserved.
 //
 
+#ifndef APP_EXTENSION
 #import "CMSamba.h"
 #import "NSStringAdditions.h"
 #import "SBNetworkActivityIndicator.h"
@@ -173,7 +174,15 @@ char c_password[255];
     }
     else
     {
-        NSLog(@"Error");
+//        CLS_LOG(@"failed to connect to servername %@",self.userAccount.server);
+        /*
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithBool:NO],@"success",
+                                    NSLocalizedString(@"Unable to connect to server", nil),@"error",
+                                    nil]];
+        });
+        return YES;*/
     }
 
     smb_session_set_creds(self.session, [self.userAccount.server cStringUsingEncoding:NSUTF8StringEncoding], c_user, c_password);
@@ -374,6 +383,12 @@ char c_password[255];
     smb_tid tid = smb_tree_connect(self.session, [[file.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
     if (tid == -1)
     {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                             [NSNumber numberWithBool:NO],@"success",
+                                             NSLocalizedString(@"Connection error", nil),@"error",
+                                             nil]];
+        });
         return;
     }
     for (FileItem *file in files)
@@ -594,3 +609,4 @@ char c_password[255];
 }
 
 @end
+#endif

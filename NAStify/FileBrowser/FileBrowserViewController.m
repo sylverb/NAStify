@@ -1586,6 +1586,113 @@
 
 #pragma mark - File view management
 
+- (void)showVLCPlayerForFile:(FileItem *)fileItem withSubtitles:(NSString *)subPath
+{
+    NSDictionary *optionsDict;
+    [VLCPlayerDisplayController sharedInstance].displayMode = VLCPlayerDisplayControllerDisplayModeFullscreen;
+    
+    NetworkConnection *connection = [self.connectionManager urlForVideo:fileItem];
+    VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
+    switch (connection.urlType)
+    {
+        case URLTYPE_SMB:
+        {
+            optionsDict = @{@"smb-user" : connection.user ?: @"",
+                            @"smb-pwd" : connection.password ?: @"",
+                            @"smb-domain" : connection.workgroup ?: @"WORKGROUP"};
+            break;
+        }
+        case URLTYPE_FTP:
+        {
+            optionsDict = @{@"ftp-user" : connection.user ?: @"",
+                            @"sftp-user" : connection.user ?: @"",
+                            @"ftp-pwd" : connection.password ?: @"",
+                            @"sftp-pwd" : connection.password ?: @""};
+            break;
+        }
+        default:
+            break;
+    }
+    if ((fileItem.fileType == FILETYPE_VLC_AUDIO) || (fileItem.fileType == FILETYPE_QT_AUDIO))
+    {
+        NSInteger index = 0;
+        NSInteger fileIndex = 0;
+        // Find index of file
+        for (FileItem *file in self.filesArray)
+        {
+            if ((file.fileType == FILETYPE_VLC_AUDIO) || (file.fileType == FILETYPE_QT_AUDIO))
+            {
+                if (file == fileItem)
+                {
+                    fileIndex = index;
+                    break;
+                }
+                index++;
+            }
+        }
+        // For some reason the media list is played in reverse order, so store them in
+        // reversed order ...
+        VLCMediaList *mediaList = [[VLCMediaList alloc] init];
+        for (index = self.filesArray.count-1; index >= 0; index--)
+        {
+            FileItem *file = [self.filesArray objectAtIndex:index];
+            if ((file.fileType == FILETYPE_VLC_AUDIO) || (file.fileType == FILETYPE_QT_AUDIO))
+            {
+                NetworkConnection *cnx = [self.connectionManager urlForVideo:file];
+                
+                VLCMedia *media = [VLCMedia mediaWithURL:cnx.url];
+                [media setMetadata:file.name forKey:VLCMetaInformationTitle];
+                [media addOptions:optionsDict];
+                [mediaList addMedia:media];
+            }
+        }
+        [vpc playMediaList:mediaList firstIndex:fileIndex];
+    }
+    else
+    {
+        if (subPath)
+        {
+            vpc.customMediaOptionsDictionary = optionsDict;
+            [vpc playURL:connection.url subtitlesFilePath:subPath];
+        }
+        else
+        {
+            NSInteger index = 0;
+            NSInteger fileIndex = 0;
+            // Find index of file
+            for (FileItem *file in self.filesArray)
+            {
+                if ((file.fileType == FILETYPE_VLC_VIDEO) || (file.fileType == FILETYPE_QT_VIDEO))
+                {
+                    if (file == fileItem)
+                    {
+                        fileIndex = index;
+                        break;
+                    }
+                    index++;
+                }
+            }
+            // For some reason the media list is played in reverse order, so store them in
+            // reversed order ...
+            VLCMediaList *mediaList = [[VLCMediaList alloc] init];
+            for (index = self.filesArray.count-1; index >= 0; index--)
+            {
+                FileItem *file = [self.filesArray objectAtIndex:index];
+                if ((file.fileType == FILETYPE_VLC_VIDEO) || (file.fileType == FILETYPE_QT_VIDEO))
+                {
+                    NetworkConnection *cnx = [self.connectionManager urlForVideo:file];
+                    
+                    VLCMedia *media = [VLCMedia mediaWithURL:cnx.url];
+                    [media setMetadata:file.name forKey:VLCMetaInformationTitle];
+                    [media addOptions:optionsDict];
+                    [mediaList addMedia:media];
+                }
+            }
+            [vpc playMediaList:mediaList firstIndex:fileIndex];
+        }
+    }
+}
+
 - (BOOL)getSubtitleFileForMedia:(FileItem *)media
 {
     NSString *urlTemp = [media.name stringByDeletingPathExtension];
@@ -1641,13 +1748,7 @@
             {
                 itemHandled = YES;
                 {
-                    VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                    vpc.url = [self.connectionManager urlForVideo:fileItem].url;
-//                  vpc.successCallback = successCallback;
-//                  vpc.errorCallback = errorCallback;
-                    vpc.fullscreenSessionRequested = YES;
-                    
-                    [[VLCPlaybackController sharedInstance] startPlayback];
+                    [self showVLCPlayerForFile:fileItem withSubtitles:nil];
                 }
             }
             else
@@ -1796,18 +1897,18 @@
                 ([self.connectionManager pluginRespondsToSelector:@selector(urlForVideo:)]))
             {
                 NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-                self.videoNetworkConnection = [self.connectionManager urlForVideo:fileItem];
+                self.videoFile = fileItem;
                 
                 BOOL useExternalPlayer = NO;
                 if (([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeExternal) &&
-                    (self.videoNetworkConnection.urlType != URLTYPE_LOCAL))
+                    ([self.connectionManager urlForVideo:fileItem].urlType != URLTYPE_LOCAL))
                 {
                     useExternalPlayer = YES;
                 }
                 
                 if (useExternalPlayer)
                 {
-                    NSString *stringURL = [self.videoNetworkConnection.url absoluteString];
+                    NSString *stringURL = [[self.connectionManager urlForVideo:fileItem].url absoluteString];
                     BOOL *playerFound = NO;
                     switch ([[defaults objectForKey:kNASTifySettingExternalPlayerType] integerValue])
                     {
@@ -1863,20 +1964,14 @@
                         itemHandled = YES;
                         if (![self getSubtitleFileForMedia:fileItem])
                         {
-                            VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                            vpc.url = self.videoNetworkConnection.url;
-//                          vpc.successCallback = successCallback;
-//                          vpc.errorCallback = errorCallback;
-                            vpc.fullscreenSessionRequested = YES;
-                            
-                            [[VLCPlaybackController sharedInstance] startPlayback];
+                            [self showVLCPlayerForFile:fileItem withSubtitles:nil];
                         }
                     }
                     else if (ServerSupportsFeature(QTPlayer))
                     {
                         itemHandled = YES;
                         // Internal player can handle this media
-                        CustomMoviePlayerViewController *mp = [[CustomMoviePlayerViewController alloc] initWithContentURL:self.videoNetworkConnection.url];
+                        CustomMoviePlayerViewController *mp = [[CustomMoviePlayerViewController alloc] initWithContentURL:[self.connectionManager urlForVideo:fileItem].url];
                         mp.allowsAirPlay = ServerSupportsFeature(AirPlay);
                         if (mp)
                         {
@@ -1890,13 +1985,7 @@
                         // Fallback to VLC media player
                         if (![self getSubtitleFileForMedia:fileItem])
                         {
-                            VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                            vpc.url = self.videoNetworkConnection.url;
-//                          vpc.successCallback = successCallback;
-//                          vpc.errorCallback = errorCallback;
-                            vpc.fullscreenSessionRequested = YES;
-                            
-                            [[VLCPlaybackController sharedInstance] startPlayback];
+                            [self showVLCPlayerForFile:fileItem withSubtitles:nil];
                         }
                     }
                 }
@@ -1910,17 +1999,16 @@
                 ([self.connectionManager pluginRespondsToSelector:@selector(urlForVideo:)]))
             {
                 NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-                self.videoNetworkConnection = [self.connectionManager urlForVideo:fileItem];
                 BOOL useExternalPlayer = NO;
                 if (([[defaults objectForKey:kNASTifySettingPlayerType] integerValue] == kNASTifySettingPlayerTypeExternal) &&
-                    (self.videoNetworkConnection.urlType != URLTYPE_LOCAL))
+                    ([self.connectionManager urlForVideo:fileItem].urlType != URLTYPE_LOCAL))
                 {
                     useExternalPlayer = YES;
                 }
                 
                 if (useExternalPlayer)
                 {
-                    NSString *stringURL = [self.videoNetworkConnection.url absoluteString];
+                    NSString *stringURL = [[self.connectionManager urlForVideo:fileItem].url absoluteString];
                     BOOL *playerFound = NO;
                     switch ([[defaults objectForKey:kNASTifySettingExternalPlayerType] integerValue])
                     {
@@ -1969,15 +2057,11 @@
                 else if (ServerSupportsFeature(VLCPlayer))
                 {
                     itemHandled = YES;
+                    self.videoFile = fileItem;
+                    
                     if (![self getSubtitleFileForMedia:fileItem])
                     {
-                        VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                        vpc.url = self.videoNetworkConnection.url;
-//                      vpc.successCallback = successCallback;
-//                      vpc.errorCallback = errorCallback;
-                        vpc.fullscreenSessionRequested = YES;
-                        
-                        [[VLCPlaybackController sharedInstance] startPlayback];
+                        [self showVLCPlayerForFile:fileItem withSubtitles:nil];
                     }
                 }
             }
@@ -2358,7 +2442,7 @@
             }
             else if (buttonIndex == self.downloadButtonIndex)
             {
-                self.videoNetworkConnection = nil;
+                self.videoFile = nil;
                 
                 self.downloadAction = DOWNLOAD_ACTION_DOWNLOAD;
                 MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view
@@ -2422,13 +2506,7 @@
             {
                 case DOWNLOAD_ACTION_SUBTITLE:
                 {
-                    VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                    vpc.url = self.videoNetworkConnection.url;
-//                  vpc.successCallback = successCallback;
-//                  vpc.errorCallback = errorCallback;
-                    vpc.fullscreenSessionRequested = YES;
-                    
-                    [[VLCPlaybackController sharedInstance] startPlayback];
+                    [self showVLCPlayerForFile:self.videoFile withSubtitles:nil];
                     break;
                 }
                 default:
@@ -2436,9 +2514,6 @@
                     // Nothing to do
                     break;
                 }
-            }
-            if (self.videoNetworkConnection)
-            {
             }
             break;
         }
@@ -3556,14 +3631,7 @@
         {
             case DOWNLOAD_ACTION_SUBTITLE:
             {
-                VLCPlaybackController *vpc = [VLCPlaybackController sharedInstance];
-                vpc.url = self.videoNetworkConnection.url;
-                vpc.pathToExternalSubtitlesFile = self.dlFilePath;
-//              vpc.successCallback = successCallback;
-//              vpc.errorCallback = errorCallback;
-                vpc.fullscreenSessionRequested = YES;
-                
-                [[VLCPlaybackController sharedInstance] startPlayback];
+                [self showVLCPlayerForFile:self.videoFile withSubtitles:self.dlFilePath];
                 break;
             }
             case DOWNLOAD_ACTION_PREVIEW:
@@ -3583,9 +3651,6 @@
                 // Nothing to do
                 break;
             }
-        }
-        if (self.videoNetworkConnection)
-        {
         }
 	}
     else
