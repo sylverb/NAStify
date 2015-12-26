@@ -7,7 +7,7 @@ set -e
 
 if [ ! -f neon-${LIBNEON_VERSION}.tar.gz ]
 then
-wget http://www.webdav.org/neon/neon-${LIBNEON_VERSION}.tar.gz
+curl -O "http://www.webdav.org/neon/neon-${LIBNEON_VERSION}.tar.gz"
 fi
 
 if [ ! -d neon-${LIBNEON_VERSION} ]

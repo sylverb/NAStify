@@ -16,7 +16,7 @@ if [ -f openssl*z ]; then
 	done
 else
 	echo "OpenSSL has not been downloaded, getting it from http://openssl.org/source/"
-	wget http://openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz
+	curl -O "http://openssl.org/source/openssl-${OPENSSL_VERSION}.tar.gz"
 	detectedSSLVersion=${OPENSSL_VERSION}
 fi
 

@@ -9,7 +9,7 @@ SDK=`xcrun --sdk iphoneos --show-sdk-version`
 
 if [ ! -f libidn-${LIBIDN_VERSION}.tar.gz ]
 then
-wget http://ftp.gnu.org/gnu/libidn/libidn-${LIBIDN_VERSION}.tar.gz
+curl -O "http://ftp.gnu.org/gnu/libidn/libidn-${LIBIDN_VERSION}.tar.gz"
 fi
 
 if [ ! -d libidn-${LIBIDN_VERSION} ]
