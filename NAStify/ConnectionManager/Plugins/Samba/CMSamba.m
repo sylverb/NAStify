@@ -174,7 +174,8 @@ char c_password[255];
     }
     else
     {
-//        CLS_LOG(@"failed to connect to servername %@",self.userAccount.server);
+        CLS_LOG(@"failed to connect to servername %@",self.userAccount.server);
+        /* FIXME: find why this is possible and update */
         /*
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:

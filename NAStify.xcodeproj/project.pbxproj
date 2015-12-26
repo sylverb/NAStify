@@ -187,6 +187,10 @@
 		957BD3491BD44D3700A2610C /* libMediaLibraryKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 957BD3471BD44CED00A2610C /* libMediaLibraryKit.a */; };
 		957BD3501BD452E100A2610C /* MappingModel_2_5_to_2_6.xcmappingmodel in Sources */ = {isa = PBXBuildFile; fileRef = 957BD34F1BD452E100A2610C /* MappingModel_2_5_to_2_6.xcmappingmodel */; };
 		957BD3551BD5913C00A2610C /* MediaLibrary.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = 957BD3541BD5913C00A2610C /* MediaLibrary.xcdatamodeld */; };
+		95A8190D1C2E2BD800486928 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CDDD1C1C457700F964BF /* Crashlytics.framework */; };
+		95A8190E1C2E2BDD00486928 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CDDE1C1C457700F964BF /* Fabric.framework */; };
+		95A819191C2E2F7900486928 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A819171C2E2F7900486928 /* Crashlytics.framework */; };
+		95A8191A1C2E2F7900486928 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A819181C2E2F7900486928 /* Fabric.framework */; };
 		95AF2DD01BD9A52D00C3A81D /* ftpparse.c in Sources */ = {isa = PBXBuildFile; fileRef = F9E707C115DF2AA000275445 /* ftpparse.c */; };
 		95AF2E0E1BD9FF1E00C3A81D /* ServerSettingsWebDavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F7ED15D7CA060059428E /* ServerSettingsWebDavViewController.m */; };
 		95AF2E111BDAE5D600C3A81D /* tvos-libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */; };
@@ -195,8 +199,6 @@
 		95C6CD781C18D81200F964BF /* NAStifyAboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 95C6CD761C18D81200F964BF /* NAStifyAboutViewController.m */; };
 		95C6CD791C18D81200F964BF /* NAStifyAboutViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 95C6CD771C18D81200F964BF /* NAStifyAboutViewController.xib */; };
 		95C6CD811C18E1D800F964BF /* About Contents.html in Resources */ = {isa = PBXBuildFile; fileRef = 95C6CD801C18E1D800F964BF /* About Contents.html */; };
-		95C6CDDF1C1C457700F964BF /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CDDD1C1C457700F964BF /* Crashlytics.framework */; };
-		95C6CDE01C1C457700F964BF /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CDDE1C1C457700F964BF /* Fabric.framework */; };
 		95C6CE5D1C2A112600F964BF /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CE5C1C2A112600F964BF /* libcurl.a */; };
 		95C6CE5E1C2A116500F964BF /* libcurl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CE5C1C2A112600F964BF /* libcurl.a */; };
 		95C6CE6D1C2A19CB00F964BF /* libPods-NAStify-DocProvider-AFNetworking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CE6C1C2A19CB00F964BF /* libPods-NAStify-DocProvider-AFNetworking.a */; };
@@ -1830,6 +1832,8 @@
 		957BD3521BD5913C00A2610C /* MediaLibrary-2.5.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MediaLibrary-2.5.xcdatamodel"; sourceTree = "<group>"; };
 		957BD3531BD5913C00A2610C /* MediaLibrary-2.6.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "MediaLibrary-2.6.xcdatamodel"; sourceTree = "<group>"; };
 		957BD3941BD6C2BB00A2610C /* NAStifyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NAStifyConstants.h; path = Settings/NAStifyConstants.h; sourceTree = "<group>"; };
+		95A819171C2E2F7900486928 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = "NAStify-tvOS/External/Crashlytics.framework"; sourceTree = "<group>"; };
+		95A819181C2E2F7900486928 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = "NAStify-tvOS/External/Fabric.framework"; sourceTree = "<group>"; };
 		95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libcrypto.a"; path = "external/openssl/lib/tvos-libcrypto.a"; sourceTree = "<group>"; };
 		95AF2E101BDAE5D600C3A81D /* tvos-libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libssl.a"; path = "external/openssl/lib/tvos-libssl.a"; sourceTree = "<group>"; };
 		95BD7B3F1BE0C654005BC784 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
@@ -1837,8 +1841,6 @@
 		95C6CD761C18D81200F964BF /* NAStifyAboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NAStifyAboutViewController.m; path = ServersSettings/NAStifyAboutViewController.m; sourceTree = "<group>"; };
 		95C6CD771C18D81200F964BF /* NAStifyAboutViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = NAStifyAboutViewController.xib; path = ServersSettings/NAStifyAboutViewController.xib; sourceTree = "<group>"; };
 		95C6CD801C18E1D800F964BF /* About Contents.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; name = "About Contents.html"; path = "Ressources/About Contents.html"; sourceTree = "<group>"; };
-		95C6CDD71C1A31A800F964BF /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Fabric.framework; sourceTree = "<group>"; };
-		95C6CDD81C1A31A800F964BF /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		95C6CDDD1C1C457700F964BF /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = NAStify/External/Crashlytics.framework; sourceTree = "<group>"; };
 		95C6CDDE1C1C457700F964BF /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = NAStify/External/Fabric.framework; sourceTree = "<group>"; };
 		95C6CE5C1C2A112600F964BF /* libcurl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcurl.a; path = external/curl/lib/libcurl.a; sourceTree = "<group>"; };
@@ -3263,7 +3265,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				95562E141BE576DB006222C3 /* libownCloud tvOS library.a in Frameworks */,
+				95A819191C2E2F7900486928 /* Crashlytics.framework in Frameworks */,
 				957322811BDAFAA8008D8AD0 /* tvos-libneon.a in Frameworks */,
+				95A8191A1C2E2F7900486928 /* Fabric.framework in Frameworks */,
 				9573227F1BDAFA9B008D8AD0 /* tvos-libcurl.a in Frameworks */,
 				957322741BDAED6F008D8AD0 /* tvos-libssh2.a in Frameworks */,
 				95AF2E111BDAE5D600C3A81D /* tvos-libcrypto.a in Frameworks */,
@@ -3271,8 +3275,6 @@
 				954872E71BD7058C0097225C /* libc++.tbd in Frameworks */,
 				95486E4F1BD6E5340097225C /* libiconv.tbd in Frameworks */,
 				95486E4B1BD6E5220097225C /* AVFoundation.framework in Frameworks */,
-				95C6CDDF1C1C457700F964BF /* Crashlytics.framework in Frameworks */,
-				95C6CDE01C1C457700F964BF /* Fabric.framework in Frameworks */,
 				95486E491BD6E51A0097225C /* OpenGLES.framework in Frameworks */,
 				95486E471BD6E5110097225C /* CoreText.framework in Frameworks */,
 				95486E451BD6E50A0097225C /* AudioToolbox.framework in Frameworks */,
@@ -3324,6 +3326,7 @@
 				95C6CEA81C2B20F900F964BF /* libLTHPasscodeViewController.a in Frameworks */,
 				95C6CEA91C2B20F900F964BF /* libMAConfirmButton.a in Frameworks */,
 				95C6CEA01C2B1DA400F964BF /* libPods-NAStify-ISO8601DateFormatter.a in Frameworks */,
+				95A8190D1C2E2BD800486928 /* Crashlytics.framework in Frameworks */,
 				95C6CEA11C2B1DA400F964BF /* libPods-NAStify-SSKeychain.a in Frameworks */,
 				95C6CEA21C2B1DA400F964BF /* libPods-NAStify-upnpx.a in Frameworks */,
 				95C6CEA31C2B1DA400F964BF /* libPods-NAStify-XMLDictionary.a in Frameworks */,
@@ -3346,6 +3349,7 @@
 				D57CCF381A3E12E300D9E6A9 /* libownCloudiOS.a in Frameworks */,
 				D5E473D51A00F4E500A02A1A /* libSDropboxSDK.a in Frameworks */,
 				D546FCFA19FE5D2F00125E62 /* libc++.dylib in Frameworks */,
+				95A8190E1C2E2BDD00486928 /* Fabric.framework in Frameworks */,
 				D53030EC19DA979C004F7147 /* MediaAccessibility.framework in Frameworks */,
 				D5AFBAEE19CF64AA001C14CC /* EventKitUI.framework in Frameworks */,
 				D5AFBAEC19CF647C001C14CC /* EventKit.framework in Frameworks */,
@@ -4921,10 +4925,10 @@
 				95C6CE6C1C2A19CB00F964BF /* libPods-NAStify-DocProvider-AFNetworking.a */,
 				95C6CE651C2A197F00F964BF /* libPods-NAStify-DocProvider.a */,
 				95C6CE5C1C2A112600F964BF /* libcurl.a */,
+				95A819171C2E2F7900486928 /* Crashlytics.framework */,
+				95A819181C2E2F7900486928 /* Fabric.framework */,
 				95C6CDDD1C1C457700F964BF /* Crashlytics.framework */,
 				95C6CDDE1C1C457700F964BF /* Fabric.framework */,
-				95C6CDD71C1A31A800F964BF /* Fabric.framework */,
-				95C6CDD81C1A31A800F964BF /* Crashlytics.framework */,
 				957322801BDAFAA8008D8AD0 /* tvos-libneon.a */,
 				9573227E1BDAFA9B008D8AD0 /* tvos-libcurl.a */,
 				9573227C1BDAFA51008D8AD0 /* tvos_libneon.a */,
@@ -6346,6 +6350,7 @@
 				D5ECEA0219E9CF0E0026C4D2 /* Embed App Extensions */,
 				B78F2AB205D95F378178E0D2 /* Copy Pods Resources */,
 				FA64F05E92DF7871FEC55811 /* Embed Pods Frameworks */,
+				95A818FD1C2E298500486928 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -7392,7 +7397,7 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-NAStify-DocProvider/Pods-NAStify-DocProvider-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		95C6CDD61C1A318C00F964BF /* ShellScript */ = {
+		95A818FD1C2E298500486928 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -7404,6 +7409,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "./NAStify/External/Fabric.framework/run 1510d850f9ccd40c43a336e0a04436c3bf37fd0d 770c40ca73f3ccc14bed495ddadd7bbdc90b90c39cffb59404160dab337d40ad";
+		};
+		95C6CDD61C1A318C00F964BF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./NAStify-tvOS/External/Fabric.framework/run 1510d850f9ccd40c43a336e0a04436c3bf37fd0d 770c40ca73f3ccc14bed495ddadd7bbdc90b90c39cffb59404160dab337d40ad";
 		};
 		B78F2AB205D95F378178E0D2 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -8162,6 +8180,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/NAStify/External",
+					"$(PROJECT_DIR)/NAStify-tvOS/External",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8231,6 +8250,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)",
 					"$(PROJECT_DIR)/NAStify/External",
+					"$(PROJECT_DIR)/NAStify-tvOS/External",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -8504,6 +8524,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/NAStify/External/Connect-SDK-iOS/modules/google-cast/",
 					"$(PROJECT_DIR)/Pods/Google-Mobile-Ads-SDK/GoogleMobileAdsSdkiOS-7.5.2",
+					"$(PROJECT_DIR)/NAStify/External",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";
@@ -8571,6 +8593,8 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/NAStify/External/Connect-SDK-iOS/modules/google-cast/",
 					"$(PROJECT_DIR)/Pods/Google-Mobile-Ads-SDK/GoogleMobileAdsSdkiOS-7.5.2",
+					"$(PROJECT_DIR)/NAStify/External",
+					"$(PROJECT_DIR)",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "NAStify/NAStify-Prefix.pch";

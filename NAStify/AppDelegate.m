@@ -65,6 +65,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+#ifndef DEBUG
+    [Fabric with:@[[Crashlytics class]]];
+#endif
+
     // In-App purchase management
 #ifdef TEST_INAPP_PURCHASE
     NSURL *tmpcontainerURL = [[NSFileManager defaultManager] containerURLForSecurityApplicationGroupIdentifier:@"group.com.sylver.NAStify"];

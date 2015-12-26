@@ -8,8 +8,6 @@
 #warning "This project uses features only available in iOS SDK 3.0 and later."
 #endif
 
-#define TARGET_TV_OS 0
-
 #ifdef __OBJC__
     #import <UIKit/UIKit.h>
     #import <Foundation/Foundation.h>
@@ -19,6 +17,10 @@
     #import "NSMutableArrayAdditions.h"
     #import "NSNumberAdditions.h"
     #import "NSStringAdditions.h"
+
+    #import <Fabric/Fabric.h>
+    #import <Crashlytics/Crashlytics.h>
+
 
 // VLC
 
