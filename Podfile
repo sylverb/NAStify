@@ -1,15 +1,9 @@
 source 'https://github.com/CocoaPods/Specs.git'
 
-pod 'MAConfirmButton', :git => 'https://github.com/gizmosachin/MAConfirmButton.git', :commit => 'cc15357'
-pod 'MKStoreKit', :head
-pod 'iRate', '1.11.3'
 pod 'box-ios-sdk-v2', :git => 'https://github.com/box/box-ios-sdk-v2.git', :commit => '5b9af5c'
 pod 'CocoaHTTPServer', '2.3'
 pod 'DACircularProgress', :git => 'https://github.com/danielamitay/DACircularProgress.git', :commit => 'ccc7a2e'
-pod 'ELCImagePickerController', :git => 'https://github.com/B-Sides/ELCImagePickerController.git', :commit => 'b57e2f3'
-pod 'LTHPasscodeViewController', '3.3.3'
 pod 'MBProgressHUD', :git => 'https://github.com/jdg/MBProgressHUD.git', :commit => 'fc1903f'
-pod 'objective-zip', '0.8.3'
 pod 'OBSlider', '1.1.0'
 pod 'PSTCollectionView', '1.2.3'
 pod 'Google-API-Client/Drive', '1.0.418'
@@ -21,6 +15,12 @@ target 'NAStify' do
     pod 'AFNetworking', :podspec => 'localpods/vendor/AFNetworking.podspec'
     pod 'XMLDictionary', :podspec => 'localpods/vendor/XMLDictionary.podspec'
     pod 'ISO8601DateFormatter', :podspec => 'localpods/vendor/ISO8601DateFormatter.podspec'
+    pod 'ELCImagePickerController', :git => 'https://github.com/B-Sides/ELCImagePickerController.git', :commit => 'b57e2f3'
+    pod 'iRate', '1.11.3'
+    pod 'objective-zip', '0.8.3'
+    pod 'MAConfirmButton', :git => 'https://github.com/gizmosachin/MAConfirmButton.git', :commit => 'cc15357'
+#    pod 'MKStoreKit', :head
+    pod 'LTHPasscodeViewController', '3.3.3'
 end
 
 target 'NAStify-DocProvider' do
@@ -29,6 +29,7 @@ target 'NAStify-DocProvider' do
     pod 'AFNetworking', :podspec => 'localpods/vendor/AFNetworking.podspec'
     pod 'XMLDictionary', :podspec => 'localpods/vendor/XMLDictionary.podspec'
     pod 'ISO8601DateFormatter', :podspec => 'localpods/vendor/ISO8601DateFormatter.podspec'
+    pod 'LTHPasscodeViewController', '3.3.3'
 end
 
 target 'NAStify-tvOS' do
@@ -56,7 +57,7 @@ post_install do |installer|
     %x(patch -Np1 < localpods/patches/LTHPasscodeViewController-app-extension.patch)
     puts 'Patching LTHPasscodeViewController to add saving of TouchID use preference'
     %x(patch -Np1 < localpods/patches/LTHPasscodeViewController-touchid-save.patch)
-    puts 'Patching MKStoreKit to fix various issues'
+#    puts 'Patching MKStoreKit to fix various issues'
     %x(patch -Np1 < localpods/patches/MKStoreKit-fixes.patch)
     puts 'Patching MAConfirmationButton to add dynamic enable method'
     %x(patch -Np1 < localpods/patches/MAConfirmationButton-add-dynamic-enable.patch)
@@ -66,4 +67,13 @@ post_install do |installer|
 #    %x(patch -Np1 < localpods/patches/SDWebImage-add-libRaw-use.patch)
 #    puts 'Patching MWPhotoBrowser to allow to set SDImage download options'
 #    %x(patch -Np1 < localpods/patches/MWPhotoBrowser-allow-to-set-download-options.patch)
+    installer.pods_project.targets.each do |target|
+        puts "target #{target.name}"
+        if target.name.start_with? "Pods-NAStify-DocProvider-"
+            puts "define APP_EXTENSION for target #{target.name}"
+            target.build_configurations.each do |config|
+                config.build_settings['GCC_PREPROCESSOR_DEFINITIONS'] ||= ['$(inherited)', 'APP_EXTENSION=1']
+            end
+        end
+    end
 end

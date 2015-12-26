@@ -35,17 +35,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-    NSData * accountsData = [defaults objectForKey:@"accounts"];
-    if (!accountsData)
-    {
-        self.accounts = [[NSMutableArray alloc] init];
-    }
-    else
-    {
-        self.accounts = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:accountsData]];
-    }
-    
     self.navigationItem.title = NSLocalizedString(@"Servers", nil);
 
     self.smbDevices = [[NSMutableArray alloc] init];
@@ -71,6 +60,21 @@
                                                object: nil];
     
     self.tableView.layoutMargins = UIEdgeInsetsMake(0, 90, 0, 90);
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+    NSData * accountsData = [defaults objectForKey:@"accounts"];
+    if (!accountsData)
+    {
+        self.accounts = [[NSMutableArray alloc] init];
+    }
+    else
+    {
+        self.accounts = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:accountsData]];
+    }
+    [self.tableView reloadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated
@@ -258,28 +262,27 @@
         }
         case 1: // UPnP
         {
-            cell = [tableView dequeueReusableCellWithIdentifier:UPnPCellIdentifier];
-            if (cell == nil)
+            ServerCell *serverCell = [tableView dequeueReusableCellWithIdentifier:UPnPCellIdentifier];
+            if (serverCell == nil)
             {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                              reuseIdentifier:UPnPCellIdentifier];
+                serverCell = [[ServerCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                               reuseIdentifier:UPnPCellIdentifier];
             }
             // Get device info
             BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
-
-            cell.textLabel.text = [device friendlyName];
+            
+            serverCell.textLabel.text = [device friendlyName];
             if ([device smallIcon])
             {
-                cell.imageView.image = [device smallIcon];
+                [serverCell serverImage:[device smallIcon]];
             }
             else
             {
-                cell.imageView.image = [UIImage imageNamed:@"upnp_small.png"];
+                serverCell.imageView.image = [UIImage imageNamed:@"upnp_small.png"];
             }
-
-            cell.editingAccessoryType = UITableViewCellAccessoryNone;
-            cell.showsReorderControl = NO;
-
+            
+            serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
+            cell = serverCell;
             break;
         }
         case 2: // SMB/CIFS
@@ -409,6 +412,7 @@
         case 2: // SMB/CIFS
         {
             UserAccount *account = [[UserAccount alloc] init];
+            account.accountName = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"hostname"];
             account.serverType = SERVER_TYPE_SAMBA;
             account.server = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"hostname"];
             account.serverObject = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"group"];

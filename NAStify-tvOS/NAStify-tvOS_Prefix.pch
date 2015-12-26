@@ -21,6 +21,9 @@
 #import "UIColor+Presets.h"
 #import "NAStifyConstants.h"
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 #ifndef NDEBUG
 #define APLog(format, ...) NSLog(format, ## __VA_ARGS__)
 #else

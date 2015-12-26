@@ -53,7 +53,6 @@ PODS:
   - LTHPasscodeViewController (3.3.3)
   - MAConfirmButton (2.0)
   - MBProgressHUD (0.9)
-  - MKStoreKit (HEAD based on 4.99)
   - NSData+Base64 (1.0.0)
   - objective-zip (0.8.3)
   - OBSlider (1.1.0)
@@ -80,7 +79,6 @@ DEPENDENCIES:
   - MAConfirmButton (from `https://github.com/gizmosachin/MAConfirmButton.git`, commit
     `cc15357`)
   - MBProgressHUD (from `https://github.com/jdg/MBProgressHUD.git`, commit `fc1903f`)
-  - MKStoreKit (HEAD)
   - objective-zip (= 0.8.3)
   - OBSlider (= 1.1.0)
   - PSTCollectionView (= 1.2.3)
@@ -148,7 +146,6 @@ SPEC CHECKSUMS:
   LTHPasscodeViewController: 01d2c19b6e2aefcd34f4a63d880cf3718da27fdc
   MAConfirmButton: fb4a445eb31b717981c9b74c1cdd3c25fd4f3960
   MBProgressHUD: 7c553ce49e4fbdb323c99f8ce315e54e698b559e
-  MKStoreKit: 748617e5f87ad1e0d3f075155047945248eccefc
   NSData+Base64: 4e84902c4db907a15673474677e57763ef3903e4
   objective-zip: a27d4b3c060eead4325159e49178e7f0ad5ee808
   OBSlider: 490f108007bfdd5414a38650b211fe403a95b8a0

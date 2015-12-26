@@ -24,10 +24,10 @@
 #import "VLCPlayerDisplayController.h"
 
 #if TARGET_OS_IOS
-#import "VLCKeychainCoordinator.h"
-#import "VLCThumbnailsCache.h"
+//#import "VLCKeychainCoordinator.h"
+//#import "VLCThumbnailsCache.h"
 #import "VLCLibraryViewController.h"
-#import <WatchKit/WatchKit.h>
+//#import <WatchKit/WatchKit.h>
 #endif
 
 NSString *const VLCPlaybackControllerPlaybackDidStart = @"VLCPlaybackControllerPlaybackDidStart";
@@ -216,7 +216,7 @@ NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackCont
     /* to enable debug logging for the playback library instance, switch the boolean below
      * note that the library instance used for playback may not necessarily match the instance
      * used for media discovery or thumbnailing */
-    _listPlayer.mediaPlayer.libraryInstance.debugLogging = NO;
+    _listPlayer.mediaPlayer.libraryInstance.debugLogging = YES;
 
     /* video decoding permanently fails if we don't provide a UIView to draw into on init
      * hence we provide one which is not attached to any view controller for off-screen drawing
@@ -886,7 +886,7 @@ NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackCont
     }
 
     if (mediaIsAudioOnly) {
-#if TARGET_OS_IOS
+#if 0 //TARGET_OS_IOS
         artworkImage = [VLCThumbnailsCache thumbnailForManagedObject:item];
 
         if (artworkImage) {
@@ -917,7 +917,7 @@ NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackCont
     currentlyPlayingTrackInfo[MPNowPlayingInfoPropertyPlaybackRate] = @(_mediaPlayer.isPlaying ? _mediaPlayer.rate : 0.0);
 
     /* don't leak sensitive information to the OS, if passcode lock is enabled */
-#if TARGET_OS_IOS
+#if 0 //TARGET_OS_IOS
     if (![[VLCKeychainCoordinator defaultCoordinator] passcodeLockEnabled]) {
 #endif
         if (title)
@@ -930,7 +930,7 @@ NSString *const VLCPlaybackControllerPlaybackPositionUpdated = @"VLCPlaybackCont
         if ([trackNumber intValue] > 0)
             currentlyPlayingTrackInfo[MPMediaItemPropertyAlbumTrackNumber] = trackNumber;
 
-#if TARGET_OS_IOS
+#if 0 //TARGET_OS_IOS
         /* FIXME: UGLY HACK
          * iOS 8.2 and 8.3 include an issue which will lead to a termination of the client app if we set artwork
          * when the playback initialized through the watch extension

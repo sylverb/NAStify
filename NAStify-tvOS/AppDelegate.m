@@ -10,8 +10,8 @@
 #import "VLCPlayerDisplayController.h"
 #import "SettingsViewController.h"
 #import "NAStifyAboutViewController.h"
-#import <Fabric/Fabric.h>
-#import <Crashlytics/Crashlytics.h>
+#import "MetaDataFetcherKit.h"
+#import "private.h"
 
 @interface AppDelegate ()
 
@@ -47,8 +47,9 @@
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    [Fabric with:@[[Crashlytics class]]];
-
+#ifndef DEBUG
+   [Fabric with:@[[Crashlytics class]]];
+#endif
     // Application launching
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
@@ -79,6 +80,11 @@
     
     [self.window makeKeyAndVisible];
 
+    // Init
+    MDFMovieDBSessionManager *movieDBSessionManager = [MDFMovieDBSessionManager sharedInstance];
+    movieDBSessionManager.apiKey = TMDB_API_KEY;
+    [movieDBSessionManager fetchProperties];
+    
     return YES;
 }
 

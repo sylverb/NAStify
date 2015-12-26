@@ -310,8 +310,7 @@
 
 - (void)longPressAction:(UILongPressGestureRecognizer *)tapRecognizer
 {
-    if (![self.connectionManager pluginRespondsToSelector:@selector(deleteFiles:)])
-        return;
+    BOOL showAlert = NO;
     
     if (tapRecognizer.state == UIGestureRecognizerStateBegan)
     {
@@ -322,20 +321,46 @@
                 BOOL canDelete = NO;
                 NSIndexPath *indexPath = [self.collectionView indexPathForCell:coll];
                 FileItem *fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
-                NSLog(@"file %@",fileItem.name);
+
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:fileItem.name
+                                                                               message:NSLocalizedString(@"Action",nil)
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+
                 
                 if (((fileItem.isDir)&&(ServerSupportsFeature(FolderDelete))) ||
                     ((!fileItem.isDir)&&(ServerSupportsFeature(FileDelete))))
                 {
                     canDelete = fileItem.writeAccess;
                 }
-                
+
+                showAlert = YES;
+                UIAlertAction *favoriteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Add as favorite",nil)
+                                                                       style:UIAlertActionStyleDefault
+                                                                     handler:^(UIAlertAction * action) {
+                                                                         NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+                                                                         UserAccount *favorite = [self.userAccount copy];
+                                                                         favorite.accountName = [NSString stringWithFormat:@"%@ (%@)",favorite.accountName,fileItem.shortPath];
+                                                                         favorite.settings = [NSDictionary dictionaryWithObject:fileItem.shortPath forKey:@"path"];
+                                                                         
+                                                                         NSData *accountsData = [defaults objectForKey:@"accounts"];
+                                                                         NSMutableArray *accounts;
+                                                                         if (!accountsData)
+                                                                         {
+                                                                             accounts = [[NSMutableArray alloc] init];
+                                                                         }
+                                                                         else
+                                                                         {
+                                                                             accounts = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:accountsData]];
+                                                                         }
+                                                                         [accounts addObject:favorite];
+                                                                         [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:accounts] forKey:@"accounts"];
+                                                                         [defaults synchronize];
+                                                                     }];
+                [alert addAction:favoriteAction];
+
                 if (canDelete)
                 {
-                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:fileItem.name
-                                                                                   message:NSLocalizedString(@"Action",nil)
-                                                                            preferredStyle:UIAlertControllerStyleAlert];
-                    
+                    showAlert = YES;
                     UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete",nil)
                                                                            style:UIAlertActionStyleDestructive
                                                                          handler:^(UIAlertAction * action) {
@@ -357,17 +382,23 @@
                                                                                  [alert dismissViewControllerAnimated:YES completion:nil];
                                                                              }
                                                                          }];
+                    [alert addAction:deleteAction];
+                }
+
+                if (showAlert)
+                {
                     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil)
                                                                            style:UIAlertActionStyleCancel
                                                                          handler:^(UIAlertAction * action) {
                                                                              // Do nothing
                                                                              [alert dismissViewControllerAnimated:YES completion:nil];
                                                                          }];
-                    [alert addAction:deleteAction];
+                    
                     [alert addAction:cancelAction];
                     alert.preferredAction = cancelAction;
                     [self presentViewController:alert animated:YES completion:nil];
                 }
+                break;
             }
         }
     }
