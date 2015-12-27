@@ -138,7 +138,13 @@
 {
     // Hide toolbar
     [self.navigationController setToolbarHidden:YES animated:NO];
-    
+
+    if (self.manager.reachabilityManager.networkReachabilityStatus == AFNetworkReachabilityStatusReachableViaWiFi)
+    {
+        [self performSelectorInBackground:@selector(startUPNPDiscovery) withObject:nil];
+        [self performSelectorInBackground:@selector(startNetbiosDiscovery) withObject:nil];
+    }
+
     [super viewWillAppear:animated];
 }
 
