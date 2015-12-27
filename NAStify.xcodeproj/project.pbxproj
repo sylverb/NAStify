@@ -189,8 +189,8 @@
 		957BD3551BD5913C00A2610C /* MediaLibrary.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = 957BD3541BD5913C00A2610C /* MediaLibrary.xcdatamodeld */; };
 		95A8190D1C2E2BD800486928 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CDDD1C1C457700F964BF /* Crashlytics.framework */; };
 		95A8190E1C2E2BDD00486928 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95C6CDDE1C1C457700F964BF /* Fabric.framework */; };
-		95A819191C2E2F7900486928 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A819171C2E2F7900486928 /* Crashlytics.framework */; };
-		95A8191A1C2E2F7900486928 /* Fabric.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A819181C2E2F7900486928 /* Fabric.framework */; };
+		95A8191D1C2F3F5800486928 /* Crashlytics-tvos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A8191B1C2F3F5700486928 /* Crashlytics-tvos.framework */; };
+		95A8191E1C2F3F5800486928 /* Fabric-tvos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 95A8191C1C2F3F5700486928 /* Fabric-tvos.framework */; };
 		95AF2DD01BD9A52D00C3A81D /* ftpparse.c in Sources */ = {isa = PBXBuildFile; fileRef = F9E707C115DF2AA000275445 /* ftpparse.c */; };
 		95AF2E0E1BD9FF1E00C3A81D /* ServerSettingsWebDavViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F901F7ED15D7CA060059428E /* ServerSettingsWebDavViewController.m */; };
 		95AF2E111BDAE5D600C3A81D /* tvos-libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */; };
@@ -1834,6 +1834,8 @@
 		957BD3941BD6C2BB00A2610C /* NAStifyConstants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = NAStifyConstants.h; path = Settings/NAStifyConstants.h; sourceTree = "<group>"; };
 		95A819171C2E2F7900486928 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Crashlytics.framework; path = "NAStify-tvOS/External/Crashlytics.framework"; sourceTree = "<group>"; };
 		95A819181C2E2F7900486928 /* Fabric.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Fabric.framework; path = "NAStify-tvOS/External/Fabric.framework"; sourceTree = "<group>"; };
+		95A8191B1C2F3F5700486928 /* Crashlytics-tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Crashlytics-tvos.framework"; path = "NAStify-tvOS/External/Crashlytics-tvos.framework"; sourceTree = "<group>"; };
+		95A8191C1C2F3F5700486928 /* Fabric-tvos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = "Fabric-tvos.framework"; path = "NAStify-tvOS/External/Fabric-tvos.framework"; sourceTree = "<group>"; };
 		95AF2E0F1BDAE5D600C3A81D /* tvos-libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libcrypto.a"; path = "external/openssl/lib/tvos-libcrypto.a"; sourceTree = "<group>"; };
 		95AF2E101BDAE5D600C3A81D /* tvos-libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = "tvos-libssl.a"; path = "external/openssl/lib/tvos-libssl.a"; sourceTree = "<group>"; };
 		95BD7B3F1BE0C654005BC784 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Localizable.strings; sourceTree = "<group>"; };
@@ -3264,10 +3266,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				95A8191D1C2F3F5800486928 /* Crashlytics-tvos.framework in Frameworks */,
+				95A8191E1C2F3F5800486928 /* Fabric-tvos.framework in Frameworks */,
 				95562E141BE576DB006222C3 /* libownCloud tvOS library.a in Frameworks */,
-				95A819191C2E2F7900486928 /* Crashlytics.framework in Frameworks */,
 				957322811BDAFAA8008D8AD0 /* tvos-libneon.a in Frameworks */,
-				95A8191A1C2E2F7900486928 /* Fabric.framework in Frameworks */,
 				9573227F1BDAFA9B008D8AD0 /* tvos-libcurl.a in Frameworks */,
 				957322741BDAED6F008D8AD0 /* tvos-libssh2.a in Frameworks */,
 				95AF2E111BDAE5D600C3A81D /* tvos-libcrypto.a in Frameworks */,
@@ -4909,6 +4911,8 @@
 		F901F7A815D7C7C50059428E /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				95A8191B1C2F3F5700486928 /* Crashlytics-tvos.framework */,
+				95A8191C1C2F3F5700486928 /* Fabric-tvos.framework */,
 				95C6CEAA1C2B213C00F964BF /* libELCImagePickerController.a */,
 				95C6CEAB1C2B213C00F964BF /* libobjective-zip.a */,
 				95C6CEA41C2B20F900F964BF /* libiRate.a */,
@@ -7421,7 +7425,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "./NAStify-tvOS/External/Fabric.framework/run 1510d850f9ccd40c43a336e0a04436c3bf37fd0d 770c40ca73f3ccc14bed495ddadd7bbdc90b90c39cffb59404160dab337d40ad";
+			shellScript = "./NAStify-tvOS/External/Fabric-tvos.framework/run 1510d850f9ccd40c43a336e0a04436c3bf37fd0d 770c40ca73f3ccc14bed495ddadd7bbdc90b90c39cffb59404160dab337d40ad";
 		};
 		B78F2AB205D95F378178E0D2 /* Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
