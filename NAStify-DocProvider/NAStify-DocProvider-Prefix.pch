@@ -6,6 +6,7 @@
 
 #define AF_APP_EXTENSIONS
 #define APP_EXTENSION
+#define LTH_APP_EXTENSION
 
 #ifndef __IPHONE_3_0
 #warning "This project uses features only available in iOS SDK 3.0 and later."
