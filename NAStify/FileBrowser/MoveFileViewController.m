@@ -48,11 +48,11 @@
                                                                                              target:nil
                                                                                              action:nil];
 
-    self.mvButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Move here",@"")
+    self.mvButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Move here",nil)
                                                            style:UIBarButtonItemStylePlain
                                                           target:self
                                                           action:@selector(moveButton:event:)];
-    self.cpButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Copy here",@"")
+    self.cpButtonItem = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Copy here",nil)
                                                            style:UIBarButtonItemStylePlain
                                                           target:self
                                                           action:@selector(copyButton:event:)];
@@ -181,6 +181,16 @@
 					withDelegate:self
 						  andTag:TAG_TEXTFIELD_FILENAME];
 	
+    if (file.isDir)
+    {
+        fileBrowserCell.backgroundColor = [UIColor clearColor];
+        fileBrowserCell.userInteractionEnabled = YES;
+    }
+    else
+    {
+        fileBrowserCell.backgroundColor = [UIColor grayColor];
+        fileBrowserCell.userInteractionEnabled = NO;
+    }
 	cell = fileBrowserCell;
 	
 	[self.tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -216,11 +226,11 @@
     
 	for (i=0; i<[filesList count];i++)
     {
-		if ([[[filesList objectAtIndex:i] objectForKey:@"isdir"] boolValue])
+		//if ([[[filesList objectAtIndex:i] objectForKey:@"isdir"] boolValue])
         {
 			FileItem *fileItem = [[FileItem alloc] init];
 			fileItem.name = [[filesList objectAtIndex:i] objectForKey:@"filename"];
-			fileItem.isDir = YES;
+			fileItem.isDir = [[[filesList objectAtIndex:i] objectForKey:@"isdir"] boolValue];
 			fileItem.shortPath = self.currentFolder.path;
             if ([self.currentFolder.path isEqualToString:@"/"])
             {
@@ -248,8 +258,15 @@
             }
 
 			fileItem.type = [[filesList objectAtIndex:i] objectForKey:@"type"];
-			fileItem.fileSize = @"";
-			fileItem.fileSizeNumber = nil;
+            if ([[filesList objectAtIndex:i] objectForKey:@"filesizenumber"])
+            {
+                fileItem.fileSizeNumber = [[filesList objectAtIndex:i] objectForKey:@"filesizenumber"];
+            }
+            else
+            {
+                fileItem.fileSizeNumber = nil;
+            }
+			fileItem.fileSize = [[[filesList objectAtIndex:i] objectForKey:@"filesizenumber"] stringForNumberOfBytes];
 			fileItem.owner = nil;
 			
 			/* Date */
