@@ -26,6 +26,7 @@
 @property(nonatomic) netbios_ns* ns;
 @property(nonatomic) smb_session *session;
 @property(nonatomic) BOOL cancelDownload;
+@property(nonatomic) BOOL cancelUpload;
 @property(nonatomic, strong) UserAccount *userAccount;
 @property(nonatomic, weak)   id <CMDelegate> delegate;
 @property(nonatomic, strong) NSString *tempUser;
@@ -36,6 +37,7 @@
 - (BOOL)logout;
 - (void)listForPath:(FileItem *)folder;
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localpath;
+- (void)cancelDownloadTask;
 - (void)setCredential:(NSString *)user password:(NSString *)password;
 #ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files;
