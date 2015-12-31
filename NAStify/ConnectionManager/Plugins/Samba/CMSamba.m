@@ -88,7 +88,7 @@ char c_password[255];
     
     NSArray *serverInfo = [NSArray arrayWithObjects:
                            [NSString stringWithFormat:NSLocalizedString(@"%@",nil), @"SMB/CIFS"],
-                           [NSString stringWithFormat:NSLocalizedString(@"Workgroup: %s",nil), self.userAccount.serverObject],
+                           [NSString stringWithFormat:NSLocalizedString(@"Workgroup: %@",nil), self.userAccount.serverObject],
                            [NSString stringWithFormat:NSLocalizedString(@"User: %@",nil), user],
                            nil];
     return serverInfo;
