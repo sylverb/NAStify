@@ -293,7 +293,23 @@
                 serverCell = [[ServerCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                reuseIdentifier:ServerCellIdentifier];
             }
-            
+
+            // Remove long tap gesture recognizer if present
+            NSArray *gestureList = [serverCell gestureRecognizers];
+            for (id gesture in gestureList)
+            {
+                if ([gesture isKindOfClass:[UILongPressGestureRecognizer class]])
+                {
+                    [serverCell removeGestureRecognizer:gesture];
+                    break;
+                }
+            }
+
+            // Tap recognizer
+            UILongPressGestureRecognizer *gesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                                  action:@selector(longPressAction:)];
+            [serverCell addGestureRecognizer:gesture];
+
             // Configure the cell...
             serverCell.editingAccessoryType = UITableViewCellAccessoryNone;
             serverCell.showsReorderControl = NO;
@@ -416,6 +432,16 @@
             account.serverType = SERVER_TYPE_SAMBA;
             account.server = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"hostname"];
             account.serverObject = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"group"];
+
+
+            NSString *serviceIdentifier = [NSString stringWithFormat:@"smb://%@",account.server];
+            NSString *accountName = [SSKeychain accountsForService:serviceIdentifier].firstObject[kSSKeychainAccountKey];
+            NSString *password = [SSKeychain passwordForService:serviceIdentifier account:accountName];
+
+            if (accountName.length != 0)
+                account.userName = accountName;
+            if (password.length != 0)
+                account.password = password;
             
             FileItem *rootFolder = [[FileItem alloc] init];
             rootFolder.isDir = YES;
@@ -554,58 +580,135 @@
         }
         if (indexPath && (indexPath.row != NSNotFound) && (indexPath.section != NSNotFound))
         {
-            if (indexPath.section == 0)
+            switch (indexPath.section)
             {
-                UserAccount *account = [self.accounts objectAtIndex:indexPath.row];
-                
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:account.accountName
-                                                                               message:NSLocalizedString(@"Action",nil)
-                                                                        preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction *editAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Edit",nil)
-                                                                     style:UIAlertActionStyleDefault
-                                                                   handler:^(UIAlertAction * action) {
-                                                                       [self editServerAtIndexPath:indexPath];
-                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
-                                                                   }];
-                UIAlertAction *moveUpAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Move up in list",nil)
-                                                                       style:UIAlertActionStyleDefault
-                                                                     handler:^(UIAlertAction * action) {
-                                                                         [self moveUpServerAtIndexPath:indexPath];
-                                                                         [alert dismissViewControllerAnimated:YES completion:nil];
-                                                                     }];
-                UIAlertAction *moveDownAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Move down in list",nil)
+                case 0:
+                {
+                    UserAccount *account = [self.accounts objectAtIndex:indexPath.row];
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:account.accountName
+                                                                                   message:NSLocalizedString(@"Action",nil)
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+                    UIAlertAction *editAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Edit",nil)
                                                                          style:UIAlertActionStyleDefault
                                                                        handler:^(UIAlertAction * action) {
-                                                                           [self moveDownServerAtIndexPath:indexPath];
+                                                                           [self editServerAtIndexPath:indexPath];
                                                                            [alert dismissViewControllerAnimated:YES completion:nil];
                                                                        }];
-                UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete",nil)
-                                                                       style:UIAlertActionStyleDestructive
-                                                                     handler:^(UIAlertAction * action) {
-                                                                         [self deleteServerAtIndexPath:indexPath];
-                                                                         [alert dismissViewControllerAnimated:YES completion:nil];
-                                                                     }];
-                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil)
-                                                                       style:UIAlertActionStyleCancel
-                                                                     handler:^(UIAlertAction * action) {
-                                                                         // Do nothing
-                                                                         [alert dismissViewControllerAnimated:YES completion:nil];
-                                                                     }];
-                [alert addAction:editAction];
-                // If not first server, allow to move up
-                if (indexPath.row > 0)
-                {
-                    [alert addAction:moveUpAction];
+                    UIAlertAction *moveUpAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Move up in list",nil)
+                                                                           style:UIAlertActionStyleDefault
+                                                                         handler:^(UIAlertAction * action) {
+                                                                             [self moveUpServerAtIndexPath:indexPath];
+                                                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                         }];
+                    UIAlertAction *moveDownAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Move down in list",nil)
+                                                                             style:UIAlertActionStyleDefault
+                                                                           handler:^(UIAlertAction * action) {
+                                                                               [self moveDownServerAtIndexPath:indexPath];
+                                                                               [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                           }];
+                    UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete",nil)
+                                                                           style:UIAlertActionStyleDestructive
+                                                                         handler:^(UIAlertAction * action) {
+                                                                             [self deleteServerAtIndexPath:indexPath];
+                                                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                         }];
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil)
+                                                                           style:UIAlertActionStyleCancel
+                                                                         handler:^(UIAlertAction * action) {
+                                                                             // Do nothing
+                                                                             [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                         }];
+                    [alert addAction:editAction];
+                    // If not first server, allow to move up
+                    if (indexPath.row > 0)
+                    {
+                        [alert addAction:moveUpAction];
+                    }
+                    // If not last server, allow to move down
+                    if (indexPath.row < self.accounts.count - 1)
+                    {
+                        [alert addAction:moveDownAction];
+                    }
+                    [alert addAction:deleteAction];
+                    [alert addAction:cancelAction];
+                    [self presentViewController:alert animated:YES completion:nil];
+                    break;
                 }
-                // If not last server, allow to move down
-                if (indexPath.row < self.accounts.count - 1)
+                case 2:
                 {
-                    [alert addAction:moveDownAction];
+                    UserAccount *account = [[UserAccount alloc] init];
+                    account.accountName = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"hostname"];
+                    account.serverType = SERVER_TYPE_SAMBA;
+                    account.server = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"hostname"];
+                    account.serverObject = [[self.smbDevices objectAtIndex:indexPath.row] objectForKey:@"group"];
+
+                    NSString *serviceIdentifier = [NSString stringWithFormat:@"smb://%@",account.server];
+                    NSString *accountName = [SSKeychain accountsForService:serviceIdentifier].firstObject[kSSKeychainAccountKey];
+                    NSString *password = [SSKeychain passwordForService:serviceIdentifier account:accountName];
+
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Authentication",nil)
+                                                                                   message:NSLocalizedString(@"Enter login/password",nil)
+                                                                            preferredStyle:UIAlertControllerStyleAlert];
+
+                    UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+                                                               handler:^(UIAlertAction * action) {
+                                                                   // No change
+                                                                   [alert dismissViewControllerAnimated:YES completion:nil];
+                                                               }];
+
+                    UIAlertAction* save = [UIAlertAction actionWithTitle:NSLocalizedString(@"Save", nil)
+                                                                   style:UIAlertActionStyleDefault
+                                                                 handler:^(UIAlertAction * _Nonnull action) {
+                                                                     UITextField *userField = alert.textFields[0];
+                                                                     UITextField *passField = alert.textFields[1];
+
+                                                                     NSString *accountName = userField.text;
+                                                                     NSString *password = passField.text;
+                                                                     if (accountName.length)
+                                                                         [SSKeychain setPassword:password forService:serviceIdentifier account:accountName];
+                                                                 }];
+
+                    UIAlertAction* delete;
+                    if (accountName.length || password.length)
+                    {
+                        delete = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete", nil)
+                                                          style:UIAlertActionStyleDestructive
+                                                        handler:^(UIAlertAction * action) {
+                                                            [SSKeychain deletePasswordForService:serviceIdentifier account:accountName];
+                                                            [alert dismissViewControllerAnimated:YES completion:nil];
+                                                            [self.navigationController popToRootViewControllerAnimated:YES];
+                                                        }];
+                    }
+                    
+                    UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
+                                                                   handler:^(UIAlertAction * action) {
+                                                                       [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                       [self.navigationController popViewControllerAnimated:YES];
+                                                                   }];
+                    
+                    [alert addAction:ok];
+                    [alert addAction:save];
+                    if (delete)
+                    {
+                        [alert addAction:delete];
+                    }
+                    [alert addAction:cancel];
+                    
+                    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                        textField.placeholder = NSLocalizedString(@"Username",nil);
+                        textField.text = accountName;
+                    }];
+                    [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+                        textField.placeholder = NSLocalizedString(@"Password",nil);
+                        textField.text = password;
+                        textField.secureTextEntry = YES;
+                    }];
+                    [self presentViewController:alert animated:YES completion:nil];
+                    break;
                 }
-                [alert addAction:deleteAction];
-                [alert addAction:cancelAction];
-                [self presentViewController:alert animated:YES completion:nil];
+                default:
+                    break;
             }
         }
     }

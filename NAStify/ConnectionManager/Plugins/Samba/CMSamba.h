@@ -27,6 +27,7 @@
 @property(nonatomic) smb_session *session;
 @property(nonatomic) BOOL cancelDownload;
 @property(nonatomic) BOOL cancelUpload;
+@property(nonatomic) BOOL cancelMove;
 @property(nonatomic, strong) UserAccount *userAccount;
 @property(nonatomic, weak)   id <CMDelegate> delegate;
 @property(nonatomic, strong) NSString *tempUser;
@@ -36,12 +37,17 @@
 - (BOOL)login;
 - (BOOL)logout;
 - (void)listForPath:(FileItem *)folder;
-- (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localpath;
-- (void)cancelDownloadTask;
-- (void)setCredential:(NSString *)user password:(NSString *)password;
 #ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files;
+- (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
+- (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder;
+- (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite;
 #endif
+- (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localpath;
+- (void)cancelDownloadTask;
+- (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray;
+- (void)cancelUploadTask;
+- (void)setCredential:(NSString *)user password:(NSString *)password;
 /* File URL requests */
 #ifndef APP_EXTENSION
 - (NetworkConnection *)urlForFile:(FileItem *)file;

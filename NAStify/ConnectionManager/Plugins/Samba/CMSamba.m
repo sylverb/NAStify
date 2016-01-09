@@ -98,6 +98,9 @@ char c_password[255];
 
 - (BOOL)login
 {
+    if (self.userAccount.password.length != 0)
+        strcpy(c_password,[self.userAccount.password cStringUsingEncoding:NSUTF8StringEncoding]);
+
     struct in_addr addr;
     
     self.ns = netbios_ns_new();
@@ -150,15 +153,22 @@ char c_password[255];
     }
     else if ((self.userAccount.userName) && ([self.userAccount.userName length] != 0))
     {
-        NSString *password = [SSKeychain passwordForService:self.userAccount.uuid account:@"password"];
         strcpy(c_user,[self.userAccount.userName cStringUsingEncoding:NSUTF8StringEncoding]);
-        if (password.length !=0)
+        if (self.userAccount.password.length != 0)
         {
-            strcpy(c_password, [password cStringUsingEncoding:NSUTF8StringEncoding]);
+            strcpy(c_password, [self.userAccount.password cStringUsingEncoding:NSUTF8StringEncoding]);
         }
         else
         {
-            strcpy(c_password, "\0");
+            NSString *password = [SSKeychain passwordForService:self.userAccount.uuid account:@"password"];
+            if (password.length !=0)
+            {
+                strcpy(c_password, [password cStringUsingEncoding:NSUTF8StringEncoding]);
+            }
+            else
+            {
+                strcpy(c_password, "\0");
+            }
         }
     }
     else
@@ -273,10 +283,12 @@ char c_password[255];
                 // End the network activity spinner
                 [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
                 
-                // Username/password is invalid for this share, request another one
-                [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    [NSString stringWithFormat:@"smb://%@",self.userAccount.server],@"service",
-                                                    nil]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Username/password is invalid for this share, request another one
+                    [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                        [NSString stringWithFormat:@"smb://%@",self.userAccount.server],@"service",
+                                                        nil]];
+                });
                 return;
             }
             
@@ -319,10 +331,12 @@ char c_password[255];
                 // End the network activity spinner
                 [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
                 
-                // Username/password is invalid for this share, request another one
-                [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    [NSString stringWithFormat:@"smb://%@",self.userAccount.server],@"service",
-                                                    nil]];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    // Username/password is invalid for this share, request another one
+                    [self.delegate CMCredentialRequest:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                        [NSString stringWithFormat:@"smb://%@",self.userAccount.server],@"service",
+                                                        nil]];
+                });
                 return;
             }
             
@@ -410,7 +424,75 @@ char c_password[255];
     });
 }
 
+#pragma mark - Folder creation management
+
+- (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder
+{
+#ifndef APP_EXTENSION
+    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+#endif
+    dispatch_async(backgroundQueue, ^(void)
+    {
+        int32_t result = NT_STATUS_SUCCESS;
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        smb_tid tid = smb_tree_connect(self.session, [[folder.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
+        if (tid == -1)
+        {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               NSLocalizedString(@"Connection error", nil),@"error",
+                                               nil]];
+            });
+            return;
+        }
+
+        NSMutableString *path = [[NSMutableString alloc] init];
+        for (NSInteger i = 2;i < folder.objectIds.count; i++)
+        {
+            [path appendFormat:@"\\%@",[folder.objectIds objectAtIndex:i]];
+        }
+        [path appendFormat:@"\\%@",folderName];
+        result = smb_directory_create(self.session, tid, [path cStringUsingEncoding:NSUTF8StringEncoding]);
+
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        if (result == 0)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:YES],@"success",
+                                               nil]];
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               [self stringForError:result],@"error",
+                                               nil]];
+            });
+        }
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
+    });
+}
+
 #pragma mark - Delete management
+
 #ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files
 {
@@ -424,10 +506,10 @@ char c_password[255];
     {
         uint32_t result = NT_STATUS_SUCCESS;
         FileItem *file = [files objectAtIndex:0];
-        
+
         // Start the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-        
+
         smb_tid tid = smb_tree_connect(self.session, [[file.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
         if (tid == -1)
         {
@@ -489,6 +571,171 @@ char c_password[255];
 }
 #endif
 
+#pragma mark - Renaming management
+
+#ifndef APP_EXTENSION
+- (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder
+{
+#ifndef APP_EXTENSION
+    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+#endif
+    dispatch_async(backgroundQueue, ^(void)
+    {
+        uint32_t result = NT_STATUS_SUCCESS;
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        smb_tid tid = smb_tree_connect(self.session, [[oldFile.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
+        if (tid == -1)
+        {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
+                                         [NSNumber numberWithBool:NO],@"success",
+                                         NSLocalizedString(@"Connection error", nil),@"error",
+                                         nil]];
+            });
+            return;
+        }
+
+        NSMutableString *path = [[NSMutableString alloc] init];
+        for (NSInteger i = 2;i < folder.objectIds.count; i++)
+        {
+            [path appendFormat:@"\\%@",[folder.objectIds objectAtIndex:i]];
+        }
+
+        NSString *oldPath = [NSString stringWithFormat:@"%@\\%@",path,oldFile.name];
+        NSString *newPath = [NSString stringWithFormat:@"%@\\%@",path,newName];
+        result = smb_file_mv(self.session,
+                             tid,
+                             [oldPath cStringUsingEncoding:NSUTF8StringEncoding],
+                             [newPath cStringUsingEncoding:NSUTF8StringEncoding]);
+
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        if (result == -1)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
+                                         [NSNumber numberWithBool:NO],@"success",
+                                         [self stringForError:result],@"error",
+                                         nil]];
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
+                                         [NSNumber numberWithBool:YES],@"success",
+                                         nil]];
+            });
+        }
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
+    });
+}
+#endif
+
+#pragma mark - move management
+
+#ifndef APP_EXTENSION
+- (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite
+{
+#ifndef APP_EXTENSION
+    __block UIBackgroundTaskIdentifier bgTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+    }];
+#endif
+    dispatch_async(backgroundQueue, ^(void)
+    {
+        uint32_t result = NT_STATUS_SUCCESS;
+        FileItem *file = [files objectAtIndex:0];
+        self.cancelMove = NO;
+
+        NSMutableString *srcPath = [[NSMutableString alloc] init];
+        for (NSInteger i = 2; i < file.objectIds.count - 1; i++)
+        {
+            [srcPath appendFormat:@"\\%@",[file.objectIds objectAtIndex:i]];
+        }
+
+        NSMutableString *destPath = [[NSMutableString alloc] init];
+        for (NSInteger i = 2; i < destFolder.objectIds.count; i++)
+        {
+            [destPath appendFormat:@"\\%@",[destFolder.objectIds objectAtIndex:i]];
+        }
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        smb_tid tid = smb_tree_connect(self.session, [[file.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
+        if (tid == -1)
+        {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               NSLocalizedString(@"Connection error", nil),@"error",
+                                               nil]];
+            });
+            return;
+        }
+        for (FileItem *file in files)
+        {
+            NSString *oldName = [NSString stringWithFormat:@"%@\\%@", srcPath, file.name];
+            NSString *newName = [NSString stringWithFormat:@"%@\\%@", destPath, file.name];
+            result = smb_file_mv(self.session,
+                                 tid,
+                                 [oldName cStringUsingEncoding:NSUTF8StringEncoding],
+                                 [newName cStringUsingEncoding:NSUTF8StringEncoding]);
+            if ((result != NT_STATUS_SUCCESS) || (self.cancelMove == YES))
+                break;
+        }
+
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        if ((result == NT_STATUS_SUCCESS) || self.cancelMove)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:YES],@"success",
+                                               nil]];
+            });
+        }
+        else
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               [self stringForError:result],@"error",
+                                               nil]];
+            });
+        }
+#ifndef APP_EXTENSION
+        [[UIApplication sharedApplication] endBackgroundTask:bgTask];
+        bgTask = UIBackgroundTaskInvalid;
+#endif
+    });
+}
+
+- (void)cancelMoveTask
+{
+    self.cancelMove = YES;
+}
+#endif
+
 #pragma mark - Download management
 
 - (void)downloadFile:(FileItem *)file toLocalName:(NSString *)localName
@@ -512,7 +759,7 @@ char c_password[255];
 
         // Start the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-        
+
         tid = smb_tree_connect(self.session, [[file.objectIds objectAtIndex:1] cStringUsingEncoding:NSUTF8StringEncoding]);
         if (tid == -1)
         {
@@ -787,6 +1034,10 @@ char c_password[255];
 
 - (void)setCredential:(NSString *)user password:(NSString *)password
 {
+    // Reset account credentials
+    self.userAccount.userName = nil;
+    self.userAccount.password = nil;
+
     self.tempUser = user;
     self.tempPassword = password;
 }
@@ -818,7 +1069,11 @@ char c_password[255];
         features = (
                     CMSupportedFeaturesMaskVLCPlayer    |
                     CMSupportedFeaturesMaskFileDelete   |
-                    CMSupportedFeaturesMaskFolderDelete
+                    CMSupportedFeaturesMaskFolderDelete |
+                    CMSupportedFeaturesMaskFileRename   |
+                    CMSupportedFeaturesMaskFolderRename |
+                    CMSupportedFeaturesMaskFileMove     |
+                    CMSupportedFeaturesMaskFolderMove
                    );
     }
     return features;

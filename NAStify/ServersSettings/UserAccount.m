@@ -30,6 +30,7 @@
         self.encoding = nil;
         self.transfertMode = 0;
         self.settings = [[NSDictionary alloc] init];
+        self.password = nil;
     }
     return self;
 }

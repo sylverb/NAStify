@@ -81,6 +81,7 @@ typedef enum _TRANSFERT_MODE
 /* Transfert mode (for FTP) */
 @property(nonatomic) TRANSFERT_MODE transfertMode;
 @property(nonatomic, strong) NSDictionary *settings;
+@property(nonatomic, strong) NSString *password; /* This is for temp password, passwords are stored in keychain */
 
 @property(nonatomic) BOOL boolSSL;
 @property(nonatomic) BOOL acceptUntrustedCertificate;
