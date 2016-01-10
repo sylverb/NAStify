@@ -10,6 +10,7 @@
 #import "TVFileBrowserCollectionViewController.h"
 #import "FileItem.h"
 #import "SSKeychain.h"
+#import "SVProgressHUD.h"
 
 // File viewers
 #import "TVCustomMoviePlayerViewController.h"
@@ -106,7 +107,7 @@
     // Tap recognizer
     self.longTapGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                         action:@selector(longPressAction:)];
-    self.longTapGesture.minimumPressDuration = 2;
+    self.longTapGesture.minimumPressDuration = 1;
     [self.view addGestureRecognizer:self.longTapGesture];
 
 #if 0
@@ -333,31 +334,48 @@
                     canDelete = fileItem.writeAccess;
                 }
 
-                showAlert = YES;
-                UIAlertAction *favoriteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Add as favorite",nil)
-                                                                       style:UIAlertActionStyleDefault
-                                                                     handler:^(UIAlertAction * action) {
-                                                                         NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
-                                                                         UserAccount *favorite = [self.userAccount copy];
-                                                                         favorite.accountName = [NSString stringWithFormat:@"%@ (%@)",favorite.accountName,fileItem.shortPath];
-                                                                         favorite.settings = [NSDictionary dictionaryWithObject:fileItem.shortPath forKey:@"path"];
-                                                                         
-                                                                         NSData *accountsData = [defaults objectForKey:@"accounts"];
-                                                                         NSMutableArray *accounts;
-                                                                         if (!accountsData)
-                                                                         {
-                                                                             accounts = [[NSMutableArray alloc] init];
-                                                                         }
-                                                                         else
-                                                                         {
-                                                                             accounts = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:accountsData]];
-                                                                         }
-                                                                         [accounts addObject:favorite];
-                                                                         [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:accounts] forKey:@"accounts"];
-                                                                         [defaults synchronize];
-                                                                     }];
-                [alert addAction:favoriteAction];
+                if (fileItem.isDir)
+                {
+                    showAlert = YES;
+                    UIAlertAction *favoriteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Add as favorite",nil)
+                                                                             style:UIAlertActionStyleDefault
+                                                                           handler:^(UIAlertAction * action) {
+                                                                               NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+                                                                               // Copy current account and change uuid
+                                                                               UserAccount *favorite = [self.userAccount copy];
+                                                                               favorite.uuid = [NSString generateUUID];
 
+                                                                               favorite.accountName = [NSString stringWithFormat:@"%@ (%@)",favorite.accountName,fileItem.fullPath];
+                                                                               favorite.settings = [NSDictionary dictionaryWithObject:fileItem.fullPath forKey:@"path"];
+                                                                               // Copy password
+                                                                               NSString *password;
+                                                                               if (self.userAccount.password.length != 0)
+                                                                                   password = self.userAccount.password;
+                                                                               else
+                                                                                   password = [SSKeychain passwordForService:self.userAccount.uuid account:@"password"];
+                                                                               if (password.length != 0)
+                                                                               {
+                                                                                   [SSKeychain setPassword:password
+                                                                                                forService:favorite.uuid
+                                                                                                   account:@"password"];
+                                                                               }
+
+                                                                               NSData *accountsData = [defaults objectForKey:@"favorites"];
+                                                                               NSMutableArray *accounts;
+                                                                               if (!accountsData)
+                                                                               {
+                                                                                   accounts = [[NSMutableArray alloc] init];
+                                                                               }
+                                                                               else
+                                                                               {
+                                                                                   accounts = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:accountsData]];
+                                                                               }
+                                                                               [accounts addObject:favorite];
+                                                                               [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:accounts] forKey:@"favorites"];
+                                                                               [defaults synchronize];
+                                                                           }];
+                    [alert addAction:favoriteAction];
+                }
                 if (canDelete)
                 {
                     showAlert = YES;
@@ -731,10 +749,8 @@
     {
         self.isConnected = FALSE;
         [self.navigationController popViewControllerAnimated:YES];
-#if 0
-        MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-        [hud hide:YES];
-#endif
+
+        [SVProgressHUD dismiss];
     }
 }
 
@@ -945,12 +961,9 @@
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
-#if 0
-        // Refresh tableView
-        [self.tableView reloadData];
-#else
+
+        // Refresh data
         [self.collectionView reloadData];
-#endif
     }
 }
 
@@ -976,7 +989,7 @@
     NSString *password = [SSKeychain passwordForService:serviceIdentifier account:accountName];
 
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Authentication",nil)
-                                                                   message:NSLocalizedString(@"Enter login/password",nil)
+                                                                   message:NSLocalizedString(@"Enter login/password\nLong press on server to change password if needed",nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
@@ -1065,33 +1078,31 @@
 
 - (void)CMDownloadProgress:(NSDictionary *)dict
 {
-#if 0
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
     if ([dict objectForKey:@"progress"])
     {
         float progress = [[dict objectForKey:@"progress"] floatValue];
         if (progress != 0)
         {
-            hud.mode = MBProgressHUDModeAnnularDeterminate;
-            hud.progress = progress;
+            [SVProgressHUD showProgress:progress];
         }
         if ([dict objectForKey:@"downloadedBytes"])
         {
             NSNumber *downloaded = [dict objectForKey:@"downloadedBytes"];
             NSNumber *totalSize = [dict objectForKey:@"totalBytes"];
-            hud.detailsLabelText = [NSString stringWithFormat:@"%@ of %@ done",[downloaded stringForNumberOfBytes],[totalSize stringForNumberOfBytes]];
+            [SVProgressHUD showProgress:progress status:[NSString stringWithFormat:@"%@ of %@ done",[downloaded stringForNumberOfBytes],[totalSize stringForNumberOfBytes]]];
         }
     }
     else
     {
         NSNumber *downloaded = [dict objectForKey:@"downloadedBytes"];
-        hud.detailsLabelText = [NSString stringWithFormat:@"%@ done",[downloaded stringForNumberOfBytes]];
+        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"%@ done",[downloaded stringForNumberOfBytes]]];
     }
-#endif
 }
 
 - (void)CMDownloadFinished:(NSDictionary *)dict
 {
+    [SVProgressHUD dismiss];
+
     if ([[dict objectForKey:@"success"] boolValue])
     {
         switch (self.downloadAction)
@@ -1148,32 +1159,25 @@
             }
         }
     }
-    
-#if 0
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-    [hud hide:YES];
-#endif
 }
 
 - (void)CMDeleteProgress:(NSDictionary *)dict
 {
-#if 0
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
     float progress = [[dict objectForKey:@"progress"] floatValue];
+    if ((progress != 0) && ([dict objectForKey:@"info"]))
+    {
+        [SVProgressHUD showProgress:progress status:[dict objectForKey:@"info"]];
+    }
     if (progress != 0)
     {
-        hud.mode = MBProgressHUDModeAnnularDeterminate;
-        hud.progress = progress;
+        [SVProgressHUD showProgress:progress];
     }
-    if ([dict objectForKey:@"info"])
-    {
-        hud.detailsLabelText = [dict objectForKey:@"info"];
-    }
-#endif
 }
 
 - (void)CMDeleteFinished:(NSDictionary *)dict
 {
+    [SVProgressHUD dismiss];
+
     if ([[dict objectForKey:@"success"] boolValue] == NO)
     {
         // Show error
@@ -1206,20 +1210,13 @@
             [self.navigationController popViewControllerAnimated:YES];
         }
     }
-    
-#if 0
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-    [hud hide:YES];
-#endif
 }
 
 - (void)CMConnectionError:(NSDictionary *)dict
 {
-#if 0
     // We should hide HUD if any ...
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-    [hud hide:YES];
-#endif
+    [SVProgressHUD dismiss];
+
     // Hide current alert to show the new one
     if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
     {

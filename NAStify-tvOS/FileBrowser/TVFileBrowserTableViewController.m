@@ -10,6 +10,7 @@
 #import "TVFileBrowserTableViewController.h"
 #import "FileItem.h"
 #import "SSKeychain.h"
+#import "SVProgressHUD.h"
 
 // File viewers
 #import "TVCustomMoviePlayerViewController.h"
@@ -107,7 +108,7 @@
     // Tap recognizer
     self.longTapGesture = [[UILongPressGestureRecognizer alloc] initWithTarget:self
                                                                         action:@selector(longPressAction:)];
-    self.longTapGesture.minimumPressDuration = 2;
+    self.longTapGesture.minimumPressDuration = 1;
     [self.view addGestureRecognizer:self.longTapGesture];
 #if 0
     // Delete cached files if needed
@@ -351,8 +352,7 @@
 
 - (void)longPressAction:(UILongPressGestureRecognizer *)tapRecognizer
 {
-    if (![self.connectionManager pluginRespondsToSelector:@selector(deleteFiles:)])
-        return;
+    BOOL showAlert = NO;
 
     if (tapRecognizer.state == UIGestureRecognizerStateBegan)
     {
@@ -363,20 +363,63 @@
                 BOOL canDelete = NO;
                 NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
                 FileItem *fileItem = (FileItem *)([self.filesArray objectAtIndex:indexPath.row]);
-                NSLog(@"file %@",fileItem.name);
-                
+
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:fileItem.name
+                                                                               message:NSLocalizedString(@"Action",nil)
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+
+
                 if (((fileItem.isDir)&&(ServerSupportsFeature(FolderDelete))) ||
                     ((!fileItem.isDir)&&(ServerSupportsFeature(FileDelete))))
                 {
                     canDelete = fileItem.writeAccess;
                 }
 
+                if (fileItem.isDir)
+                {
+                    showAlert = YES;
+                    UIAlertAction *favoriteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Add as favorite",nil)
+                                                                             style:UIAlertActionStyleDefault
+                                                                           handler:^(UIAlertAction * action) {
+                                                                               NSUserDefaults *defaults = [[NSUserDefaults alloc] initWithSuiteName:@"group.com.sylver.NAStify"];
+                                                                               // Copy current account and change uuid
+                                                                               UserAccount *favorite = [self.userAccount copy];
+                                                                               favorite.uuid = [NSString generateUUID];
+
+                                                                               favorite.accountName = [NSString stringWithFormat:@"%@ (%@)",favorite.accountName,fileItem.fullPath];
+                                                                               favorite.settings = [NSDictionary dictionaryWithObject:fileItem.fullPath forKey:@"path"];
+                                                                               // Copy password
+                                                                               NSString *password;
+                                                                               if (self.userAccount.password.length != 0)
+                                                                                   password = self.userAccount.password;
+                                                                               else
+                                                                                   password = [SSKeychain passwordForService:self.userAccount.uuid account:@"password"];
+                                                                               if (password.length != 0)
+                                                                               {
+                                                                                   [SSKeychain setPassword:password
+                                                                                                forService:favorite.uuid
+                                                                                                   account:@"password"];
+                                                                               }
+
+                                                                               NSData *accountsData = [defaults objectForKey:@"favorites"];
+                                                                               NSMutableArray *accounts;
+                                                                               if (!accountsData)
+                                                                               {
+                                                                                   accounts = [[NSMutableArray alloc] init];
+                                                                               }
+                                                                               else
+                                                                               {
+                                                                                   accounts = [[NSMutableArray alloc] initWithArray:[NSKeyedUnarchiver unarchiveObjectWithData:accountsData]];
+                                                                               }
+                                                                               [accounts addObject:favorite];
+                                                                               [defaults setObject:[NSKeyedArchiver archivedDataWithRootObject:accounts] forKey:@"favorites"];
+                                                                               [defaults synchronize];
+                                                                           }];
+                    [alert addAction:favoriteAction];
+                }
                 if (canDelete)
                 {
-                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:fileItem.name
-                                                                                   message:NSLocalizedString(@"Action",nil)
-                                                                            preferredStyle:UIAlertControllerStyleAlert];
-
+                    showAlert = YES;
                     UIAlertAction *deleteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Delete",nil)
                                                                            style:UIAlertActionStyleDestructive
                                                                          handler:^(UIAlertAction * action) {
@@ -401,17 +444,23 @@
                                                                                  [alert dismissViewControllerAnimated:YES completion:nil];
                                                                              }
                                                                          }];
+                    [alert addAction:deleteAction];
+                }
+
+                if (showAlert)
+                {
                     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil)
                                                                            style:UIAlertActionStyleCancel
                                                                          handler:^(UIAlertAction * action) {
                                                                              // Do nothing
                                                                              [alert dismissViewControllerAnimated:YES completion:nil];
                                                                          }];
-                    [alert addAction:deleteAction];
+                    
                     [alert addAction:cancelAction];
                     alert.preferredAction = cancelAction;
                     [self presentViewController:alert animated:YES completion:nil];
                 }
+                break;
             }
         }
     }
@@ -662,11 +711,11 @@
         {
             [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
         }
-        
+
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:[dict objectForKey:@"title"]
                                                                        message:[dict objectForKey:@"message"]
                                                                 preferredStyle:UIAlertControllerStyleAlert];
-        
+
         UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
                                                                 style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {
@@ -683,7 +732,7 @@
             [self presentViewController:alert animated:YES completion:nil];
         }
     }
-    
+
     if ([dict objectForKey:@"action"])
     {
         switch ([[dict objectForKey:@"action"] integerValue])
@@ -700,7 +749,7 @@
                 break;
             }
         }
-        
+
     }
 }
 
@@ -723,16 +772,16 @@
         UIAlertController* alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Login",nil)
                                                                        message:NSLocalizedString([dict objectForKey:@"error"],nil)
                                                                 preferredStyle:UIAlertControllerStyleAlert];
-        
+
         UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                               handler:^(UIAlertAction * action) {
                                                                   [alert dismissViewControllerAnimated:YES completion:nil];
                                                                   // Go back to servers list
                                                                   [self.navigationController popToRootViewControllerAnimated:YES];
-                                                                  
+
                                                               }];
-        
-        
+
+
         [alert addAction:defaultAction];
         [self presentViewController:alert animated:YES completion:nil];
     }
@@ -744,10 +793,8 @@
     {
         self.isConnected = FALSE;
         [self.navigationController popViewControllerAnimated:YES];
-#if 0
-        MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-        [hud hide:YES];
-#endif
+
+        [SVProgressHUD dismiss];
     }
 }
 
@@ -761,13 +808,13 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"2-Factor Authentication",nil)
                                                                    message:NSLocalizedString(@"Enter 6-digit code or 8-digit emergency code",nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
-    
+
     UIAlertAction *ok = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
                                                  style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction * action) {
                                                    UITextField *textField = alert.textFields[0];
                                                    [self sendOTP:textField.text];
-                                                   
+
                                                    [alert dismissViewControllerAnimated:YES completion:nil];
                                                }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:NSLocalizedString(@"Cancel",nil)
@@ -777,15 +824,15 @@
                                                        [self.navigationController popToRootViewControllerAnimated:YES];
                                                        [alert dismissViewControllerAnimated:YES completion:nil];
                                                    }];
-    
+
     [alert addAction:ok];
     [alert addAction:cancel];
-    
+
     [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = NSLocalizedString(@"code",nil);
         textField.keyboardType = UIKeyboardTypeDecimalPad;
     }];
-    
+
     [self presentViewController:alert animated:YES completion:nil];
 }
 
@@ -799,11 +846,11 @@
         if ([[dict objectForKey:@"success"] boolValue])
         {
             self.isConnected = TRUE;
-            
+
             NSArray *filesList = [dict objectForKey:@"filesList"];
-            
+
             self.filesArray = [[NSMutableArray alloc] init];
-            
+
             for (NSDictionary *element in filesList)
             {
                 FileItem *fileItem = [[FileItem alloc] init];
@@ -828,7 +875,7 @@
                     {
                         fileItem.fullPath = fileItem.path;
                     }
-                    
+
                     if ([element objectForKey:@"id"])
                     {
                         fileItem.objectIds = [self.currentFolder.objectIds arrayByAddingObject:[element objectForKey:@"id"]];
@@ -837,7 +884,7 @@
                     {
                         fileItem.objectIds = self.currentFolder.objectIds;
                     }
-                    
+
                     if ([element objectForKey:@"iscompressed"])
                     {
                         fileItem.isCompressed = [[element objectForKey:@"iscompressed"] boolValue];
@@ -846,7 +893,7 @@
                     {
                         fileItem.isCompressed = NO;
                     }
-                    
+
                     if (fileItem.isDir)
                     {
                         fileItem.fileSize = nil;
@@ -871,7 +918,7 @@
                         {
                             fileItem.type = [[fileItem.name componentsSeparatedByString:@"."] lastObject];
                         }
-                        
+
                         if ([element objectForKey:@"filesizenumber"])
                         {
                             fileItem.fileSizeNumber = [element objectForKey:@"filesizenumber"];
@@ -881,13 +928,13 @@
                             fileItem.fileSizeNumber = nil;
                         }
                         fileItem.fileSize = [[element objectForKey:@"filesizenumber"] stringForNumberOfBytes];
-                        
+
                         fileItem.owner = [element objectForKey:@"owner"];
-                        
+
                         fileItem.isEjectable = NO;
                     }
                     fileItem.writeAccess = [[element objectForKey:@"writeaccess"] boolValue];
-                    
+
                     /* Date */
                     if (([element objectForKey:@"date"]) &&
                         ([[element objectForKey:@"date"] doubleValue] != 0))
@@ -898,22 +945,45 @@
                         NSDateFormatter* formatter = [[NSDateFormatter alloc] init];
                         [formatter setDateStyle:NSDateFormatterMediumStyle];
                         [formatter setTimeStyle:NSDateFormatterShortStyle];
-                        
+
                         fileItem.fileDate = [formatter stringFromDate:mdate];
                     }
-                    
+
                     /* DownloadURL */
                     if ([element objectForKey:@"url"])
                     {
                         fileItem.downloadUrl = [element objectForKey:@"url"];
                     }
-                    
+
                     [self.filesArray addObject:fileItem];
                 }
             }
-            
-            // Sort files array
-            [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
+
+            if (self.filesArray.count == 0)
+            {
+                // Hide current alert to show the new one
+                if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
+                {
+                    [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
+                }
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Browse",nil)
+                                                                               message:NSLocalizedString(@"No file in this folder",nil)
+                                                                        preferredStyle:UIAlertControllerStyleAlert];
+
+                UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
+                                                                        style:UIAlertActionStyleDefault
+                                                                      handler:^(UIAlertAction * action) {
+                                                                          [alert dismissViewControllerAnimated:YES completion:nil];
+                                                                          [self.navigationController popViewControllerAnimated:YES];
+                                                                      }];
+                [alert addAction:defaultAction];
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+            else
+            {
+                // Sort files array
+                [self.filesArray sortFileItemArrayWithOrder:self.sortingType];
+            }
         }
         else
         {
@@ -925,7 +995,7 @@
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Browse",nil)
                                                                            message:NSLocalizedString([dict objectForKey:@"error"],nil)
                                                                     preferredStyle:UIAlertControllerStyleAlert];
-            
+
             UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
                                                                     style:UIAlertActionStyleDefault
                                                                   handler:^(UIAlertAction * action) {
@@ -935,7 +1005,8 @@
             [alert addAction:defaultAction];
             [self presentViewController:alert animated:YES completion:nil];
         }
-        // Refresh tableView
+
+        // Refresh data
         [self.tableView reloadData];
     }
 }
@@ -956,61 +1027,61 @@
     {
         [self.presentedViewController dismissViewControllerAnimated:YES completion:nil];
     }
-    
+
     NSString *serviceIdentifier = [dict objectForKey:@"service"];
     NSString *accountName = [SSKeychain accountsForService:serviceIdentifier].firstObject[kSSKeychainAccountKey];
     NSString *password = [SSKeychain passwordForService:serviceIdentifier account:accountName];
-    
+
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Authentication",nil)
-                                                                   message:NSLocalizedString(@"Enter login/password",nil)
+                                                                   message:NSLocalizedString(@"Enter login/password\nLong press on server to change password if needed",nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
-    
+
     UIAlertAction* ok = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
                                                handler:^(UIAlertAction * action) {
                                                    UITextField *userField = alert.textFields[0];
                                                    UITextField *passField = alert.textFields[1];
                                                    [self.connectionManager setCredential:userField.text
                                                                                 password:passField.text];
-                                                   
+
                                                    [self.connectionManager logout];
                                                    // Login
                                                    BOOL needToWaitLogin = NO;
                                                    needToWaitLogin = [self.connectionManager login];
-                                                   
+
                                                    // Get file list if possible
                                                    if (!needToWaitLogin)
                                                    {
                                                        [self.connectionManager listForPath:self.currentFolder];
                                                    }
-                                                   
+
                                                    [alert dismissViewControllerAnimated:YES completion:nil];
                                                }];
-    
+
     UIAlertAction* save = [UIAlertAction actionWithTitle:NSLocalizedString(@"Save", nil)
                                                    style:UIAlertActionStyleDefault
                                                  handler:^(UIAlertAction * _Nonnull action) {
                                                      UITextField *userField = alert.textFields[0];
                                                      UITextField *passField = alert.textFields[1];
-                                                     
+
                                                      NSString *accountName = userField.text;
                                                      NSString *password = passField.text;
                                                      if (accountName.length)
                                                          [SSKeychain setPassword:password forService:serviceIdentifier account:accountName];
                                                      [self.connectionManager setCredential:userField.text
                                                                                   password:passField.text];
-                                                     
+
                                                      [self.connectionManager logout];
                                                      // Login
                                                      BOOL needToWaitLogin = NO;
                                                      needToWaitLogin = [self.connectionManager login];
-                                                     
+
                                                      // Get file list if possible
                                                      if (!needToWaitLogin)
                                                      {
                                                          [self.connectionManager listForPath:self.currentFolder];
                                                      }
                                                  }];
-    
+
     UIAlertAction* delete;
     if (accountName.length || password.length)
     {
@@ -1022,13 +1093,13 @@
                                             [self.navigationController popToRootViewControllerAnimated:YES];
                                         }];
     }
-    
+
     UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault
                                                    handler:^(UIAlertAction * action) {
                                                        [alert dismissViewControllerAnimated:YES completion:nil];
                                                        [self.navigationController popViewControllerAnimated:YES];
                                                    }];
-    
+
     [alert addAction:ok];
     [alert addAction:save];
     if (delete)
@@ -1036,7 +1107,7 @@
         [alert addAction:delete];
     }
     [alert addAction:cancel];
-    
+
     [alert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
         textField.placeholder = NSLocalizedString(@"Username",nil);
         textField.text = accountName;
@@ -1051,33 +1122,31 @@
 
 - (void)CMDownloadProgress:(NSDictionary *)dict
 {
-#if 0
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
     if ([dict objectForKey:@"progress"])
     {
         float progress = [[dict objectForKey:@"progress"] floatValue];
         if (progress != 0)
         {
-            hud.mode = MBProgressHUDModeAnnularDeterminate;
-            hud.progress = progress;
+            [SVProgressHUD showProgress:progress];
         }
         if ([dict objectForKey:@"downloadedBytes"])
         {
             NSNumber *downloaded = [dict objectForKey:@"downloadedBytes"];
             NSNumber *totalSize = [dict objectForKey:@"totalBytes"];
-            hud.detailsLabelText = [NSString stringWithFormat:@"%@ of %@ done",[downloaded stringForNumberOfBytes],[totalSize stringForNumberOfBytes]];
+            [SVProgressHUD showProgress:progress status:[NSString stringWithFormat:@"%@ of %@ done",[downloaded stringForNumberOfBytes],[totalSize stringForNumberOfBytes]]];
         }
     }
     else
     {
         NSNumber *downloaded = [dict objectForKey:@"downloadedBytes"];
-        hud.detailsLabelText = [NSString stringWithFormat:@"%@ done",[downloaded stringForNumberOfBytes]];
+        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"%@ done",[downloaded stringForNumberOfBytes]]];
     }
-#endif
 }
 
 - (void)CMDownloadFinished:(NSDictionary *)dict
 {
+    [SVProgressHUD dismiss];
+
     if ([[dict objectForKey:@"success"] boolValue])
     {
         switch (self.downloadAction)
@@ -1122,7 +1191,7 @@
                 UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"File download",nil)
                                                                                message:NSLocalizedString([dict objectForKey:@"error"],nil)
                                                                         preferredStyle:UIAlertControllerStyleAlert];
-                
+
                 UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
                                                                         style:UIAlertActionStyleDefault
                                                                       handler:^(UIAlertAction * action) {
@@ -1134,32 +1203,25 @@
             }
         }
     }
-    
-#if 0
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-    [hud hide:YES];
-#endif
 }
 
 - (void)CMDeleteProgress:(NSDictionary *)dict
 {
-#if 0
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
     float progress = [[dict objectForKey:@"progress"] floatValue];
+    if ((progress != 0) && ([dict objectForKey:@"info"]))
+    {
+        [SVProgressHUD showProgress:progress status:[dict objectForKey:@"info"]];
+    }
     if (progress != 0)
     {
-        hud.mode = MBProgressHUDModeAnnularDeterminate;
-        hud.progress = progress;
+        [SVProgressHUD showProgress:progress];
     }
-    if ([dict objectForKey:@"info"])
-    {
-        hud.detailsLabelText = [dict objectForKey:@"info"];
-    }
-#endif
 }
 
 - (void)CMDeleteFinished:(NSDictionary *)dict
 {
+    [SVProgressHUD dismiss];
+
     if ([[dict objectForKey:@"success"] boolValue] == NO)
     {
         // Show error
@@ -1172,7 +1234,7 @@
                                                               handler:^(UIAlertAction * action) {
                                                                   [alert dismissViewControllerAnimated:YES completion:nil];
                                                                   // Update space information
-//                                                                [self.connectionManager spaceInfoAtPath:self.currentFolder];
+                                                                  //                                                                [self.connectionManager spaceInfoAtPath:self.currentFolder];
 
                                                                   // Get file list
                                                                   [self.connectionManager listForPath:self.currentFolder];
@@ -1184,23 +1246,21 @@
     else
     {
         // Update space information
-//      [self.connectionManager spaceInfoAtPath:self.currentFolder];
-        [self.tableView reloadData];
-    }
+        //      [self.connectionManager spaceInfoAtPath:self.currentFolder];
 
-#if 0
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-    [hud hide:YES];
-#endif
+        // If there is no file, go back to previous folder
+        if (self.filesArray.count == 0)
+        {
+            [self.navigationController popViewControllerAnimated:YES];
+        }
+    }
 }
 
 - (void)CMConnectionError:(NSDictionary *)dict
 {
-#if 0
     // We should hide HUD if any ...
-    MBProgressHUD *hud = [MBProgressHUD HUDForView:self.view];
-    [hud hide:YES];
-#endif
+    [SVProgressHUD dismiss];
+
     // Hide current alert to show the new one
     if ([self.presentedViewController isKindOfClass:[UIAlertController class]])
     {
@@ -1209,7 +1269,7 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"Connection error",nil)
                                                                    message:NSLocalizedString([dict objectForKey:@"error"],nil)
                                                             preferredStyle:UIAlertControllerStyleAlert];
-    
+
     UIAlertAction *defaultAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"OK",nil)
                                                             style:UIAlertActionStyleDefault
                                                           handler:^(UIAlertAction * action) {
