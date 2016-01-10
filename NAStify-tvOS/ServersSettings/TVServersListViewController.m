@@ -330,12 +330,11 @@
                 
                 FileItem *rootFolder = [[FileItem alloc] init];
                 rootFolder.isDir = YES;
-                if ((account.serverType == SERVER_TYPE_SAMBA) &&
-                    (account.settings.count != 0))
+                if ((account.serverType != SERVER_TYPE_WEBDAV) &&
+                    (account.settings != nil))
                 {
                     NSMutableArray *array = [NSMutableArray arrayWithObject:kRootID];
                     NSString *startPath = [account.settings objectForKey:@"path"];
-                    NSLog(@"%@",startPath);
                     NSArray *componentPath = [startPath componentsSeparatedByString:@"/"];
                     rootFolder.path = @"";
                     for (NSString *component in componentPath)
@@ -385,10 +384,12 @@
             if ([[device urn] isEqualToString:@"urn:schemas-upnp-org:device:MediaServer:1"])
             {
                 MediaServer1Device *server = (MediaServer1Device*)device;
-                
+                BasicUPnPDevice *device = _filteredUPNPDevices[indexPath.row];
+
                 UserAccount *account = [[UserAccount alloc] init];
                 account.serverType = SERVER_TYPE_UPNP;
                 account.serverObject = server;
+                account.accountName = [device friendlyName];
                 
                 FileItem *rootFolder = [[FileItem alloc] init];
                 rootFolder.isDir = YES;
@@ -752,7 +753,6 @@
     }
     
     [self.accounts removeObjectAtIndex:indexPath.row];
-    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:YES];
     [self save];
     // Update
     [self.tableView reloadData];

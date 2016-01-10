@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TVFavoritesListViewController.h"
 #import "ServersListViewController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) UITabBarController *tabBarController;
+@property (strong, nonatomic) UINavigationController *favoritesNavController;
 @property (strong, nonatomic) UINavigationController *serversNavController;
 @property (strong, nonatomic) UINavigationController *settingsNavController;
 

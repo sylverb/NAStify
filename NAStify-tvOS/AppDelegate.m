@@ -52,10 +52,14 @@
 #endif
     // Application launching
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    
+
     ServersListViewController *userAccountsViewController = [[ServersListViewController alloc] init];
     self.serversNavController = [[UINavigationController alloc] initWithRootViewController:userAccountsViewController];
     self.serversNavController.title = NSLocalizedString(@"Servers",nil);
+
+    TVFavoritesListViewController *favoritesViewController = [[TVFavoritesListViewController alloc] init];
+    self.favoritesNavController = [[UINavigationController alloc] initWithRootViewController:favoritesViewController];
+    self.favoritesNavController.title = NSLocalizedString(@"Favorites",nil);
 
     SettingsViewController *settingsViewController = [[SettingsViewController alloc] initWithStyle:UITableViewStyleGrouped];
     self.settingsNavController = [[UINavigationController alloc] initWithRootViewController:settingsViewController];
@@ -67,6 +71,7 @@
     
     NSArray *navControllersArray = [NSArray arrayWithObjects:
                                     self.serversNavController,
+                                    self.favoritesNavController,
                                     self.settingsNavController,
                                     aboutNavController,
                                     nil];

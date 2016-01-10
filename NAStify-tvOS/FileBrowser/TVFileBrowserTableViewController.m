@@ -375,7 +375,7 @@
                     canDelete = fileItem.writeAccess;
                 }
 
-                if (fileItem.isDir)
+                if ((fileItem.isDir) && (self.userAccount.serverType != SERVER_TYPE_UPNP))
                 {
                     showAlert = YES;
                     UIAlertAction *favoriteAction = [UIAlertAction actionWithTitle:NSLocalizedString(@"Add as favorite",nil)
