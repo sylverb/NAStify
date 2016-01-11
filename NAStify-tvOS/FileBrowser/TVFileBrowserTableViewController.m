@@ -457,7 +457,8 @@
                                                                          }];
                     
                     [alert addAction:cancelAction];
-                    alert.preferredAction = cancelAction;
+                    if (canDelete)
+                        alert.preferredAction = cancelAction;
                     [self presentViewController:alert animated:YES completion:nil];
                 }
                 break;
