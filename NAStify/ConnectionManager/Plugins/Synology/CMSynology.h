@@ -26,6 +26,7 @@
 #define SYNOLOGY_DSM_4_3 4.3f
 #define SYNOLOGY_DSM_5_0 5.0f
 #define SYNOLOGY_DSM_5_1 5.1f
+#define SYNOLOGY_DSM_6_0 6.0f
 
 @interface CMSynology : NSObject <CM> {
     NSInteger protocolVersion;

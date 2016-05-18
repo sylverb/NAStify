@@ -410,10 +410,19 @@
         }
         else if ([[JSON objectForKey:@"request_otp"] boolValue])
         {
-            // Request 2-Factor authentication One Time Password
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self.delegate CMRequestOTP:nil];
-            });
+            // Manage 2-Factor authentication One Time Password
+            if ([SSKeychain passwordForService:self.userAccount.uuid account:@"OTPSecCode"])
+            {
+                NSString *secCode = [SSKeychain passwordForService:self.userAccount.uuid account:@"OTPSecCode"];
+                [self sendOTP:[secCode pinCodeForTOTP]];
+            }
+            else
+            {
+                // Request code to user
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate CMRequestOTP:nil];
+                });
+            }
         }
         else
         {
@@ -643,13 +652,178 @@
 
 - (void)listForPath:(FileItem *)folder
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self listForPathV6_0:folder];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self listForPathV4_3:folder];
     }
     else
     {
         [self listForPathV3_X:folder];
+    }
+}
+
+- (void)listForPathV6_0:(FileItem *)folder
+{
+    if ([folder.path isEqualToString:@"/"])
+    {
+        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            HandleServerDisconnection();
+
+            if ([[JSON objectForKey:@"success"] boolValue] == YES)
+            {
+#ifndef APP_EXTENSION
+                // get ejectable list
+                [self ejectableList];
+#endif
+
+                NSMutableArray *filesOutputArray = [NSMutableArray array];
+                for (NSDictionary *file in [JSON objectForKey:@"data"])
+                {
+                    NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSNumber numberWithBool:YES],@"isdir",
+                                              [file objectForKey:@"text"],@"filename",
+                                              [file objectForKey:@"spath"],@"path",
+                                              [NSNumber numberWithBool:NO],@"iscompressed",
+                                              [NSNumber numberWithBool:NO],@"writeaccess",
+                                              nil];
+
+                    [filesOutputArray addObject:dictItem];
+                }
+                [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:YES],@"success",
+                                            folder.path,@"path",
+                                            filesOutputArray,@"filesList",
+                                            nil]];
+            }
+            else
+            {
+                NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
+                [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:NO],@"success",
+                                            folder.path,@"path",
+                                            error,@"error",
+                                            nil]];
+            }
+        };
+
+        void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            NSLog(@"%@", error);
+        };
+
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"false",@"superuser",
+                                @"true",@"needrw",
+                                @"\"/\"",@"folder_path",
+                                @"\"valid\"",@"status_filter",
+                                @"\"fm_root\"",@"node",
+                                @"SYNO.Core.File",@"api",
+                                @"list",@"method",
+                                @"1",@"version",
+                                nil];
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+                parameters:params
+                   success:successBlock
+                   failure:failureBlock];
+
+        lastRequestDate = [NSDate date];
+    }
+    else
+    {
+        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            HandleServerDisconnection();
+
+            if ([[JSON objectForKey:@"success"] boolValue] == YES)
+            {
+                NSMutableArray *filesOutputArray = [NSMutableArray array];
+                for (NSDictionary *file in [[JSON objectForKey:@"data"] objectForKey:@"files"])
+                {
+                    NSNumber *size = [NSNumber numberWithInt:0];
+                    if ([[file objectForKey:@"additional"] objectForKey:@"size"])
+                    {
+                        size = [NSNumber numberWithLongLong:[[[file objectForKey:@"additional"] objectForKey:@"size"] longLongValue]];
+                    }
+
+                    bool iscompressed = [self isCompressed:[[file objectForKey:@"additional"] objectForKey:@"type"]];
+
+                    NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
+                                              [file objectForKey:@"isdir"],@"isdir",
+                                              [file objectForKey:@"name"],@"filename",
+                                              [file objectForKey:@"path"],@"path",
+                                              size,@"filesizenumber",
+                                              [[[file objectForKey:@"additional"] objectForKey:@"owner"] objectForKey:@"group"],@"group",
+                                              [[[file objectForKey:@"additional"] objectForKey:@"owner"] objectForKey:@"user"],@"owner",
+                                              iscompressed?@"1":@"0",@"iscompressed", // Supports .zip, .tar, .gz, .tgz, .rar, .7z, .iso (ISO 9660 + joliet)
+                                              [[[[file objectForKey:@"additional"] objectForKey:@"perm"] objectForKey:@"acl"] objectForKey:@"del"],@"writeaccess",
+                                              [[[file objectForKey:@"additional"] objectForKey:@"time"] objectForKey:@"mtime"],@"date",
+                                              [[file objectForKey:@"additional"] objectForKey:@"type"],@"type",
+                                              nil];
+
+                    [filesOutputArray addObject:dictItem];
+                }
+                [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:YES],@"success",
+                                            folder.path,@"path",
+                                            filesOutputArray,@"filesList",
+                                            nil]];
+            }
+            else
+            {
+                NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
+                [self.delegate CMFilesList:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:NO],@"success",
+                                            folder.path,@"path",
+                                            error,@"error",
+                                            nil]];
+            }
+        };
+
+        void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            NSLog(@"%@", error);
+        };
+
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"0",@"offset",
+                                @"5000",@"limit",
+                                @"\"name\"",@"sort_by", // filename,mtime,filesize,type
+                                @"\"ASC\"",@"sort_direction", // DESC,ASC
+                                @"list",@"action",
+                                @"[\"real_path\",\"size\",\"owner\",\"time\",\"perm\",\"type\",\"mount_point_type\"]",@"additional",
+                                @"\"all\"",@"filetype",
+                                [self escapeSynoString:folder.path],@"folder_path",
+                                @"SYNO.FileStation.List",@"api",
+                                @"list",@"method",
+                                @"2",@"version",
+                                nil];
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+                parameters:params
+                   success:successBlock
+                   failure:failureBlock];
+
+        lastRequestDate = [NSDate date];
     }
 }
 
@@ -964,6 +1138,108 @@
 
 - (void)spaceInfoAtPath:(FileItem *)folder
 {
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self spaceInfoAtPathV6_0:folder];
+    }
+    else
+    {
+        [self spaceInfoAtPathV1_0:folder];
+    }
+}
+
+- (void)spaceInfoAtPathV6_0:(FileItem *)folder
+{
+    if (![folder.path isEqualToString:@"/"])
+    {
+        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            HandleServerDisconnection();
+
+            if ([[JSON objectForKey:@"success"] boolValue])
+            {
+                NSNumber *totalNumber = nil;
+                NSNumber *freeNumber = nil;
+                NSArray *sharesArray = [[JSON objectForKey:@"data"] objectForKey:@"shares"];
+                NSString *shareName = [[folder.path pathComponents] objectAtIndex:1];
+
+                for (NSDictionary *dict in sharesArray)
+                {
+                    if ([[dict objectForKey:@"name"] isEqualToString:shareName])
+                    {
+                        freeNumber = [[[dict objectForKey:@"additional"] objectForKey:@"volume_status"] objectForKey:@"freespace"];
+                        totalNumber = [[[dict objectForKey:@"additional"] objectForKey:@"volume_status"] objectForKey:@"totalspace"];
+                    }
+                }
+
+                if (freeNumber != nil)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMSpaceInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [NSNumber numberWithBool:YES],@"success",
+                                                    totalNumber,@"totalspace",
+                                                    freeNumber,@"freespace",
+                                                    nil]];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMSpaceInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                    [NSNumber numberWithBool:NO],@"success",
+                                                    nil]];
+                    });
+                }
+            }
+            else
+            {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self.delegate CMSpaceInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSNumber numberWithBool:NO],@"success",
+                                                nil]];
+                });
+            }
+        };
+
+        void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMSpaceInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:NO],@"success",
+                                            [error description],@"error",
+                                            nil]];
+            });
+        };
+
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                  @"\"dir\"",@"filetype",
+                                  @"\"name\"",@"sort_by",
+                                  @"[\"volume_status\"]",@"additional",
+                                  @"true",@"enum_cluster",
+                                  @"\"fm_root\"",@"node",
+                                  @"SYNO.FileStation.List",@"api",
+                                  @"list_share",@"method",
+                                  @"2",@"version",
+                                  nil];
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+                parameters:params
+                   success:successBlock
+                   failure:failureBlock];
+
+        lastRequestDate = [NSDate date];
+    }
+}
+
+- (void)spaceInfoAtPathV1_0:(FileItem *)folder
+{
     if (![folder.path isEqualToString:@"/"])
     {
         void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
@@ -1058,7 +1334,11 @@
 
 - (void)createFolder:(NSString *)folderName inFolder:(FileItem *)folder;
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self createFolderV6_0:folderName atPath:folder];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self createFolderV4_3:folderName atPath:folder];
     }
@@ -1067,6 +1347,66 @@
         [self createFolderV3_X:folderName atPath:folder];
     }
 
+}
+
+- (void)createFolderV6_0:(NSString *)folderName atPath:(FileItem *)folder;
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        if ([[JSON objectForKey:@"success"] boolValue])
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:YES],@"success",
+                                               nil]];
+            });
+        }
+        else
+        {
+            NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               error,@"error",
+                                               nil]];
+            });
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMCreateFolder:[NSDictionary dictionaryWithObjectsAndKeys:
+                                           [NSNumber numberWithBool:NO],@"success",
+                                           [error description],@"error",
+                                           nil]];
+        });
+    };
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            folder.path,@"folder_path",
+                            folderName,@"name",
+                            @"false",@"force_parent",
+                            @"SYNO.FileStation.CreateFolder",@"api",
+                            @"create",@"method",
+                            @"2",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
 }
 
 - (void)createFolderV4_3:(NSString *)folderName atPath:(FileItem *)folder;
@@ -1200,7 +1540,11 @@
 #ifndef APP_EXTENSION
 - (void)deleteFiles:(NSArray *)files
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self deleteFilesV6_0:files];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self deleteFilesV4_3:files];
     }
@@ -1212,7 +1556,11 @@
 
 - (void)deleteProgress
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self deleteProgressV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self deleteProgressV4_3];
     }
@@ -1228,7 +1576,11 @@
 
 - (void)cancelDeleteTask
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self cancelDeleteTaskV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self cancelDeleteTaskV4_3];
     }
@@ -1236,6 +1588,210 @@
     {
         [self cancelDeleteTaskV3_X];
     }
+}
+
+#pragma mark - delete management DSM v6.0
+
+- (void)deleteFilesV6_0:(NSArray *)files
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        if ([[JSON objectForKey:@"success"] boolValue])
+        {
+            deleteTaskID = [[JSON objectForKey:@"data"] objectForKey:@"taskid"];
+            [self performSelector:@selector(deleteProgress) withObject:nil afterDelay:0.2];
+        }
+        else
+        {
+            NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:NO],@"success",
+                                                 error,@"error",
+                                                 nil]];
+            });
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                             [NSNumber numberWithBool:NO],@"success",
+                                             [error description],@"error",
+                                             nil]];
+        });
+    };
+
+    NSMutableString *pathString = [NSMutableString stringWithString:@"["];
+
+    for (FileItem *file in files)
+    {
+        [pathString appendFormat:@"\"%@\"",[self escapeQuotes:file.fullPath]];
+        if (file != [files lastObject])
+        {
+            [pathString appendString:@","];
+        }
+        else
+        {
+            [pathString appendString:@"]"];
+        }
+    }
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            pathString,@"path",
+                            @"true",@"accurate_progress",
+                            @"SYNO.FileStation.Delete",@"api",
+                            @"start",@"method",
+                            @"2",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
+}
+
+- (void)deleteProgressV6_0
+{
+    if (deleteTaskID)
+    {
+        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            HandleServerDisconnection();
+
+            if ([[JSON objectForKey:@"success"] boolValue])
+            {
+                bool deleteRunning = ![[[JSON objectForKey:@"data"] objectForKey:@"finished"] boolValue];
+                float progress = [[[JSON objectForKey:@"data"] objectForKey:@"progress"] floatValue];
+                if (progress != -1.0)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMDeleteProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSNumber numberWithFloat:progress],@"progress",
+                                                         nil]];
+                    });
+                }
+                if (deleteRunning)
+                {
+                    // Update progress
+                    [self performSelector:@selector(deleteProgress)
+                               withObject:nil
+                               afterDelay:2];
+                }
+                else{
+                    // Deletion is now finished
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSNumber numberWithBool:YES],@"success",
+                                                         nil]];
+                    });
+                }
+            }
+            else
+            {
+                NSInteger code = [[[JSON objectForKey:@"error"] objectForKey:@"code"] integerValue];
+                if (code != 599)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:NO],@"success",
+                                                           [NSString stringWithFormat:@"Error %ld",code],@"error",
+                                                           nil]];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:YES],@"success",
+                                                           nil]];
+                    });
+                }
+            }
+        };
+
+        void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMDeleteFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:NO],@"success",
+                                                 [error localizedDescription],@"error",
+                                                 nil]];
+            });
+        };
+
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                deleteTaskID,@"taskid",
+                                @"SYNO.FileStation.Delete",@"api",
+                                @"status",@"method",
+                                @"2",@"version",
+                                nil];
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+                parameters:params
+                   success:successBlock
+                   failure:failureBlock];
+
+        lastRequestDate = [NSDate date];
+    }
+}
+
+- (void)cancelDeleteTaskV6_0
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        deleteTaskID = nil;
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        deleteTaskID = nil;
+
+        NSLog(@"%@", error);
+    };
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            deleteTaskID,@"taskid",
+                            @"SYNO.FileStation.Delete",@"api",
+                            @"stop",@"method",
+                            @"2",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
 }
 
 #pragma mark - delete management DSM v4.3
@@ -1785,7 +2341,11 @@
 #ifndef APP_EXTENSION
 - (void)copyFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self copyFilesV6_0:files toPath:destFolder andOverwrite:overwrite];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self copyFilesV4_3:files toPath:destFolder andOverwrite:overwrite];
     }
@@ -1797,7 +2357,11 @@
 
 - (void)copyProgress
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self copyProgressV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self copyProgressV4_3];
     }
@@ -1813,7 +2377,11 @@
 
 - (void)cancelCopyTask
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self cancelCopyTaskV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self cancelCopyTaskV4_3];
     }
@@ -1821,6 +2389,212 @@
     {
         [self cancelCopyTaskV3_X];
     }
+}
+
+#pragma mark - copy management DSM v6.0
+
+- (void)copyFilesV6_0:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        if ([[JSON objectForKey:@"success"] boolValue])
+        {
+            copyTaskID = [[JSON objectForKey:@"data"] objectForKey:@"taskid"];
+            [self performSelector:@selector(copyProgress) withObject:nil afterDelay:0.2];
+        }
+        else
+        {
+            NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMCopyFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               error,@"error",
+                                               nil]];
+            });
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMCopyFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                           [NSNumber numberWithBool:NO],@"success",
+                                           [error localizedDescription],@"error",
+                                           nil]];
+        });
+    };
+
+    NSMutableString *pathString = [NSMutableString stringWithString:@"["];
+
+    for (FileItem *file in files)
+    {
+        [pathString appendFormat:@"\"%@\"",[self escapeQuotes:file.fullPath]];
+        if (file != [files lastObject])
+        {
+            [pathString appendString:@","];
+        }
+        else
+        {
+            [pathString appendString:@"]"];
+        }
+    }
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            overwrite?@"true":@"false",@"overwrite",
+                            [NSString stringWithFormat:@"\"%@\"",[self escapeQuotes:destFolder.path]],@"dest_folder_path",
+                            pathString,@"path",
+                            @"false",@"remove_src",
+                            @"true",@"accurate_progress",
+                            @"SYNO.FileStation.CopyMove",@"api",
+                            @"start",@"method",
+                            @"3",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
+}
+
+- (void)copyProgressV6_0
+{
+    if (copyTaskID)
+    {
+        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            HandleServerDisconnection();
+
+            if ([[JSON objectForKey:@"success"] boolValue])
+            {
+                bool copyRunning = ![[[JSON objectForKey:@"data"] objectForKey:@"finished"] boolValue];
+                float progress = [[[JSON objectForKey:@"data"] objectForKey:@"progress"] floatValue];
+                if (progress != -1.0)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCopyProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                       [NSNumber numberWithFloat:progress],@"progress",
+                                                       nil]];
+                    });
+                }
+                if (copyRunning)
+                {
+                    // Update progress
+                    [self performSelector:@selector(copyProgress)
+                               withObject:nil
+                               afterDelay:2];
+                }
+                else{
+                    // Copy is now finished
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCopyFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                       [NSNumber numberWithBool:YES],@"success",
+                                                       nil]];
+                    });
+                }
+            }
+            else
+            {
+                NSInteger code = [[[JSON objectForKey:@"error"] objectForKey:@"code"] integerValue];
+                if (code != 599)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:NO],@"success",
+                                                           [NSString stringWithFormat:@"Error %ld",code],@"error",
+                                                           nil]];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:YES],@"success",
+                                                           nil]];
+                    });
+                }
+            }
+        };
+
+        void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMCopyFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               [error localizedDescription],@"error",
+                                               nil]];
+            });
+        };
+
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                copyTaskID,@"taskid",
+                                @"SYNO.FileStation.CopyMove",@"api",
+                                @"status",@"method",
+                                @"3",@"version",
+                                nil];
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+                parameters:params
+                   success:successBlock
+                   failure:failureBlock];
+
+        lastRequestDate = [NSDate date];
+    }
+}
+
+- (void)cancelCopyTaskV6_0
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        copyTaskID = nil;
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        copyTaskID = nil;
+
+        NSLog(@"%@", error);
+    };
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            copyTaskID,@"taskid",
+                            @"SYNO.FileStation.CopyMove",@"api",
+                            @"stop",@"method",
+                            @"3",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
 }
 
 #pragma mark - copy management DSM v4.3
@@ -2374,7 +3148,11 @@
 #ifndef APP_EXTENSION
 - (void)moveFiles:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self moveFilesV6_0:files toPath:destFolder andOverwrite:overwrite];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self moveFilesV4_3:files toPath:destFolder andOverwrite:overwrite];
     }
@@ -2386,7 +3164,11 @@
 
 - (void)moveProgress
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self moveProgressV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self moveProgressV4_3];
     }
@@ -2402,7 +3184,11 @@
 
 - (void)cancelMoveTask
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self cancelMoveTaskV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self cancelMoveTaskV4_3];
     }
@@ -2410,6 +3196,213 @@
     {
         [self cancelMoveTaskV3_X];
     }
+}
+
+#pragma mark - move management DSM v6.0
+
+- (void)moveFilesV6_0:(NSArray *)files toPath:(FileItem *)destFolder andOverwrite:(BOOL)overwrite
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        if ([[JSON objectForKey:@"success"] boolValue])
+        {
+            moveTaskID = [[JSON objectForKey:@"data"] objectForKey:@"taskid"];
+            [self performSelector:@selector(moveProgress) withObject:nil afterDelay:0.2];
+        }
+        else
+        {
+            NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               error,@"error",
+                                               nil]];
+            });
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                           [NSNumber numberWithBool:NO],@"success",
+                                           [error localizedDescription],@"error",
+                                           nil]];
+        });
+    };
+
+    NSMutableString *pathString = [NSMutableString stringWithString:@"["];
+
+    for (FileItem *file in files)
+    {
+        [pathString appendFormat:@"\"%@\"",[self escapeQuotes:file.fullPath]];
+        if (file != [files lastObject])
+        {
+            [pathString appendString:@","];
+        }
+        else
+        {
+            [pathString appendString:@"]"];
+        }
+    }
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            overwrite?@"true":@"false",@"overwrite",
+                            [NSString stringWithFormat:@"\"%@\"",[self escapeQuotes:destFolder.path]],@"dest_folder_path",
+                            pathString,@"path",
+                            @"true",@"remove_src",
+                            @"true",@"accurate_progress",
+                            @"SYNO.FileStation.CopyMove",@"api",
+                            @"start",@"method",
+                            @"3",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
+}
+
+- (void)moveProgressV6_0
+{
+    if (moveTaskID)
+    {
+        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            HandleServerDisconnection();
+
+            if ([[JSON objectForKey:@"success"] boolValue])
+            {
+                bool moveRunning = ![[[JSON objectForKey:@"data"] objectForKey:@"finished"] boolValue];
+                float progress = [[[JSON objectForKey:@"data"] objectForKey:@"progress"] floatValue];
+                if (progress != -1.0)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMMoveProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                       [NSNumber numberWithFloat:progress],@"progress",
+                                                       nil]];
+                    });
+                }
+                if (moveRunning)
+                {
+                    // Update progress
+                    [self performSelector:@selector(moveProgress)
+                               withObject:nil
+                               afterDelay:2];
+                }
+                else{
+                    // Move is now finished
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                       [NSNumber numberWithBool:YES],@"success",
+                                                       nil]];
+                    });
+                }
+            }
+            else
+            {
+                NSInteger code = [[[JSON objectForKey:@"error"] objectForKey:@"code"] integerValue];
+                if (code != 599)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:NO],@"success",
+                                                           [NSString stringWithFormat:@"Error %ld",code],@"error",
+                                                           nil]];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:YES],@"success",
+                                                           nil]];
+                    });
+                }
+            }
+        };
+
+        void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMMoveFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               [error localizedDescription],@"error",
+                                               nil]];
+            });
+        };
+
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                moveTaskID,@"taskid",
+                                @"SYNO.FileStation.CopyMove",@"api",
+                                @"status",@"method",
+                                @"3",@"version",
+                                nil];
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+                parameters:params
+                   success:successBlock
+                   failure:failureBlock];
+
+        lastRequestDate = [NSDate date];
+    }
+}
+
+- (void)cancelMoveTaskV6_0
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        moveTaskID = nil;
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+
+        moveTaskID = nil;
+
+        NSLog(@"%@", error);
+    };
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            moveTaskID,@"taskid",
+                            @"SYNO.FileStation.CopyMove",@"api",
+                            @"stop",@"method",
+                            @"3",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
 }
 
 #pragma mark - move management DSM v4.3
@@ -2949,7 +3942,11 @@
 #ifndef APP_EXTENSION
 - (void)renameFile:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self renameFileV6_0:oldFile toName:newName atPath:folder];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self renameFileV4_3:oldFile toName:newName atPath:folder];
     }
@@ -2957,6 +3954,65 @@
     {
         [self renameFileV2_X:oldFile toName:newName atPath:folder];
     }
+}
+
+- (void)renameFileV6_0:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        if ([[JSON objectForKey:@"success"] boolValue])
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
+                                         [NSNumber numberWithBool:YES],@"success",
+                                         nil]];
+            });
+        }
+        else
+        {
+            NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
+                                         [NSNumber numberWithBool:NO],@"success",
+                                         error,@"error",
+                                         nil]];
+            });
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMRename:[NSDictionary dictionaryWithObjectsAndKeys:
+                                     [NSNumber numberWithBool:NO],@"success",
+                                     [error localizedDescription],@"error",
+                                     nil]];
+        });
+    };
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            [self escapeSynoString:[NSString stringWithFormat:@"%@/%@",folder.path,oldFile.name]],@"path",
+                            [self escapeSynoString:newName],@"name",
+                            @"SYNO.FileStation.Rename",@"api",
+                            @"rename",@"method",
+                            @"2",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
 }
 
 - (void)renameFileV4_3:(FileItem *)oldFile toName:(NSString *)newName atPath:(FileItem *)folder
@@ -3126,7 +4182,7 @@
     }
 }
 
-#pragma mark - Eject management DSM v5.0
+#pragma mark - Eject management DSM v5.0/v6.0
 
 - (void)ejectableListV5_0
 {
@@ -3640,7 +4696,15 @@
 #ifndef APP_EXTENSION
 - (void)extractFiles:(NSArray *)files toFolder:(FileItem *)folder withPassword:(NSString *)password overwrite:(BOOL)overwrite extractWithFolder:(BOOL)extractFolders
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self extractFilesV6_0:files
+                      toFolder:folder
+                  withPassword:password
+                     overwrite:overwrite
+             extractWithFolder:extractFolders];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self extractFilesV4_3:files
                       toFolder:folder
@@ -3660,7 +4724,11 @@
 
 - (void)extractProgress
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self extractProgressV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self extractProgressV4_3];
     }
@@ -3676,7 +4744,11 @@
 
 - (void)cancelExtractTask
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self cancelExtractTaskV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self cancelExtractTaskV4_3];
     }
@@ -3684,6 +4756,258 @@
     {
         [self cancelExtractTaskV3_X];
     }
+}
+
+#pragma mark - Extract management DSM v6.0
+
+- (void)extractFilesV6_0:(NSArray *)files
+                toFolder:(FileItem *)folder
+            withPassword:(NSString *)password
+               overwrite:(BOOL)overwrite
+       extractWithFolder:(BOOL)extractFolders
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        if ([[JSON objectForKey:@"success"] boolValue])
+        {
+            extractTaskID = [[JSON objectForKey:@"data"] objectForKey:@"taskid"];
+            [self performSelector:@selector(extractProgress) withObject:nil afterDelay:0.2];
+        }
+        else
+        {
+            NSString *error = [NSString stringWithFormat:@"Error code %@",[[operation.responseObject objectForKey:@"error"] objectForKey:@"code"]];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMExtractFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithBool:NO],@"success",
+                                                  error,@"error",
+                                                  nil]];
+
+                extractFilesList = nil;
+                extractPassword = nil;
+                extractFolder = nil;
+            });
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMExtractFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                              [NSNumber numberWithBool:NO],@"success",
+                                              [error description],@"error",
+                                              nil]];
+        });
+
+        extractFilesList = nil;
+        extractPassword = nil;
+        extractFolder = nil;
+    };
+
+    extractFilesList = [NSMutableArray arrayWithArray:files];
+    extractFolder = folder;
+    extractPassword = password;
+    extractOverwrite = overwrite;
+    extractWithFolder = extractFolders;
+
+    FileItem *fileItem = [extractFilesList firstObject];
+
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   overwrite?@"true":@"false",@"mode",
+                                   [self escapeSynoString:fileItem.fullPath],@"file_path",
+                                   [self escapeSynoString:folder.path],@"dest_folder_path",
+                                   extractFolders?@"true":@"false",@"keep_dir",
+                                   @"SYNO.FileStation.Extract",@"api",
+                                   @"start",@"method",
+                                   @"2",@"version",
+                                   nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
+}
+
+- (void)extractProgressV6_0
+{
+    if (extractTaskID)
+    {
+        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            HandleServerDisconnection();
+
+            if ([[JSON objectForKey:@"success"] boolValue])
+            {
+                bool extractRunning = ![[[JSON objectForKey:@"data"] objectForKey:@"finished"] boolValue];
+                float extractProgress = [[[JSON objectForKey:@"data"] objectForKey:@"progress"] floatValue];
+                if ([[JSON objectForKey:@"data"] objectForKey:@"errors"])
+                {
+                    NSString *error = [NSString stringWithFormat:NSLocalizedString(@"Error %@", nil),[[[[JSON objectForKey:@"data"] objectForKey:@"errors"] objectAtIndex:0]objectForKey:@"code"]];
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMExtractFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                          [NSNumber numberWithBool:NO],@"success",
+                                                          error,@"error",
+                                                          nil]];
+                    });
+
+                    extractFilesList = nil;
+                    extractPassword = nil;
+                    extractFolder = nil;
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMExtractProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                          [NSNumber numberWithFloat:extractProgress],@"progress",
+                                                          [[[JSON objectForKey:@"data"] objectForKey:@"processing_path"] lastPathComponent],@"currentFile",
+                                                          nil]];
+                    });
+                }
+                if (extractRunning)
+                {
+                    // Update progress
+                    [self performSelector:@selector(extractProgress) withObject:nil afterDelay:2];
+                }
+                else
+                {
+                    [extractFilesList removeObjectAtIndex:0];
+                    if ([extractFilesList count] == 0)
+                    {
+                        // Extract is now finished
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.delegate CMExtractFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                              [NSNumber numberWithBool:YES],@"success",
+                                                              nil]];
+                        });
+                    }
+                    else
+                    {
+                        // Extract next file
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self extractFiles:extractFilesList
+                                      toFolder:extractFolder
+                                  withPassword:extractPassword
+                                     overwrite:extractOverwrite
+                             extractWithFolder:extractWithFolder];
+                        });
+                    }
+                }
+            }
+            else
+            {
+                NSInteger code = [[[JSON objectForKey:@"error"] objectForKey:@"code"] integerValue];
+                if (code != 599)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:NO],@"success",
+                                                           [NSString stringWithFormat:@"Error %ld",code],@"error",
+                                                           nil]];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:YES],@"success",
+                                                           nil]];
+                    });
+                }
+
+                extractFilesList = nil;
+                extractPassword = nil;
+                extractFolder = nil;
+            }
+        };
+
+        void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMExtractFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                  [NSNumber numberWithBool:NO],@"success",
+                                                  [error description],@"error",
+                                                  nil]];
+            });
+
+            extractFilesList = nil;
+            extractPassword = nil;
+        };
+
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                extractTaskID,@"taskid",
+                                @"SYNO.FileStation.Extract",@"api",
+                                @"status",@"method",
+                                @"2",@"version",
+                                nil];
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+                parameters:params
+                   success:successBlock
+                   failure:failureBlock];
+
+        lastRequestDate = [NSDate date];
+    }
+}
+
+- (void)cancelExtractTaskV6_0
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        extractTaskID = nil;
+        extractFilesList = nil;
+        extractPassword = nil;
+        extractFolder = nil;
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        extractTaskID = nil;
+        extractFilesList = nil;
+        extractPassword = nil;
+        extractFolder = nil;
+    };
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            extractTaskID,@"taskid",
+                            @"SYNO.FileStation.Extract",@"api",
+                            @"stop",@"method",
+                            @"2",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
 }
 
 #pragma mark - Extract management DSM v4.3
@@ -4335,7 +5659,16 @@
              password:(NSString *)password
             overwrite:(BOOL)overwrite
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self compressFilesV6_0:files
+                      toArchive:archive
+                    archiveType:archiveType
+               compressionLevel:compressionLevel
+                       password:password
+                      overwrite:overwrite];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self compressFilesV4_3:files
                       toArchive:archive
@@ -4357,7 +5690,11 @@
 
 - (void)compressProgress
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self compressProgressV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self compressProgressV4_3];
     }
@@ -4373,7 +5710,11 @@
 
 - (void)cancelCompressTask
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self cancelCompressTaskV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self cancelCompressTaskV4_3];
     }
@@ -4381,6 +5722,286 @@
     {
         [self cancelCompressTaskV3_X];
     }
+}
+
+#pragma mark - Compress management DSM v6.0
+
+- (void)compressFilesV6_0:(NSArray *)files
+                toArchive:(NSString *)archive
+              archiveType:(ARCHIVE_TYPE)archiveType
+         compressionLevel:(ARCHIVE_COMPRESSION_LEVEL)compressionLevel
+                 password:(NSString *)password
+                overwrite:(BOOL)overwrite
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        if ([[JSON objectForKey:@"success"] boolValue])
+        {
+            compressTaskID = [[JSON objectForKey:@"data"] objectForKey:@"taskid"];
+            [self performSelector:@selector(compressProgress) withObject:nil afterDelay:0.2];
+        }
+        else
+        {
+            NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [NSNumber numberWithBool:NO],@"success",
+                                                   error,@"error",
+                                                   nil]];
+            });
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                               [NSNumber numberWithBool:NO],@"success",
+                                               [error localizedDescription],@"error",
+                                               nil]];
+        });
+    };
+
+    NSMutableString *pathString = [NSMutableString stringWithString:@"["];
+
+    for (FileItem *file in files)
+    {
+        [pathString appendFormat:@"\"%@\"",[self escapeQuotes:file.fullPath]];
+        if (file != [files lastObject])
+        {
+            [pathString appendString:@","];
+        }
+        else
+        {
+            [pathString appendString:@"]"];
+        }
+    }
+
+    NSString *level = nil;
+    switch (compressionLevel)
+    {
+        case ARCHIVE_COMPRESSION_LEVEL_NONE:
+        {
+            level = @"\"store\"";
+            break;
+        }
+        case ARCHIVE_COMPRESSION_LEVEL_FASTEST:
+        {
+            level = @"\"fastest\"";
+            break;
+        }
+        case ARCHIVE_COMPRESSION_LEVEL_NORMAL:
+        {
+            level = @"\"normal\"";
+            break;
+        }
+        case ARCHIVE_COMPRESSION_LEVEL_BEST:
+        {
+            level = @"\"best\"";
+            break;
+        }
+        default:
+        {
+            level = @"\"normal\"";
+            break;
+        }
+    }
+
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   pathString,@"path",
+                                   [NSString stringWithFormat:@"\"%@\"",[self escapeQuotes:archive]],@"dest_file_path",
+                                   level,@"level",
+                                   @"\"replace\"",@"mode",
+                                   @"\"enu\"",@"codepage",
+                                   @"SYNO.FileStation.Compress",@"api",
+                                   @"start",@"method",
+                                   @"3",@"version",
+                                   nil];
+
+    if ((password) && ([password length]!= 0))
+    {
+        [params addEntriesFromDictionary:[NSDictionary dictionaryWithObject:[NSString stringWithFormat:@"\"%@\"", [self escapeQuotes:password]]
+                                                                     forKey:@"passwd"]];
+    }
+    else
+    {
+        [params addEntriesFromDictionary:[NSDictionary dictionaryWithObject:@"\"\""
+                                                                     forKey:@"passwd"]];
+    }
+
+    switch (archiveType)
+    {
+        case ARCHIVE_TYPE_ZIP:
+        {
+            [params addEntriesFromDictionary:[NSDictionary dictionaryWithObject:@"\"zip\"" forKey:@"format"]];
+            break;
+        }
+        case ARCHIVE_TYPE_7Z:
+        {
+            [params addEntriesFromDictionary:[NSDictionary dictionaryWithObject:@"\"7z\"" forKey:@"format"]];
+            break;
+        }
+        default:
+            break;
+    }
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
+}
+
+- (void)compressProgressV6_0
+{
+    if (compressTaskID)
+    {
+        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            HandleServerDisconnection();
+
+            if ([[JSON objectForKey:@"success"] boolValue])
+            {
+                if ([[JSON objectForKey:@"data"] objectForKey:@"errors"])
+                {
+                    NSString *error = [NSString stringWithFormat:NSLocalizedString(@"Error %@", nil),[[[[JSON objectForKey:@"data"] objectForKey:@"errors"] objectAtIndex:0]objectForKey:@"code"]];
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:NO],@"success",
+                                                           error,@"error",
+                                                           nil]];
+                    });
+                }
+                else
+                {
+                    bool compressRunning = ![[[JSON objectForKey:@"data"] objectForKey:@"finished"] boolValue];
+                    float progress = [[[JSON objectForKey:@"data"] objectForKey:@"progress"] floatValue];
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithFloat:progress],@"progress",
+                                                           nil]];
+                    });
+
+                    if (compressRunning)
+                    {
+                        // Update progress
+                        [self performSelector:@selector(compressProgress) withObject:nil afterDelay:2];
+                    }
+                    else
+                    {
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                               [NSNumber numberWithBool:YES],@"success",
+                                                               nil]];
+                        });
+                    }
+                }
+            }
+            else
+            {
+                NSInteger code = [[[JSON objectForKey:@"error"] objectForKey:@"code"] integerValue];
+                if (code != 599)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:NO],@"success",
+                                                           [NSString stringWithFormat:@"Error %ld",code],@"error",
+                                                           nil]];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:YES],@"success",
+                                                           nil]];
+                    });
+                }
+            }
+        };
+
+        void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                   [NSNumber numberWithBool:NO],@"success",
+                                                   [error localizedDescription],@"error",
+                                                   nil]];
+            });
+        };
+
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSString stringWithFormat:@"\"%@\"", [self escapeQuotes:compressTaskID]],@"taskid",
+                                @"SYNO.FileStation.Compress",@"api",
+                                @"status",@"method",
+                                @"3",@"version",
+                                nil];
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+                parameters:params
+                   success:successBlock
+                   failure:failureBlock];
+
+        lastRequestDate = [NSDate date];
+    }
+}
+
+- (void)cancelCompressTaskV6_0
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        compressTaskID = nil;
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        compressTaskID = nil;
+
+        NSLog(@"%@", error);
+    };
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSString stringWithFormat:@"\"%@\"", [self escapeQuotes:compressTaskID]],@"taskid",
+                            @"SYNO.FileStation.Compress",@"api",
+                            @"stop",@"method",
+                            @"3",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
 }
 
 #pragma mark - Compress management DSM v4.3
@@ -4395,18 +6016,18 @@
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-        
+
         HandleServerDisconnection();
-        
+
         if ([[JSON objectForKey:@"success"] boolValue])
         {
             compressTaskID = [[JSON objectForKey:@"data"] objectForKey:@"taskid"];
-            [self performSelector:@selector(compressProgressV4_3) withObject:nil afterDelay:0.2];
+            [self performSelector:@selector(compressProgress) withObject:nil afterDelay:0.2];
         }
         else
         {
             NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
-            
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                    [NSNumber numberWithBool:NO],@"success",
@@ -4415,11 +6036,11 @@
             });
         }
     };
-    
+
     void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                [NSNumber numberWithBool:NO],@"success",
@@ -4427,9 +6048,9 @@
                                                nil]];
         });
     };
-    
+
     NSMutableString *pathString = [NSMutableString string];
-    
+
     for (FileItem *file in files)
     {
         [pathString appendFormat:@"%@",[self escapeSynoString:file.fullPath]];
@@ -4438,7 +6059,7 @@
             [pathString appendString:@","];
         }
     }
-    
+
     NSString *level = nil;
     switch (compressionLevel)
     {
@@ -4468,7 +6089,7 @@
             break;
         }
     }
-    
+
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                                    pathString,@"path",
                                    [self escapeSynoString:archive],@"dest_file_path",
@@ -4478,7 +6099,7 @@
                                    @"start",@"method",
                                    @"1",@"version",
                                    nil];
-    
+
     if ((password) && ([password length]!= 0))
     {
         [params addEntriesFromDictionary:[NSDictionary dictionaryWithObject:password forKey:@"passwd"]];
@@ -4487,7 +6108,7 @@
     {
         [params addEntriesFromDictionary:[NSDictionary dictionaryWithObject:@"" forKey:@"passwd"]];
     }
-    
+
     switch (archiveType)
     {
         case ARCHIVE_TYPE_ZIP:
@@ -4503,15 +6124,15 @@
         default:
             break;
     }
-    
+
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-    
+
     [self.manager POST:[self createUrlWithPath:[NSString stringWithFormat:@"webapi/FileStation/file_compress.cgi?SynoToken=%@",synoToken]]
             parameters:params
                success:successBlock
                failure:failureBlock];
-    
+
     lastRequestDate = [NSDate date];
 }
 
@@ -4522,16 +6143,16 @@
         void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
             // End the network activity spinner
             [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-            
+
             HandleServerDisconnection();
-            
+
             if ([[JSON objectForKey:@"success"] boolValue])
             {
                 bool compressRunning = ![[[JSON objectForKey:@"data"] objectForKey:@"finished"] boolValue];
                 if ([[JSON objectForKey:@"data"] objectForKey:@"errors"])
                 {
                     NSString *error = [NSString stringWithFormat:NSLocalizedString(@"Error %@", nil),[[[[JSON objectForKey:@"data"] objectForKey:@"errors"] objectAtIndex:0]objectForKey:@"code"]];
-                    
+
                     dispatch_async(dispatch_get_main_queue(), ^{
                         [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                            [NSNumber numberWithBool:NO],@"success",
@@ -4563,11 +6184,11 @@
                 });
             }
         };
-        
+
         void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
             // End the network activity spinner
             [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-            
+
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
                                                    [NSNumber numberWithBool:NO],@"success",
@@ -4575,7 +6196,7 @@
                                                    nil]];
             });
         };
-        
+
         NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                                 compressTaskID,@"taskid",
                                 @"SYNO.FileStation.Compress",@"api",
@@ -4585,12 +6206,12 @@
 
         // Start the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-        
+
         [self.manager POST:[self createUrlWithPath:[NSString stringWithFormat:@"webapi/FileStation/file_compress.cgi?SynoToken=%@",synoToken]]
                 parameters:params
                    success:successBlock
                    failure:failureBlock];
-        
+
         lastRequestDate = [NSDate date];
     }
 }
@@ -4600,36 +6221,36 @@
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-        
+
         HandleServerDisconnection();
-        
+
         compressTaskID = nil;
     };
-    
+
     void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-        
+
         compressTaskID = nil;
-        
+
         NSLog(@"%@", error);
     };
-    
+
     NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
                             compressTaskID,@"taskid",
                             @"SYNO.FileStation.Compress",@"api",
                             @"stop",@"method",
                             @"1",@"version",
                             nil];
-    
+
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-    
+
     [self.manager POST:[self createUrlWithPath:[NSString stringWithFormat:@"webapi/FileStation/file_compress.cgi?SynoToken=%@",synoToken]]
             parameters:params
                success:successBlock
                failure:failureBlock];
-    
+
     lastRequestDate = [NSDate date];
 }
 
@@ -5003,7 +6624,11 @@
 
 - (void)searchFiles:(NSString *)searchString atPath:(FileItem *)folder
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self searchFilesV6_0:searchString atPath:folder];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self searchFilesV4_3:searchString atPath:folder];
     }
@@ -5015,7 +6640,11 @@
 
 - (void)searchProgress
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self searchProgressV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self searchProgressV4_3];
     }
@@ -5027,7 +6656,11 @@
 
 - (void)cancelSearchTask
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self cancelSearchTaskV6_0];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self cancelSearchTaskV4_3];
     }
@@ -5035,6 +6668,232 @@
     {
         [self cancelSearchTaskV3_X];
     }
+}
+
+#pragma mark - search management DSM v6.0
+
+- (void)searchFilesV6_0:(NSString *)searchString atPath:(FileItem *)folder
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        if ([[JSON objectForKey:@"success"] boolValue])
+        {
+            searchTaskID = [[JSON objectForKey:@"data"] objectForKey:@"taskid"];
+            [self performSelector:@selector(searchProgress) withObject:nil afterDelay:0.2];
+        }
+        else
+        {
+            NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMSearchFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:NO],@"success",
+                                                 error,@"error",
+                                                 nil]];
+            });
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMSearchFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                             [NSNumber numberWithBool:NO],@"success",
+                                             [error localizedDescription],@"error",
+                                             nil]];
+        });
+    };
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSString stringWithFormat:@"[\"%@\"]",[self escapeQuotes:folder.path]],@"folder_path",
+                            @"true",@"recursive",
+                            [NSString stringWithFormat:@"\"%@\"",searchString],@"pattern",
+                            @"false",@"search_content",
+                            @"SYNO.FileStation.Search",@"api",
+                            @"start",@"method",
+                            @"2",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
+}
+
+- (void)searchProgressV6_0
+{
+    if (searchTaskID)
+    {
+        void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            HandleServerDisconnection();
+
+            if ([[JSON objectForKey:@"success"] boolValue])
+            {
+                bool searchRunning = ![[[JSON objectForKey:@"data"] objectForKey:@"finished"] boolValue];
+                if ([[JSON objectForKey:@"data"] objectForKey:@"errors"])
+                {
+                    NSString *error = [NSString stringWithFormat:NSLocalizedString(@"Error %@", nil),[[[[JSON objectForKey:@"data"] objectForKey:@"errors"] objectAtIndex:0]objectForKey:@"code"]];
+
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMSearchFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                         [NSNumber numberWithBool:NO],@"success",
+                                                         error,@"error",
+                                                         nil]];
+                    });
+                }
+                if (searchRunning)
+                {
+                    // Search progress
+                    [self performSelector:@selector(searchProgress) withObject:nil afterDelay:2];
+                }
+                else
+                {
+                    // search is now finished
+                    if ([[[JSON objectForKey:@"data"] objectForKey:@"files"] isKindOfClass:[NSArray class]])
+                    {
+                        NSMutableArray *filesOutputArray = [NSMutableArray array];
+                        for (NSDictionary *file in [[JSON objectForKey:@"data"] objectForKey:@"files"])
+                        {
+                            NSNumber *size = [NSNumber numberWithInt:0];
+                            if ([[file objectForKey:@"additional"] objectForKey:@"size"])
+                            {
+                                size = [NSNumber numberWithLongLong:[[[file objectForKey:@"additional"] objectForKey:@"size"] longLongValue]];
+                            }
+
+                            bool iscompressed = [self isCompressed:[[file objectForKey:@"additional"] objectForKey:@"type"]];
+
+                            NSDictionary *dictItem = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                      [file objectForKey:@"isdir"],@"isdir",
+                                                      [file objectForKey:@"name"],@"filename",
+                                                      [file objectForKey:@"path"],@"path",
+                                                      size,@"filesizenumber",
+                                                      [[[file objectForKey:@"additional"] objectForKey:@"owner"] objectForKey:@"group"],@"group",
+                                                      [[[file objectForKey:@"additional"] objectForKey:@"owner"] objectForKey:@"user"],@"owner",
+                                                      iscompressed?@"1":@"0",@"iscompressed",
+                                                      [NSNumber numberWithBool:YES],@"writeaccess",
+                                                      [[[file objectForKey:@"additional"] objectForKey:@"time"] objectForKey:@"mtime"],@"date",
+                                                      [[file objectForKey:@"additional"] objectForKey:@"type"],@"type",
+                                                      nil];
+
+                            [filesOutputArray addObject:dictItem];
+                        }
+
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            [self.delegate CMSearchFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                             [NSNumber numberWithBool:YES],@"success",
+                                                             filesOutputArray,@"filesList",
+                                                             nil]];
+                        });
+                    }
+                }
+            }
+            else
+            {
+                NSInteger code = [[[JSON objectForKey:@"error"] objectForKey:@"code"] integerValue];
+                if (code != 599)
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:NO],@"success",
+                                                           [NSString stringWithFormat:@"Error %ld",code],@"error",
+                                                           nil]];
+                    });
+                }
+                else
+                {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMCompressFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                           [NSNumber numberWithBool:YES],@"success",
+                                                           nil]];
+                    });
+                }
+            }
+        };
+
+        void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+            // End the network activity spinner
+            [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMSearchFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:NO],@"success",
+                                                 [error localizedDescription],@"error",
+                                                 nil]];
+            });
+        };
+
+        NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                                @"[\"real_path\",\"size\",\"owner\",\"time\",\"perm\",\"type\"]",@"additional",
+                                [NSString stringWithFormat:@"\"%@\"",searchTaskID],@"taskid",
+                                @"0",@"offset",
+                                @"1000",@"limit",
+                                @"\"all\"",@"filetype",
+                                @"SYNO.FileStation.Search",@"api",
+                                @"list",@"method",
+                                @"2",@"version",
+                                nil];
+
+        // Start the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+        [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+                parameters:params
+                   success:successBlock
+                   failure:failureBlock];
+
+        lastRequestDate = [NSDate date];
+    }
+}
+
+- (void)cancelSearchTaskV6_0
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        searchTaskID = nil;
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        searchTaskID = nil;
+
+        NSLog(@"%@", error);
+    };
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            [NSString stringWithFormat:@"\"%@\"",searchTaskID],@"taskid",
+                            @"SYNO.FileStation.Search",@"api",
+                            @"stop",@"method",
+                            @"2",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
 }
 
 #pragma mark - search management DSM v4.3
@@ -5459,7 +7318,11 @@
 #ifndef APP_EXTENSION
 - (void)shareFiles:(NSArray *)files duration:(NSTimeInterval)duration password:(NSString *)password
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self shareFilesV6_0:files duration:duration password:password];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self shareFilesV4_3:files duration:duration password:password];
     }
@@ -5468,6 +7331,197 @@
         //FIXME: check if available
     }
 }
+
+#pragma mark - share management DSM v6.0
+
+- (void)shareFilesSettingsByIdV6_0:(NSArray *)ids password:(NSString *)password duration:(NSTimeInterval)duration
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        if (![[JSON objectForKey:@"success"] boolValue])
+        {
+            NSString *error = [NSString stringWithFormat:@"Error %@ while setting expiration date",
+                               [[JSON objectForKey:@"error"] objectForKey:@"code"]];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMShareFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSNumber numberWithBool:NO],@"success",
+                                                error,@"error",
+                                                nil]];
+            });
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMShareFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:NO],@"success",
+                                            [error localizedDescription],@"error",
+                                            nil]];
+        });
+    };
+
+    NSMutableString *idString = [NSMutableString stringWithString:@"["];
+    for (NSString *shareId in ids)
+    {
+        [idString appendFormat:@"\"%@\"",shareId];
+        if (shareId != [ids lastObject])
+        {
+            [idString appendString:@","];
+        }
+        else
+        {
+            [idString appendString:@"]"];
+        }
+    }
+
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                   idString,@"id",
+                                   @"0",@"expire_times",
+                                   @"null",@"redirect_uri",
+                                   @"\"\"",@"start_at",
+                                   @"SYNO.FileStation.Sharing",@"api",
+                                   @"edit",@"method",
+                                   @"3",@"version",
+                                   nil];
+
+    if (password.length != 0)
+    {
+        [params setObject:@"\"true\"" forKey:@"protection_type_enable"];
+        [params setObject:@"\"password\"" forKey:@"protection_type"];
+        [params setObject:[NSString stringWithFormat:@"\"%@\"",password] forKey:@"password"];
+    }
+    else
+    {
+        [params setObject:@"\"false\"" forKey:@"protection_type_enable"];
+        [params setObject:@"\"none\"" forKey:@"protection_type"];
+    }
+
+    if (duration != 0)
+    {
+        NSDate *date = [[NSDate alloc] init];
+        NSLocale *enUSPOSIXLocale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US_POSIX"];
+        NSDate *expireDate = [date dateByAddingTimeInterval:duration];
+
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        [formatter setLocale:enUSPOSIXLocale];
+        [formatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+
+        [params setObject:[NSString stringWithFormat:@"\"%@\"", [formatter stringFromDate:expireDate]]
+                   forKey:@"date_expired"];
+    }
+    else
+    {
+        [params setObject:@"\"\"" forKey:@"date_expired"];
+    }
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
+}
+
+- (void)shareFilesV6_0:(NSArray *)files duration:(NSTimeInterval)duration password:(NSString *)password
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        if ([[JSON objectForKey:@"success"] boolValue])
+        {
+            NSArray *shares = [[JSON objectForKey:@"data"] objectForKey:@"links"];
+            NSMutableString *shareString = [NSMutableString string];
+            NSMutableArray *idArray = [NSMutableArray array];
+            for (NSDictionary *share in shares)
+            {
+                [shareString appendFormat:@"%@ : %@\r\n",[[share objectForKey:@"path"] lastPathComponent], [share objectForKey:@"url"]];
+                [idArray addObject:[share objectForKey:@"id"]];
+            }
+            if ((password.length != 0) || (duration != 0))
+            {
+                [self shareFilesSettingsByIdV6_0:idArray password:password duration:duration];
+            }
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMShareFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSNumber numberWithBool:YES],@"success",
+                                                shareString,@"shares",
+                                                nil]];
+            });
+        }
+        else
+        {
+            NSString *error = [NSString stringWithFormat:@"Error code %@",[[JSON objectForKey:@"error"] objectForKey:@"code"]];
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMShareFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                [NSNumber numberWithBool:NO],@"success",
+                                                error,@"error",
+                                                nil]];
+            });
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMShareFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                            [NSNumber numberWithBool:NO],@"success",
+                                            [error localizedDescription],@"error",
+                                            nil]];
+        });
+    };
+
+
+    NSMutableString *pathString = [NSMutableString stringWithString:@"["];
+
+    for (FileItem *file in files)
+    {
+        [pathString appendFormat:@"\"%@\"",[self escapeQuotes:file.fullPath]];
+        if (file != [files lastObject])
+        {
+            [pathString appendString:@","];
+        }
+        else
+        {
+            [pathString appendString:@"]"];
+        }
+    }
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                            pathString,@"path",
+                            @"SYNO.FileStation.Sharing",@"api",
+                            @"create",@"method",
+                            @"3",@"version",
+                            nil];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:params
+               success:successBlock
+               failure:failureBlock];
+
+    lastRequestDate = [NSDate date];
+}
+
+#pragma mark - share management DSM v4.3
 
 - (void)shareFilesPasswordByIdV4_3:(NSArray *)ids password:(NSString *)password
 {
@@ -5732,7 +7786,11 @@
 
     NSString *filename = [file.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSString *urlPath = nil;
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        urlPath = [NSString stringWithFormat:@"fbdownload/%@?dlink=%%22%@%%22&SynoToken=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[file.path hexRepresentation],synoToken];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         urlPath = [NSString stringWithFormat:@"fbdownload/%@?dlink=%@&SynoToken=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[file.path hexRepresentation],synoToken];
     }
@@ -5793,7 +7851,11 @@
 
 - (void)uploadLocalFile:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite serverFiles:(NSArray *)filesArray
 {
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        [self uploadLocalFileV6_0:file toPath:destFolder overwrite:overwrite];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         [self uploadLocalFileV4_3:file toPath:destFolder overwrite:overwrite];
     }
@@ -5801,6 +7863,95 @@
     {
         [self uploadLocalFileV3_X:file toPath:destFolder overwrite:overwrite];
     }
+}
+
+#pragma mark - upload management DSM v6.0
+
+- (void)uploadLocalFileV6_0:(FileItem *)file toPath:(FileItem *)destFolder overwrite:(BOOL)overwrite
+{
+    __weak typeof(self) weakSelf = self;
+
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [weakSelf.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                 [NSNumber numberWithBool:YES],@"success",
+                                                 nil]];
+        });
+
+        lastRequestDate = [NSDate date];
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        if (error.code != kCFURLErrorCancelled)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.delegate CMUploadFinished:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                     [NSNumber numberWithBool:NO],@"success",
+                                                     [error description],@"error",
+                                                     nil]];
+            });
+        }
+    };
+
+    // Get modification time of file to upload
+    NSError *error = nil;
+    NSDictionary *fileAttrib = [[NSFileManager defaultManager] attributesOfItemAtPath:file.fullPath error:&error];
+    NSDate *mdate = [fileAttrib objectForKey:NSFileModificationDate];
+    NSNumber *fileDateNumber = [NSNumber numberWithDouble:[mdate timeIntervalSince1970]*1000];
+
+    // Build request
+    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
+                              fileDateNumber,@"mtime",
+                              overwrite?@"true":@"false",@"overwrite",
+                              destFolder.path,@"path",
+                              file.name,@"file",
+                              destFolder.path, @"toUpload",
+                              nil];
+
+    void (^bodyConstructorBlock)(id <AFMultipartFormData> formData) =^(id <AFMultipartFormData> formData) {
+        NSError *error = nil;
+        [formData appendPartWithFileURL:[NSURL fileURLWithPath:file.fullPath] name:@"file" error:&error];
+        if (error)
+        {
+            NSLog(@"error %@",[error description]);
+        }
+    };
+
+    [self.manager.requestSerializer setValue:synoToken forHTTPHeaderField:@"X-SYNO-TOKEN"];
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    uploadOperation = [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi?api=SYNO.FileStation.Upload&method=upload&version=2"]
+                              parameters:params
+               constructingBodyWithBlock:bodyConstructorBlock
+                                 success:successBlock
+                                 failure:failureBlock];
+
+    __block long long lastNotifiedProgress = 0;
+    [uploadOperation setUploadProgressBlock:^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+        // send a notification every 0,5% of progress (to limit the impact on performances)
+        if ((totalBytesWritten >= lastNotifiedProgress + totalBytesExpectedToWrite/200) || (totalBytesWritten == totalBytesExpectedToWrite))
+        {
+            lastNotifiedProgress = totalBytesWritten;
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [weakSelf.delegate CMUploadProgress:[NSDictionary dictionaryWithObjectsAndKeys:
+                                                     [NSNumber numberWithLongLong:totalBytesWritten],@"uploadedBytes",
+                                                     file.fileSizeNumber,@"totalBytes",
+                                                     [NSNumber numberWithFloat:(float)((float)totalBytesWritten/(float)([file.fileSizeNumber longLongValue]))],@"progress",
+                                                     nil]];
+            });
+        }
+    }];
 }
 
 #pragma mark - upload management DSM v4.3
@@ -6123,7 +8274,11 @@
         }
     }
 
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        networkConnection.url = [NSURL URLWithString:[[self createUrlWithCredentials] stringByAppendingFormat:@"/fbdownload/%@?dlink=%%22%@%%22&SynoToken=%@&_sid=%@",filename,[file.path hexRepresentation],synoToken,session]];
+    }
+    else    if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         networkConnection.url = [NSURL URLWithString:[[self createUrlWithCredentials] stringByAppendingFormat:@"/fbdownload/%@?dlink=%@&SynoToken=%@&_sid=%@",filename,[file.path hexRepresentation],synoToken,session]];
     }
@@ -6144,7 +8299,11 @@
 {
 	NSString *filename = [file.name stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NetworkConnection *networkConnection = [[NetworkConnection alloc] init];
-    if (dsmVersion >= SYNOLOGY_DSM_4_3)
+    if (dsmVersion >= SYNOLOGY_DSM_6_0)
+    {
+        networkConnection.url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"fbdownload/%@?dlink=%%22%@%%22&SynoToken=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[filename hexRepresentation],synoToken]]];
+    }
+    else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
         networkConnection.url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"fbdownload/%@?dlink=%@&SynoToken=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[file.path hexRepresentation],synoToken]]];
     }
@@ -6307,13 +8466,70 @@
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
         
         HandleServerDisconnection();
+
+        if ([[JSON objectForKey:@"success"] boolValue])
+        {
+            protocolVersion = [[[[JSON objectForKey:@"data"] objectForKey:@"Session"] objectForKey:@"version"] intValue];
+            timeoutDuration = [[[[JSON objectForKey:@"data"] objectForKey:@"Session"] objectForKey:@"dsm_timeout"] intValue] * 60;
+
+            [self dsmVersion];
+            NSLog(@"DSM %f, protocolVersion = %ld",dsmVersion, (long)protocolVersion);
+
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithBool:YES],@"success",
+                                        nil]];
+            });
+        }
+        else
+        {
+            // Try to get the version for DSM4-5 firmwares
+            [self dsm4ServerData];
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
         
+        // Try to get the version for DSM4-5 firmwares
+        [self dsm4ServerData];
+    };
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    if (synoToken)
+    {
+        [self.manager.requestSerializer setValue:synoToken forHTTPHeaderField:@"X-SYNO-TOKEN"];
+    }
+
+    NSDictionary *postDict = [NSDictionary dictionaryWithObjectsAndKeys:
+                                                  @"SYNO.Core.Desktop.Initdata",@"api",
+                                                  @"get",@"method",
+                                                  @"1",@"version",
+                                                  nil];
+
+    [self.manager POST:[self createUrlWithPath:@"webapi/entry.cgi"]
+            parameters:postDict
+               success:successBlock
+               failure:failureBlock];
+}
+
+- (void)dsm4ServerData
+{
+    void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        HandleServerDisconnection();
+
         protocolVersion = [[[JSON objectForKey:@"Session"] objectForKey:@"version"] intValue];
         timeoutDuration = [[[JSON objectForKey:@"Session"] objectForKey:@"dsm_timeout"] intValue] * 60;
 
         [self dsmVersion];
         NSLog(@"DSM %f, protocolVersion = %ld",dsmVersion, (long)protocolVersion);
-        
+
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
                                     [NSNumber numberWithBool:YES],@"success",
@@ -6324,13 +8540,13 @@
     void (^failureBlock)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-        
+
         // Try to get the version for old firmwares
         [self oldServerData];
     };
 
     NSString *path;
-    
+
     if (synoToken)
     {
         path = [NSString stringWithFormat:@"webman/initdata.cgi?SynoToken=%@",synoToken];
@@ -6339,14 +8555,14 @@
     {
         path = @"webman/initdata.cgi";
     }
-    
+
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
-    
+
     [self.manager GET:[self createUrlWithPath:path]
-            parameters:nil
-               success:successBlock
-               failure:failureBlock];
+           parameters:nil
+              success:successBlock
+              failure:failureBlock];
 }
 
 - (void)oldServerData
@@ -6422,6 +8638,7 @@
          * DSM4.3 : 3776 - 3827 (3776,3781,3803,3805,3810,3827)
          * DSM5.0 : 4458 - ?
          * DSM5.1 : 5004 - ?
+         * DSM6.0 : 7321 - ?
          */
         /* DSM beta versions (may not work correctly)
          * DSM3.1 beta : 1553
@@ -6433,7 +8650,11 @@
          * DSM5.0 beta : 4418
          * DSM5.1 beta : 4977
          */
-        if (protocolVersion >= 4977)
+        if (protocolVersion >= 7321)
+        {
+            dsmVersion = SYNOLOGY_DSM_6_0;
+        }
+        else if (protocolVersion >= 4977)
         {
             dsmVersion = SYNOLOGY_DSM_5_1;
         }
@@ -6511,4 +8732,13 @@
 {
     return [inputString stringByReplacingOccurrencesOfString:@"," withString:@"\\,"];
 }
+
+// Escape some characters for DSM 6.0
+- (NSString *)escapeQuotes:(NSString *)inputString
+{
+    NSString *escapedPath = [inputString stringByReplacingOccurrencesOfString:@"\\" withString:@"\\\\"];
+    escapedPath = [escapedPath stringByReplacingOccurrencesOfString:@"\"" withString:@"\\\""];
+    return escapedPath;
+}
+
 @end
