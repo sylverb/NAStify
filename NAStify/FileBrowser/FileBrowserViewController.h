@@ -29,7 +29,6 @@
 #import "GoogleCastController.h"
 
 // Ads
-#import <iAd/iAd.h>
 #import <GoogleMobileAds/GADInterstitial.h>
 
 typedef enum

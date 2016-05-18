@@ -83,7 +83,6 @@
     {
         self.selectedIndexes = [[NSMutableIndexSet alloc] init];
         self.isConnected = FALSE;
-        self.interstitialPresentationPolicy = ADInterstitialPresentationPolicyManual;
 
         _gcController = [GoogleCastController sharedGCController];
     }
@@ -4520,20 +4519,17 @@
     if (([self.userAccount shouldShowAds]) &&
         ([self.currentFolder.path isEqual:@"/"]))
     {
-        if (![self requestInterstitialAdPresentation])
+        // Show Google Ads
+        GADRequest *request = [GADRequest request];
+        request.testDevices = [NSArray arrayWithObjects:kGADSimulatorID, IPHONE5S_ID, nil];
+
+        if (self.interstitial == nil)
         {
-            NSLog(@"fallback to Google Ads");
-            GADRequest *request = [GADRequest request];
-            request.testDevices = [NSArray arrayWithObjects:kGADSimulatorID, IPHONE5S_ID, nil];
-            
-            if (self.interstitial == nil)
-            {
-                self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:NASTIFY_FULL_SCREEN_INTERSTITIAL_ID];
-                self.interstitial.delegate = self;
-            }
-            
-            [self.interstitial loadRequest:request];
+            self.interstitial = [[GADInterstitial alloc] initWithAdUnitID:NASTIFY_FULL_SCREEN_INTERSTITIAL_ID];
+            self.interstitial.delegate = self;
         }
+
+        [self.interstitial loadRequest:request];
     }
 }
 
