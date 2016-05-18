@@ -1597,8 +1597,8 @@
     {
         case URLTYPE_SMB:
         {
-            optionsDict = @{@"smb-user" : connection.user ?: @"",
-                            @"smb-pwd" : connection.password ?: @"",
+            optionsDict = @{@"smb-user" : connection.user.length ? connection.user : @"guest",
+                            @"smb-pwd" : connection.password.length ? connection.password : @"guest",
                             @"smb-domain" : connection.workgroup ?: @"WORKGROUP"};
             break;
         }
@@ -1608,6 +1608,16 @@
                             @"sftp-user" : connection.user ?: @"",
                             @"ftp-pwd" : connection.password ?: @"",
                             @"sftp-pwd" : connection.password ?: @""};
+            break;
+        }
+        case URLTYPE_HTTP:
+        {
+            if ([[self.userAccount.accountName lowercaseString] hasPrefix:@"hdhomerun"])
+            {
+                // Enable http continuous for HDHomeRun devices
+                NSLog(@"enable http-continuous for %@",self.userAccount.accountName);
+                optionsDict = @{@"http-continuous" : @(true)};
+            }
             break;
         }
         default:
