@@ -25,6 +25,7 @@ typedef enum _SETTINGS_TAG
     PORT_TAG,
     UNAME_TAG,
     PWD_TAG,
+    OTP_TAG,
     ACCOUNT_NAME_TAG,
     SSL_TAG,
     ACCEPT_UNTRUSTED_CERT_TAG
@@ -32,7 +33,7 @@ typedef enum _SETTINGS_TAG
 
 @implementation ServerSettingsSynologyViewController
 
-@synthesize textCellProfile, textCellAddress, textCellPort, textCellUsername, textCellPassword;
+@synthesize textCellProfile, textCellAddress, textCellPort, textCellUsername, textCellPassword, textCellOTP;
 @synthesize userAccount, accountIndex;
 
 - (id)initWithStyle:(UITableViewStyle)style andAccount:(UserAccount *)account andIndex:(NSInteger)index
@@ -74,6 +75,7 @@ typedef enum _SETTINGS_TAG
     
     // Init localPassword with keychain content
     self.localPassword = [SSKeychain passwordForService:self.userAccount.uuid account:@"password"];
+    self.localOTPSecCode = [SSKeychain passwordForService:self.userAccount.uuid account:@"OTPSecCode"];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -122,7 +124,7 @@ typedef enum _SETTINGS_TAG
         }
         case SECTION_AUTHENTICATION_INDEX:
         {
-            numberOfRows = 2;
+            numberOfRows = 3;
             break;
         }
         case SECTION_ENCRYPTION_INDEX:
@@ -339,6 +341,43 @@ typedef enum _SETTINGS_TAG
 #endif
                     break;
                 }
+                case 2:
+                {
+#if TARGET_OS_IOS
+                    textCellOTP = (TextCell *)[tableView dequeueReusableCellWithIdentifier:TextCellIdentifier];
+                    if (textCellOTP == nil)
+                    {
+                        textCellOTP = [[TextCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                                           reuseIdentifier:TextCellIdentifier];
+                    }
+                    [textCellOTP setCellDataWithLabelString:NSLocalizedString(@"OTP code:",nil)
+                                                   withText:self.localOTPSecCode
+                                            withPlaceHolder:NSLocalizedString(@"Security code",nil)
+                                                   isSecure:YES
+                                           withKeyboardType:UIKeyboardTypeDefault
+                                               withDelegate:self
+                                                     andTag:OTP_TAG];
+                    cell = textCellOTP;
+#elif TARGET_OS_TV
+                    NSMutableString *dottedPassword = [NSMutableString new];
+
+                    cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier1];
+                    if (cell == nil)
+                    {
+                        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1
+                                                      reuseIdentifier:CellIdentifier1];
+                    }
+                    cell.accessoryType = UITableViewCellAccessoryNone;
+                    cell.textLabel.text = NSLocalizedString(@"OTP security code",nil);
+
+                    for (int i = 0; i < [self.localOTPSecCode length]; i++)
+                    {
+                        [dottedPassword appendString:@"●"];
+                    }
+                    cell.detailTextLabel.text = dottedPassword;
+#endif
+                    break;
+                }
             }
             break;
         }
@@ -518,6 +557,16 @@ typedef enum _SETTINGS_TAG
                     [self.invisibleTextField becomeFirstResponder];
                     break;
                 }
+                case 2:
+                {
+                    self.invisibleTextField.text = self.localOTPSecCode;
+                    self.invisibleTextField.attributedPlaceholder = [[NSAttributedString alloc] initWithString:@"Enter 2-Factors security code"];
+                    self.invisibleTextField.keyboardType = UIKeyboardTypeDefault;
+                    self.invisibleTextField.secureTextEntry = YES;
+                    self.invisibleTextField.tag = OTP_TAG;
+                    [self.invisibleTextField becomeFirstResponder];
+                    break;
+                }
                 default:
                     break;
             }
@@ -668,20 +717,35 @@ typedef enum _SETTINGS_TAG
             self.localPassword = textField.text;
             break;
         }
+        case OTP_TAG:
+        {
+            self.localOTPSecCode = textField.text;
+            break;
+        }
     }
     [self.tableView reloadData];
 }
 
-- (void)saveButtonAction {
+- (void)saveButtonAction
+{
     [textCellProfile resignFirstResponder];
     [textCellAddress resignFirstResponder];
     [textCellPort resignFirstResponder];
     [textCellUsername resignFirstResponder];
     [textCellPassword resignFirstResponder];
     
-    [SSKeychain setPassword:self.localPassword
-                 forService:self.userAccount.uuid
-                    account:@"password"];
+    if (self.localPassword.length != 0)
+    {
+        [SSKeychain setPassword:self.localPassword
+                     forService:self.userAccount.uuid
+                        account:@"password"];
+    }
+    if (self.localOTPSecCode.length != 0)
+    {
+        [SSKeychain setPassword:self.localOTPSecCode
+                     forService:self.userAccount.uuid
+                        account:@"OTPSecCode"];
+    }
 
     if (self.accountIndex == -1)
     {
@@ -710,6 +774,8 @@ typedef enum _SETTINGS_TAG
         // Remove entries in keychain
         [SSKeychain deletePasswordForService:self.userAccount.uuid
                                      account:@"password"];
+        [SSKeychain deletePasswordForService:self.userAccount.uuid
+                                     account:@"OTPSecCode"];
     }
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

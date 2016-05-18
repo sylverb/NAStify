@@ -29,8 +29,10 @@
 @property(nonatomic, strong) TextCell * textCellPort;
 @property(nonatomic, strong) TextCell * textCellUsername;
 @property(nonatomic, strong) TextCell * textCellPassword;
+@property(nonatomic, strong) TextCell * textCellOTP;
 @property(nonatomic) NSInteger    accountIndex;
 @property(nonatomic, strong) NSString *localPassword;
+@property(nonatomic, strong) NSString *localOTPSecCode;
 
 @property(nonatomic, strong) id currentFirstResponder;
 #if TARGET_OS_TV
