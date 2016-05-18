@@ -8206,10 +8206,19 @@
             }
             else if ([[JSON objectForKey:@"request_otp"] boolValue])
             {
-                // Request 2-Factor authentication One Time Password
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [self.delegate CMRequestOTP:nil];
-                });
+                // Manage 2-Factor authentication One Time Password
+                if ([SSKeychain passwordForService:self.userAccount.uuid account:@"OTPSecCode"])
+                {
+                    NSString *secCode = [SSKeychain passwordForService:self.userAccount.uuid account:@"OTPSecCode"];
+                    [self sendOTP:[secCode pinCodeForTOTP]];
+                }
+                else
+                {
+                    // Request code to user
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        [self.delegate CMRequestOTP:nil];
+                    });
+                }
             }
             else
             {
@@ -8301,7 +8310,7 @@
     NetworkConnection *networkConnection = [[NetworkConnection alloc] init];
     if (dsmVersion >= SYNOLOGY_DSM_6_0)
     {
-        networkConnection.url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"fbdownload/%@?dlink=%%22%@%%22&SynoToken=%@",[filename encodeStringUrl:NSUTF8StringEncoding],[filename hexRepresentation],synoToken]]];
+        networkConnection.url = [NSURL URLWithString:[self createUrlWithPath:[NSString stringWithFormat:@"fbdownload/%@?dlink=%%22%@%%22&SynoToken=%@",filename,[file.path hexRepresentation],synoToken]]];
     }
     else if (dsmVersion >= SYNOLOGY_DSM_4_3)
     {
