@@ -62,4 +62,9 @@
  */
 - (NSString *)stringWithSlash;
 
+/*
+ * Get TOTP pin code for current time
+ */
+- (NSString *)pinCodeForTOTP;
+
 @end

@@ -7,6 +7,7 @@
 //
 
 #import "NSStringAdditions.h"
+#import <CommonCrypto/CommonHMAC.h>
 
 @implementation NSString (NSStringAdditions)
 
@@ -274,6 +275,34 @@
     NSMutableString *result = [self mutableCopy];
     [result replaceOccurrencesOfString:@"\"" withString:@"\\\"" options:0 range:NSMakeRange(0, [result length])];
     return [result copy];
+}
+
+/*
+ * Get TOTP pin code for current time
+ */
+- (NSString *)pinCodeForTOTP
+{
+    CCHmacAlgorithm alg = kCCHmacAlgSHA1;
+    NSUInteger hashLength = CC_SHA1_DIGEST_LENGTH;
+    NSMutableData *hash = [NSMutableData dataWithLength:hashLength];
+    NSTimeInterval seconds = [[NSDate date] timeIntervalSince1970];
+    uint64_t counter = (uint64_t) (seconds / 30);
+    NSData *secret = [NSData dataWithBase32String:self];
+
+    counter = NSSwapHostLongLongToBig(counter);
+    NSData *counterData = [NSData dataWithBytes:&counter
+                                         length:sizeof(counter)];
+    CCHmacContext ctx;
+    CCHmacInit(&ctx, alg, [secret bytes], [secret length]);
+    CCHmacUpdate(&ctx, [counterData bytes], [counterData length]);
+    CCHmacFinal(&ctx, [hash mutableBytes]);
+
+    const char *ptr = [hash bytes];
+    unsigned char offset = ptr[hashLength - 1] & 0x0f;
+    uint32_t truncatedHash =
+    NSSwapBigIntToHost(*((uint32_t *) &ptr[offset])) & 0x7fffffff;
+    uint32_t pinValue = truncatedHash % 1000000;
+    return [NSString stringWithFormat:@"%06d",pinValue];
 }
 
 @end
