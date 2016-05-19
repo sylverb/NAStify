@@ -809,7 +809,7 @@
                                 @"list",@"action",
                                 @"[\"real_path\",\"size\",\"owner\",\"time\",\"perm\",\"type\",\"mount_point_type\"]",@"additional",
                                 @"\"all\"",@"filetype",
-                                [self escapeSynoString:folder.path],@"folder_path",
+                                [NSString stringWithFormat:@"\"%@\"",[self escapeQuotes:folder.path]],@"folder_path",
                                 @"SYNO.FileStation.List",@"api",
                                 @"list",@"method",
                                 @"2",@"version",
