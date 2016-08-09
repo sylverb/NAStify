@@ -141,12 +141,18 @@
     self = [super init];
     if (self)
     {
+        // Manager for JSON requests
         self.manager = [AFHTTPRequestOperationManager manager];
         self.manager.requestSerializer = [AFHTTPRequestSerializer serializer];
         self.manager.responseSerializer = [AFJSONResponseSerializer serializer];
         // text/html and text/plain are content types returned by Synology's servers
         [self.manager.responseSerializer setAcceptableContentTypes:[NSSet setWithObjects:@"text/html", @"text/plain", @"application/json", nil]];
-        
+
+        // Manager for quickconnect requests (not JSON)
+        self.quickConnectManager = [AFHTTPRequestOperationManager manager];
+        self.quickConnectManager.requestSerializer = [AFHTTPRequestSerializer serializer];
+        self.quickConnectManager.responseSerializer = [AFHTTPResponseSerializer serializer];
+
         timeoutDuration = 10 * 60; // Default to 10 minutes
         protocolVersion = -1;
         lastRequestDate = [NSDate date];
@@ -157,9 +163,9 @@
 - (NSString *)createUrl
 {
     NSString * url;
-    if (quickConnectServer)
+    if (quickConnectSelectedAddress)
     {
-        url = quickConnectServerExternal;
+        return quickConnectSelectedAddress;
     }
     else
     {
@@ -197,11 +203,6 @@
     }
     else
     {
-        port = quickConnectPortExternal;
-    }
-    
-    if ((port == nil) || ([port length] == 0))
-    {
         if (self.userAccount.boolSSL)
         {
             port = @"5001";
@@ -224,9 +225,9 @@
 - (NSString *)createUrlWithCredentials
 {
     NSString * url;
-    if (quickConnectServer)
+    if (quickConnectSelectedAddress)
     {
-        url = quickConnectServerExternal;
+        return quickConnectSelectedAddress;
     }
     else
     {
@@ -296,14 +297,19 @@
 
 - (NSArray *)serverInfo
 {
-    NSArray *serverInfo = [NSArray arrayWithObjects:
-                           [NSString stringWithFormat:NSLocalizedString(@"Server Model : Synology %@",nil), serverModel],
-                           [NSString stringWithFormat:NSLocalizedString(@"Firmware : %@", nil), serverFirmwareVersion],
-                           [NSString stringWithFormat:NSLocalizedString(@"Serial Number : %@", nil), serverSerial],
-                           [NSString stringWithFormat:NSLocalizedString(@"CPU : %@", nil), serverCPUInfo],
-                           [NSString stringWithFormat:NSLocalizedString(@"RAM : %d MB", nil), serverRAMSize],
-                           nil];
-    return serverInfo;
+    NSMutableArray *serverInfo = [NSMutableArray arrayWithObjects:
+                                  [NSString stringWithFormat:NSLocalizedString(@"Server Model : Synology %@",nil), serverModel],
+                                  [NSString stringWithFormat:NSLocalizedString(@"Firmware : %@", nil), serverFirmwareVersion],
+                                  [NSString stringWithFormat:NSLocalizedString(@"Serial Number : %@", nil), serverSerial],
+                                  [NSString stringWithFormat:NSLocalizedString(@"CPU : %@", nil), serverCPUInfo],
+                                  [NSString stringWithFormat:NSLocalizedString(@"RAM : %d MB", nil), serverRAMSize],
+                                  nil];
+    if (quickConnectSelectedAddress != nil)
+    {
+        [serverInfo addObject:[NSString stringWithFormat:NSLocalizedString(@"QuickConnect server : %@", nil), quickConnectSelectedAddress]];
+    }
+
+    return [NSArray arrayWithArray:serverInfo];
 }
 
 #pragma mark - Quickconnect handling
@@ -313,18 +319,46 @@
     void (^successBlock)(AFHTTPRequestOperation *, id) = ^(AFHTTPRequestOperation *operation, id JSON) {
         // End the network activity spinner
         [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
-        if ([[JSON objectForKey:@"errno"] intValue] == 0)
+
+        NSInteger index;
+        if (self.userAccount.boolSSL)
         {
-            quickConnectServer = [[[[JSON objectForKey:@"server"] objectForKey:@"interface"] objectAtIndex:0] objectForKey:@"ip"];
-            quickConnectServerExternal = [[[JSON objectForKey:@"server"] objectForKey:@"external"] objectForKey:@"ip"];
-            quickConnectPort = [[[JSON objectForKey:@"service"] objectForKey:@"port"] stringValue];
-            quickConnectPortExternal = [[[JSON objectForKey:@"service"] objectForKey:@"ext_port"] stringValue];
+            index = 0;
+        }
+        else
+        {
+            index = 1;
+        }
+
+        if ([JSON count] == 2)
+        {
+
+        }
+        if ([[[JSON objectAtIndex:index] objectForKey:@"errno"] intValue] == 0)
+        {
+            quickConnectIpLocal = [[[[[JSON objectAtIndex:index] objectForKey:@"server"] objectForKey:@"interface"] objectAtIndex:0] objectForKey:@"ip"];
+            quickConnectIpExternal = [[[[JSON objectAtIndex:index] objectForKey:@"server"] objectForKey:@"external"] objectForKey:@"ip"];
+            quickConnectPortLocal = [[[[JSON objectAtIndex:index] objectForKey:@"service"] objectForKey:@"port"] stringValue];
+            quickConnectPortExternal = [[[[JSON objectAtIndex:index] objectForKey:@"service"] objectForKey:@"ext_port"] stringValue];
             if ([quickConnectPortExternal intValue] == 0)
             {
-                quickConnectPortExternal = quickConnectPort;
+                if (self.userAccount.port.length != 0)
+                {
+                    quickConnectPortExternal = self.userAccount.port;
+                }
+                else
+                {
+                    quickConnectPortExternal = quickConnectPortLocal;
+                }
             }
-            
-            [self loginRequest];
+            quickConnectRelayRegion = [[[JSON objectAtIndex:1] objectForKey:@"env"] objectForKey:@"relay_region"];
+            // Reset selected address
+            quickConnectSelectedAddress = nil;
+
+            quickConnectPingFailedCount = 0;
+            [self pingQuickConnectLocal];
+            [self pingQuickConnectExternal];
+            [self pingQuickConnectTunnel];
         }
         else if ([[JSON objectForKey:@"errno"] intValue] != 4)
         {
@@ -335,12 +369,12 @@
                                         nil]];
             });
         }
-        else if (quickConnectServer == nil)
+        else if (quickConnectIpLocal == nil)
         {
             dispatch_async(dispatch_get_main_queue(), ^{
                 [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:NO],@"success",
-                                        @"Invalid QuickConnect ID",@"error",
+                                        @"Invalid QuickConnect ID or invalid protocol (try to enable SSL in server settings)",@"error",
                                         nil]];
             });
         }
@@ -357,14 +391,26 @@
                                     nil]];
         });
     };
-    
-    NSDictionary *params = [NSDictionary dictionaryWithObjectsAndKeys:
-                            [NSNumber numberWithInt:1],@"version",
-                            @"get_server_info",@"command",
-                            @"dsm_portal",@"id",
-                            self.userAccount.server,@"serverID",
-                            nil];
-    
+
+    NSDictionary *httpsParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithInt:1],@"version",
+                                @"get_server_info",@"command",
+                                @"dsm_portal_https",@"id",
+                                self.userAccount.server,@"serverID",
+                                nil];
+
+    NSDictionary *httpParams = [NSDictionary dictionaryWithObjectsAndKeys:
+                                [NSNumber numberWithInt:1],@"version",
+                                @"get_server_info",@"command",
+                                @"dsm_portal",@"id",
+                                self.userAccount.server,@"serverID",
+                                nil];
+
+    NSArray *params = [NSArray arrayWithObjects:
+                       httpsParams,
+                       httpParams,
+                       nil];
+
     // Start the network activity spinner
     [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
     
@@ -376,6 +422,180 @@
                failure:failureBlock];
 
     lastRequestDate = [NSDate date];
+}
+
+- (void)pingQuickConnectLocal
+{
+    NSString *localUrl = [NSString stringWithFormat:@"%@://%@:%@",
+                          self.userAccount.boolSSL?@"https":@"http",
+                          quickConnectIpLocal,
+                          quickConnectPortLocal];
+
+    void (^successBlock)(AFHTTPRequestOperation *,id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        if (quickConnectSelectedAddress == nil)
+        {
+            quickConnectSelectedAddress = localUrl;
+            NSLog(@"QuickConnect selected server %@",quickConnectSelectedAddress);
+            [self loginRequest];
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        quickConnectPingFailedCount ++;
+        if (quickConnectPingFailedCount == 3)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithBool:NO],@"success",
+                                        [error description],@"error",
+                                        nil]];
+            });
+        }
+    };
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.quickConnectManager GET:[NSString stringWithFormat:@"%@/webman/pingpong.cgi?action=cors",
+                       localUrl]
+           parameters:nil
+              success:successBlock
+              failure:failureBlock];
+}
+
+- (void)pingQuickConnectExternal
+{
+    NSString *externalUrl = [NSString stringWithFormat:@"%@://%@:%@",
+                             self.userAccount.boolSSL?@"https":@"http",
+                             quickConnectIpExternal,
+                             quickConnectPortExternal];
+
+    void (^successBlock)(AFHTTPRequestOperation *,id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        if (quickConnectSelectedAddress == nil)
+        {
+            quickConnectSelectedAddress = externalUrl;
+            NSLog(@"QuickConnect selected server %@",quickConnectSelectedAddress);
+            [self loginRequest];
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        quickConnectPingFailedCount ++;
+        if (quickConnectPingFailedCount == 3)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithBool:NO],@"success",
+                                        [error description],@"error",
+                                        nil]];
+            });
+        }
+    };
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.quickConnectManager GET:[NSString stringWithFormat:@"%@/webman/pingpong.cgi?action=cors",
+                                   externalUrl]
+                       parameters:nil
+                          success:successBlock
+                          failure:failureBlock];
+}
+
+- (void)pingQuickConnectTunnel
+{
+    NSString *tunnelUrl = [NSString stringWithFormat:@"https://%@.%@.quickconnect.to",
+                           self.userAccount.server,
+                           quickConnectRelayRegion];
+    void (^successBlock)(AFHTTPRequestOperation *,id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        if (quickConnectSelectedAddress == nil)
+        {
+            quickConnectSelectedAddress = tunnelUrl;
+            NSLog(@"QuickConnect selected server %@",quickConnectSelectedAddress);
+            [self enableQuickConnectTunnel];
+        }
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        quickConnectPingFailedCount ++;
+        if (quickConnectPingFailedCount == 3)
+        {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
+                                        [NSNumber numberWithBool:NO],@"success",
+                                        [error description],@"error",
+                                        nil]];
+            });
+        }
+    };
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.quickConnectManager GET:[NSString stringWithFormat:@"%@/webman/pingpong.cgi?action=cors",
+                                   tunnelUrl]
+                       parameters:nil
+                          success:successBlock
+                          failure:failureBlock];
+}
+
+- (void)enableQuickConnectTunnel
+{
+    /* Add tunnel cookie */
+    NSDictionary *properties = [[NSMutableDictionary alloc] init];
+    [properties setValue:@"type" forKey:NSHTTPCookieName];
+    [properties setValue:@"tunnel" forKey:NSHTTPCookieValue];
+    [properties setValue:[NSString stringWithFormat:@"%@.%@.quickconnect.to",self.userAccount.server,quickConnectRelayRegion] forKey:NSHTTPCookieDomain];
+    [properties setValue:[NSDate dateWithTimeIntervalSinceNow:60*60] forKey:NSHTTPCookieExpires];
+    [properties setValue:@"/" forKey:NSHTTPCookiePath];
+    NSHTTPCookie *cookie = [[NSHTTPCookie alloc] initWithProperties:properties];
+    [[NSHTTPCookieStorage sharedHTTPCookieStorage] setCookie:cookie];
+
+
+    void (^successBlock)(AFHTTPRequestOperation *,id) = ^(AFHTTPRequestOperation *operation, id responseObject) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        [self loginRequest];
+    };
+
+    void (^failureBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
+        // End the network activity spinner
+        [[SBNetworkActivityIndicator sharedInstance] endActivity:self];
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self.delegate CMLogin:[NSDictionary dictionaryWithObjectsAndKeys:
+                                    [NSNumber numberWithBool:NO],@"success",
+                                    [error description],@"error",
+                                    nil]];
+        });
+    };
+
+    // Start the network activity spinner
+    [[SBNetworkActivityIndicator sharedInstance] beginActivity:self];
+
+    [self.quickConnectManager GET:[self createUrlWithPath:@""]
+                       parameters:nil
+                          success:successBlock
+                          failure:failureBlock];
 }
 
 #pragma mark - login/logout management

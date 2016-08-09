@@ -39,11 +39,15 @@
     NSString *serverSerial;
 
     // QuickConnect
-    NSString *quickConnectServer;
-    NSString *quickConnectPort;
-    NSString *quickConnectServerExternal;
+    NSString *quickConnectIpLocal;
+    NSString *quickConnectIpExternal;
+    NSString *quickConnectServerTunnel;
+    NSString *quickConnectPortLocal;
     NSString *quickConnectPortExternal;
-    
+    NSString *quickConnectRelayRegion;
+    NSString *quickConnectSelectedAddress;
+    NSInteger quickConnectPingFailedCount;
+
     // To monitor tasks action progress
 #ifndef APP_EXTENSION
     id deleteTaskID;
@@ -76,6 +80,7 @@
 }
 
 @property(nonatomic, strong) AFHTTPRequestOperationManager *manager;
+@property(nonatomic, strong) AFHTTPRequestOperationManager *quickConnectManager;
 
 @property(nonatomic, strong) UserAccount *userAccount;
 @property(nonatomic, weak)   id <CMDelegate> delegate;
